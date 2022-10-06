@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair22_3rdyear/constants/constant.dart';
-import 'package:hillfair22_3rdyear/screens/eventDetail.dart';
+import 'package:hillfair22_3rdyear/screens/events/eventDetail.dart';
 
 class Events extends StatefulWidget {
   const Events({super.key});

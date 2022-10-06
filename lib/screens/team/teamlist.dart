@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair22_3rdyear/constants/constant.dart';
-import 'package:hillfair22_3rdyear/screens/teammembers.dart';
+import 'package:hillfair22_3rdyear/screens/team/teammembers.dart';
 
 class TeamList extends StatefulWidget {
   TeamList({Key? key}) : super(key: key);

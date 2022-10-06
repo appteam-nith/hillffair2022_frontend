@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hillfair22_3rdyear/constants/constant.dart';
-import 'package:hillfair22_3rdyear/screens/eventdetailCard.dart';
+import 'package:hillfair22_3rdyear/screens/events/eventdetailCard.dart';
 
 class EventDetailsPage extends StatelessWidget {
   final int index;
