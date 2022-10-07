@@ -13,7 +13,7 @@ class Events extends StatelessWidget {
   const Events({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     EventsViewModel eventsViewModel = context.
     watch<EventsViewModel>();
     return Container(
@@ -58,15 +58,23 @@ class Events extends StatelessWidget {
             subtitle: Text("${eventModel.clubName}\n${eventModel.startTime}"),
             isThreeLine: true,
             leading: CircleAvatar(
-              backgroundColor: appBarColor,
-              radius: 45,
-              child: CachedNetworkImage(
-                imageUrl: eventModel.image,
-                placeholder: (context, url) =>
-                    const CircularProgressIndicator(),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ),
-            ),
+                      backgroundColor: appBarColor,
+                      radius: 45,
+                      child: ClipRRect(borderRadius: BorderRadius.circular(45.0),child: CachedNetworkImage(
+                        imageUrl: eventModel.image,
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: imageProvider,
+                                alignment: Alignment.center,
+                                fit: BoxFit.cover,)
+                          ),
+                        ),
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),)
+                    ),
             onTap: () {
               Navigator.push(
                 context,

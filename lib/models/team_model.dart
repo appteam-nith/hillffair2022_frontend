@@ -1,21 +1,33 @@
+// To parse this JSON data, do
+//
+//     final teamModel = teamModelFromJson(jsonString);
+
+import 'dart:convert';
+
+List<TeamModel> teamModelFromJson(String str) => List<TeamModel>.from(json.decode(str).map((x) => TeamModel.fromJson(x)));
+
+String teamModelToJson(List<TeamModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
 class TeamModel {
-  String? id;
-  String? clubName;
-  String? image;
+    TeamModel({
+        required this.id,
+        required this.clubName,
+        required this.image,
+    });
 
-  TeamModel({this.id, this.clubName, this.image});
+    String id;
+    String clubName;
+    String image;
 
-  TeamModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    clubName = json['club_name'];
-    image = json['image'];
-  }
+    factory TeamModel.fromJson(Map<String, dynamic> json) => TeamModel(
+        id: json["id"],
+        clubName: json["club_name"],
+        image: json["image"],
+    );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['club_name'] = this.clubName;
-    data['image'] = this.image;
-    return data;
-  }
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "club_name": clubName,
+        "image": image,
+    };
 }
