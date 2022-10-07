@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/comments.dart';
+import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 
 class UserFeed extends StatefulWidget {
@@ -28,7 +29,10 @@ class _UserFeedState extends State<UserFeed> {
         actions: [
           IconButton(
               splashRadius: 1,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Post()));
+              },
               icon: const Icon(Icons.add_to_photos_rounded)),
           PopupMenuButton(
               splashRadius: 1,
