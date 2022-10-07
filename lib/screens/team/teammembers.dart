@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hillfair22_3rdyear/utils/colors.dart';
+import 'package:hillfair2022_frontend/utils/colors.dart';
 
 class TeamMembers extends StatefulWidget {
   TeamMembers({Key? key}) : super(key: key);

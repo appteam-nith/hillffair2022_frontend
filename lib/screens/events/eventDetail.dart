@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hillfair22_3rdyear/screens/events/eventdetailCard.dart';
-import 'package:hillfair22_3rdyear/utils/colors.dart';
+import 'package:hillfair2022_frontend/utils/colors.dart';
+
+import '../../components/event_detail_card.dart';
 
 class EventDetailsPage extends StatelessWidget {
   final int index;
