@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hillfair22_3rdyear/screens/bottomnav/nav.dart';
-import 'package:hillfair22_3rdyear/screens/events/events.dart';
-import 'package:hillfair22_3rdyear/screens/team/teamlist.dart';
-import 'package:hillfair22_3rdyear/screens/team/teammembers.dart';
-import 'package:hillfair22_3rdyear/screens/userfeed/userfeed.dart';
+import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
 
 void main() {
   runApp(const MyApp());

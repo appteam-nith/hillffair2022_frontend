@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:hillfair22_3rdyear/screens/chatting/chatting.dart';
-import 'package:hillfair22_3rdyear/screens/events/events.dart';
-import 'package:hillfair22_3rdyear/screens/profile/profile.dart';
-import 'package:hillfair22_3rdyear/screens/team/teamlist.dart';
-import 'package:hillfair22_3rdyear/screens/userfeed/userfeed.dart';
-import 'package:hillfair22_3rdyear/utils/colors.dart';
+import 'package:hillfair2022_frontend/screens/chatting/chatting.dart';
+import 'package:hillfair2022_frontend/screens/events/events.dart';
+import 'package:hillfair2022_frontend/screens/profile/profile.dart';
+import 'package:hillfair2022_frontend/screens/team/teamlist.dart';
+import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
+import 'package:hillfair2022_frontend/utils/colors.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
