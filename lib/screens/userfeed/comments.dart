@@ -3,8 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:velocity_x/velocity_x.dart';
-import '../../constants/constant.dart';
+import 'package:hillfair22_3rdyear/utils/colors.dart';
 
 class Comments extends StatefulWidget {
   const Comments({Key? key}) : super(key: key);

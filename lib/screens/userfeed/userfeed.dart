@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hillfair22_3rdyear/constants/constant.dart';
 import 'package:hillfair22_3rdyear/screens/userfeed/comments.dart';
+import 'package:hillfair22_3rdyear/utils/colors.dart';
 
 class UserFeed extends StatefulWidget {
   const UserFeed({Key? key}) : super(key: key);

@@ -64,7 +64,7 @@ class EventDetailCard extends StatelessWidget {
                     });
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: const Color(0xff9E9EEE),
+                    backgroundColor: const Color(0xff9E9EEE),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
