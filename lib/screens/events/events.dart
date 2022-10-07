@@ -1,18 +1,21 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hillfair2022_frontend/models/event_model.dart';
 import 'package:hillfair2022_frontend/screens/events/eventDetail.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
+import 'package:hillfair2022_frontend/view_models/events_view_model.dart';
+import 'package:provider/provider.dart';
 
-class Events extends StatefulWidget {
+import '../../components/loading_data.dart';
+
+class Events extends StatelessWidget {
   const Events({super.key});
 
   @override
-  State<Events> createState() => _EventsState();
-}
-
-class _EventsState extends State<Events> {
-  @override
   Widget build(BuildContext context) {
+    EventsViewModel eventsViewModel = context.
+    watch<EventsViewModel>();
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -27,32 +30,42 @@ class _EventsState extends State<Events> {
           title: const Text("Events"),
           backgroundColor: appBarColor,
         ),
-        body: _eventsListView(),
+        body: _eventsListView(eventsViewModel),
       ),
     );
   }
 
-  ListView _eventsListView() {
+  _eventsListView(EventsViewModel eventsViewModel) {
+    if (eventsViewModel.loading) {
+      return const LoadingData();
+    }
+
     return ListView.builder(
       itemBuilder: (context, index) {
+        EventModel eventModel = eventsViewModel.eventsListModel[index];
         return Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
           margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
           child: ListTile(
-            title: Text(
-              "Event $index",
+            title: Text( 
+              eventModel.title,
               style: TextStyle(
                   fontFamily: GoogleFonts.poppins().fontFamily,
                   fontWeight: FontWeight.bold),
             ),
-            subtitle: Text("Club Name $index \n 02 october 2022"),
+            subtitle: Text("${eventModel.clubName}\n${eventModel.startTime}"),
             isThreeLine: true,
-            leading: const CircleAvatar(
+            leading: CircleAvatar(
               backgroundColor: appBarColor,
               radius: 45,
-              child: Image(image: AssetImage("assets/images/appteam.png")),
+              child: CachedNetworkImage(
+                imageUrl: eventModel.image,
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
             ),
             onTap: () {
               Navigator.push(
@@ -65,7 +78,7 @@ class _EventsState extends State<Events> {
           ),
         );
       },
-      itemCount: 10,
+      itemCount: eventsViewModel.eventsListModel.length,
     );
   }
 }
