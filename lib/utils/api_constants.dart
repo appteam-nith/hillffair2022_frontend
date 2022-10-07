@@ -2,6 +2,7 @@
 
 // Events
 const String eventUrl = "https://hillffair2k22.herokuapp.com/events/";
+const String teamUrl = "https://hillffair2k22.herokuapp.com/teams/team/";
 
 // Event-Codes
 const successCode = 200;
