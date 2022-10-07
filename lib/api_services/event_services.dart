@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:hillfair2022_frontend/api_services/api_status.dart';
@@ -14,7 +15,10 @@ class EventServices {
       if (200 == response.statusCode) {
         return Success(
             code: successCode, response: eventModelFromJson(response.body));
+            
+
       }
+      
       return Failure(code: invalidResponse, errorResponse: 'Invalid Response');
     } on HttpException {
       return Failure(code: noInternet, errorResponse: 'No Internet');
