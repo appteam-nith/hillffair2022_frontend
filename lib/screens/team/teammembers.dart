@@ -16,24 +16,23 @@ class _TeamMembersState extends State<TeamMembers> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        backgroundColor: appBarColor,
-        title: Center(
-            widthFactor: 1.7,
-            child: Text("Team Members",
+    return Container(
+        height: size.height,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                fit: BoxFit.fill, image: AssetImage("assets/images/bg.png"))),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            centerTitle: true,
+            automaticallyImplyLeading: true,
+            backgroundColor: appBarColor,
+            title: Text("Team Members",
                 style: TextStyle(
                     fontFamily: GoogleFonts.poppins().fontFamily,
-                    fontWeight: FontWeight.bold))),
-      ),
-      body: Container(
-          height: size.height,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage("assets/images/bg.png"))),
-          child: ListView.builder(
+                    fontWeight: FontWeight.bold)),
+          ),
+          body: ListView.builder(
               shrinkWrap: true,
               itemCount: 10,
               itemBuilder: (context, index) {
@@ -84,7 +83,7 @@ class _TeamMembersState extends State<TeamMembers> {
                     ),
                   ),
                 );
-              })),
-    );
+              }),
+        ));
   }
 }
