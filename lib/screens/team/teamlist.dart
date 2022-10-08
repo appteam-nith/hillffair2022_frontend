@@ -19,22 +19,23 @@ class TeamList extends StatelessWidget {
     TeamViewModel teamViewModel = context.watch<TeamViewModel>();
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: appBarColor,
-        title: Center(
-            child: Text("Team List",
-                style: TextStyle(
-                    fontFamily: GoogleFonts.poppins().fontFamily,
-                    fontWeight: FontWeight.bold))),
-      ),
-      body: Container(
-        height: size.height,
-        decoration: BoxDecoration(
-            border: Border(),
-            image: DecorationImage(
-                fit: BoxFit.cover, image: AssetImage("assets/images/bg.png"))),
-        child: _teamsGridView(size, teamViewModel),
+    return Container(
+      height: size.height,
+      decoration: BoxDecoration(
+          border: Border(),
+          image: DecorationImage(
+              fit: BoxFit.fill, image: AssetImage("assets/images/bg.png"))),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: appBarColor,
+          centerTitle: true,
+          title: Text("Team List",
+              style: TextStyle(
+                  fontFamily: GoogleFonts.poppins().fontFamily,
+                  fontWeight: FontWeight.bold)),
+        ),
+        body: _teamsGridView(size, teamViewModel),
       ),
     );
   }
@@ -65,23 +66,26 @@ class TeamList extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     CircleAvatar(
-                      backgroundColor: appBarColor,
-                      radius: 45,
-                      child: ClipRRect(borderRadius: BorderRadius.circular(45.0),child: CachedNetworkImage(
-                        imageUrl: teamModel.image,
-                        imageBuilder: (context, imageProvider) => Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
+                        backgroundColor: appBarColor,
+                        radius: 45,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(45.0),
+                          child: CachedNetworkImage(
+                            imageUrl: teamModel.image,
+                            imageBuilder: (context, imageProvider) => Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
                                 image: imageProvider,
                                 alignment: Alignment.center,
-                                fit: BoxFit.cover,)
+                                fit: BoxFit.cover,
+                              )),
+                            ),
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
                           ),
-                        ),
-                        placeholder: (context, url) =>
-                            CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      ),)
-                    ),
+                        )),
                     Text(
                       teamModel.clubName,
                       style: TextStyle(
