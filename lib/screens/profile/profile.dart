@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -67,14 +68,14 @@ class _ProfileState extends State<Profile> {
                 children: [
                   const SizedBox(
                     height: 23,
-              ),
+                  ),
                   Container(
                     width: size.width * .8,
                     height: size.height * .5,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
                       color: Colors.white,
-                ),
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -135,11 +136,10 @@ class _ProfileState extends State<Profile> {
                             style: TextStyle(
                                 fontSize: size.height * .02,
                                 fontFamily: GoogleFonts.poppins().fontFamily,
-                                fontWeight: FontWeight.bold)
-                    ),
+                                fontWeight: FontWeight.bold)),
                       ],
                     ),
-              ),
+                  ),
                   SizedBox(
                     height: 22,
                   ),
@@ -172,7 +172,10 @@ class _ProfileState extends State<Profile> {
                         width: 17,
                       ),
                       ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            FirebaseAuth.instance.signOut();
+                            //TO Add a function to save the user details
+                          },
                           style: ElevatedButton.styleFrom(
                               fixedSize: Size(120, 35),
                               backgroundColor:
