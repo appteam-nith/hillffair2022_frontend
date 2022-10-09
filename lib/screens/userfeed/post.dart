@@ -164,8 +164,7 @@ class Post extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: appBarColor,
-                        fontFamily: GoogleFonts.poppins().fontFamily,
-                        backgroundColor: appBarColor,),
+                        fontFamily: GoogleFonts.poppins().fontFamily,),
                         decoration: InputDecoration(
                             hintText: "Enter Comment here",
                             hintStyle: TextStyle(

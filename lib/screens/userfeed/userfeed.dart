@@ -32,67 +32,69 @@ class _UserFeedState extends State<UserFeed> {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-        height: size.height,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.fill, image: AssetImage("assets/images/bg.png"))),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-        actions: [
-          IconButton(
-              splashRadius: 1,
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Post()));
-              },
-              icon: const Icon(Icons.add_to_photos_rounded)),
-          PopupMenuButton(
-              splashRadius: 1,
-              itemBuilder: (context) => [
-                    PopupMenuItem(
-                        child: TextButton(
-                            onPressed: () {},
-                            child: Text("Delete",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily:
-                                        GoogleFonts.poppins().fontFamily,
-                                    fontWeight: FontWeight.bold)))),
-                    PopupMenuItem(
-                        child: TextButton(
-                            onPressed: () {},
-                            child: Text("Edit",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily:
-                                        GoogleFonts.poppins().fontFamily,
-                                    fontWeight: FontWeight.bold))))
-                  ])
-        ],
-        backgroundColor: appBarColor,
-        title: Container(
-          width: size.width * .58,
-          alignment: Alignment.centerRight,
-          child: Text("User Feed",
-              style: TextStyle(
-                  fontFamily: GoogleFonts.poppins().fontFamily,
-                  fontWeight: FontWeight.bold)),
+      height: size.height,
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              fit: BoxFit.fill, image: AssetImage("assets/images/bg.png"))),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          actions: [
+            IconButton(
+                splashRadius: 1,
+                onPressed: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Post()));
+                },
+                icon: const Icon(Icons.add_to_photos_rounded)),
+            PopupMenuButton(
+                splashRadius: 1,
+                itemBuilder: (context) => [
+                      PopupMenuItem(
+                          child: TextButton(
+                              onPressed: () {},
+                              child: Text("Delete",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontFamily:
+                                          GoogleFonts.poppins().fontFamily,
+                                      fontWeight: FontWeight.bold)))),
+                      PopupMenuItem(
+                          child: TextButton(
+                              onPressed: () {},
+                              child: Text("Edit",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontFamily:
+                                          GoogleFonts.poppins().fontFamily,
+                                      fontWeight: FontWeight.bold))))
+                    ])
+          ],
+          backgroundColor: appBarColor,
+          title: Container(
+            width: size.width * .58,
+            alignment: Alignment.centerRight,
+            child: Text("User Feed",
+                style: TextStyle(
+                    fontFamily: GoogleFonts.poppins().fontFamily,
+                    fontWeight: FontWeight.bold)),
+          ),
         ),
-      ),
-      body: Container(
-        height: size.height,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.cover, image: AssetImage("assets/images/bg.png"))),
-        child: _userFeedView(userFeedViewModel, size),
+        body: Container(
+          height: size.height,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage("assets/images/bg.png"))),
+          child: _userFeedView(userFeedViewModel, size),
+        ),
       ),
     );
   }
 
-   _userFeedView(UserFeedViewModel userFeedViewModel, Size size) {
+  _userFeedView(UserFeedViewModel userFeedViewModel, Size size) {
     if (userFeedViewModel.loading) {
-      return  LoadingData();
+      return LoadingData();
     }
 
     return ListView.builder(
