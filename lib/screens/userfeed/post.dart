@@ -1,24 +1,82 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:hillfair2022_frontend/utils/colors.dart';
+import 'dart:io';
 
-class Post extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
+import 'package:hillfair2022_frontend/utils/colors.dart';
+import 'package:hillfair2022_frontend/view_models/post_img_view_model.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:cloudinary_public/cloudinary_public.dart';
+import '../../models/post_img_model.dart';
+
+class Post extends StatelessWidget {
   const Post({super.key});
 
-  @override
-  State<Post> createState() => _PostState();
-}
-
-class _PostState extends State<Post> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
+    final cloudinary = CloudinaryPublic('dugwczlzo', 'nql7r9cr', cache: false);
+    File? imageFromDevice;
+
+    Future _pickimage(ImageSource source) async {
+      try {
+        final image = await ImagePicker().pickImage(source: source);
+        if (image == null) {
+          return;
+        }
+        File? img = File(image.path);
+
+        imageFromDevice = img;
+        // Navigator.of(context).pop();
+      } on PlatformException catch (e) {
+        print(e);
+        // Navigator.of(context).pop();
+      }
+    }
+
+     _imgUrl(var image) async {
+      try {
+        CloudinaryResponse response = await cloudinary.uploadFile(
+          CloudinaryFile.fromFile(image.path,
+              resourceType: CloudinaryResourceType.Image),
+        );
+        return response.secureUrl;
+        // print(response.secureUrl);
+      } on CloudinaryException catch (e) {
+        print(e.message);
+        print(e.request);
+        return "";
+      }
+    }
+
+    TextEditingController captionTxtController = TextEditingController();
+
+    _post( var imageFromDevice) async {
+      String caption = captionTxtController.text;
+      String photoUrl = await _imgUrl(imageFromDevice);
+      PostImgModel body =
+          PostImgModel(photo: photoUrl, text: caption, location: "location");
+      var provider = Provider.of<PostImgViewModel>(context, listen: false);
+      await provider.postImg(body, "F5KNLyKjU4d7NCTTxJQCjyS6Qxm1");
+      if (provider.isBack) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => UserFeed()),
+        );
+      }
+    }
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          /*post request */
+          _post(imageFromDevice);
+        },
         backgroundColor: Colors.white,
         child: Icon(
           Icons.send,
@@ -50,9 +108,9 @@ class _PostState extends State<Post> {
                 borderRadius: BorderRadius.circular(18),
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              child: Wrap(
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ListTile(
                     leading:
@@ -73,7 +131,10 @@ class _PostState extends State<Post> {
                           borderRadius: BorderRadius.circular(18),
                           color: Color(0xffD9D9D9)),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          /*image picker */
+                          _pickimage(ImageSource.gallery);
+                        },
                         child: Icon(
                           Icons.add_to_photos_rounded,
                           size: 80,
@@ -85,6 +146,7 @@ class _PostState extends State<Post> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     child: TextFormField(
+                      controller: captionTxtController,
                       validator: (e) {
                         if (e!.isEmpty) {
                           return "Enter Comment!!!";

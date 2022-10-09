@@ -6,9 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hillfair2022_frontend/components/loading_data.dart';
+import 'package:hillfair2022_frontend/models/user_feed_model.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/comments.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
+import 'package:hillfair2022_frontend/view_models/userFeed_view_model.dart';
+import 'package:provider/provider.dart';
+import 'package:hillfair2022_frontend/components/loading_data.dart';
 
 class UserFeed extends StatefulWidget {
   const UserFeed({Key? key}) : super(key: key);
@@ -22,6 +27,8 @@ class _UserFeedState extends State<UserFeed> {
 
   @override
   Widget build(BuildContext context) {
+    UserFeedViewModel userFeedViewModel = context.watch<UserFeedViewModel>();
+
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -72,101 +79,109 @@ class _UserFeedState extends State<UserFeed> {
         decoration: BoxDecoration(
             image: DecorationImage(
                 fit: BoxFit.cover, image: AssetImage("assets/images/bg.png"))),
-        child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: 2,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.all(20),
-                child: Container(
-                  // height: size.height * .5,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18),
-                      color: Colors.white),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: ListTile(
-                          leading: Image(
-                            image: AssetImage("assets/images/member.png"),
-                            height: size.height * .06,
-                          ),
-                          title: Text("Username",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: appBarColor,
-                                fontFamily: GoogleFonts.poppins().fontFamily,
-                              )),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Container(
-                          height: size.height * .3,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(18),
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage("assets/images/post.png"))),
-                        ),
-                      ),
-                      Row(children: [
-                        IconButton(
-                            onPressed: () {
-                              if (_isliked)
-                                _isliked = false;
-                              else
-                                _isliked = true;
-                              setState(() {});
-                            },
-                            icon: _isliked
-                                ? Icon(
-                                    CupertinoIcons.heart_fill,
-                                    color: Colors.red,
-                                  )
-                                : Icon(
-                                    CupertinoIcons.heart,
-                                  )),
-                        IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Comments()));
-                            },
-                            icon: Icon(Icons.comment_outlined)),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Text("20 likes",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: appBarColor,
-                              fontFamily: GoogleFonts.poppins().fontFamily,
-                            )),
-                      ]),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16, bottom: 10),
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                              "Caption goes here kflasdf kjla asklf aklfaklsf jaklsjfkla jsflkajfalksdfkas jfkajs flaksj flaksfjalks fjalkf akjfaskjfaslkfjs fjakls fdaks fjlaks fakls jfkalsjflkas jfkals jfkalsjfklasjflkasj",
-                              // textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: appBarColor,
-                                fontFamily: GoogleFonts.poppins().fontFamily,
-                              )),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              );
-            }),
+        child: _userFeedView(userFeedViewModel, size),
       ),
     );
+  }
+
+   _userFeedView(UserFeedViewModel userFeedViewModel, Size size) {
+    if (userFeedViewModel.loading) {
+      return  LoadingData();
+    }
+
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: userFeedViewModel.userFeedListModel.length,
+        itemBuilder: (context, index) {
+          UserFeedModel userFeedModel =
+              userFeedViewModel.userFeedListModel[index];
+          return Padding(
+            padding: EdgeInsets.all(20),
+            child: Container(
+              // height: size.height * .5,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18), color: Colors.white),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: ListTile(
+                      leading: Image(
+                        image: AssetImage("assets/images/member.png"),
+                        height: size.height * .06,
+                      ),
+                      title: Text(userFeedModel.author.username,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: appBarColor,
+                            fontFamily: GoogleFonts.poppins().fontFamily,
+                          )),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Container(
+                      height: size.height * .3,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18),
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(userFeedModel.photo))),
+                    ),
+                  ),
+                  Row(children: [
+                    IconButton(
+                        onPressed: () {
+                          if (_isliked)
+                            _isliked = false;
+                          else
+                            _isliked = true;
+                          setState(() {});
+                        },
+                        icon: _isliked
+                            ? Icon(
+                                CupertinoIcons.heart_fill,
+                                color: Colors.red,
+                              )
+                            : Icon(
+                                CupertinoIcons.heart,
+                              )),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Comments()));
+                        },
+                        icon: Icon(Icons.comment_outlined)),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text(userFeedModel.numberOfLikes.toString(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: appBarColor,
+                          fontFamily: GoogleFonts.poppins().fontFamily,
+                        )),
+                  ]),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16, bottom: 10),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(userFeedModel.text,
+                          // textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: appBarColor,
+                            fontFamily: GoogleFonts.poppins().fontFamily,
+                          )),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
   }
 }
