@@ -13,11 +13,11 @@ class EventsViewModel extends ChangeNotifier {
 
   bool _loading = false;
   List<EventModel> _eventsListModel = [];
-  ErrorModdel _eventError = ErrorModdel(000, " error not set");
+  ErrorModel _eventError = ErrorModel(000, " error not set");
 
   bool get loading => _loading;
   List<EventModel> get eventsListModel => _eventsListModel;
-  ErrorModdel get eventError => _eventError;
+  ErrorModel get eventError => _eventError;
 
   setLoading(bool loading) async {
     _loading = loading;
@@ -28,7 +28,7 @@ class EventsViewModel extends ChangeNotifier {
     _eventsListModel = eventsListModel;
   }
 
-  setEventError(ErrorModdel eventError) {
+  setEventError(ErrorModel eventError) {
     _eventError = eventError;
   }
 
@@ -40,7 +40,7 @@ class EventsViewModel extends ChangeNotifier {
       log(response.response.toString());
     }
     if (response is Failure) {
-      ErrorModdel eventError = ErrorModdel(
+      ErrorModel eventError = ErrorModel(
         response.code,
         response.errorResponse,
       );

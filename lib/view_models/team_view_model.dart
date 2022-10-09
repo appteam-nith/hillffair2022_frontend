@@ -13,11 +13,11 @@ class TeamViewModel extends ChangeNotifier {
 
   bool _loading = false;
   List<TeamModel> _teamsListModel = [];
-  ErrorModdel _teamError = ErrorModdel(000, " error not set");
+  ErrorModel _teamError = ErrorModel(000, " error not set");
 
   bool get loading => _loading;
   List<TeamModel> get teamsListModel => _teamsListModel;
-  ErrorModdel get teamError => _teamError;
+  ErrorModel get teamError => _teamError;
 
   setLoading(bool loading) async {
     _loading = loading;
@@ -28,7 +28,7 @@ class TeamViewModel extends ChangeNotifier {
     _teamsListModel = teamsListModel;
   }
 
-  setteamError(ErrorModdel teamError) {
+  setteamError(ErrorModel teamError) {
     _teamError = teamError;
   }
 
@@ -40,7 +40,7 @@ class TeamViewModel extends ChangeNotifier {
       log(response.response.toString());
     }
     if (response is Failure) {
-      ErrorModdel teamError = ErrorModdel(
+      ErrorModel teamError = ErrorModel(
         response.code,
         response.errorResponse,
       );
