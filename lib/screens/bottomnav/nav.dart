@@ -29,38 +29,32 @@ class _BottomNavState extends State<BottomNav> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => EventsViewModel()),
-        ChangeNotifierProvider(create: (_) => TeamViewModel()),
-      ],
-      child: Scaffold(
-        body: navPages[currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
-            selectedFontSize: 0,
-            unselectedFontSize: 0,
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: bottomNavBgColor,
-            onTap: onTap,
-            currentIndex: currentIndex,
-            selectedItemColor: selectedItemColor,
-            unselectedItemColor: unSelectedItemColor,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            elevation: 0,
-            items: const [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.account_box_outlined), label: "Teams"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.chat_rounded), label: "Chatting"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.add_a_photo_outlined), label: "UserFeed"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.calendar_month_rounded), label: "Events"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.account_circle_rounded), label: "Profile"),
-            ]),
-      ),
+    return Scaffold(
+      body: navPages[currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+          selectedFontSize: 0,
+          unselectedFontSize: 0,
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: bottomNavBgColor,
+          onTap: onTap,
+          currentIndex: currentIndex,
+          selectedItemColor: selectedItemColor,
+          unselectedItemColor: unSelectedItemColor,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          elevation: 0,
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.account_box_outlined), label: "Teams"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.chat_rounded), label: "Chatting"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.add_a_photo_outlined), label: "UserFeed"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.calendar_month_rounded), label: "Events"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle_rounded), label: "Profile"),
+          ]),
     );
   }
 }
