@@ -31,8 +31,14 @@ class _UserFeedState extends State<UserFeed> {
 
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      appBar: AppBar(
+    return Container(
+        height: size.height,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                fit: BoxFit.fill, image: AssetImage("assets/images/bg.png"))),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
         actions: [
           IconButton(
               splashRadius: 1,

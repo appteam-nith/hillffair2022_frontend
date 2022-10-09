@@ -17,23 +17,22 @@ class _CommentsState extends State<Comments> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        backgroundColor: appBarColor,
-        title: Center(
-            widthFactor: 1.3,
-            child: Text("Comments",
-                style: TextStyle(
-                    fontFamily: GoogleFonts.poppins().fontFamily,
-                    fontWeight: FontWeight.bold))),
-      ),
-      body: Container(
+    return Container(
         height: size.height,
         decoration: BoxDecoration(
             image: DecorationImage(
-                fit: BoxFit.cover, image: AssetImage("assets/images/bg.png"))),
-        child: SingleChildScrollView(
+                fit: BoxFit.fill, image: AssetImage("assets/images/bg.png"))),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            centerTitle: true,
+        backgroundColor: appBarColor,
+            title: Text("Comments",
+                style: TextStyle(
+                    fontFamily: GoogleFonts.poppins().fontFamily,
+                    fontWeight: FontWeight.bold)),
+      ),
+          body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
             child: Container(
@@ -135,6 +134,7 @@ class _CommentsState extends State<Comments> {
                               color: appBarColor,
                               fontFamily: GoogleFonts.poppins().fontFamily,
                             ),
+                              contentPadding: EdgeInsets.only(left: 20),
                             filled: true,
                             fillColor: Color(0xffD9D9D9),
                             focusedBorder: OutlineInputBorder(
@@ -155,7 +155,6 @@ class _CommentsState extends State<Comments> {
                 )),
           ),
         ),
-      ),
-    );
+        ));
   }
 }
