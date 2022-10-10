@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "868222655855",
+    "project_id": "login-page-hillfare-96b32",
+    "storage_bucket": "login-page-hillfare-96b32.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:868222655855:android:42f681d62dc8325c429c9a",
+        "android_client_info": {
+          "package_name": "com.example.hillffair2022_frontend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "868222655855-0sj9gj412qrr7srnqg75e6jk44tr6spb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPNoWbnGUaeRF8XnPU0-G_LJBRGB7UN7Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "868222655855-0sj9gj412qrr7srnqg75e6jk44tr6spb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:868222655855:android:f1b62e82fec35fcb429c9a",
+        "android_client_info": {
+          "package_name": "com.example.login_page_hillfare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "868222655855-0sj9gj412qrr7srnqg75e6jk44tr6spb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPNoWbnGUaeRF8XnPU0-G_LJBRGB7UN7Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "868222655855-0sj9gj412qrr7srnqg75e6jk44tr6spb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
