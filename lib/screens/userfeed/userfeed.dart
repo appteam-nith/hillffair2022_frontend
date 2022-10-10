@@ -160,7 +160,7 @@ class _UserFeedState extends State<UserFeed> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Comments()));
+                                  builder: (context) => Comments(userFeedModel.id, "F5KNLyKjU4d7NCTTxJQCjyS6Qxm1")));
                         },
                         icon: Icon(Icons.comment_outlined)),
                     SizedBox(

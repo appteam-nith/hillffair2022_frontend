@@ -3,10 +3,14 @@ import 'package:hillfair2022_frontend/models/post_img_model.dart';
 import 'package:hillfair2022_frontend/models/team_member_model.dart';
 import 'package:hillfair2022_frontend/models/team_model.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
+
+import 'package:hillfair2022_frontend/view_models/comment_view_model.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'utils.dart';
 import 'welcome_page.dart';
+
 import 'package:hillfair2022_frontend/view_models/events_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/post_img_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/team_member_view_model.dart';
@@ -35,13 +39,32 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => EventsViewModel()),
+        ChangeNotifierProvider(create: (_) => TeamViewModel()),
+        ChangeNotifierProvider(create: (_) => TeamMemberViewModel()),
+        ChangeNotifierProvider(create: (_) => UserFeedViewModel()),
+        ChangeNotifierProvider(create: (_) => PostImgViewModel()),
+        ChangeNotifierProvider(create: (_) => CommentViewModel()),
+      ],
+    
+       
+        
+       
+         
+       
+
+
+    child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+
       ),
-      home: MainPage(),
+      home: MainPage())
     );
   }
 }

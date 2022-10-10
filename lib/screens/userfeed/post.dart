@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -14,15 +13,21 @@ import 'package:provider/provider.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import '../../models/post_img_model.dart';
 
-class Post extends StatelessWidget {
+class Post extends StatefulWidget {
   const Post({super.key});
+
+  @override
+  State<Post> createState() => _PostState();
+}
+
+class _PostState extends State<Post> {
+  final cloudinary = CloudinaryPublic('dugwczlzo', 'nql7r9cr', cache: false);
+  File? imageFromDevice;
+  TextEditingController captionTxtController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    final cloudinary = CloudinaryPublic('dugwczlzo', 'nql7r9cr', cache: false);
-    File? imageFromDevice;
 
     Future _pickimage(ImageSource source) async {
       try {
@@ -32,7 +37,7 @@ class Post extends StatelessWidget {
         }
         File? img = File(image.path);
 
-        imageFromDevice = img;
+        setState(() => this.imageFromDevice = img);
         // Navigator.of(context).pop();
       } on PlatformException catch (e) {
         print(e);
@@ -40,7 +45,7 @@ class Post extends StatelessWidget {
       }
     }
 
-     _imgUrl(var image) async {
+    _imgUrl(var image) async {
       try {
         CloudinaryResponse response = await cloudinary.uploadFile(
           CloudinaryFile.fromFile(image.path,
@@ -55,9 +60,7 @@ class Post extends StatelessWidget {
       }
     }
 
-    TextEditingController captionTxtController = TextEditingController();
-
-    _post( var imageFromDevice) async {
+    _post(var imageFromDevice) async {
       String caption = captionTxtController.text;
       String photoUrl = await _imgUrl(imageFromDevice);
       PostImgModel body =
@@ -73,65 +76,65 @@ class Post extends StatelessWidget {
     }
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          /*post request */
-          _post(imageFromDevice);
-        },
-        backgroundColor: Colors.white,
-        child: Icon(
-          Icons.send,
-          color: appBarColor,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            /*post request */
+            _post(imageFromDevice);
+          },
+          backgroundColor: Colors.white,
+          child: Icon(
+            Icons.send,
+            color: appBarColor,
+          ),
         ),
-      ),
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        backgroundColor: appBarColor,
-        title: Center(
-            widthFactor: 1.3,
-            child: Text("Post",
-                style: TextStyle(
-                    fontFamily: GoogleFonts.poppins().fontFamily,
-                    fontWeight: FontWeight.bold))),
-      ),
-      body: Container(
-        height: size.height,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-              fit: BoxFit.fill, image: AssetImage("assets/images/bg.png")),
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          backgroundColor: appBarColor,
+          title: Center(
+              widthFactor: 1.3,
+              child: Text("Post",
+                  style: TextStyle(
+                      fontFamily: GoogleFonts.poppins().fontFamily,
+                      fontWeight: FontWeight.bold))),
         ),
-        child: Align(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Container(
-              height: size.height * .55,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ListTile(
-                    leading:
-                        Image(image: AssetImage("assets/images/member.png")),
-                    title: Text("Sanat Thakur",
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontFamily: GoogleFonts.poppins().fontFamily,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Container(
-                      width: size.width * .8,
-                      height: size.height * .3,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(18),
-                          color: Color(0xffD9D9D9)),
-                      child: InkWell(
+        body: Container(
+          height: size.height,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                fit: BoxFit.fill, image: AssetImage("assets/images/bg.png")),
+          ),
+          child: Align(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Container(
+                height: size.height * .55,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18),
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ListTile(
+                      leading:
+                          Image(image: AssetImage("assets/images/member.png")),
+                      title: Text("Sanat Thakur",
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontFamily: GoogleFonts.poppins().fontFamily,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Container(
+                        width: size.width * .8,
+                        height: size.height * .3,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(18),
+                            color: Color(0xffD9D9D9)),
+                        child: InkWell(
                           onTap: () {
                             _pickimage(ImageSource.gallery);
                           },
@@ -147,24 +150,26 @@ class Post extends StatelessWidget {
                                   filterQuality: FilterQuality.medium,
                                 ),
                         ),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    child: TextFormField(
-                      controller: captionTxtController,
-                      validator: (e) {
-                        if (e!.isEmpty) {
-                          return "Enter Comment!!!";
-                        }
-                        return null;
-                      },
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      cursorHeight: 25,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: appBarColor,
-                        fontFamily: GoogleFonts.poppins().fontFamily,),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: TextFormField(
+                        controller: captionTxtController,
+                        validator: (e) {
+                          if (e!.isEmpty) {
+                            return "Enter Comment!!!";
+                          }
+                          return null;
+                        },
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        cursorHeight: 25,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: appBarColor,
+                          fontFamily: GoogleFonts.poppins().fontFamily,
+                        ),
                         decoration: InputDecoration(
                             hintText: "Enter Comment here",
                             hintStyle: TextStyle(
