@@ -3,6 +3,7 @@ import 'package:hillfair2022_frontend/models/post_img_model.dart';
 import 'package:hillfair2022_frontend/models/team_member_model.dart';
 import 'package:hillfair2022_frontend/models/team_model.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
+import 'package:hillfair2022_frontend/view_models/comment_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/events_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/post_img_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/team_member_view_model.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => TeamMemberViewModel()),
         ChangeNotifierProvider(create: (_) => UserFeedViewModel()),
         ChangeNotifierProvider(create: (_) => PostImgViewModel()),
+        ChangeNotifierProvider(create: (_) => CommentViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

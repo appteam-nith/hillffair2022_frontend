@@ -3,9 +3,12 @@
 // Events
 const String eventUrl = "https://hillffair2k22.herokuapp.com/events/";
 const String teamUrl = "https://hillffair2k22.herokuapp.com/teams/team/";
-const String teamMembersUrl = "https://anmolcoder.pythonanywhere.com/teams/team/";
+const String teamMembersUrl =
+    "https://anmolcoder.pythonanywhere.com/teams/team/";
 const String userFeedUrl = "http://anmolcoder.pythonanywhere.com/imagefeed/";
 const String postImgUrl = "https://anmolcoder.pythonanywhere.com/imagefeed/";
+const String commentUrl =
+    "http://anmolcoder.pythonanywhere.com/imagefeed/comment/";
 
 // Event-Codes
 const successCode = 200;
