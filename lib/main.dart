@@ -1,14 +1,21 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/models/post_img_model.dart';
 import 'package:hillfair2022_frontend/models/team_member_model.dart';
 import 'package:hillfair2022_frontend/models/team_model.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
+import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
+import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
 
 import 'package:hillfair2022_frontend/view_models/comment_view_model.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'utils.dart';
+import 'utils/colors.dart';
 import 'welcome_page.dart';
 
 import 'package:hillfair2022_frontend/view_models/events_view_model.dart';
@@ -41,31 +48,33 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => EventsViewModel()),
-        ChangeNotifierProvider(create: (_) => TeamViewModel()),
-        ChangeNotifierProvider(create: (_) => TeamMemberViewModel()),
-        ChangeNotifierProvider(create: (_) => UserFeedViewModel()),
-        ChangeNotifierProvider(create: (_) => PostImgViewModel()),
-        ChangeNotifierProvider(create: (_) => CommentViewModel()),
-      ],
-    
-       
-        
-       
-         
-       
-
-
-    child: MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-
-      ),
-      home: MainPage())
-    );
+        providers: [
+          ChangeNotifierProvider(create: (_) => EventsViewModel()),
+          ChangeNotifierProvider(create: (_) => TeamViewModel()),
+          ChangeNotifierProvider(create: (_) => TeamMemberViewModel()),
+          ChangeNotifierProvider(create: (_) => UserFeedViewModel()),
+          ChangeNotifierProvider(create: (_) => PostImgViewModel()),
+          ChangeNotifierProvider(create: (_) => CommentViewModel()),
+        ],
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            home: AnimatedSplashScreen(
+                duration: 2000,
+                splashTransition: SplashTransition.scaleTransition,
+                splash: Text(
+                  "HillFair 2022",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: appBarColor,
+                    fontFamily: GoogleFonts.poppins().fontFamily,
+                  ),
+                ),
+                nextScreen: MainPage())));
   }
 }
 

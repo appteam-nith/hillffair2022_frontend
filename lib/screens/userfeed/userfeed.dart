@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,31 +45,14 @@ class _UserFeedState extends State<UserFeed> {
                 splashRadius: 1,
                 onPressed: () {
                   Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => Post()));
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Post(
+                                photourl: null,
+                                comment: null,
+                              )));
                 },
                 icon: const Icon(Icons.add_to_photos_rounded)),
-            PopupMenuButton(
-                splashRadius: 1,
-                itemBuilder: (context) => [
-                      PopupMenuItem(
-                          child: TextButton(
-                              onPressed: () {},
-                              child: Text("Delete",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily:
-                                          GoogleFonts.poppins().fontFamily,
-                                      fontWeight: FontWeight.bold)))),
-                      PopupMenuItem(
-                          child: TextButton(
-                              onPressed: () {},
-                              child: Text("Edit",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily:
-                                          GoogleFonts.poppins().fontFamily,
-                                      fontWeight: FontWeight.bold))))
-                    ])
           ],
           backgroundColor: appBarColor,
           title: Container(
@@ -95,6 +79,52 @@ class _UserFeedState extends State<UserFeed> {
   _userFeedView(UserFeedViewModel userFeedViewModel, Size size) {
     if (userFeedViewModel.loading) {
       return LoadingData();
+    }
+
+    showphoto(BuildContext context, photo) async {
+      Size size = MediaQuery.of(context).size;
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: SizedBox(
+                height: size.height * .3,
+                child: CachedNetworkImage(
+                  imageUrl: photo,
+                  imageBuilder: ((context, imageProvider) {
+                    return Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.cover)),
+                    );
+                  }),
+                  placeholder: ((context, url) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: appBarColor,
+                      ),
+                    );
+                  }),
+                  errorWidget: (context, url, error) {
+                    return Icon(
+                      Icons.error,
+                      color: Colors.red,
+                      size: 40,
+                    );
+                  },
+                ),
+              ),
+            );
+            return AlertDialog(
+              content: Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.cover, image: NetworkImage(photo))),
+                width: size.width,
+                height: size.height * .3,
+              ),
+            );
+          });
     }
 
     return ListView.builder(
@@ -129,13 +159,39 @@ class _UserFeedState extends State<UserFeed> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16),
-                    child: Container(
-                      height: size.height * .3,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(18),
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(userFeedModel.photo))),
+                    child: InkWell(
+                      onTap: () {
+                        showphoto(context, userFeedModel.photo);
+                      },
+                      child: SizedBox(
+                        height: size.height * .3,
+                        child: CachedNetworkImage(
+                          imageUrl: userFeedModel.photo,
+                          imageBuilder: (context, imageProvider) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: imageProvider,
+                                      alignment: Alignment.center,
+                                      fit: BoxFit.cover)),
+                            );
+                          },
+                          placeholder: ((context, url) {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: appBarColor,
+                              ),
+                            );
+                          }),
+                          errorWidget: ((context, url, error) {
+                            return Icon(
+                              Icons.error,
+                              size: 50,
+                              color: Colors.red,
+                            );
+                          }),
+                        ),
+                      ),
                     ),
                   ),
                   Row(children: [
@@ -160,18 +216,57 @@ class _UserFeedState extends State<UserFeed> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Comments(userFeedModel.id, "F5KNLyKjU4d7NCTTxJQCjyS6Qxm1")));
+                                  builder: (context) => Comments(
+                                      userFeedModel.id,
+                                      "F5KNLyKjU4d7NCTTxJQCjyS6Qxm1")));
                         },
                         icon: Icon(Icons.comment_outlined)),
                     SizedBox(
                       width: 15,
                     ),
-                    Text(userFeedModel.numberOfLikes.toString(),
+                    Text("${userFeedModel.numberOfLikes.toString()} Likes",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: appBarColor,
                           fontFamily: GoogleFonts.poppins().fontFamily,
                         )),
+                    SizedBox(
+                      width: size.width * .15,
+                    ),
+                    TextButton(
+                        style: ButtonStyle(
+                            overlayColor:
+                                MaterialStatePropertyAll(Colors.transparent)),
+                        onPressed: () {},
+                        child: Text(
+                          "Delete",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                            fontFamily: GoogleFonts.poppins().fontFamily,
+                          ),
+                        )),
+                    TextButton(
+                        style: ButtonStyle(
+                            overlayColor:
+                                MaterialStatePropertyAll(Colors.transparent)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Post(
+                                        photourl: userFeedModel.photo,
+                                        comment: userFeedModel.text,
+                                      )));
+                        },
+                        child: Text(
+                          "Edit",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: appBarColor,
+                            fontFamily: GoogleFonts.poppins().fontFamily,
+                          ),
+                        ))
                   ]),
                   Padding(
                     padding: const EdgeInsets.only(left: 16, bottom: 10),
