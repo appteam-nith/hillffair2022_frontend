@@ -6,21 +6,14 @@ import 'package:http/http.dart' as http;
 import '../models/team_member_model.dart';
 import '../utils/api_constants.dart';
 
-class TeamMemberServices {
-  String id = "723aca26-833c-4698-9542-eb379370b983";
-
-  TeamMemberServices(String id) {
-    this.id;
-  }
-
-  static Future<Object> getTeamMembers(String id) async {
+class TeamMemberService {
+  static Future<Object> getTeamMembers() async {
     try {
-      var url = Uri.parse("$teamMembersUrl?id=$id/");
+      var url = Uri.parse(teamMembersUrl);
       var response = await http.get(url);
-      if (200 == response.statusCode) {
+      if (getSuccessCode == response.statusCode) {
         return Success(
-            code: getSuccessCode,
-            response: teamMemberModelFromJson(response.body));
+            code: getSuccessCode, response: teamMemberModelFromJson(response.body));
       }
 
       return Failure(code: invalidResponse, errorMessage: 'Invalid Response');

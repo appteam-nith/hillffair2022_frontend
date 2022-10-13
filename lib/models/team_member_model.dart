@@ -17,9 +17,9 @@ class TeamMemberModel {
         required this.image,
     });
 
-    int id;
+    String id;
     String name;
-    int teamName;
+    String teamName;
     String position;
     String image;
 

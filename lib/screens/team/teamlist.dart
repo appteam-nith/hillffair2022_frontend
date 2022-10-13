@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/models/team_model.dart';
-import 'package:hillfair2022_frontend/screens/team/teammembers.dart';
+import 'package:hillfair2022_frontend/screens/team/teamMembers.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/view_models/team_view_model.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +57,7 @@ class TeamList extends StatelessWidget {
             child: InkWell(
               onTap: (() {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => TeamMembers()));
+                    MaterialPageRoute(builder: (context) => TeamMembers(teamModel.id)));
               }),
               child: Card(
                 shape: RoundedRectangleBorder(

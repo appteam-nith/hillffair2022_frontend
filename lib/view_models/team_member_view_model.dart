@@ -7,9 +7,9 @@ import '../api_services/team_member_services.dart';
 import '../models/team_member_model.dart';
 
 class TeamMemberViewModel extends ChangeNotifier {
-  // TeamMemberViewModel() {
-  //   getTeamMembers( String id);
-  // }
+  TeamMemberViewModel() {
+    getTeamMembers();
+  }
 
   bool _loading = false;
   List<TeamMemberModel> _teamMembersListModel = [];
@@ -32,12 +32,11 @@ class TeamMemberViewModel extends ChangeNotifier {
     _teamMembersError = teamMembersError;
   }
 
-  getTeamMembers(String id) async {
+  getTeamMembers() async {
     setLoading(true);
-    var response = await TeamMemberServices.getTeamMembers(id);
+    var response = await TeamMemberService.getTeamMembers();
     if (response is Success) {
       setTeamMembersListModel(response.response as List<TeamMemberModel>);
-      log(response.response.toString());
     }
     if (response is Failure) {
       ErrorModel teamMembersError = ErrorModel(
