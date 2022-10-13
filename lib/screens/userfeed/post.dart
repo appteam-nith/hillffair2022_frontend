@@ -14,7 +14,9 @@ import 'package:cloudinary_public/cloudinary_public.dart';
 import '../../models/post_img_model.dart';
 
 class Post extends StatefulWidget {
-  const Post({super.key});
+  var photourl;
+  var comment;
+  Post({super.key, required this.photourl, required this.comment});
 
   @override
   State<Post> createState() => _PostState();
@@ -23,13 +25,21 @@ class Post extends StatefulWidget {
 class _PostState extends State<Post> {
   final cloudinary = CloudinaryPublic('dugwczlzo', 'nql7r9cr', cache: false);
   File? imageFromDevice;
-  TextEditingController captionTxtController = TextEditingController();
+  late TextEditingController captionTxtController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    captionTxtController = TextEditingController(text: widget.comment);
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     Future _pickimage(ImageSource source) async {
+      widget.photourl = null;
       try {
         final image = await ImagePicker().pickImage(source: source);
         if (image == null) {
@@ -75,132 +85,159 @@ class _PostState extends State<Post> {
       }
     }
 
-    return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            /*post request */
-            _post(imageFromDevice);
-          },
-          backgroundColor: Colors.white,
-          child: Icon(
-            Icons.send,
-            color: appBarColor,
-          ),
+    return Container(
+        height: size.height,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              fit: BoxFit.fill, image: AssetImage("assets/images/bg.png")),
         ),
-        appBar: AppBar(
-          automaticallyImplyLeading: true,
-          backgroundColor: appBarColor,
-          title: Center(
-              widthFactor: 1.3,
-              child: Text("Post",
-                  style: TextStyle(
-                      fontFamily: GoogleFonts.poppins().fontFamily,
-                      fontWeight: FontWeight.bold))),
-        ),
-        body: Container(
-          height: size.height,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.fill, image: AssetImage("assets/images/bg.png")),
-          ),
-          child: Align(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Container(
-                height: size.height * .55,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18),
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ListTile(
-                      leading:
-                          Image(image: AssetImage("assets/images/member.png")),
-                      title: Text("Sanat Thakur",
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontFamily: GoogleFonts.poppins().fontFamily,
-                              fontWeight: FontWeight.bold)),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Container(
-                        width: size.width * .8,
-                        height: size.height * .3,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(18),
-                            color: Color(0xffD9D9D9)),
-                        child: InkWell(
-                          onTap: () {
-                            _pickimage(ImageSource.gallery);
-                          },
-                          child: imageFromDevice == null
-                              ? Icon(
-                                  Icons.add_to_photos_rounded,
-                                  size: 80,
-                                  color: appBarColor,
-                                )
-                              : Image.file(
-                                  imageFromDevice!,
-                                  fit: BoxFit.fill,
-                                  filterQuality: FilterQuality.medium,
-                                ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      child: TextFormField(
-                        controller: captionTxtController,
-                        validator: (e) {
-                          if (e!.isEmpty) {
-                            return "Enter Comment!!!";
-                          }
-                          return null;
-                        },
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        cursorHeight: 25,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: appBarColor,
-                          fontFamily: GoogleFonts.poppins().fontFamily,
-                        ),
-                        decoration: InputDecoration(
-                            hintText: "Enter Comment here",
-                            hintStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: appBarColor,
-                              fontFamily: GoogleFonts.poppins().fontFamily,
-                            ),
-                            contentPadding: EdgeInsets.only(
-                              left: 20,
-                            ),
-                            filled: true,
-                            fillColor: Color(0xffD9D9D9),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                                borderRadius: BorderRadius.circular(40)),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                                borderRadius: BorderRadius.circular(40)),
-                            errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                                borderRadius: BorderRadius.circular(40)),
-                            focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                                borderRadius: BorderRadius.circular(40))),
-                      ),
-                    )
-                  ],
-                ),
+        child: Scaffold(
+            backgroundColor: Colors.transparent,
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                /*post request */
+                _post(imageFromDevice);
+              },
+              backgroundColor: Colors.white,
+              child: Icon(
+                Icons.send,
+                color: appBarColor,
               ),
             ),
-          ),
-        ));
+            appBar: AppBar(
+              automaticallyImplyLeading: true,
+              backgroundColor: appBarColor,
+              title: Center(
+                  widthFactor: 1.3,
+                  child: Text("Post",
+                      style: TextStyle(
+                          fontFamily: GoogleFonts.poppins().fontFamily,
+                          fontWeight: FontWeight.bold))),
+            ),
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: size.height * .1,
+                  ),
+                  Align(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Container(
+                        height: size.height * .55,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18),
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ListTile(
+                              leading: Image(
+                                  image:
+                                      AssetImage("assets/images/member.png")),
+                              title: Text("Sanat Thakur",
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontFamily:
+                                          GoogleFonts.poppins().fontFamily,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Container(
+                                width: size.width * .8,
+                                height: size.height * .3,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(18),
+                                    color: Color(0xffD9D9D9)),
+                                child: InkWell(
+                                  onTap: () {
+                                    _pickimage(ImageSource.gallery);
+                                  },
+                                  child: widget.photourl == null
+                                      ? imageFromDevice == null
+                                          ? Icon(
+                                              Icons.add_to_photos_rounded,
+                                              size: 80,
+                                              color: appBarColor,
+                                            )
+                                          : Image.file(
+                                              imageFromDevice!,
+                                              fit: BoxFit.fill,
+                                              filterQuality:
+                                                  FilterQuality.medium,
+                                            )
+                                      : Image(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(widget.photourl)),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              child: TextFormField(
+                                cursorColor: appBarColor,
+                                controller: captionTxtController,
+                                validator: (e) {
+                                  if (e!.isEmpty) {
+                                    return "Enter Comment!!!";
+                                  }
+                                  return null;
+                                },
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                cursorHeight: 25,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: appBarColor,
+                                  fontFamily: GoogleFonts.poppins().fontFamily,
+                                ),
+                                decoration: InputDecoration(
+                                    hintText: "Enter Comment here",
+                                    hintStyle: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: appBarColor,
+                                      fontFamily:
+                                          GoogleFonts.poppins().fontFamily,
+                                    ),
+                                    contentPadding: EdgeInsets.only(
+                                      left: 20,
+                                    ),
+                                    filled: true,
+                                    fillColor: Color(0xffD9D9D9),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(40)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(40)),
+                                    errorBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(40)),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(40))),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )));
   }
 }
