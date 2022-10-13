@@ -10,7 +10,7 @@ const String userFeedUrl = "http://anmolcoder.pythonanywhere.com/imagefeed/";
 const String postImgUrl = "https://hillffair2k22.herokuapp.com/imagefeed/";
 const String commentUrl =
     "http://anmolcoder.pythonanywhere.com/imagefeed/comment/";
-const String userUrl = "https://hillffair2k22.herokuapp.com/user/";
+const String postUserUrl = "https://hillffair2k22.herokuapp.com/user/";
 const String checkUserUrl =
     "https://hillffair2k22.herokuapp.com/user/checkUser/";
 const String getChatRoomUrl =
