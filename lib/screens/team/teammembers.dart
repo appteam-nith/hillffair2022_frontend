@@ -4,14 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 
+import '../../prefferences/events_pref.dart';
+import '../../prefferences/teams_pref.dart';
+
 class TeamMembers extends StatefulWidget {
-  TeamMembers({Key? key}) : super(key: key);
+  const TeamMembers({Key? key}) : super(key: key);
+
 
   @override
   State<TeamMembers> createState() => _TeamMembersState();
 }
 
 class _TeamMembersState extends State<TeamMembers> {
+  @override
+  void initState() {
+    SharedPreferencesTeams.getTeamsList();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

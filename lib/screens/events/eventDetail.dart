@@ -1,20 +1,35 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hillfair2022_frontend/prefferences/events_pref.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../models/event_model.dart';
 import '../../view_models/events_view_model.dart';
 
-class EventDetailsPage extends StatelessWidget {
+class EventDetailsPage extends StatefulWidget {
   final int index;
   const EventDetailsPage(this.index, {super.key});
 
   @override
+  State<EventDetailsPage> createState() => _EventDetailsPageState();
+}
+
+class _EventDetailsPageState extends State<EventDetailsPage> {
+
+
+  @override
+  void initState() {
+    SharedPreferencesevents.getEventsList();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     EventsViewModel eventsViewModel = context.watch<EventsViewModel>();
-    return _eventDetailView(eventsViewModel, index);
+    return _eventDetailView(eventsViewModel, widget.index);
   }
 
   Container _eventDetailView(EventsViewModel eventsViewModel, int index) {
@@ -46,7 +61,7 @@ class EventDetailsPage extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Column(
                     children: [
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       CircleAvatar(
                           backgroundColor: appBarColor,
                           radius: 45,

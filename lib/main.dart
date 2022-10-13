@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hillfair2022_frontend/models/post_img_model.dart';
 import 'package:hillfair2022_frontend/models/team_member_model.dart';
 import 'package:hillfair2022_frontend/models/team_model.dart';
+import 'package:hillfair2022_frontend/prefferences/events_pref.dart';
+import 'package:hillfair2022_frontend/prefferences/teams_pref.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
 
 import 'package:hillfair2022_frontend/view_models/comment_view_model.dart';
@@ -20,6 +22,8 @@ import 'package:provider/provider.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferencesevents.init();
+  await SharedPreferencesTeams.init();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
       apiKey: "AIzaSyAPNoWbnGUaeRF8XnPU0-G_LJBRGB7UN7Y",
@@ -36,7 +40,6 @@ final navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
 

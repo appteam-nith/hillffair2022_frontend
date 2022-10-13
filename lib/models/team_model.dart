@@ -19,15 +19,22 @@ class TeamModel {
     String clubName;
     String image;
 
-    factory TeamModel.fromJson(Map<String, dynamic> json) => TeamModel(
-        id: json["id"],
-        clubName: json["club_name"],
-        image: json["image"],
-    );
+    factory TeamModel.fromJson(Map<String, dynamic> json) =>
+        TeamModel(
+            id: json["id"],
+            clubName: json["club_name"],
+            image: json["image"],
+        );
 
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "club_name": clubName,
-        "image": image,
-    };
+    Map<String, dynamic> toJson() =>
+        {
+            "id": id,
+            "club_name": clubName,
+            "image": image,
+        };
+
+    @override
+    String toString() {
+        return 'TeamModel{id: $id,club_name: $clubName, image: $image}';
+    }
 }

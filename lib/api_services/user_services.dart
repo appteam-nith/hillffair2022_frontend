@@ -11,6 +11,8 @@ import '../models/post_img_model.dart';
 import '../utils/api_constants.dart';
 
 class UserServices {
+  static Uri? get url => null;
+
   static Future<http.Response?> postUser(UserModel data) async {
     http.Response? response;
     try {
@@ -47,8 +49,8 @@ class UserServices {
 
   static Future<Object> checkUser(String email) async {
     try {
-      var url = Uri.parse(checkUserUrl);
-      var response = await http.get(url);
+      //var url = Uri.parse(checkUserUrl);
+      var response = await http.get(url!);
       if (200 == response.statusCode) {
         return Success(
             code: successCode, response: checkUserModelFromJson(response.body));

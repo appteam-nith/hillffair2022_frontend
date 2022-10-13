@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
 import '../api_services/api_status.dart';
@@ -47,5 +47,6 @@ class EventsViewModel extends ChangeNotifier {
       setEventError(eventError);
     }
     setLoading(false);
+
   }
 }

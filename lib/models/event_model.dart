@@ -10,6 +10,7 @@ List<EventModel> eventModelFromJson(String str) =>
 String eventModelToJson(List<EventModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+
 class EventModel {
   EventModel({
     required this.title,
@@ -63,4 +64,9 @@ class EventModel {
         "regURL": regUrl,
         "type": type,
       };
+
+  @override
+  String toString() {
+    return 'EventModel{title: $title, description: $description, startTime: $startTime, endTime: $endTime, clubName: $clubName, platform: $platform, image: $image, regUrl: $regUrl, type: $type}';
+  }
 }

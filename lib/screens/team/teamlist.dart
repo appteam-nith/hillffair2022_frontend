@@ -12,7 +12,9 @@ import 'package:provider/provider.dart';
 import '../../components/loading_data.dart';
 
 class TeamList extends StatelessWidget {
+
   TeamList({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
