@@ -14,7 +14,7 @@ class UserServices {
   static Future<http.Response?> postUser(UserModel data) async {
     http.Response? response;
     try {
-      var url = Uri.parse(userUrl);
+      var url = Uri.parse(postUserUrl);
       response = await http.post(url,
           headers: {
             HttpHeaders.contentTypeHeader: "application/json",
@@ -28,7 +28,7 @@ class UserServices {
 
   static Future<Object> getUsers() async {
     try {
-      var url = Uri.parse(userUrl);
+      var url = Uri.parse(postUserUrl);
       var response = await http.get(url);
       if (200 == response.statusCode) {
         return Success(
@@ -47,7 +47,7 @@ class UserServices {
 
   static Future<Object> checkUser(String email) async {
     try {
-      var url = Uri.parse("$checkUserUrl/$email/");
+      var url = Uri.parse("$checkUserUrl$email");
       var response = await http.get(url);
       if (200 == response.statusCode) {
         return Success(
@@ -64,4 +64,20 @@ class UserServices {
       return Failure(code: unknownError, errorMessage: e.toString());
     }
   }
+
+  static Future<http.Response?> editUser(UserModel data, String fbId) async {
+    http.Response? response;
+    try {
+      var url = Uri.parse("$postUserUrl$fbId/");
+      response = await http.put(url,
+          headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+          },
+          body: userModelToJson(data));
+    } catch (e) {
+      log(e.toString());
+    }
+    return response;
+  }
+
 }

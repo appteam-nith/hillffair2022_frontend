@@ -1,11 +1,10 @@
-
 // To parse this JSON data, do
 //
 //     final userModel = userModelFromJson(jsonString);
 
 import 'dart:convert';
 
-List<UserModel> userModelFromJson(String str) => List<UserModel>.from(json.decode(str).map((x) => UserModel.fromJson(x)));
+UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 
 String userModelToJson(UserModel data) => json.encode(data.toJson());
 
@@ -15,6 +14,7 @@ class UserModel {
         required this.lastName,
         required this.firebase,
         required this.name,
+        required this.gender,
         required this.phone,
         required this.chatAllowed,
         required this.chatReports,
@@ -28,6 +28,7 @@ class UserModel {
     String lastName;
     String firebase;
     String name;
+    String gender;
     String phone;
     bool chatAllowed;
     int chatReports;
@@ -41,6 +42,7 @@ class UserModel {
         lastName: json["last_name"],
         firebase: json["firebase"],
         name: json["name"],
+        gender: json["gender"],
         phone: json["phone"],
         chatAllowed: json["ChatAllowed"],
         chatReports: json["ChatReports"],
@@ -55,6 +57,7 @@ class UserModel {
         "last_name": lastName,
         "firebase": firebase,
         "name": name,
+        "gender": gender,
         "phone": phone,
         "ChatAllowed": chatAllowed,
         "ChatReports": chatReports,
