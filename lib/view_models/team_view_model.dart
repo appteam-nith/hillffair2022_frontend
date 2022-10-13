@@ -42,7 +42,7 @@ class TeamViewModel extends ChangeNotifier {
     if (response is Failure) {
       ErrorModel teamError = ErrorModel(
         response.code,
-        response.errorResponse,
+        response.errorMessage,
       );
       setteamError(teamError);
     }
