@@ -14,16 +14,17 @@ class UserFeedServices {
       var response = await http.get(url);
       if (200 == response.statusCode) {
         return Success(
-            code: successCode, response: userFeedModelFromJson(response.body));
+            code: getSuccessCode,
+            response: userFeedModelFromJson(response.body));
       }
-      
-      return Failure(code: invalidResponse, errorResponse: 'Invalid Response');
+
+      return Failure(code: invalidResponse, errorMessage: 'Invalid Response');
     } on HttpException {
-      return Failure(code: noInternet, errorResponse: 'No Internet');
+      return Failure(code: noInternet, errorMessage: 'No Internet');
     } on FormatException {
-      return Failure(code: invalidFormat, errorResponse: 'Invalid Format');
+      return Failure(code: invalidFormat, errorMessage: 'Invalid Format');
     } catch (e) {
-      return Failure(code: unknownError, errorResponse: e.toString());
+      return Failure(code: unknownError, errorMessage: e.toString());
     }
   }
 }

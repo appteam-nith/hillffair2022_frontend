@@ -42,7 +42,7 @@ class UserFeedViewModel extends ChangeNotifier {
     if (response is Failure) {
       ErrorModel userFeedError = ErrorModel(
         response.code,
-        response.errorResponse,
+        response.errorMessage,
       );
       setuserFeedError(userFeedError);
     }

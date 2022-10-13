@@ -13,9 +13,12 @@ const String commentUrl =
 const String userUrl = "https://hillffair2k22.herokuapp.com/user/";
 const String checkUserUrl =
     "https://hillffair2k22.herokuapp.com/user/checkUser/";
+const String getChatRoomUrl =
+    "https://hillffair2k22.herokuapp.com/chat/getRoom/";
 
-// Event-Codes
-const successCode = 200;
+// Status-Codes
+const postSuccessCode = 201;
+const getSuccessCode = 200;
 const invalidResponse = 100;
 const noInternet = 101;
 const invalidFormat = 102;

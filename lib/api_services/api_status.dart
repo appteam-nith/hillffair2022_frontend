@@ -6,6 +6,6 @@ class Success {
 
 class Failure {
   late int code;
-  late Object errorResponse;
-  Failure({required this.code, required this.errorResponse});
+  late Object errorMessage;
+  Failure({required this.code, required this.errorMessage});
 }

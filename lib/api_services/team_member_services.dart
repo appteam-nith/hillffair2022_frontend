@@ -7,7 +7,7 @@ import '../models/team_member_model.dart';
 import '../utils/api_constants.dart';
 
 class TeamMemberServices {
-   String id = "723aca26-833c-4698-9542-eb379370b983";
+  String id = "723aca26-833c-4698-9542-eb379370b983";
 
   TeamMemberServices(String id) {
     this.id;
@@ -19,17 +19,17 @@ class TeamMemberServices {
       var response = await http.get(url);
       if (200 == response.statusCode) {
         return Success(
-            code: successCode,
+            code: getSuccessCode,
             response: teamMemberModelFromJson(response.body));
       }
 
-      return Failure(code: invalidResponse, errorResponse: 'Invalid Response');
+      return Failure(code: invalidResponse, errorMessage: 'Invalid Response');
     } on HttpException {
-      return Failure(code: noInternet, errorResponse: 'No Internet');
+      return Failure(code: noInternet, errorMessage: 'No Internet');
     } on FormatException {
-      return Failure(code: invalidFormat, errorResponse: 'Invalid Format');
+      return Failure(code: invalidFormat, errorMessage: 'Invalid Format');
     } catch (e) {
-      return Failure(code: unknownError, errorResponse: e.toString());
+      return Failure(code: unknownError, errorMessage: e.toString());
     }
   }
 }

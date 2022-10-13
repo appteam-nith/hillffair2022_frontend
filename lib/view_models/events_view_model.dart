@@ -42,7 +42,7 @@ class EventsViewModel extends ChangeNotifier {
     if (response is Failure) {
       ErrorModel eventError = ErrorModel(
         response.code,
-        response.errorResponse,
+        response.errorMessage,
       );
       setEventError(eventError);
     }
