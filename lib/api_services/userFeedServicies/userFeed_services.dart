@@ -2,12 +2,13 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:hillfair2022_frontend/api_services/api_status.dart';
-import 'package:hillfair2022_frontend/models/user_feed_model.dart';
+import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
 import 'package:http/http.dart' as http;
 
-import '../utils/api_constants.dart';
+import '../../utils/api_constants.dart';
 
 class UserFeedServices {
+
   static Future<Object> getUserFeed() async {
     try {
       var url = Uri.parse(userFeedUrl);

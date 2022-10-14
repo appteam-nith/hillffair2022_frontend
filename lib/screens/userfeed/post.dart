@@ -11,7 +11,7 @@ import 'package:hillfair2022_frontend/view_models/post_img_view_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
-import '../../models/post_img_model.dart';
+import '../../models/userFeed/post_img_model.dart';
 
 class Post extends StatefulWidget {
   var photourl;
@@ -74,7 +74,7 @@ class _PostState extends State<Post> {
       String caption = captionTxtController.text;
       String photoUrl = await _imgUrl(imageFromDevice);
       PostImgModel body =
-          PostImgModel(photo: photoUrl, text: caption, location: "location");
+          PostImgModel(photo: photoUrl, text: caption);
       var provider = Provider.of<PostImgViewModel>(context, listen: false);
       await provider.postImg(body, "F5KNLyKjU4d7NCTTxJQCjyS6Qxm1");
       if (provider.isBack) {

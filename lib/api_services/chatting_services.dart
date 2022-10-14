@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 import '../models/event_model.dart';
 import '../models/getChat_messages_mode.dart';
-import '../models/post_img_model.dart';
+import '../models/userFeed/post_img_model.dart';
 import '../utils/api_constants.dart';
 
 class ChattingServices {

@@ -3,7 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hillfair2022_frontend/models/comment_model.dart';
+import 'package:hillfair2022_frontend/models/userFeed/comment_model.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/view_models/comment_view_model.dart';
 import 'package:provider/provider.dart';
@@ -24,9 +24,8 @@ class _CommentsState extends State<Comments> {
   Widget build(BuildContext context) {
     _postComment(String postId, String fbId) async {
       String comment = commentTxtController.text;
-      CommentModel body = CommentModel(text: comment);
       var provider = Provider.of<CommentViewModel>(context, listen: false);
-      await provider.postComment(body, postId, fbId);
+      await provider.postComment(comment, postId, fbId);
       if (provider.isBack) {
         //has to be completed
         print("comment added");
