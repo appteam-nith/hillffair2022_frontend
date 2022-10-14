@@ -45,6 +45,20 @@ class TeamList extends StatelessWidget {
       return const LoadingData();
     }
 
+
+    if (teamViewModel.teamsListModel.isEmpty) {
+      return Center(
+        child: Text(
+          "No Data Present",
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: size.height * .025,
+              fontFamily: GoogleFonts.poppins().fontFamily,
+              fontWeight: FontWeight.bold),
+        ),
+      );
+    }
+
     return GridView.builder(
         itemCount: teamViewModel.teamsListModel.length,
         shrinkWrap: true,
@@ -56,8 +70,10 @@ class TeamList extends StatelessWidget {
             padding: EdgeInsets.only(left: 15, right: 15, top: 12, bottom: 12),
             child: InkWell(
               onTap: (() {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => TeamMembers(teamModel.id)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TeamMembers(teamModel.id)));
               }),
               child: Card(
                 shape: RoundedRectangleBorder(

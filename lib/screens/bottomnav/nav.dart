@@ -3,6 +3,7 @@ import 'package:hillfair2022_frontend/screens/chatting/chatting.dart';
 import 'package:hillfair2022_frontend/screens/events/events.dart';
 import 'package:hillfair2022_frontend/screens/profile/profile.dart';
 import 'package:hillfair2022_frontend/screens/team/teamlist.dart';
+import 'package:hillfair2022_frontend/screens/userfeed/tab_slider.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/screens/chatting/chatting.dart';
@@ -20,7 +21,7 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
-  List navPages = [ TeamList(), Chatting(), UserFeed(), Events(), Profile() ];
+  List navPages = [TeamList(), Chatting(), TabSlider(), Events(), Profile()];
 
   int currentIndex = 2;
   void onTap(int index) {
