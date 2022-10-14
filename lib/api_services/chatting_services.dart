@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:hillfair2022_frontend/api_services/api_status.dart';
+import 'package:hillfair2022_frontend/models/getChat_Room_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/event_model.dart';
@@ -24,7 +25,7 @@ class ChattingServices {
         }),
       );
       if (postSuccessCode == response.statusCode) {
-        return Success(code: postSuccessCode, response: response.body);
+        return Success(code: postSuccessCode, response: getChatRoomModelFromJson(response.body));
       }
       return Failure(code: invalidResponse, errorMessage: 'Invalid Response');
     } on HttpException {
