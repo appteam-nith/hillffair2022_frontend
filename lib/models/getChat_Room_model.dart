@@ -10,7 +10,7 @@ String getChatRoomModelToJson(GetChatRoomModel data) => json.encode(data.toJson(
 
 class GetChatRoomModel {
     GetChatRoomModel({
-        required this.id,
+        required this.roomId,
         required this.nickname1,
         required this.nickname2,
         required this.roomBlocked,
@@ -18,7 +18,7 @@ class GetChatRoomModel {
         required this.chater2,
     });
 
-    String id;
+    String roomId;
     String nickname1;
     String nickname2;
     bool roomBlocked;
@@ -26,7 +26,7 @@ class GetChatRoomModel {
     String chater2;
 
     factory GetChatRoomModel.fromJson(Map<String, dynamic> json) => GetChatRoomModel(
-        id: json["id"],
+        roomId: json["id"],
         nickname1: json["nickname1"],
         nickname2: json["nickname2"],
         roomBlocked: json["roomBlocked"],
@@ -35,7 +35,7 @@ class GetChatRoomModel {
     );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
+        "id": roomId,
         "nickname1": nickname1,
         "nickname2": nickname2,
         "roomBlocked": roomBlocked,
