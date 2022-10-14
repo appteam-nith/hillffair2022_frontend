@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
 import '../api_services/api_status.dart';
-import '../api_services/userFeed_services.dart';
-import '../models/user_feed_model.dart';
+import '../api_services/userFeedServicies/userFeed_services.dart';
+import '../models/userFeed/user_feed_model.dart';
 
 class UserFeedViewModel extends ChangeNotifier {
   UserFeedViewModel() {

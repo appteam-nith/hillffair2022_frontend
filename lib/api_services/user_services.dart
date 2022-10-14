@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 import '../models/checkUser_model.dart';
 import '../models/event_model.dart';
-import '../models/post_img_model.dart';
+import '../models/userFeed/post_img_model.dart';
 import '../utils/api_constants.dart';
 
 class UserServices {

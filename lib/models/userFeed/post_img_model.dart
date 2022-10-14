@@ -11,7 +11,6 @@ class PostImgModel {
     PostImgModel({
         required this.photo,
         required this.text,
-        required this.location,
 
     });
 
@@ -19,20 +18,17 @@ class PostImgModel {
     
     String photo;
     String text;
-    String location;
 
     factory PostImgModel.fromJson(Map<String, dynamic> json) => PostImgModel(
         
         photo: json["photo"] ?? "http://res.cloudinary.com/dfinmhios/image/upload/v1649642869/wbiob4xouvpkbvclo0iw.jpg",
         text: json["text"],
-        location: json["location"],
     );
 
     Map<String, dynamic> toJson() => {
         
         "photo": photo == null ? null : photo,
         "text": text,
-        "location": location,
     };
 }
 

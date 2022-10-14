@@ -9,13 +9,17 @@ const String teamMembersUrl =
     "https://hillffair2k22.herokuapp.com/teams/member/";
 
 //userFeed
-const String userFeedUrl = "http://anmolcoder.pythonanywhere.com/imagefeed/";
+const String userFeedUrl = "https://hillffair2k22.herokuapp.com/imagefeed/";
 const String postImgUrl = "https://hillffair2k22.herokuapp.com/imagefeed/";
-const String commentUrl =
-    "http://anmolcoder.pythonanywhere.com/imagefeed/comment/";
-const String postUserUrl = "https://hillffair2k22.herokuapp.com/user/";
+const String postCommentUrl =
+    "https://hillffair2k22.herokuapp.com/imagefeed/comment";
+const String getCommentUrl =
+    "https://hillffair2k22.herokuapp.com/imagefeed/getcomment";
+const String postLikeUrl = "https://hillffair2k22.herokuapp.com/imagefeed/like";
 
 //user
+
+const String postUserUrl = "https://hillffair2k22.herokuapp.com/user/";
 const String checkUserUrl =
     "https://hillffair2k22.herokuapp.com/user/checkUser/";
 
