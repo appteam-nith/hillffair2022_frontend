@@ -16,16 +16,15 @@ import 'package:hillfair2022_frontend/view_models/userFeed_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 
-class UserFeed extends StatefulWidget {
-  const UserFeed({Key? key}) : super(key: key);
+class TeamFeed extends StatefulWidget {
+  const TeamFeed({Key? key}) : super(key: key);
 
   @override
-  State<UserFeed> createState() => _UserFeedState();
+  State<TeamFeed> createState() => _TeamFeedState();
 }
 
-class _UserFeedState extends State<UserFeed> {
+class _TeamFeedState extends State<TeamFeed> {
   bool _isliked = false; // to be changed using api
-
 
   showphoto(BuildContext context, photo) async {
     Size size = MediaQuery.of(context).size;
@@ -72,22 +71,6 @@ class _UserFeedState extends State<UserFeed> {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      floatingActionButton: IconButton(
-          splashRadius: 1,
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Post(
-                          photourl: null,
-                          comment: null,
-                        )));
-          },
-          icon: const Icon(
-            Icons.add_to_photos_rounded,
-            color: appBarColor,
-            size: 40,
-          )),
       body: _userFeedView(userFeedViewModel, size),
     );
   }
@@ -140,7 +123,6 @@ class _UserFeedState extends State<UserFeed> {
                           imageBuilder: (context, imageProvider) {
                             return Container(
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
                                   image: DecorationImage(
                                       image: imageProvider,
                                       alignment: Alignment.center,
@@ -182,18 +164,8 @@ class _UserFeedState extends State<UserFeed> {
                             : Icon(
                                 CupertinoIcons.heart,
                               )),
-                    IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Comments(
-                                      userFeedModel.id,
-                                      "F5KNLyKjU4d7NCTTxJQCjyS6Qxm1")));
-                        },
-                        icon: Icon(Icons.comment_outlined)),
                     SizedBox(
-                      width: size.width * .03,
+                      width: 15,
                     ),
                     Text("${userFeedModel.numberOfLikes.toString()} Likes",
                         style: TextStyle(
@@ -204,40 +176,6 @@ class _UserFeedState extends State<UserFeed> {
                     SizedBox(
                       width: size.width * .15,
                     ),
-                    TextButton(
-                        style: ButtonStyle(
-                            overlayColor:
-                                MaterialStatePropertyAll(Colors.transparent)),
-                        onPressed: () {},
-                        child: Text(
-                          "Delete",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red,
-                            fontFamily: GoogleFonts.poppins().fontFamily,
-                          ),
-                        )),
-                    TextButton(
-                        style: ButtonStyle(
-                            overlayColor:
-                                MaterialStatePropertyAll(Colors.transparent)),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Post(
-                                        photourl: userFeedModel.photo,
-                                        comment: userFeedModel.text,
-                                      )));
-                        },
-                        child: Text(
-                          "Edit",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: appBarColor,
-                            fontFamily: GoogleFonts.poppins().fontFamily,
-                          ),
-                        ))
                   ]),
                   Padding(
                     padding: const EdgeInsets.only(left: 16, bottom: 10),

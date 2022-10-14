@@ -1,5 +1,7 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:hillfair2022_frontend/utils/colors.dart';
 
 class LoadingData extends StatelessWidget {
   const LoadingData({super.key});
@@ -7,9 +9,8 @@ class LoadingData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        padding: const EdgeInsets.all(20.0),
-        child: const CircularProgressIndicator(),
+      child: const CircularProgressIndicator(
+        color: appBarColor,
       ),
     );
   }

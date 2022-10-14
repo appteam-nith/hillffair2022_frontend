@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'signup_widget.dart';
 import 'sign_in.dart';
 
@@ -31,7 +32,7 @@ class WelcomePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 275),
-              ElevatedButton.icon(
+              ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(300, 60),
                       backgroundColor: const Color.fromARGB(255, 184, 151, 213),
@@ -47,18 +48,13 @@ class WelcomePage extends StatelessWidget {
                       ),
                     );
                   },
-                  icon: const Icon(
-                    Icons.lock_open,
-                    size: 32,
-                    color: Colors.black,
-                  ),
-                  label: const Text(
-                    'Sign In',
-                    style: TextStyle(
-                        fontSize: 24,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        fontWeight: FontWeight.w600),
-                  )),
+                child: Text(
+                  "Sign In",
+                  style: TextStyle(
+                      fontFamily: GoogleFonts.poppins().fontFamily,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
               const SizedBox(
                 height: 23,
               ),

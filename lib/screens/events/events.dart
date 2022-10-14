@@ -9,13 +9,19 @@ import 'package:provider/provider.dart';
 
 import '../../components/loading_data.dart';
 
-class Events extends StatelessWidget {
+class Events extends StatefulWidget {
   const Events({super.key});
 
   @override
-  Widget build(BuildContext context) { 
-    EventsViewModel eventsViewModel = context.
-    watch<EventsViewModel>();
+  State<Events> createState() => _EventsState();
+}
+
+class _EventsState extends State<Events> {
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
+    EventsViewModel eventsViewModel = context.watch<EventsViewModel>();
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -30,14 +36,27 @@ class Events extends StatelessWidget {
           title: const Text("Events"),
           backgroundColor: appBarColor,
         ),
-        body: _eventsListView(eventsViewModel),
+        body: _eventsListView(eventsViewModel, size),
       ),
     );
   }
 
-  _eventsListView(EventsViewModel eventsViewModel) {
+  _eventsListView(EventsViewModel eventsViewModel, Size size) {
     if (eventsViewModel.loading) {
       return const LoadingData();
+    }
+
+    if (eventsViewModel.eventsListModel.isEmpty) {
+      return Center(
+        child: Text(
+          "No Data Present",
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: size.height * .025,
+              fontFamily: GoogleFonts.poppins().fontFamily,
+              fontWeight: FontWeight.bold),
+        ),
+      );
     }
 
     return ListView.builder(
@@ -49,7 +68,7 @@ class Events extends StatelessWidget {
           ),
           margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
           child: ListTile(
-            title: Text( 
+            title: Text(
               eventModel.title,
               style: TextStyle(
                   fontFamily: GoogleFonts.poppins().fontFamily,
@@ -58,23 +77,24 @@ class Events extends StatelessWidget {
             subtitle: Text("${eventModel.clubName}\n${eventModel.startTime}"),
             isThreeLine: true,
             leading: CircleAvatar(
-                      backgroundColor: appBarColor,
-                      radius: 45,
-                      child: ClipRRect(borderRadius: BorderRadius.circular(45.0),child: CachedNetworkImage(
-                        imageUrl: eventModel.image,
-                        imageBuilder: (context, imageProvider) => Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: imageProvider,
-                                alignment: Alignment.center,
-                                fit: BoxFit.cover,)
-                          ),
-                        ),
-                        placeholder: (context, url) =>
-                            CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      ),)
+                backgroundColor: appBarColor,
+                radius: 45,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(45.0),
+                  child: CachedNetworkImage(
+                    imageUrl: eventModel.image,
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        image: imageProvider,
+                        alignment: Alignment.center,
+                        fit: BoxFit.cover,
+                      )),
                     ),
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
+                )),
             onTap: () {
               Navigator.push(
                 context,

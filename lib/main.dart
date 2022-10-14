@@ -7,9 +7,10 @@ import 'package:hillfair2022_frontend/models/post_img_model.dart';
 import 'package:hillfair2022_frontend/models/team_member_model.dart';
 import 'package:hillfair2022_frontend/models/team_model.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
-import 'package:hillfair2022_frontend/screens/userfeed/comments.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
+import 'package:hillfair2022_frontend/screens/userfeed/tabslider.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
+
 import 'package:hillfair2022_frontend/view_models/comment_view_model.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -46,7 +47,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => EventsViewModel()),
@@ -55,7 +55,6 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => UserFeedViewModel()),
           ChangeNotifierProvider(create: (_) => PostImgViewModel()),
           ChangeNotifierProvider(create: (_) => CommentViewModel()),
-          ChangeNotifierProvider(create: (_) => TeamMemberViewModel()),
         ],
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -85,24 +84,25 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BottomNav(),    //      StreamBuilder<User?>(
-    //   stream: FirebaseAuth.instance.authStateChanges(),
-    //   builder: (context, snapshot) {
-    //     if (snapshot.connectionState == ConnectionState.waiting) {
-    //       return const Center(
-    //         child: CircularProgressIndicator(),
-    //       );
-    //     } else if (snapshot.hasError) {
-    //       return const Center(
-    //         child: Text('Something Went Wrong!'),
-    //       );
-    //     } else if (snapshot.hasData) {
-    //       return BottomNav();
-    //     } else {
-    //       return WelcomePage();
-    //     }
-    //   },
-    // ),
+        // body: TabSlider(),
+        body: StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return const Center(
+            child: Text('Something Went Wrong!'),
+          );
+        } else if (snapshot.hasData) {
+          return BottomNav();
+        } else {
+          return WelcomePage();
+        }
+      },
+    )
     );
   }
 }

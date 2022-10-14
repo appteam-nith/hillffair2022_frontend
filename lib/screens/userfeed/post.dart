@@ -107,12 +107,11 @@ class _PostState extends State<Post> {
             appBar: AppBar(
               automaticallyImplyLeading: true,
               backgroundColor: appBarColor,
-              title: Center(
-                  widthFactor: 1.3,
-                  child: Text("Post",
-                      style: TextStyle(
-                          fontFamily: GoogleFonts.poppins().fontFamily,
-                          fontWeight: FontWeight.bold))),
+              centerTitle: true,
+              title: Text("Post",
+                  style: TextStyle(
+                      fontFamily: GoogleFonts.poppins().fontFamily,
+                      fontWeight: FontWeight.bold)),
             ),
             body: SingleChildScrollView(
               child: Column(
