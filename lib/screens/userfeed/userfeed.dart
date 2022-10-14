@@ -97,6 +97,19 @@ class _UserFeedState extends State<UserFeed> {
       return LoadingData();
     }
 
+    if (userFeedViewModel.userFeedListModel.isEmpty) {
+      return Center(
+        child: Text(
+          "No Data Present",
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: size.height * .025,
+              fontFamily: GoogleFonts.poppins().fontFamily,
+              fontWeight: FontWeight.bold),
+        ),
+      );
+    }
+
     return ListView.builder(
         shrinkWrap: true,
         itemCount: userFeedViewModel.userFeedListModel.length,
@@ -113,7 +126,7 @@ class _UserFeedState extends State<UserFeed> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
+                    padding: EdgeInsets.only(top: 8.0),
                     child: ListTile(
                       leading: Image(
                         image: AssetImage("assets/images/member.png"),
@@ -128,7 +141,9 @@ class _UserFeedState extends State<UserFeed> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: size.width * .036,
+                        vertical: size.height * .017),
                     child: InkWell(
                       onTap: () {
                         showphoto(context, userFeedModel.photo);
@@ -165,82 +180,96 @@ class _UserFeedState extends State<UserFeed> {
                       ),
                     ),
                   ),
-                  Row(children: [
-                    IconButton(
-                        onPressed: () {
-                          if (_isliked)
-                            _isliked = false;
-                          else
-                            _isliked = true;
-                          setState(() {});
-                        },
-                        icon: _isliked
-                            ? Icon(
-                                CupertinoIcons.heart_fill,
-                                color: Colors.red,
-                              )
-                            : Icon(
-                                CupertinoIcons.heart,
-                              )),
-                    IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Comments(
-                                      userFeedModel.id,
-                                      "F5KNLyKjU4d7NCTTxJQCjyS6Qxm1")));
-                        },
-                        icon: Icon(Icons.comment_outlined)),
-                    SizedBox(
-                      width: size.width * .03,
-                    ),
-                    Text("${userFeedModel.numberOfLikes.toString()} Likes",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: appBarColor,
-                          fontFamily: GoogleFonts.poppins().fontFamily,
-                        )),
-                    SizedBox(
-                      width: size.width * .15,
-                    ),
-                    TextButton(
-                        style: ButtonStyle(
-                            overlayColor:
-                                MaterialStatePropertyAll(Colors.transparent)),
-                        onPressed: () {},
-                        child: Text(
-                          "Delete",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red,
-                            fontFamily: GoogleFonts.poppins().fontFamily,
-                          ),
-                        )),
-                    TextButton(
-                        style: ButtonStyle(
-                            overlayColor:
-                                MaterialStatePropertyAll(Colors.transparent)),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Post(
-                                        photourl: userFeedModel.photo,
-                                        comment: userFeedModel.text,
-                                      )));
-                        },
-                        child: Text(
-                          "Edit",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: appBarColor,
-                            fontFamily: GoogleFonts.poppins().fontFamily,
-                          ),
-                        ))
-                  ]),
                   Padding(
-                    padding: const EdgeInsets.only(left: 16, bottom: 10),
+                    padding: EdgeInsets.symmetric(horizontal: size.width * .02),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    if (_isliked)
+                                      _isliked = false;
+                                    else
+                                      _isliked = true;
+                                    setState(() {});
+                                  },
+                                  icon: _isliked
+                                      ? Icon(
+                                          CupertinoIcons.heart_fill,
+                                          color: Colors.red,
+                                        )
+                                      : Icon(
+                                          CupertinoIcons.heart,
+                                        )),
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Comments(
+                                                userFeedModel.id,
+                                                "F5KNLyKjU4d7NCTTxJQCjyS6Qxm1")));
+                                  },
+                                  icon: Icon(Icons.comment_outlined)),
+                              SizedBox(
+                                width: size.width * .03,
+                              ),
+                              Text(
+                                  "${userFeedModel.numberOfLikes.toString()} Likes",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: appBarColor,
+                                    fontFamily:
+                                        GoogleFonts.poppins().fontFamily,
+                                  )),
+                            ],
+                          ),
+                      
+                          // SizedBox(
+                          //   width: size.width * .15,
+                          // ),
+                          TextButton(
+                              style: ButtonStyle(
+                                  overlayColor: MaterialStatePropertyAll(
+                                      Colors.transparent)),
+                              onPressed: () {},
+                              child: Text(
+                                "Delete",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                  fontFamily: GoogleFonts.poppins().fontFamily,
+                                ),
+                              )),
+                          // TextButton(
+                          //     style: ButtonStyle(
+                          //         overlayColor:
+                          //             MaterialStatePropertyAll(Colors.transparent)),
+                          //     onPressed: () {
+                          //       Navigator.push(
+                          //           context,
+                          //           MaterialPageRoute(
+                          //               builder: (context) => Post(
+                          //                     photourl: userFeedModel.photo,
+                          //                     comment: userFeedModel.text,
+                          //                   )));
+                          //     },
+                          //     child: Text(
+                          //       "Edit",
+                          //       style: TextStyle(
+                          //         fontWeight: FontWeight.bold,
+                          //         color: appBarColor,
+                          //         fontFamily: GoogleFonts.poppins().fontFamily,
+                          //       ),
+                          //     ))
+                        ]),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: size.width * .035,
+                        vertical: size.height * .01),
                     child: Container(
                       alignment: Alignment.centerLeft,
                       child: Text(userFeedModel.text,

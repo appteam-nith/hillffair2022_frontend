@@ -3,7 +3,7 @@ import 'package:hillfair2022_frontend/screens/chatting/chatting.dart';
 import 'package:hillfair2022_frontend/screens/events/events.dart';
 import 'package:hillfair2022_frontend/screens/profile/profile.dart';
 import 'package:hillfair2022_frontend/screens/team/teamlist.dart';
-import 'package:hillfair2022_frontend/screens/userfeed/tab_slider.dart';
+import 'package:hillfair2022_frontend/screens/userfeed/tabslider.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/screens/chatting/chatting.dart';
