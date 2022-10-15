@@ -1,7 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:hillfair2022_frontend/api_services/userFeedServicies/post_userFeed_servicies.dart';
 
-import '../models/userFeed/post_img_model.dart';
+import '../../models/userFeed/post_img_model.dart';
 import 'package:http/http.dart' as http;
 
 class PostImgViewModel extends ChangeNotifier {
@@ -16,5 +18,10 @@ class PostImgViewModel extends ChangeNotifier {
     }
     loading = false;
     notifyListeners();
+    /**/
+    if (loading == false) {
+      log(response.body);
+    }
+    ////
   }
 }

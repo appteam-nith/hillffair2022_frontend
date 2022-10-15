@@ -30,6 +30,9 @@ class PostImgServices {
     try {
       var url = Uri.parse("$postLikeUrl/$postId/$fbId/");
       response = await http.post(url);
+      if (response.statusCode ==201) {
+        
+      }
     } catch (e) {
       print(e.toString());
     }

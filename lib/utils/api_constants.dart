@@ -12,7 +12,7 @@ const String teamMembersUrl =
 const String userFeedUrl = "https://hillffair2k22.herokuapp.com/imagefeed/";
 const String postImgUrl = "https://hillffair2k22.herokuapp.com/imagefeed/";
 const String postCommentUrl =
-    "https://hillffair2k22.herokuapp.com/imagefeed/comment";
+    "https://hillffair2k22.herokuapp.com/imagefeed/comment/";
 const String getCommentUrl =
     "https://hillffair2k22.herokuapp.com/imagefeed/getcomment";
 const String postLikeUrl = "https://hillffair2k22.herokuapp.com/imagefeed/like";

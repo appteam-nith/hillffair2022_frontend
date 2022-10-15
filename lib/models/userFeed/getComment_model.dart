@@ -4,9 +4,10 @@
 
 import 'dart:convert';
 
-GetCommentsModel getCommentsModelFromJson(String str) => GetCommentsModel.fromJson(json.decode(str));
+GetCommentsModel getCommentsModelFromJson(String str, String postId) => GetCommentsModel.fromJson(json.decode(str), postId
+);
 
-String getCommentsModelToJson(GetCommentsModel data) => json.encode(data.toJson());
+String getCommentsModelToJson(GetCommentsModel data, String postId) => json.encode(data.toJson(postId));
 
 class GetCommentsModel {
     GetCommentsModel({
@@ -15,12 +16,12 @@ class GetCommentsModel {
 
     List<PostIdScommenter> postIdScommenters;
 
-    factory GetCommentsModel.fromJson(Map<String, dynamic> json) => GetCommentsModel(
-        postIdScommenters: List<PostIdScommenter>.from(json["postId'scommenters"].map((x) => PostIdScommenter.fromJson(x))),
+    factory GetCommentsModel.fromJson(Map<String, dynamic> json, String postId) => GetCommentsModel(
+        postIdScommenters: List<PostIdScommenter>.from(json["$postId'scommenters"].map((x) => PostIdScommenter.fromJson(x))),
     );
 
-    Map<String, dynamic> toJson() => {
-        "postId'scommenters": List<dynamic>.from(postIdScommenters.map((x) => x.toJson())),
+    Map<String, dynamic> toJson(String postId) => {
+        "$postId'scommenters": List<dynamic>.from(postIdScommenters.map((x) => x.toJson())),
     };
 }
 

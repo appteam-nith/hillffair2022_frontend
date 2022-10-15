@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +14,7 @@ import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/comments.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
-import 'package:hillfair2022_frontend/view_models/userFeed_view_model.dart';
+import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/userFeed_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 
@@ -180,6 +182,7 @@ class _UserFeedState extends State<UserFeed> {
                       ),
                     ),
                   ),
+
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: size.width * .02),
                     child: Row(
