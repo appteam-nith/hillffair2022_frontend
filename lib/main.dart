@@ -65,15 +65,10 @@ class MyApp extends StatelessWidget {
             home: AnimatedSplashScreen(
                 duration: 2000,
                 splashTransition: SplashTransition.scaleTransition,
-                splash: Text(
-                  "HillFair 2022",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: appBarColor,
-                    fontFamily: GoogleFonts.poppins().fontFamily,
-                  ),
+                splash: Image(
+                  image: AssetImage("assets/images/hillfairlogo.png"),
                 ),
+                splashIconSize: 500,
                 nextScreen: MainPage())));
   }
 }
@@ -84,7 +79,6 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // body: TabSlider(),
         body: StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {

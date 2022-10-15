@@ -112,7 +112,9 @@ class _TeamFeedState extends State<TeamFeed> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: size.width * .036,
+                        vertical: size.height * .017),
                     child: InkWell(
                       onTap: () {
                         showphoto(context, userFeedModel.photo);
@@ -124,6 +126,7 @@ class _TeamFeedState extends State<TeamFeed> {
                           imageBuilder: (context, imageProvider) {
                             return Container(
                               decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
                                   image: DecorationImage(
                                       image: imageProvider,
                                       alignment: Alignment.center,
@@ -179,7 +182,9 @@ class _TeamFeedState extends State<TeamFeed> {
                     ),
                   ]),
                   Padding(
-                    padding: const EdgeInsets.only(left: 16, bottom: 10),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: size.width * .035,
+                        vertical: size.height * .01),
                     child: Container(
                       alignment: Alignment.centerLeft,
                       child: Text(userFeedModel.text,
