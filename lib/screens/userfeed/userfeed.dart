@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +14,7 @@ import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/comments.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
-import 'package:hillfair2022_frontend/view_models/userFeed_view_model.dart';
+import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/userFeed_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 
@@ -168,10 +170,11 @@ class _UserFeedState extends State<UserFeed> {
                   Row(children: [
                     IconButton(
                         onPressed: () {
-                          if (_isliked)
+                          if (_isliked) {
                             _isliked = false;
-                          else
+                          } else {
                             _isliked = true;
+                          }
                           setState(() {});
                         },
                         icon: _isliked
@@ -189,11 +192,11 @@ class _UserFeedState extends State<UserFeed> {
                               MaterialPageRoute(
                                   builder: (context) => Comments(
                                       userFeedModel.id,
-                                      "F5KNLyKjU4d7NCTTxJQCjyS6Qxm1")));
+                                      "234")));
                         },
                         icon: Icon(Icons.comment_outlined)),
                     SizedBox(
-                      width: size.width * .03,
+                      width: size.width * .01,
                     ),
                     Text("${userFeedModel.numberOfLikes.toString()} Likes",
                         style: TextStyle(
@@ -202,7 +205,7 @@ class _UserFeedState extends State<UserFeed> {
                           fontFamily: GoogleFonts.poppins().fontFamily,
                         )),
                     SizedBox(
-                      width: size.width * .15,
+                      width: size.width * .1,
                     ),
                     TextButton(
                         style: ButtonStyle(

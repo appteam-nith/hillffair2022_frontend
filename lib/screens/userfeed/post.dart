@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
-import 'package:hillfair2022_frontend/view_models/post_img_view_model.dart';
+import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/post_img_view_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
@@ -73,15 +73,12 @@ class _PostState extends State<Post> {
     _post(var imageFromDevice) async {
       String caption = captionTxtController.text;
       String photoUrl = await _imgUrl(imageFromDevice);
-      PostImgModel body =
-          PostImgModel(photo: photoUrl, text: caption);
+      PostImgModel body = PostImgModel(photo: photoUrl, text: caption);
+      
       var provider = Provider.of<PostImgViewModel>(context, listen: false);
-      await provider.postImg(body, "F5KNLyKjU4d7NCTTxJQCjyS6Qxm1");
+      await provider.postImg(body, "234");
       if (provider.isBack) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => UserFeed()),
-        );
+        Navigator.pop(context);
       }
     }
 

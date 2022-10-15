@@ -57,11 +57,11 @@ class Author {
     String username;
 
     factory Author.fromJson(Map<String, dynamic> json) => Author(
-        username: json["username"],
+        username: json["firebase"],
     );
 
     Map<String, dynamic> toJson() => {
-        "username": username,
+        "firebase": username,
     };
 }
 
