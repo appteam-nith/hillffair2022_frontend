@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hillfair2022_frontend/view_models/checkUser_view_model.dart';
+import 'package:provider/provider.dart';
 import 'utils.dart';
 import 'main.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'forgot_password_page.dart';
+import 'signUp_widget.dart';
 
 class SignIn extends StatefulWidget {
   final VoidCallback onClickedSignUp;
@@ -20,6 +23,7 @@ class _SignInState extends State<SignIn> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+ // SignInViewModel signInviewMode = SignInViewModel();
   @override
   void dispose() {
     emailController.dispose();
@@ -30,6 +34,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+     //signInviewMode = Provider.of(context);
     return Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -79,6 +84,10 @@ class _SignInState extends State<SignIn> {
                                     borderRadius: BorderRadius.circular(25.0),
                                     borderSide: const BorderSide(
                                         width: 0, color: Colors.white)),
+                                        focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderSide: const BorderSide(
+                                        width: 0, color: Colors.white)),
                                 contentPadding:
                                     const EdgeInsets.symmetric(horizontal: 15),
                                 filled: true,
@@ -99,6 +108,10 @@ class _SignInState extends State<SignIn> {
                               decoration: InputDecoration(
                                 hintText: 'Password',
                                 enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderSide: const BorderSide(
+                                        width: 0, color: Colors.white)),
+                                        focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(25.0),
                                     borderSide: const BorderSide(
                                         width: 0, color: Colors.white)),
@@ -158,23 +171,44 @@ class _SignInState extends State<SignIn> {
                           const SizedBox(
                             height: 110,
                           ),
-                          RichText(
-                              text: TextSpan(
-                                  style: const TextStyle(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              RichText(
+                                text: const TextSpan(
+                                  style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w700),
                                   text: 'Don’t have an account? ',
-                                  children: [
-                                TextSpan(
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = widget.onClickedSignUp,
-                                    text: 'Sign Up',
-                                    style: const TextStyle(
+                                ),
+
+                                //    TextSpan(
+                                //      recognizer: TapGestureRecognizer()
+                                //       ..onTap =  Navigator(initialRoute: SignUpWidget(),) as GestureTapCallback?,
+                                //   text: 'Sign Up',
+                                //  style: const TextStyle(
+                                //     decoration: TextDecoration.underline,
+                                //    color: Colors.white,
+                                //   fontSize: 14))
+                              ),
+                              GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) => SignUpWidget(
+                                                onClickedSignIn: () {})));
+                                  },
+                                  child: const Text(
+                                    'Sign Up',
+                                    style: TextStyle(
                                         decoration: TextDecoration.underline,
                                         color: Colors.white,
-                                        fontSize: 14))
-                              ]))
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700),
+                                  )),
+                            ],
+                          )
                         ]),
                   ),
                 ),
@@ -185,23 +219,27 @@ class _SignInState extends State<SignIn> {
   }
 
   Future signIn() async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: ((context) => const Center(
-              child: CircularProgressIndicator(),
-            )));
+    // showDialog(
+    //     context: context,
+    //     barrierDismissible: false,
+    //     builder: ((context) => const Center(
+    //           child: CircularProgressIndicator(),
+    //         )));
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+      navigatorKey.currentState!.popUntil((route) => route.isFirst);
+      Map data = {
+      'email': emailController.text.toString(),
+      'password': passwordController.text.toString(),
+    };
+     //signInviewMode.getSingedInUser(data, context);
     } on FirebaseAuthException catch (e) {
       print(e);
 
       Utils.showSnackBar(e.message);
     }
-
-    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }

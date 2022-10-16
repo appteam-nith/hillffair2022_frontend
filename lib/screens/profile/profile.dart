@@ -2,12 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -42,9 +45,42 @@ class _ProfileState extends State<Profile> {
   final instaId = TextEditingController();
 
   final phoneNo = TextEditingController();
+
+  UserModel presentUser = UserModel(
+      firstName: "no data",
+      lastName: "no data",
+      firebase: "no data",
+      name: "no data",
+      gender: "no data",
+      phone: "no data",
+      chatAllowed: true,
+      chatReports: 0,
+      email: "no data",
+      score: 0,
+      instagramId: "no data",
+      profileImage: "no data");
+
+  Future getValidationData() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var obtainUserData = sharedPreferences.getString('presentUser');
+    presentUser = userModelFromJson(obtainUserData!);
+    if (presentUser != null) {}
+    setState(() {
+      presentUser = userModelFromJson(obtainUserData!);
+    });
+    print(obtainUserData);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    return _profileView(size, context);
+  }
+
+  Container _profileView(Size size, BuildContext context) {
+    getValidationData();
 
     return Container(
         decoration: const BoxDecoration(
@@ -90,7 +126,7 @@ class _ProfileState extends State<Profile> {
                         SizedBox(
                           height: 15.75,
                         ),
-                        Text("name",
+                        Text(presentUser.name,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -100,7 +136,7 @@ class _ProfileState extends State<Profile> {
                         SizedBox(
                           height: 12,
                         ),
-                        Text("email",
+                        Text(presentUser.email,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -120,7 +156,7 @@ class _ProfileState extends State<Profile> {
                         SizedBox(
                           height: 12,
                         ),
-                        Text("phone",
+                        Text(presentUser.phone,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -130,7 +166,7 @@ class _ProfileState extends State<Profile> {
                         SizedBox(
                           height: 12,
                         ),
-                        Text("insta",
+                        Text(presentUser.instagramId,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(

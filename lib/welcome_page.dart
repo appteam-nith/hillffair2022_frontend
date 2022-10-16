@@ -52,13 +52,13 @@ class WelcomePage extends StatelessWidget {
                   "Sign In",
                   style: TextStyle(
                       fontFamily: GoogleFonts.poppins().fontFamily,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.bold,fontSize: 24),
                 ),
               ),
               const SizedBox(
                 height: 23,
               ),
-              ElevatedButton.icon(
+              ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(300, 60),
                       backgroundColor: const Color.fromARGB(255, 66, 57, 140),
@@ -74,13 +74,12 @@ class WelcomePage extends StatelessWidget {
                       ),
                     );
                   },
-                  icon: const Icon(
-                    Icons.arrow_forward,
-                    size: 32,
-                  ),
-                  label: const Text(
+                  
+                  child: Text(
                     'Sign Up',
                     style: TextStyle(
+                      fontFamily: GoogleFonts.poppins().fontFamily,
+                      fontWeight: FontWeight.bold,
                       fontSize: 24,
                     ),
                   )),

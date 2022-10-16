@@ -1,6 +1,13 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hillfair2022_frontend/api_services/api_status.dart';
+import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
+import 'package:hillfair2022_frontend/screens/profile/profile.dart';
+
+import 'package:hillfair2022_frontend/view_models/postUser_view_model.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'utils.dart';
 import 'main.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +29,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  PostUserViewModel postUserViewMode = PostUserViewModel();
+  String nithId = "@nith.ac.in";
   @override
   void dispose() {
     emailController.dispose();
@@ -32,6 +41,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   @override
   Widget build(BuildContext context) {
+    postUserViewMode = Provider.of(context);
     return Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -81,18 +91,34 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                     borderRadius: BorderRadius.circular(25.0),
                                     borderSide: const BorderSide(
                                         width: 0, color: Colors.white)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderSide: const BorderSide(
+                                        width: 0, color: Colors.white)),
                                 contentPadding:
                                     const EdgeInsets.symmetric(horizontal: 15),
                                 filled: true,
                                 fillColor:
                                     const Color.fromARGB(255, 255, 255, 255),
                               ),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              validator: (email) => email != null &&
-                                      !EmailValidator.validate(email)
-                                  ? 'Enter a valid email'
-                                  : null,
+                              //  autovalidateMode:
+                              //     AutovalidateMode.onUserInteraction,
+                              // validator: (email) => email != null &&
+                              //         !EmailValidator.validate(email)
+                              //     ? 'Enter a valid email'
+                              //     : null,
+                              validator: (email) {
+                                if (emailController.text == null) {
+                                  return 'Enter a valid email';
+                                } else if (!emailController.text
+                                    .contains(nithId)) {
+                                  return 'Enter a valid email';
+                                } else if (!EmailValidator.validate(email!)) {
+                                  return 'Enter a valid email';
+                                } else {
+                                  return null;
+                                }
+                              },
                             ),
                           ),
                           const SizedBox(height: 26),
@@ -108,6 +134,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                     borderRadius: BorderRadius.circular(25.0),
                                     borderSide: const BorderSide(
                                         width: 0, color: Colors.white)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderSide: const BorderSide(
+                                        width: 0, color: Colors.white)),
                                 contentPadding:
                                     const EdgeInsets.symmetric(horizontal: 15),
                                 filled: true,
@@ -115,8 +145,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                     const Color.fromARGB(255, 255, 255, 255),
                               ),
                               obscureText: true,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                              //  autovalidateMode:
+                              //     AutovalidateMode.onUserInteraction,
                               validator: (value) =>
                                   value != null && value.length < 8
                                       ? 'Enter min. 8 characters'
@@ -136,6 +166,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                     borderRadius: BorderRadius.circular(25.0),
                                     borderSide: const BorderSide(
                                         width: 0, color: Colors.white)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderSide: const BorderSide(
+                                        width: 0, color: Colors.white)),
                                 contentPadding:
                                     const EdgeInsets.symmetric(horizontal: 15),
                                 filled: true,
@@ -143,8 +177,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                     const Color.fromARGB(255, 255, 255, 255),
                               ),
                               obscureText: true,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                              //  autovalidateMode:
+                              //     AutovalidateMode.onUserInteraction,
                               validator: ((value) {
                                 if (passwordController.text !=
                                     confirmPasswordController.text) {
@@ -188,20 +222,47 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   }
 
   Future signUp() async {
-    final isValid = formKey.currentState!.validate();
-    if (!isValid) return;
-
+    final isvalid = formKey.currentState!.validate();
+    if (!isvalid) return "Error";
+    // showDialog(
+    //     context: context,
+    //     barrierDismissible: false,
+    //     builder: ((context) => const Center(
+    //           child: CircularProgressIndicator(),
+    //         )));
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+      Utils.showSnackBar("An Email is sent to you for verification");
+      // print("el");
+      // return Future.value("Success");
+
+      navigatorKey.currentState!.popUntil((route) => route.isFirst);
+      String email = emailController.text;
+      var userId = FirebaseAuth.instance.currentUser!.uid;
+      UserModel data = UserModel(
+          firstName: "rere",
+          lastName: "eded",
+          firebase: userId,
+          name: "nini",
+          gender: "male",
+          phone: "1234567890",
+          chatAllowed: true,
+          chatReports: 0,
+          email: email,
+          score: 0,
+          instagramId: "wewewe@id",
+          profileImage: "jkdcksdmcsodkcnjdclj");
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      sharedPreferences.setString('presentUser', userModelToJson(data));
     } on FirebaseAuthException catch (e) {
       print(e);
 
       Utils.showSnackBar(e.message);
+      // return Future.value("Error");
     }
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => EditProfile()));
   }
 }
