@@ -1,22 +1,20 @@
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:hillfair2022_frontend/api_services/api_status.dart';
-import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
+import '../../models/userFeed/getComment_model.dart';
+import '../../utils/api_constants.dart';
+import '../api_status.dart';
 import 'package:http/http.dart' as http;
 
-import '../../utils/api_constants.dart';
-
-class UserFeedServices {
-  static Future<Object> getUserFeed() async {
+class GetComentsServices {
+  static Future<Object> getComments(String postId) async {
     try {
-      var url = Uri.parse(userFeedUrl);
+      var url = Uri.parse("$getCommentUrl/$postId/");
       var response = await http.get(url);
-      if (200 == response.statusCode) {
-        print("feed data fetched");
+      if (getSuccessCode == response.statusCode) {
+        print("commmemt fetched.$postId");
         return Success(
             code: getSuccessCode,
-            response: userFeedModelFromJson(response.body));
+            response: getCommentsModelFromJson(response.body, postId));
       }
 
       return Failure(code: invalidResponse, errorMessage: 'Invalid Response');
@@ -25,7 +23,6 @@ class UserFeedServices {
     } on FormatException {
       return Failure(code: invalidFormat, errorMessage: 'Invalid Format');
     } catch (e) {
-      print("feed data not-fetched");
       return Failure(code: unknownError, errorMessage: e.toString());
     }
   }

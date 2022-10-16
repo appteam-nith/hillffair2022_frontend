@@ -13,9 +13,13 @@ import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/tabslider.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
+
 import 'package:hillfair2022_frontend/signUp_widget.dart';
 
-import 'package:hillfair2022_frontend/view_models/comment_view_model.dart';
+import 'package:hillfair2022_frontend/sign_in.dart';
+
+
+import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_view_model.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,10 +29,10 @@ import 'utils/colors.dart';
 import 'welcome_page.dart';
 
 import 'package:hillfair2022_frontend/view_models/events_view_model.dart';
-import 'package:hillfair2022_frontend/view_models/post_img_view_model.dart';
+import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/post_img_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/team_member_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/team_view_model.dart';
-import 'package:hillfair2022_frontend/view_models/userFeed_view_model.dart';
+import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/userFeed_view_model.dart';
 import 'package:provider/provider.dart';
 
 Future main() async {
@@ -41,6 +45,19 @@ Future main() async {
       projectId: "login-page-hillfare-96b32",
     ),
   );
+
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return Material(
+      child: SizedBox(
+        child: Center(
+          child: Text("Something Went Wrong!!!",
+              style: TextStyle(
+                  fontFamily: GoogleFonts.poppins().fontFamily,
+                  fontWeight: FontWeight.bold)),
+        ),
+      ),
+    );
+  };
 
   runApp(const MyApp());
 }
@@ -59,8 +76,10 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => TeamMemberViewModel()),
           ChangeNotifierProvider(create: (_) => UserFeedViewModel()),
           ChangeNotifierProvider(create: (_) => PostImgViewModel()),
+
           ChangeNotifierProvider(create: (_) => CommentViewModel()),
           ChangeNotifierProvider(create: (_) => PostUserViewModel()),
+
         ],
         child: MaterialApp(
             scaffoldMessengerKey: Utils.messengerKey,
@@ -87,6 +106,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         body: StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
@@ -105,5 +125,6 @@ class MainPage extends StatelessWidget {
         }
       },
     ));
+
   }
 }
