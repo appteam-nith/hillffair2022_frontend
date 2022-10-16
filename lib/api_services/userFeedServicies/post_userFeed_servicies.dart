@@ -9,7 +9,6 @@ import '../../models/userFeed/post_img_model.dart';
 import '../../utils/api_constants.dart';
 
 class PostImgServices {
-
   static Future<http.Response?> postImg(PostImgModel data, String fbId) async {
     http.Response? response;
     try {
@@ -19,6 +18,9 @@ class PostImgServices {
             HttpHeaders.contentTypeHeader: "application/json",
           },
           body: postImgModelToJson(data));
+      if (response.statusCode == 201) {
+        print("feed posted");
+      }
     } catch (e) {
       print(e.toString());
     }
@@ -30,9 +32,7 @@ class PostImgServices {
     try {
       var url = Uri.parse("$postLikeUrl/$postId/$fbId/");
       response = await http.post(url);
-      if (response.statusCode ==201) {
-        
-      }
+      if (response.statusCode == 201) {}
     } catch (e) {
       print(e.toString());
     }
