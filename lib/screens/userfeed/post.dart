@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
+import 'package:hillfair2022_frontend/utils.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/post_img_view_model.dart';
 import 'package:image_picker/image_picker.dart';
@@ -74,7 +75,7 @@ class _PostState extends State<Post> {
       String caption = captionTxtController.text;
       String photoUrl = await _imgUrl(imageFromDevice);
       PostImgModel body = PostImgModel(photo: photoUrl, text: caption);
-      
+
       var provider = Provider.of<PostImgViewModel>(context, listen: false);
       await provider.postImg(body, "234");
       if (provider.isBack) {
@@ -94,6 +95,8 @@ class _PostState extends State<Post> {
               onPressed: () {
                 /*post request */
                 _post(imageFromDevice);
+                Utils.showSnackBar("Successfully Posted!!!");
+                Navigator.pop(context);
               },
               backgroundColor: Colors.white,
               child: Icon(

@@ -3,15 +3,17 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hillfair2022_frontend/models/post_img_model.dart';
+import 'package:hillfair2022_frontend/models/userFeed/post_img_model.dart';
 import 'package:hillfair2022_frontend/models/team_member_model.dart';
 import 'package:hillfair2022_frontend/models/team_model.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/tabslider.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
+import 'package:hillfair2022_frontend/sign_in.dart';
+import 'package:hillfair2022_frontend/signup_widget.dart';
 
-import 'package:hillfair2022_frontend/view_models/comment_view_model.dart';
+import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_view_model.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,10 +22,10 @@ import 'utils/colors.dart';
 import 'welcome_page.dart';
 
 import 'package:hillfair2022_frontend/view_models/events_view_model.dart';
-import 'package:hillfair2022_frontend/view_models/post_img_view_model.dart';
+import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/post_img_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/team_member_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/team_view_model.dart';
-import 'package:hillfair2022_frontend/view_models/userFeed_view_model.dart';
+import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/userFeed_view_model.dart';
 import 'package:provider/provider.dart';
 
 Future main() async {
@@ -36,6 +38,19 @@ Future main() async {
       projectId: "login-page-hillfare-96b32",
     ),
   );
+
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return Material(
+      child: SizedBox(
+        child: Center(
+          child: Text("Something Went Wrong!!!",
+              style: TextStyle(
+                  fontFamily: GoogleFonts.poppins().fontFamily,
+                  fontWeight: FontWeight.bold)),
+        ),
+      ),
+    );
+  };
 
   runApp(const MyApp());
 }
@@ -54,7 +69,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => TeamMemberViewModel()),
           ChangeNotifierProvider(create: (_) => UserFeedViewModel()),
           ChangeNotifierProvider(create: (_) => PostImgViewModel()),
-          ChangeNotifierProvider(create: (_) => CommentViewModel()),
+          // ChangeNotifierProvider(create: (_) => CommentViewModel()),
         ],
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -79,24 +94,25 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (snapshot.hasError) {
-          return const Center(
-            child: Text('Something Went Wrong!'),
-          );
-        } else if (snapshot.hasData) {
-          return BottomNav();
-        } else {
-          return WelcomePage();
-        }
-      },
-    )
+      body: WelcomePage(),
+      //     body: StreamBuilder<User?>(
+      //   stream: FirebaseAuth.instance.authStateChanges(),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return const Center(
+      //         child: CircularProgressIndicator(),
+      //       );
+      //     } else if (snapshot.hasError) {
+      //       return const Center(
+      //         child: Text('Something Went Wrong!'),
+      //       );
+      //     } else if (snapshot.hasData) {
+      //       return BottomNav();
+      //     } else {
+      //       return WelcomePage();
+      //     }
+      //   },
+      // )
     );
   }
 }
