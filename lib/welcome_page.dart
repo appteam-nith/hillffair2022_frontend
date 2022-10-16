@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'signup_widget.dart';
 import 'sign_in.dart';
 
@@ -8,6 +9,8 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -31,11 +34,14 @@ class WelcomePage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 275),
-              ElevatedButton(
+              SizedBox(height: size.height * .35),
+              SizedBox(
+                width: size.width * .75,
+                height: size.height * .06,
+                child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(300, 60),
-                      backgroundColor: const Color.fromARGB(255, 184, 151, 213),
+                      splashFactory: NoSplash.splashFactory,
+                      backgroundColor: btnColor2,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30))),
                   onPressed: () {
@@ -48,42 +54,46 @@ class WelcomePage extends StatelessWidget {
                       ),
                     );
                   },
-                child: Text(
-                  "Sign In",
-                  style: TextStyle(
-                      fontFamily: GoogleFonts.poppins().fontFamily,
-                      fontWeight: FontWeight.bold),
+                  child: Text(
+                    "Sign In",
+                    style: TextStyle(
+                        fontSize: size.width * .05,
+                        color: Colors.black,
+                        fontFamily: GoogleFonts.poppins().fontFamily,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               const SizedBox(
                 height: 23,
               ),
-              ElevatedButton.icon(
+              SizedBox(
+                width: size.width * .75,
+                height: size.height * .06,
+                child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(300, 60),
-                      backgroundColor: const Color.fromARGB(255, 66, 57, 140),
+                      splashFactory: NoSplash.splashFactory,
+                      backgroundColor: btnColor1,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30))),
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: ((context) => SignUpWidget(
-                              onClickedSignIn: () {},
-                            )),
+                        builder: ((context) =>
+                            SignUpWidget(onClickedSignIn: () {})),
                       ),
                     );
                   },
-                  icon: const Icon(
-                    Icons.arrow_forward,
-                    size: 32,
-                  ),
-                  label: const Text(
-                    'Sign Up',
+                  child: Text(
+                    "Sign Up",
                     style: TextStyle(
-                      fontSize: 24,
-                    ),
-                  )),
+                        fontSize: size.width * .05,
+                        fontFamily: GoogleFonts.poppins().fontFamily,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

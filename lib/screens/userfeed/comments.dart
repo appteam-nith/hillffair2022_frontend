@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/models/userFeed/getComment_model.dart';
+import 'package:hillfair2022_frontend/utils.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/getComments_viewModels.dart';
@@ -114,6 +115,7 @@ class _CommentsState extends State<Comments> {
                                       FocusManager.instance.primaryFocus
                                           ?.unfocus();
                                     });
+                                    Utils.showSnackBar("Comment Posted!!!");
                                   },
                                   icon: Icon(
                                     Icons.send,
