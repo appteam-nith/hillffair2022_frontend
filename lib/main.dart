@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
+// import 'verify_email_page.dart';
+
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,14 +13,18 @@ import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/tabslider.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
+
+import 'package:hillfair2022_frontend/signUp_widget.dart';
+
 import 'package:hillfair2022_frontend/sign_in.dart';
-import 'package:hillfair2022_frontend/signup_widget.dart';
+import 'package:hillfair2022_frontend/utils/snackbar.dart';
+
 
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_view_model.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'utils.dart';
+// import 'package:hillfair2022_frontend/view_models/postUser_view_model.dart';
 import 'utils/colors.dart';
 import 'welcome_page.dart';
 
@@ -69,9 +76,14 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => TeamMemberViewModel()),
           ChangeNotifierProvider(create: (_) => UserFeedViewModel()),
           ChangeNotifierProvider(create: (_) => PostImgViewModel()),
+
           // ChangeNotifierProvider(create: (_) => CommentViewModel()),
+          // ChangeNotifierProvider(create: (_) => PostUserViewModel()),
+
         ],
         child: MaterialApp(
+            scaffoldMessengerKey: Utils.messengerKey,
+            navigatorKey: navigatorKey,
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: ThemeData(
@@ -94,7 +106,8 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: WelcomePage(),
+      body: BottomNav(),
+
       //     body: StreamBuilder<User?>(
       //   stream: FirebaseAuth.instance.authStateChanges(),
       //   builder: (context, snapshot) {
@@ -114,5 +127,6 @@ class MainPage extends StatelessWidget {
       //   },
       // )
     );
+
   }
 }

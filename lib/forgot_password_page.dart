@@ -1,7 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
+import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'sign_in.dart';
-import 'utils.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -69,11 +70,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         borderRadius: BorderRadius.circular(25.0),
                         borderSide:
                             const BorderSide(width: 0, color: Colors.white)),
+                            focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderSide: const BorderSide(
+                                        width: 0, color: Colors.white)),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 15),
                     filled: true,
                     fillColor: const Color.fromARGB(255, 255, 255, 255),
                   ),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  //autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (email) =>
                       email != null && !EmailValidator.validate(email)
                           ? 'Enter a valid email'
@@ -83,29 +88,33 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               const SizedBox(
                 height: 29,
               ),
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      maximumSize: const Size(119, 31),
-                      backgroundColor: const Color.fromARGB(255, 184, 151, 213),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25))),
-                  onPressed: resetPassword,
-                  child: const Center(
-                    child: SizedBox(
-                      width: 43,
-                      height: 19,
-                      child: FittedBox(
-                        fit: BoxFit.contain,
-                        child: Text(
-                          'Next',
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
+              SizedBox(
+                height: 35,
+                width: 119,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 184, 151, 213),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25))),
+                    onPressed: resetPassword,
+                    child: const Center(
+                      child: SizedBox(
+                        width: 43,
+                        height: 19,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                            'Next',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black),
+                          ),
                         ),
                       ),
-                    ),
-                  )),
+                    )),
+              ),
             ],
           ),
         )),
@@ -144,7 +153,7 @@ class MessagePage extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
-        image: AssetImage("assests/bgN 1.jpg"),
+        image: AssetImage("assets/images/bg.png"),
         fit: BoxFit.cover,
       )),
       child: Scaffold(
@@ -152,6 +161,7 @@ class MessagePage extends StatelessWidget {
         body: Center(
             child: Column(
           children: [
+            const Spacer(),
             Container(
                 width: 291,
                 height: 172,
@@ -171,7 +181,7 @@ class MessagePage extends StatelessWidget {
                         child: FittedBox(
                           fit: BoxFit.contain,
                           child: Text(
-                              'An email to reset your password has\n been sent to the entered email\n    address.'),
+                              'An email to reset your password has\n     been sent to the entered email\n                        address.'),
                         ),
                       ),
                     ),
@@ -188,6 +198,7 @@ class MessagePage extends StatelessWidget {
                                       SignIn(onClickedSignUp: () {})));
                         },
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
                             Icon(
                               Icons.arrow_back,
@@ -204,9 +215,12 @@ class MessagePage extends StatelessWidget {
                           ],
                         ),
                       ),
-                    )
+                    ),
                   ],
-                ))
+                )),
+            const Spacer(
+              flex: 2,
+            ),
           ],
         )),
       ),

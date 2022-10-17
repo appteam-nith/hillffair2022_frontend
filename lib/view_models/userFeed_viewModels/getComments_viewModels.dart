@@ -12,11 +12,11 @@ import '../../models/userFeed/getComment_model.dart';
 class GetCommentsViewModel extends ChangeNotifier {
 
   bool _loading = false;
-  late GetCommentsModel _commentsList;
+  late GetCommentsModel _commentbody;
   ErrorModel _getCommentsError = ErrorModel(000, " error not set");
 
   bool get loading => _loading;
-  GetCommentsModel get commentsList => _commentsList;
+  GetCommentsModel get commentbody => _commentbody;
   ErrorModel get getCommentsError => _getCommentsError;
 
   setLoading(bool loading) async {
@@ -24,8 +24,8 @@ class GetCommentsViewModel extends ChangeNotifier {
     // notifyListeners();
   }
 
-  setCommentsList(GetCommentsModel commentsList) {
-    _commentsList = commentsList;
+  setCommentBody(GetCommentsModel commentbody) {
+    _commentbody = commentbody;
   }
 
   setGetCommentsError(ErrorModel getCommentsError) {
@@ -36,7 +36,7 @@ class GetCommentsViewModel extends ChangeNotifier {
     setLoading(true);
     var response = await GetComentsServices.getComments(postId);
     if (response is Success) {
-      setCommentsList(response.response as GetCommentsModel);
+      setCommentBody(response.response as GetCommentsModel);
     }
     if (response is Failure) {
       ErrorModel getCommentsError = ErrorModel(
