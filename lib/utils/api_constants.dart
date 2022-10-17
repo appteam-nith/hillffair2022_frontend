@@ -16,6 +16,8 @@ const String postCommentUrl =
 const String getCommentUrl =
     "https://hillffair2k22.herokuapp.com/imagefeed/getcomment";
 const String postLikeUrl = "https://hillffair2k22.herokuapp.com/imagefeed/like";
+const String getLikerUrl =
+    "https://hillffair2k22.herokuapp.com/imagefeed/get-likers/";
 
 //user
 

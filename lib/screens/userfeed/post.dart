@@ -13,6 +13,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import '../../models/userFeed/post_img_model.dart';
+import '../../models/userFeed/user_feed_model.dart';
+import '../../view_models/userFeed_viewModels/userFeed_view_model.dart';
 
 class Post extends StatefulWidget {
   var photourl;
@@ -77,10 +79,11 @@ class _PostState extends State<Post> {
       PostImgModel body = PostImgModel(photo: photoUrl, text: caption);
 
       var provider = Provider.of<PostImgViewModel>(context, listen: false);
-      await provider.postImg(body, "234");
+      var addedFeedList = await provider.postImg(body, "234");
       if (provider.isBack) {
         Navigator.pop(context);
       }
+      return addedFeedList;
     }
 
     return Container(
@@ -92,8 +95,11 @@ class _PostState extends State<Post> {
         child: Scaffold(
             backgroundColor: Colors.transparent,
             floatingActionButton: FloatingActionButton(
-              onPressed: () {
+              onPressed: () async {
                 /*post request */
+
+                var addedList = await _post(imageFromDevice);
+                upadateFeedList(addedList);
                 _post(imageFromDevice);
                 Utils.showSnackBar("Successfully Posted!!!");
                 Navigator.pop(context);
@@ -238,5 +244,16 @@ class _PostState extends State<Post> {
                 ],
               ),
             )));
+  }
+
+  //update_FeedList
+
+  upadateFeedList(UserFeedModel addedFeed) async {
+    var provider = Provider.of<UserFeedViewModel>(context, listen: false);
+    // await provider.getUserFeed();
+     provider.userFeedListModel.insert(0, addedFeed);
+     
+    provider.setUserFeedListModel(provider.userFeedListModel);
+    provider.isAlreadyLikedList.insert(0, false);
   }
 }

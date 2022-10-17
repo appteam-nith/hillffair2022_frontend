@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 List<UserFeedModel> userFeedModelFromJson(String str) => List<UserFeedModel>.from(json.decode(str).map((x) => UserFeedModel.fromJson(x)));
+UserFeedModel userFeedModelFromJson2(String str) => UserFeedModel.fromJson(json.decode(str));
 
 String userFeedModelToJson(List<UserFeedModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 

@@ -14,9 +14,11 @@ import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/comments.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
+import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/postLike_viewModel.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/userFeed_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../view_models/userFeed_viewModels/getComments_viewModels.dart';
 
@@ -28,9 +30,6 @@ class UserFeed extends StatefulWidget {
 }
 
 class _UserFeedState extends State<UserFeed> {
-  bool _isliked = false; // to be changed using api
-  
-
   showphoto(BuildContext context, photo) async {
     Size size = MediaQuery.of(context).size;
     showDialog(
@@ -97,217 +96,197 @@ class _UserFeedState extends State<UserFeed> {
   }
 
   _userFeedView(UserFeedViewModel userFeedViewModel, Size size) {
+    List<UserFeedModel> feedList = [];
+    List<bool> isLikedList = [];
     // if (userFeedViewModel.loading) {
-    //   return LoadingData();
-    // }
-
-    // if (userFeedViewModel.userFeedListModel.isEmpty) {
-    //   return Center(
-    //     child: Text(
-    //       "No Data Present",
-    //       style: TextStyle(
-    //           color: Colors.white,
-    //           fontSize: size.height * .025,
-    //           fontFamily: GoogleFonts.poppins().fontFamily,
-    //           fontWeight: FontWeight.bold),
-    //     ),
-    //   );
-    // }
-    _getFeedList() async {
-      var provider = Provider.of<UserFeedViewModel>(context, listen: false);
-      await provider.getUserFeed();
-      List<UserFeedModel> feedList = provider.userFeedListModel;
-      return feedList;
+    if (true) {
+      feedList = userFeedViewModel.prefFeedList;
+      isLikedList = userFeedViewModel.prefIsLikedList;
+      // return LoadingData();
+      // feedList = getFeedPref() ;
+      // isLikedList = getIsLikedPref();
+    }
+    if (!userFeedViewModel.loading) {
+      feedList = userFeedViewModel.userFeedListModel;
+      isLikedList = userFeedViewModel.isAlreadyLikedList;
     }
 
-    return FutureBuilder(
-      future: _getFeedList(),
-      builder: (((context, snapshot) {
-        if (!snapshot.hasData) {
-          return LoadingData();
-        }
+    if (feedList.isEmpty) {
+      return Center(
+        child: LoadingData(),
+        // Text(
+        //   "Fecting Data ",
+        //   style: TextStyle(
+        //       color: Colors.white,
+        //       fontSize: size.height * .025,
+        //       fontFamily: GoogleFonts.poppins().fontFamily,
+        //       fontWeight: FontWeight.bold),
+        // ),
+      );
+    }
 
-        return ListView.builder(
-            shrinkWrap: true,
-            itemCount: userFeedViewModel.userFeedListModel.length,
-            itemBuilder: (context, index) {
-              UserFeedModel userFeedModel =
-                  userFeedViewModel.userFeedListModel[index];
-              return Padding(
-                padding: EdgeInsets.all(20),
-                child: Container(
-                  // height: size.height * .5,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18),
-                      color: Colors.white),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 8.0),
-                        child: ListTile(
-                          leading: Image(
-                            image: AssetImage("assets/images/member.png"),
-                            height: size.height * .06,
-                          ),
-                          title: Text(userFeedModel.author.username,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: appBarColor,
-                                fontFamily: GoogleFonts.poppins().fontFamily,
-                              )),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: size.width * .036,
-                            vertical: size.height * .017),
-                        child: InkWell(
-                          onTap: () {
-                            showphoto(context, userFeedModel.photo);
-                          },
-                          child: SizedBox(
-                            height: size.height * .3,
-                            child: CachedNetworkImage(
-                              imageUrl: userFeedModel.photo,
-                              imageBuilder: (context, imageProvider) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      image: DecorationImage(
-                                          image: imageProvider,
-                                          alignment: Alignment.center,
-                                          fit: BoxFit.cover)),
-                                );
-                              },
-                              placeholder: ((context, url) {
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    color: appBarColor,
-                                  ),
-                                );
-                              }),
-                              errorWidget: ((context, url, error) {
-                                return Icon(
-                                  Icons.error,
-                                  size: 50,
-                                  color: Colors.red,
-                                );
-                              }),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: size.width * .02),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        // if (_isliked)
-                                        //   _isliked = false;
-                                        // else
-                                        //   _isliked = true;
-                                        // setState(() {});
-                                      },
-                                      icon: _isliked
-                                          ? Icon(
-                                              CupertinoIcons.heart_fill,
-                                              color: Colors.red,
-                                            )
-                                          : Icon(
-                                              CupertinoIcons.heart,
-                                            )),
-                                  IconButton(
-                                      onPressed: () {
-                                        //getComents
-                                        // var commentBody =_getCommnnets(userFeedModel.id);
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => Comments(
-                                                    userFeedModel.id, "234")));
-                                      },
-                                      icon: Icon(Icons.comment_outlined)),
-                                  SizedBox(
-                                    width: size.width * .03,
-                                  ),
-                                  Text(
-                                      "${userFeedModel.numberOfLikes.toString()} Likes",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: appBarColor,
-                                        fontFamily:
-                                            GoogleFonts.poppins().fontFamily,
-                                      )),
-                                ],
-                              ),
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: feedList.length,
+        itemBuilder: (context, index) {
+          UserFeedModel userFeedModel = feedList[index];
+          bool isAlreadyLiked = isLikedList[index];
 
-                              // SizedBox(
-                              //   width: size.width * .15,
-                              // ),
-                              TextButton(
-                                  style: ButtonStyle(
-                                      overlayColor: MaterialStatePropertyAll(
-                                          Colors.transparent)),
-                                  onPressed: () {},
-                                  child: Text(
-                                    "Delete",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.red,
-                                      fontFamily:
-                                          GoogleFonts.poppins().fontFamily,
-                                    ),
-                                  )),
-                              // TextButton(
-                              //     style: ButtonStyle(
-                              //         overlayColor:
-                              //             MaterialStatePropertyAll(Colors.transparent)),
-                              //     onPressed: () {
-                              //       Navigator.push(
-                              //           context,
-                              //           MaterialPageRoute(
-                              //               builder: (context) => Post(
-                              //                     photourl: userFeedModel.photo,
-                              //                     comment: userFeedModel.text,
-                              //                   )));
-                              //     },
-                              //     child: Text(
-                              //       "Edit",
-                              //       style: TextStyle(
-                              //         fontWeight: FontWeight.bold,
-                              //         color: appBarColor,
-                              //         fontFamily: GoogleFonts.poppins().fontFamily,
-                              //       ),
-                              //     ))
-                            ]),
+          return Padding(
+            padding: EdgeInsets.all(20),
+            child: Container(
+              // height: size.height * .5,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18), color: Colors.white),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: ListTile(
+                      leading: Image(
+                        image: AssetImage("assets/images/member.png"),
+                        height: size.height * .06,
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: size.width * .035,
-                            vertical: size.height * .01),
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          child: Text(userFeedModel.text,
-                              // textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: appBarColor,
-                                fontFamily: GoogleFonts.poppins().fontFamily,
-                              )),
-                        ),
-                      )
-                    ],
+                      title: Text(userFeedModel.author.username,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: appBarColor,
+                            fontFamily: GoogleFonts.poppins().fontFamily,
+                          )),
+                    ),
                   ),
-                ),
-              );
-            });
-      })),
-    );
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: size.width * .036,
+                        vertical: size.height * .017),
+                    child: InkWell(
+                      onTap: () {
+                        showphoto(context, userFeedModel.photo);
+                      },
+                      child: SizedBox(
+                        height: size.height * .3,
+                        child: CachedNetworkImage(
+                          imageUrl: userFeedModel.photo,
+                          imageBuilder: (context, imageProvider) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  image: DecorationImage(
+                                      image: imageProvider,
+                                      alignment: Alignment.center,
+                                      fit: BoxFit.cover)),
+                            );
+                          },
+                          placeholder: ((context, url) {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: appBarColor,
+                              ),
+                            );
+                          }),
+                          errorWidget: ((context, url, error) {
+                            return Icon(
+                              Icons.error,
+                              size: 50,
+                              color: Colors.red,
+                            );
+                          }),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: size.width * .02),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    _postLike(context, userFeedModel.id, "1234");
+                                    if (isLikedList[index]) {
+                                      setState(() {
+                                        isLikedList[index] = false;
+                                      });
+                                    } else {
+                                      isLikedList[index] = true;
+                                      setState(() {});
+                                    }
+                                  },
+                                  icon: isLikedList[index]
+                                      ? Icon(
+                                          CupertinoIcons.heart_fill,
+                                          color: Colors.red,
+                                        )
+                                      : Icon(
+                                          CupertinoIcons.heart,
+                                        )),
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Comments(
+                                                userFeedModel.id, "234")));
+                                  },
+                                  icon: Icon(Icons.comment_outlined)),
+                              SizedBox(
+                                width: size.width * .03,
+                              ),
+                              Text(
+                                  "${userFeedModel.numberOfLikes.toString()} Likes",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: appBarColor,
+                                    fontFamily:
+                                        GoogleFonts.poppins().fontFamily,
+                                  )),
+                            ],
+                          ),
+                          TextButton(
+                              style: ButtonStyle(
+                                  overlayColor: MaterialStatePropertyAll(
+                                      Colors.transparent)),
+                              onPressed: () {},
+                              child: Text(
+                                "Delete",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                  fontFamily: GoogleFonts.poppins().fontFamily,
+                                ),
+                              )),
+                        ]),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: size.width * .035,
+                        vertical: size.height * .01),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(userFeedModel.text,
+                          // textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: appBarColor,
+                            fontFamily: GoogleFonts.poppins().fontFamily,
+                          )),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
   }
+}
+
+_postLike(BuildContext context, String postId, String fbId) async {
+  print("klsfd");
+  PostLIkeViewModel provider =
+      Provider.of<PostLIkeViewModel>(context, listen: false);
+  await provider.postLike(postId, fbId);
+  return provider.isLiked;
 }
