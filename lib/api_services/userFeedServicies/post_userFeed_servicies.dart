@@ -26,16 +26,4 @@ class PostImgServices {
     }
     return response;
   }
-
-  static Future<http.Response?> postLike(String postId, String fbId) async {
-    http.Response? response;
-    try {
-      var url = Uri.parse("$postLikeUrl/$postId/$fbId/");
-      response = await http.post(url);
-      if (response.statusCode == 201) {}
-    } catch (e) {
-      print(e.toString());
-    }
-    return response;
-  }
 }
