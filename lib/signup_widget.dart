@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
-import 'utils.dart';
+import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -279,7 +279,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         ));
   }
 
-  
   Future signUp() async {
     final isvalid = formKey.currentState!.validate();
     if (!isvalid) return "Error";
@@ -289,7 +288,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         password: passwordController.text.trim(),
       );
       Utils.showSnackBar("An Email is sent to you for verification");
-
 
       navigatorKey.currentState!.popUntil((route) => route.isFirst);
       String email = emailController.text;

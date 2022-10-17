@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
-import 'utils.dart';
+import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'main.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

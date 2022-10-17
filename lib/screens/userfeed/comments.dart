@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/models/userFeed/getComment_model.dart';
-import 'package:hillfair2022_frontend/utils.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/getComments_viewModels.dart';
 import 'package:provider/provider.dart';
+
+import '../../utils/snackbar.dart';
 
 
 class Comments extends StatefulWidget {

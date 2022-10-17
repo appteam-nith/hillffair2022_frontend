@@ -1,13 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
-import 'package:hillfair2022_frontend/utils.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
+import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/post_img_view_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +44,7 @@ class _PostState extends State<Post> {
 
     Future _pickimage(ImageSource source) async {
       widget.photourl = null;
+      imageFromDevice = null;
       try {
         final image = await ImagePicker().pickImage(source: source);
         if (image == null) {
@@ -50,11 +52,15 @@ class _PostState extends State<Post> {
         }
         File? img = File(image.path);
 
-        setState(() => this.imageFromDevice = img);
-        // Navigator.of(context).pop();
+        print(img.lengthSync() ~/ 1024);
+
+        if (img.lengthSync() ~/ 1024 <= 8000) {
+          setState(() {
+            imageFromDevice = img;
+          });
+        }
       } on PlatformException catch (e) {
         print(e);
-        // Navigator.of(context).pop();
       }
     }
 
@@ -65,7 +71,6 @@ class _PostState extends State<Post> {
               resourceType: CloudinaryResourceType.Image),
         );
         return response.secureUrl;
-        // print(response.secureUrl);
       } on CloudinaryException catch (e) {
         print(e.message);
         print(e.request);
@@ -73,16 +78,25 @@ class _PostState extends State<Post> {
       }
     }
 
+    Future<File> compressImage({
+      required File imagepath,
+    }) async {
+      var path = await FlutterNativeImage.compressImage(imagepath.absolute.path,
+          quality: 100, percentage: 40);
+      return path;
+    }
+
     _post(var imageFromDevice) async {
       String caption = captionTxtController.text;
-      String photoUrl = await _imgUrl(imageFromDevice);
+      print(imageFromDevice.lengthSync() / 1024);
+      File compressedFile = await compressImage(imagepath: imageFromDevice);
+      print(compressedFile.lengthSync() / 1024);
+      String photoUrl = await _imgUrl(compressedFile);
       PostImgModel body = PostImgModel(photo: photoUrl, text: caption);
 
       var provider = Provider.of<PostImgViewModel>(context, listen: false);
       var addedFeedList = await provider.postImg(body, "234");
-      if (provider.isBack) {
-        Navigator.pop(context);
-      }
+
       return addedFeedList;
     }
 
@@ -97,10 +111,15 @@ class _PostState extends State<Post> {
             floatingActionButton: FloatingActionButton(
               onPressed: () async {
                 /*post request */
-
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) {
+                      return LoadingData();
+                    });
                 var addedList = await _post(imageFromDevice);
                 upadateFeedList(addedList);
-                _post(imageFromDevice);
+                Navigator.pop(context);
                 Utils.showSnackBar("Successfully Posted!!!");
                 Navigator.pop(context);
               },
@@ -159,8 +178,14 @@ class _PostState extends State<Post> {
                                     borderRadius: BorderRadius.circular(18),
                                     color: Color(0xffD9D9D9)),
                                 child: InkWell(
-                                  onTap: () {
-                                    _pickimage(ImageSource.gallery);
+                                  onTap: () async {
+                                    await _pickimage(ImageSource.gallery);
+                                    print("ks");
+                                    print(imageFromDevice);
+                                    if (imageFromDevice == null) {
+                                      Utils.showSnackBar(
+                                          "Image size should less than 5 MB!!!");
+                                    }
                                   },
                                   child: widget.photourl == null
                                       ? imageFromDevice == null
@@ -251,8 +276,8 @@ class _PostState extends State<Post> {
   upadateFeedList(UserFeedModel addedFeed) async {
     var provider = Provider.of<UserFeedViewModel>(context, listen: false);
     // await provider.getUserFeed();
-     provider.userFeedListModel.insert(0, addedFeed);
-     
+    provider.userFeedListModel.insert(0, addedFeed);
+
     provider.setUserFeedListModel(provider.userFeedListModel);
     provider.isAlreadyLikedList.insert(0, false);
   }
