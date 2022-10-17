@@ -3,9 +3,11 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
 import 'utils.dart';
 import 'main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 
@@ -277,21 +279,41 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         ));
   }
 
+  
   Future signUp() async {
-    final isValid = formKey.currentState!.validate();
-    if (!isValid) return;
-
+    final isvalid = formKey.currentState!.validate();
+    if (!isvalid) return "Error";
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+      Utils.showSnackBar("An Email is sent to you for verification");
+
+      navigatorKey.currentState!.popUntil((route) => route.isFirst);
+      String email = emailController.text;
+      var userId = FirebaseAuth.instance.currentUser!.uid;
+      UserModel data = UserModel(
+          firstName: "rere",
+          lastName: "eded",
+          firebase: userId,
+          name: "nini",
+          gender: "male",
+          phone: "1234567890",
+          chatAllowed: true,
+          chatReports: 0,
+          email: email,
+          score: 0,
+          instagramId: "wewewe@id",
+          profileImage: "jkdcksdmcsodkcnjdclj");
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      sharedPreferences.setString('presentUser', userModelToJson(data));
     } on FirebaseAuthException catch (e) {
       print(e);
 
       Utils.showSnackBar(e.message);
+      // return Future.value("Error");
     }
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => EditProfile()));
   }
 }

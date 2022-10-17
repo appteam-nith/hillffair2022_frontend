@@ -253,6 +253,7 @@ class _SignInState extends State<SignIn> {
   }
 
   Future signIn() async {
+
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -264,12 +265,16 @@ class _SignInState extends State<SignIn> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+      navigatorKey.currentState!.popUntil((route) => route.isFirst);
+      Map data = {
+        'email': emailController.text.toString(),
+        'password': passwordController.text.toString(),
+      };
+      //signInviewMode.getSingedInUser(data, context);
     } on FirebaseAuthException catch (e) {
       print(e);
 
       Utils.showSnackBar(e.message);
     }
-
-    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }
