@@ -59,7 +59,6 @@ class WelcomePage extends StatelessWidget {
                     style: TextStyle(
                         fontSize: size.width * .05,
                         color: Colors.black,
-                        fontFamily: GoogleFonts.poppins().fontFamily,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -81,7 +80,7 @@ class WelcomePage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: ((context) =>
-                            SignUpWidget(onClickedSignIn: () {})),
+                            SignUpWidget())
                       ),
                     );
                   },
@@ -89,7 +88,6 @@ class WelcomePage extends StatelessWidget {
                     "Sign Up",
                     style: TextStyle(
                         fontSize: size.width * .05,
-                        fontFamily: GoogleFonts.poppins().fontFamily,
                         fontWeight: FontWeight.bold),
                   ),
                 ),

@@ -93,7 +93,8 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: ThemeData(
-              primarySwatch: Colors.blue,
+              fontFamily: GoogleFonts.inter().fontFamily,
+              primarySwatch: Colors.purple,
             ),
             home: AnimatedSplashScreen(
                 duration: 2000,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hillfair2022_frontend/main.dart';
+import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
@@ -226,7 +228,8 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => BottomNav()));
                     },
                     style: ElevatedButton.styleFrom(
                         maximumSize: const Size(300, 50),
