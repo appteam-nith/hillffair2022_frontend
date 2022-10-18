@@ -52,6 +52,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
+            elevation: 0,
             backgroundColor: Colors.transparent,
             automaticallyImplyLeading: true,
           ),
@@ -293,17 +294,17 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       String email = emailController.text;
       var userId = FirebaseAuth.instance.currentUser!.uid;
       UserModel data = UserModel(
-          firstName: "rere",
-          lastName: "eded",
+          firstName: "John",
+          lastName: "Doe",
           firebase: userId,
-          name: "nini",
-          gender: "male",
-          phone: "1234567890",
+          name: "Peter Parker",
+          gender: "other",
+          phone: "0000000000",
           chatAllowed: true,
           chatReports: 0,
           email: email,
           score: 0,
-          instagramId: "wewewe@id",
+          instagramId: "instaId",
           profileImage: "jkdcksdmcsodkcnjdclj");
       final SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
