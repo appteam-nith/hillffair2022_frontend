@@ -185,9 +185,16 @@ class _SignInState extends State<SignIn> {
                                         borderRadius:
                                             BorderRadius.circular(25))),
                                 onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: ((context) => const Center(
+                                            child: LoadingData(),
+                                          )));
                                   if (formKey.currentState!.validate()) {
                                     signIn();
                                   }
+                                  Navigator.pop(context);
                                 },
                                 child: Center(
                                   child: SizedBox(
@@ -253,13 +260,6 @@ class _SignInState extends State<SignIn> {
   }
 
   Future signIn() async {
-
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: ((context) => const Center(
-              child: LoadingData(),
-            )));
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),

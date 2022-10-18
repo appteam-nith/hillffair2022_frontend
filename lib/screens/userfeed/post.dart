@@ -82,7 +82,7 @@ class _PostState extends State<Post> {
       required File imagepath,
     }) async {
       var path = await FlutterNativeImage.compressImage(imagepath.absolute.path,
-          quality: 100, percentage: 40);
+          quality: 100, percentage: 35);
       return path;
     }
 
@@ -184,7 +184,7 @@ class _PostState extends State<Post> {
                                     print(imageFromDevice);
                                     if (imageFromDevice == null) {
                                       Utils.showSnackBar(
-                                          "Image size should less than 5 MB!!!");
+                                          "Image size should less than 8 MB!!!");
                                     }
                                   },
                                   child: widget.photourl == null

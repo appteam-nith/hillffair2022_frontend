@@ -26,6 +26,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 // import 'package:hillfair2022_frontend/view_models/postUser_view_model.dart';
 import 'utils/colors.dart';
+import 'view_models/userFeed_viewModels/getComments_viewModels.dart';
+import 'view_models/userFeed_viewModels/postLike_viewModel.dart';
 import 'welcome_page.dart';
 
 import 'package:hillfair2022_frontend/view_models/events_view_model.dart';
@@ -76,6 +78,10 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => TeamMemberViewModel()),
           ChangeNotifierProvider(create: (_) => UserFeedViewModel()),
           ChangeNotifierProvider(create: (_) => PostImgViewModel()),
+          ChangeNotifierProvider(create: (_) => PostLIkeViewModel()),
+          ChangeNotifierProvider(create: (_) => GetCommentsViewModel()),
+          ChangeNotifierProvider(create: (_) => GetCommentsViewModel()),
+          ChangeNotifierProvider(create: (_) => PostCommentViewModel()),
 
           ChangeNotifierProvider(create: (_) => PostCommentViewModel()),
           // ChangeNotifierProvider(create: (_) => PostUserViewModel()),
@@ -106,26 +112,26 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BottomNav(),
+      // body: BottomNav(),
 
-      //     body: StreamBuilder<User?>(
-      //   stream: FirebaseAuth.instance.authStateChanges(),
-      //   builder: (context, snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.waiting) {
-      //       return const Center(
-      //         child: CircularProgressIndicator(),
-      //       );
-      //     } else if (snapshot.hasError) {
-      //       return const Center(
-      //         child: Text('Something Went Wrong!'),
-      //       );
-      //     } else if (snapshot.hasData) {
-      //       return BottomNav();
-      //     } else {
-      //       return WelcomePage();
-      //     }
-      //   },
-      // )
+          body: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return const Center(
+              child: Text('Something Went Wrong!'),
+            );
+          } else if (snapshot.hasData) {
+            return BottomNav();
+          } else {
+            return WelcomePage();
+          }
+        },
+      ),
     );
 
   }
