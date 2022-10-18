@@ -14,10 +14,8 @@ import 'package:flutter/gestures.dart';
 import 'utils/colors.dart';
 
 class SignUpWidget extends StatefulWidget {
-  final Function() onClickedSignIn;
   const SignUpWidget({
     Key? key,
-    required this.onClickedSignIn,
   }) : super(key: key);
 
   @override
@@ -89,8 +87,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                   cursorColor: appBarColor,
                                   cursorHeight: 25,
                                   style: TextStyle(
-                                      fontFamily:
-                                          GoogleFonts.poppins().fontFamily,
                                       color: appBarColor),
                                   controller: emailController,
                                   textInputAction: TextInputAction.next,
@@ -140,8 +136,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                   cursorColor: appBarColor,
                                   cursorHeight: 25,
                                   style: TextStyle(
-                                      fontFamily:
-                                          GoogleFonts.poppins().fontFamily,
                                       color: appBarColor),
                                   controller: passwordController,
                                   textInputAction: TextInputAction.done,
@@ -190,8 +184,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                   cursorColor: appBarColor,
                                   cursorHeight: 25,
                                   style: TextStyle(
-                                      fontFamily:
-                                          GoogleFonts.poppins().fontFamily,
                                       color: appBarColor),
                                   controller: confirmPasswordController,
                                   textInputAction: TextInputAction.done,
@@ -290,7 +282,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       );
       Utils.showSnackBar("An Email is sent to you for verification");
 
-      navigatorKey.currentState!.popUntil((route) => route.isFirst);
+      // navigatorKey.currentState!.popUntil((route) => route.isFirst);
+      navigatorKey.currentState!.pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => EditProfile()),
+          (route) => false);
       String email = emailController.text;
       var userId = FirebaseAuth.instance.currentUser!.uid;
       UserModel data = UserModel(

@@ -30,6 +30,7 @@ class _PostState extends State<Post> {
   final cloudinary = CloudinaryPublic('dugwczlzo', 'nql7r9cr', cache: false);
   File? imageFromDevice;
   late TextEditingController captionTxtController;
+  final _formkey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -54,7 +55,7 @@ class _PostState extends State<Post> {
 
         print(img.lengthSync() ~/ 1024);
 
-        if (img.lengthSync() ~/ 1024 <= 8000) {
+        if (img.lengthSync() ~/ 1024 <= 15000) {
           setState(() {
             imageFromDevice = img;
           });
@@ -88,6 +89,7 @@ class _PostState extends State<Post> {
 
     _post(var imageFromDevice) async {
       String caption = captionTxtController.text;
+
       print(imageFromDevice.lengthSync() / 1024);
       File compressedFile = await compressImage(imagepath: imageFromDevice);
       print(compressedFile.lengthSync() / 1024);
@@ -110,18 +112,19 @@ class _PostState extends State<Post> {
             backgroundColor: Colors.transparent,
             floatingActionButton: FloatingActionButton(
               onPressed: () async {
-                /*post request */
-                showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (context) {
-                      return LoadingData();
-                    });
-                var addedList = await _post(imageFromDevice);
-                upadateFeedList(addedList);
-                Navigator.pop(context);
-                Utils.showSnackBar("Successfully Posted!!!");
-                Navigator.pop(context);
+                if (_formkey.currentState!.validate()) {
+                  showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) {
+                        return LoadingData();
+                      });
+                  var addedList = await _post(imageFromDevice);
+                  upadateFeedList(addedList);
+                  Navigator.pop(context);
+                  Utils.showSnackBar("Successfully Posted!!!");
+                  Navigator.pop(context);
+                }
               },
               backgroundColor: Colors.white,
               child: Icon(
@@ -184,7 +187,7 @@ class _PostState extends State<Post> {
                                     print(imageFromDevice);
                                     if (imageFromDevice == null) {
                                       Utils.showSnackBar(
-                                          "Image size should less than 8 MB!!!");
+                                          "Image size should less than 15 MB!!!");
                                     }
                                   },
                                   child: widget.photourl == null
@@ -209,56 +212,62 @@ class _PostState extends State<Post> {
                             Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 10),
-                              child: TextFormField(
-                                cursorColor: appBarColor,
-                                controller: captionTxtController,
-                                validator: (e) {
-                                  if (e!.isEmpty) {
-                                    return "Enter Comment!!!";
-                                  }
-                                  return null;
-                                },
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                cursorHeight: 25,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: appBarColor,
-                                  fontFamily: GoogleFonts.poppins().fontFamily,
+                              child: Form(
+                                key: _formkey,
+                                child: TextFormField(
+                                  cursorColor: appBarColor,
+                                  controller: captionTxtController,
+                                  validator: (e) {
+                                    if (e!.isEmpty) {
+                                      return "Enter Caption!!!";
+                                    } else if (e.length > 100) {
+                                      return "Length should be less than 100 characters!!!";
+                                    }
+                                    return null;
+                                  },
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  cursorHeight: 25,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: appBarColor,
+                                    fontFamily:
+                                        GoogleFonts.poppins().fontFamily,
+                                  ),
+                                  decoration: InputDecoration(
+                                      hintText: "Enter Caption here",
+                                      hintStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: appBarColor,
+                                        fontFamily:
+                                            GoogleFonts.poppins().fontFamily,
+                                      ),
+                                      contentPadding: EdgeInsets.only(
+                                        left: 20,
+                                      ),
+                                      filled: true,
+                                      fillColor: Color(0xffD9D9D9),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black),
+                                          borderRadius:
+                                              BorderRadius.circular(40)),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black),
+                                          borderRadius:
+                                              BorderRadius.circular(40)),
+                                      errorBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black),
+                                          borderRadius:
+                                              BorderRadius.circular(40)),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black),
+                                          borderRadius:
+                                              BorderRadius.circular(40))),
                                 ),
-                                decoration: InputDecoration(
-                                    hintText: "Enter Comment here",
-                                    hintStyle: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: appBarColor,
-                                      fontFamily:
-                                          GoogleFonts.poppins().fontFamily,
-                                    ),
-                                    contentPadding: EdgeInsets.only(
-                                      left: 20,
-                                    ),
-                                    filled: true,
-                                    fillColor: Color(0xffD9D9D9),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.black),
-                                        borderRadius:
-                                            BorderRadius.circular(40)),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.black),
-                                        borderRadius:
-                                            BorderRadius.circular(40)),
-                                    errorBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.black),
-                                        borderRadius:
-                                            BorderRadius.circular(40)),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.black),
-                                        borderRadius:
-                                            BorderRadius.circular(40))),
                               ),
                             )
                           ],

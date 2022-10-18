@@ -67,7 +67,7 @@ class _ProfileState extends State<Profile> {
     presentUser = userModelFromJson(obtainUserData!);
     if (presentUser != null) {}
     setState(() {
-      presentUser = userModelFromJson(obtainUserData!);
+      presentUser = userModelFromJson(obtainUserData);
     });
     print(obtainUserData);
   }

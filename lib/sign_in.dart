@@ -4,6 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
+import 'package:hillfair2022_frontend/signup_widget.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'main.dart';
@@ -90,8 +91,6 @@ class _SignInState extends State<SignIn> {
                                 cursorColor: appBarColor,
                                 cursorHeight: 25,
                                 style: TextStyle(
-                                    fontFamily:
-                                        GoogleFonts.poppins().fontFamily,
                                     color: appBarColor),
                                 textInputAction: TextInputAction.next,
                                 decoration: InputDecoration(
@@ -139,8 +138,6 @@ class _SignInState extends State<SignIn> {
                                 controller: passwordController,
                                 cursorColor: appBarColor,
                                 style: TextStyle(
-                                    fontFamily:
-                                        GoogleFonts.poppins().fontFamily,
                                     color: appBarColor),
                                 textInputAction: TextInputAction.next,
                                 decoration: InputDecoration(
@@ -242,7 +239,13 @@ class _SignInState extends State<SignIn> {
                                     children: [
                                   TextSpan(
                                       recognizer: TapGestureRecognizer()
-                                        ..onTap = widget.onClickedSignUp,
+                                        ..onTap = () {
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: ((context) =>
+                                                      SignUpWidget())));
+                                        },
                                       text: 'Sign Up',
                                       style: TextStyle(
                                           decoration: TextDecoration.underline,
