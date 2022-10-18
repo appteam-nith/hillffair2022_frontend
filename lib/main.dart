@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => UserFeedViewModel()),
           ChangeNotifierProvider(create: (_) => PostImgViewModel()),
 
-          // ChangeNotifierProvider(create: (_) => CommentViewModel()),
+          ChangeNotifierProvider(create: (_) => PostCommentViewModel()),
           // ChangeNotifierProvider(create: (_) => PostUserViewModel()),
 
         ],

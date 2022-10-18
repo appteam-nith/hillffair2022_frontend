@@ -154,7 +154,7 @@ class _CommentsState extends State<Comments> {
   _commentListView(String postId, BuildContext context) {
     //getComments
     
-    _getCommnnets(String postId) async {
+    Future _getCommnnets(String postId) async {
       var provider = Provider.of<GetCommentsViewModel>(context, listen: false);
       await provider.getComments(postId);
       GetCommentsModel _commentBody = provider.commentbody;
