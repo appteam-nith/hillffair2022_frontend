@@ -7,6 +7,7 @@ import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/signup_widget.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
+import 'package:image_picker/image_picker.dart';
 import 'main.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -86,16 +87,30 @@ class _SignInState extends State<SignIn> {
                               // color: Colors.black,
                               child: TextFormField(
                                 validator: (e) {
-                                  if (!e!.endsWith(verifyemail)) {
+                                  if (e![0] == "1") {
+                                    if (!RegExp(
+                                            r'[1]+[89]+[1-8]+[015]+[0-9]+[0-9]+@nith.ac.in')
+                                        .hasMatch(e.toLowerCase())) {
+                                      return "Use College Email";
+                                    } else {
+                                      return null;
+                                    }
+                                  } else if (e[0] == "2") {
+                                    if (!RegExp(
+                                            r'[2]+[01]+[bd]+[cemap]+[ecsrha]+[01]+[0-9]+[0-9]+@nith.ac.in')
+                                        .hasMatch(e.toLowerCase())) {
+                                      return "Use College Email";
+                                    } else {
+                                      return null;
+                                    }
+                                  } else {
                                     return "Use College Email";
                                   }
-                                  return null;
                                 },
                                 controller: emailController,
                                 cursorColor: appBarColor,
                                 cursorHeight: 25,
-                                style: TextStyle(
-                                    color: appBarColor),
+                                style: TextStyle(color: appBarColor),
                                 textInputAction: TextInputAction.next,
                                 decoration: InputDecoration(
                                   hintText: 'Email',
@@ -141,8 +156,7 @@ class _SignInState extends State<SignIn> {
                                 cursorHeight: 25,
                                 controller: passwordController,
                                 cursorColor: appBarColor,
-                                style: TextStyle(
-                                    color: appBarColor),
+                                style: TextStyle(color: appBarColor),
                                 textInputAction: TextInputAction.next,
                                 decoration: InputDecoration(
                                   hintText: 'Password',

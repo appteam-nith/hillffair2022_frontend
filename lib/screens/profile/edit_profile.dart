@@ -44,23 +44,23 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Container(
-      color: bgColor,
-      // decoration: const BoxDecoration(
-      //     image: DecorationImage(
-      //   image: AssetImage("assets/images/bg.png"),
-      //   fit: BoxFit.fill,
-      // )),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
+    return SingleChildScrollView(
+      child: Container(
+        height: size.height,
+        color: bgColor,
+        // decoration: const BoxDecoration(
+        //     image: DecorationImage(
+        //   image: AssetImage("assets/images/bg.png"),
+        //   fit: BoxFit.fill,
+        // )),
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
           backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        backgroundColor: Colors.transparent,
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 45),
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: size.width * .1),
             child: Column(
               children: [
                 GestureDetector(
@@ -224,7 +224,8 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacement(context,
+                      Navigator.pushReplacement(
+                          context,
                           MaterialPageRoute(
                               builder: (context) => const BottomNav()));
                     },
@@ -238,7 +239,6 @@ class _EditProfileState extends State<EditProfile> {
                       child: Text(
                         "Save",
                         style: TextStyle(
-                            color: Colors.black,
                             fontSize: size.height * .02,
                             fontWeight: FontWeight.bold),
                       ),
