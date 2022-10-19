@@ -42,12 +42,16 @@ class _SignInState extends State<SignIn> {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage("assets/images/bg.png"),
-          fit: BoxFit.fill,
-        )),
+        color: bgColor,
         child: Scaffold(
+          bottomSheet: Container(
+            height: size.height * .15,
+            decoration: BoxDecoration(
+                color: bgColor,
+                image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: AssetImage("assets/images/loginvector.png"))),
+          ),
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             elevation: 0,
@@ -61,11 +65,11 @@ class _SignInState extends State<SignIn> {
                 child: Column(
                   children: [
                     Text(
-                      'SIGN IN',
+                      'Sign In',
                       style: TextStyle(
                           fontSize: 48,
                           fontWeight: FontWeight.w600,
-                          color: Colors.white),
+                          color: loginColor),
                     ),
                     SizedBox(
                       height: size.height * .1,
@@ -201,7 +205,7 @@ class _SignInState extends State<SignIn> {
                                         'Sign In',
                                         style: TextStyle(
                                             fontSize: size.width * .06,
-                                            color: Colors.black),
+                                            color: Colors.white),
                                       ),
                                     ),
                                   ),
@@ -221,7 +225,7 @@ class _SignInState extends State<SignIn> {
                                 'Forgot Password?',
                                 style: TextStyle(
                                     decoration: TextDecoration.underline,
-                                    color: Colors.white,
+                                    color: loginColor,
                                     fontSize: size.width * .05,
                                     fontWeight: FontWeight.w700),
                               ),
@@ -232,7 +236,7 @@ class _SignInState extends State<SignIn> {
                             RichText(
                                 text: TextSpan(
                                     style: TextStyle(
-                                        color: Colors.white,
+                                        color: loginColor,
                                         fontSize: size.width * .05,
                                         fontWeight: FontWeight.w700),
                                     text: 'Don’t have an account? ',
@@ -249,7 +253,7 @@ class _SignInState extends State<SignIn> {
                                       text: 'Sign Up',
                                       style: TextStyle(
                                           decoration: TextDecoration.underline,
-                                          color: Colors.white,
+                                          color: loginColor,
                                           fontSize: size.width * .05))
                                 ]))
                           ]),

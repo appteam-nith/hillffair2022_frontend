@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
@@ -12,12 +14,21 @@ class WelcomePage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
+      bottomSheet: Container(
+        height: size.height * .15,
+        decoration: BoxDecoration(
+            color: bgColor,
             image: DecorationImage(
-          image: AssetImage("assets/images/bg.png"),
-          fit: BoxFit.cover,
-        )),
+                fit: BoxFit.fill,
+                image: AssetImage("assets/images/loginvector.png"))),
+      ),
+      body: Container(
+        color: bgColor,
+        // decoration: const BoxDecoration(
+        //     image: DecorationImage(
+        //   image: AssetImage("assets/images/bg.png"),
+        //   fit: BoxFit.cover,
+        // )),
         child: Center(
           child: Column(
             children: [

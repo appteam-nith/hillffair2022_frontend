@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'chatting.dart';
 
 class Chat extends StatefulWidget {
@@ -39,12 +40,13 @@ class _ChatState extends State<Chat> {
         ),
         body: SafeArea(
             child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/bg.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
+          color: bgColor,
+          // decoration: BoxDecoration(
+          //   image: DecorationImage(
+          //     image: AssetImage("assets/images/bg.png"),
+          //     fit: BoxFit.cover,
+          //   ),
+          // ),
               child: Column(
                 children: [
                   Expanded(child: Container(

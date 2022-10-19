@@ -46,8 +46,8 @@ class UserFeedViewModel extends ChangeNotifier {
     prefIsLikedList =await getIsLikedPref();
     setLoading(true);
     //
-        // prefFeedList =await getFeedPref() ;
-        // prefIsLikedList =await getIsLikedPref();
+    // prefFeedList = await getFeedPref();
+    // prefIsLikedList = await getIsLikedPref();
     //
     var response = await UserFeedServices.getUserFeed();
     if (response is Success) {

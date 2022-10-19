@@ -54,7 +54,7 @@ Future main() async {
         child: Center(
           child: Text("Something Went Wrong!!!",
               style: TextStyle(
-                  fontFamily: GoogleFonts.poppins().fontFamily,
+                  fontFamily: GoogleFonts.inter().fontFamily,
                   fontWeight: FontWeight.bold)),
         ),
       ),

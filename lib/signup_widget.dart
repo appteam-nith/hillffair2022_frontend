@@ -42,12 +42,21 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage("assets/images/bg.png"),
-          fit: BoxFit.cover,
-        )),
+        color: bgColor,
+        // decoration: const BoxDecoration(
+        //     image: DecorationImage(
+        //   image: AssetImage("assets/images/bg.png"),
+        //   fit: BoxFit.cover,
+        // )),
         child: Scaffold(
+          bottomSheet: Container(
+            height: size.height * .15,
+            decoration: BoxDecoration(
+                color: bgColor,
+                image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: AssetImage("assets/images/loginvector.png"))),
+          ),
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             elevation: 0,
@@ -67,7 +76,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         style: TextStyle(
                             fontSize: 48,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white),
+                            color: loginColor),
                       ),
                     ),
                     SizedBox(

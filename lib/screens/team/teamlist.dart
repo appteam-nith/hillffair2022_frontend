@@ -21,18 +21,19 @@ class TeamList extends StatelessWidget {
 
     return Container(
       height: size.height,
-      decoration: BoxDecoration(
-          border: Border(),
-          image: DecorationImage(
-              fit: BoxFit.fill, image: AssetImage("assets/images/bg.png"))),
+      color: bgColor,
+      // decoration: BoxDecoration(
+      //     border: Border(),
+      //     image: DecorationImage(
+      //         fit: BoxFit.fill, image: AssetImage("assets/images/bg.png"))),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          backgroundColor: appBarColor,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
           centerTitle: true,
           title: Text("Team List",
               style: TextStyle(
-                  fontFamily: GoogleFonts.poppins().fontFamily,
                   fontWeight: FontWeight.bold)),
         ),
         body: _teamsGridView(size, teamViewModel),
@@ -53,7 +54,6 @@ class TeamList extends StatelessWidget {
           style: TextStyle(
               color: Colors.white,
               fontSize: size.height * .025,
-              fontFamily: GoogleFonts.poppins().fontFamily,
               fontWeight: FontWeight.bold),
         ),
       );
@@ -105,7 +105,6 @@ class TeamList extends StatelessWidget {
                     Text(
                       teamModel.clubName,
                       style: TextStyle(
-                          fontFamily: GoogleFonts.poppins().fontFamily,
                           fontWeight: FontWeight.bold),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,

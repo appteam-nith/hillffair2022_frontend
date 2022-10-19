@@ -138,7 +138,6 @@ class _PostState extends State<Post> {
               centerTitle: true,
               title: Text("Post",
                   style: TextStyle(
-                      fontFamily: GoogleFonts.poppins().fontFamily,
                       fontWeight: FontWeight.bold)),
             ),
             body: SingleChildScrollView(
@@ -167,9 +166,8 @@ class _PostState extends State<Post> {
                               title: Text("Sanat Thakur",
                                   maxLines: 3,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontFamily:
-                                          GoogleFonts.poppins().fontFamily,
+                                  style:
+                                      TextStyle(
                                       fontWeight: FontWeight.bold)),
                             ),
                             Padding(
@@ -231,16 +229,12 @@ class _PostState extends State<Post> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: appBarColor,
-                                    fontFamily:
-                                        GoogleFonts.poppins().fontFamily,
                                   ),
                                   decoration: InputDecoration(
                                       hintText: "Enter Caption here",
                                       hintStyle: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: appBarColor,
-                                        fontFamily:
-                                            GoogleFonts.poppins().fontFamily,
                                       ),
                                       contentPadding: EdgeInsets.only(
                                         left: 20,

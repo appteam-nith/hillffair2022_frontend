@@ -45,11 +45,12 @@ class _EditProfileState extends State<EditProfile> {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage("assets/images/bg.png"),
-        fit: BoxFit.fill,
-      )),
+      color: bgColor,
+      // decoration: const BoxDecoration(
+      //     image: DecorationImage(
+      //   image: AssetImage("assets/images/bg.png"),
+      //   fit: BoxFit.fill,
+      // )),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -92,7 +93,6 @@ class _EditProfileState extends State<EditProfile> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: appBarColor,
-                    fontFamily: GoogleFonts.poppins().fontFamily,
                   ),
                   cursorColor: appBarColor,
                   textInputAction: TextInputAction.next,
@@ -120,7 +120,6 @@ class _EditProfileState extends State<EditProfile> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: appBarColor,
-                    fontFamily: GoogleFonts.poppins().fontFamily,
                   ),
                   cursorColor: appBarColor,
                   textInputAction: TextInputAction.next,
@@ -148,7 +147,6 @@ class _EditProfileState extends State<EditProfile> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: appBarColor,
-                    fontFamily: GoogleFonts.poppins().fontFamily,
                   ),
                   cursorColor: appBarColor,
                   textInputAction: TextInputAction.next,
@@ -176,7 +174,6 @@ class _EditProfileState extends State<EditProfile> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: appBarColor,
-                    fontFamily: GoogleFonts.poppins().fontFamily,
                   ),
                   cursorColor: appBarColor,
                   textInputAction: TextInputAction.next,
@@ -204,7 +201,6 @@ class _EditProfileState extends State<EditProfile> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: appBarColor,
-                    fontFamily: GoogleFonts.poppins().fontFamily,
                   ),
                   cursorColor: appBarColor,
                   textInputAction: TextInputAction.next,
@@ -229,7 +225,8 @@ class _EditProfileState extends State<EditProfile> {
                 ElevatedButton(
                     onPressed: () {
                       Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => BottomNav()));
+                          MaterialPageRoute(
+                              builder: (context) => const BottomNav()));
                     },
                     style: ElevatedButton.styleFrom(
                         maximumSize: const Size(300, 50),
@@ -243,7 +240,6 @@ class _EditProfileState extends State<EditProfile> {
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: size.height * .02,
-                            fontFamily: GoogleFonts.poppins().fontFamily,
                             fontWeight: FontWeight.bold),
                       ),
                     )),
