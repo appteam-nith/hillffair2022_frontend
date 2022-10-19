@@ -10,6 +10,7 @@ import 'package:hillfair2022_frontend/models/userFeed/post_img_model.dart';
 import 'package:hillfair2022_frontend/models/team_member_model.dart';
 import 'package:hillfair2022_frontend/models/team_model.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
+import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/tabslider.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
@@ -127,7 +128,7 @@ class MainPage extends StatelessWidget {
               child: Text('Something Went Wrong!'),
             );
           } else if (snapshot.hasData) {
-            return BottomNav();
+            return EditProfile();
           } else {
             return WelcomePage();
           }

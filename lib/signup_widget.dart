@@ -95,8 +95,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                 child: TextFormField(
                                   cursorColor: appBarColor,
                                   cursorHeight: 25,
-                                  style: TextStyle(
-                                      color: appBarColor),
+                                  style: TextStyle(color: appBarColor),
                                   controller: emailController,
                                   textInputAction: TextInputAction.next,
                                   decoration: InputDecoration(
@@ -130,10 +129,25 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   validator: (e) {
-                                    if (!e!.endsWith(verifyemail)) {
+                                    if (e![0] == "1") {
+                                      if (!RegExp(
+                                              r'[1]+[89]+[1-8]+[015]+[0-9]+[0-9]+@nith.ac.in')
+                                          .hasMatch(e.toLowerCase())) {
+                                      return "Use College Email";
+                                      } else {
+                                        return null;
+                                    }
+                                    } else if (e[0] == "2") {
+                                      if (!RegExp(
+                                              r'[2]+[01]+[bd]+[cemap]+[ecsrha]+[01]+[0-9]+[0-9]+@nith.ac.in')
+                                          .hasMatch(e.toLowerCase())) {
+                                        return "Use College Email";
+                                      } else {
+                                        return null;
+                                      }
+                                    } else {
                                       return "Use College Email";
                                     }
-                                    return null;
                                   },
                                 ),
                               ),
@@ -144,8 +158,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                 child: TextFormField(
                                   cursorColor: appBarColor,
                                   cursorHeight: 25,
-                                  style: TextStyle(
-                                      color: appBarColor),
+                                  style: TextStyle(color: appBarColor),
                                   controller: passwordController,
                                   textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
@@ -192,8 +205,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                 child: TextFormField(
                                   cursorColor: appBarColor,
                                   cursorHeight: 25,
-                                  style: TextStyle(
-                                      color: appBarColor),
+                                  style: TextStyle(color: appBarColor),
                                   controller: confirmPasswordController,
                                   textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
