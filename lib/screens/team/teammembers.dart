@@ -27,18 +27,19 @@ class _TeamMembersState extends State<TeamMembers> {
 
     return Container(
         height: size.height,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.fill, image: AssetImage("assets/images/bg.png"))),
+        color: bgColor,
+        // decoration: BoxDecoration(
+        //     image: DecorationImage(
+        //         fit: BoxFit.fill, image: AssetImage("assets/images/bg.png"))),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
             centerTitle: true,
             automaticallyImplyLeading: true,
-            backgroundColor: appBarColor,
             title: Text("Team Members",
                 style: TextStyle(
-                    fontFamily: GoogleFonts.poppins().fontFamily,
                     fontWeight: FontWeight.bold)),
           ),
           body: _teamMemberListView(size, teamMemberViewModel),
@@ -104,7 +105,6 @@ class _TeamMembersState extends State<TeamMembers> {
                         Text(
                           teamMemberModel.name,
                           style: TextStyle(
-                              fontFamily: GoogleFonts.poppins().fontFamily,
                               color: appBarColor,
                               fontSize: size.width * .05),
                           maxLines: 3,
@@ -113,7 +113,6 @@ class _TeamMembersState extends State<TeamMembers> {
                         Text(
                           teamMemberModel.position,
                           style: TextStyle(
-                              fontFamily: GoogleFonts.poppins().fontFamily,
                               color: appBarColor,
                               fontSize: size.width * .037),
                           maxLines: 3,

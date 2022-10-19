@@ -51,7 +51,7 @@ class _UserFeedState extends State<UserFeed> {
           },
           icon: const Icon(
             Icons.add_to_photos_rounded,
-            color: appBarColor,
+            color: Colors.white,
             size: 40,
           )),
       body: _userFeedView(userFeedViewModel, size),
@@ -107,7 +107,6 @@ class _UserFeedState extends State<UserFeed> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: appBarColor,
-                            fontFamily: GoogleFonts.poppins().fontFamily,
                           )),
                     ),
                   ),
@@ -218,8 +217,6 @@ class _UserFeedState extends State<UserFeed> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: appBarColor,
-                                    fontFamily:
-                                        GoogleFonts.poppins().fontFamily,
                                   )),
                             ],
                           ),
@@ -233,7 +230,6 @@ class _UserFeedState extends State<UserFeed> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.red,
-                                  fontFamily: GoogleFonts.poppins().fontFamily,
                                 ),
                               )),
                         ]),
@@ -249,7 +245,6 @@ class _UserFeedState extends State<UserFeed> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: appBarColor,
-                            fontFamily: GoogleFonts.poppins().fontFamily,
                           )),
                     ),
                   )

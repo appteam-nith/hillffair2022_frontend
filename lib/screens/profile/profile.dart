@@ -83,18 +83,19 @@ class _ProfileState extends State<Profile> {
     getValidationData();
 
     return Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage("assets/images/bg.png"),
-          fit: BoxFit.fill,
-        )),
+        color: bgColor,
+        // decoration: const BoxDecoration(
+        //     image: DecorationImage(
+        //   image: AssetImage("assets/images/bg.png"),
+        //   fit: BoxFit.fill,
+        // )),
         child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            backgroundColor: appBarColor,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
             title: Text("Profile",
                 style: TextStyle(
-                    fontFamily: GoogleFonts.poppins().fontFamily,
                     fontWeight: FontWeight.bold)),
           ),
           backgroundColor: Colors.transparent,
@@ -131,7 +132,6 @@ class _ProfileState extends State<Profile> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontSize: size.height * .02,
-                                fontFamily: GoogleFonts.poppins().fontFamily,
                                 fontWeight: FontWeight.bold)),
                         SizedBox(
                           height: 12,
@@ -141,7 +141,6 @@ class _ProfileState extends State<Profile> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontSize: size.height * .02,
-                                fontFamily: GoogleFonts.poppins().fontFamily,
                                 fontWeight: FontWeight.bold)),
                         SizedBox(
                           height: 12,
@@ -151,7 +150,6 @@ class _ProfileState extends State<Profile> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontSize: size.height * .02,
-                                fontFamily: GoogleFonts.poppins().fontFamily,
                                 fontWeight: FontWeight.bold)),
                         SizedBox(
                           height: 12,
@@ -161,7 +159,6 @@ class _ProfileState extends State<Profile> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontSize: size.height * .02,
-                                fontFamily: GoogleFonts.poppins().fontFamily,
                                 fontWeight: FontWeight.bold)),
                         SizedBox(
                           height: 12,
@@ -171,7 +168,6 @@ class _ProfileState extends State<Profile> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontSize: size.height * .02,
-                                fontFamily: GoogleFonts.poppins().fontFamily,
                                 fontWeight: FontWeight.bold)),
                       ],
                     ),

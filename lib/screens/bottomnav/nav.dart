@@ -50,7 +50,7 @@ class _BottomNavState extends State<BottomNav> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.account_box_outlined), label: "Teams"),
             // BottomNavigationBarItem(
-                // icon: Icon(Icons.chat_rounded), label: "Chatting"),
+            //     icon: Icon(Icons.chat_rounded), label: "Chatting"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.add_a_photo_outlined), label: "UserFeed"),
             BottomNavigationBarItem(

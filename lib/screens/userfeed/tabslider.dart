@@ -24,19 +24,19 @@ class _TabSliderState extends State<TabSlider> {
         length: 2,
         child: Container(
             height: size.height,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: AssetImage("assets/images/bg.png"))),
+            color: bgColor,
+            // decoration: BoxDecoration(
+            //     image: DecorationImage(
+            //         fit: BoxFit.fill,
+            //         image: AssetImage("assets/images/bg.png"))),
             child: Scaffold(
               backgroundColor: Colors.transparent,
               appBar: AppBar(
-                backgroundColor: appBarColor,
+                backgroundColor: Color(0xff44336F),
                 bottom: TabBar(
-                    indicatorColor: appBarColor,
+                    indicatorColor: Colors.white,
                     overlayColor: MaterialStateProperty.all(Colors.transparent),
                     labelStyle: TextStyle(
-                        fontFamily: GoogleFonts.poppins().fontFamily,
                         fontWeight: FontWeight.bold),
                     tabs: [
                       Tab(
@@ -49,7 +49,6 @@ class _TabSliderState extends State<TabSlider> {
                 centerTitle: true,
                 title: Text("Feeds",
                     style: TextStyle(
-                        fontFamily: GoogleFonts.poppins().fontFamily,
                         fontWeight: FontWeight.bold)),
               ),
               body: TabBarView(children: [UserFeed(), TeamFeed()]),

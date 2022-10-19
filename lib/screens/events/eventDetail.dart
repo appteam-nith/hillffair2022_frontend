@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,18 +22,21 @@ class EventDetailsPage extends StatelessWidget {
   Container _eventDetailView(EventsViewModel eventsViewModel, int index) {
     EventModel eventModel = eventsViewModel.eventsListModel[index];
     return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/bg.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
+      color: bgColor,
+      // decoration: const BoxDecoration(
+      //   image: DecorationImage(
+      //     image: AssetImage('assets/images/bg.png'),
+      //     fit: BoxFit.cover,
+      //   ),
+      // ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
             title: Text(eventModel.title),
-            centerTitle: true,
-            backgroundColor: appBarColor),
+          centerTitle: true,
+        ),
         body: Center(
           heightFactor: 1.3,
           child: Card(
@@ -83,7 +88,6 @@ class EventDetailsPage extends StatelessWidget {
                       Text(
                         "Description :",
                         style: TextStyle(
-                            fontFamily: GoogleFonts.poppins().fontFamily,
                             fontSize: 15,
                             fontWeight: FontWeight.w600),
                       ),
@@ -93,7 +97,6 @@ class EventDetailsPage extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         maxLines: 6,
                         style: TextStyle(
-                            fontFamily: GoogleFonts.poppins().fontFamily,
                             fontWeight: FontWeight.w500),
                         // softWrap: true,
                       ),

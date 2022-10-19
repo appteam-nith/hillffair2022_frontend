@@ -107,7 +107,6 @@ class _TeamFeedState extends State<TeamFeed> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: appBarColor,
-                            fontFamily: GoogleFonts.poppins().fontFamily,
                           )),
                     ),
                   ),
@@ -175,7 +174,6 @@ class _TeamFeedState extends State<TeamFeed> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: appBarColor,
-                          fontFamily: GoogleFonts.poppins().fontFamily,
                         )),
                     SizedBox(
                       width: size.width * .15,
@@ -192,7 +190,6 @@ class _TeamFeedState extends State<TeamFeed> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: appBarColor,
-                            fontFamily: GoogleFonts.poppins().fontFamily,
                           )),
                     ),
                   )

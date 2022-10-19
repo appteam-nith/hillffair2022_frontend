@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,18 +25,20 @@ class _EventsState extends State<Events> {
 
     EventsViewModel eventsViewModel = context.watch<EventsViewModel>();
     return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/bg.png'),
-          fit: BoxFit.fill,
-        ),
-      ),
+      color: bgColor,
+      // decoration: const BoxDecoration(
+      //   image: DecorationImage(
+      //     image: AssetImage('assets/images/bg.png'),
+      //     fit: BoxFit.fill,
+      //   ),
+      // ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
           centerTitle: true,
           title: const Text("Events"),
-          backgroundColor: appBarColor,
         ),
         body: _eventsListView(eventsViewModel, size),
       ),
@@ -53,7 +57,6 @@ class _EventsState extends State<Events> {
           style: TextStyle(
               color: Colors.white,
               fontSize: size.height * .025,
-              fontFamily: GoogleFonts.poppins().fontFamily,
               fontWeight: FontWeight.bold),
         ),
       );
@@ -71,7 +74,6 @@ class _EventsState extends State<Events> {
             title: Text(
               eventModel.title,
               style: TextStyle(
-                  fontFamily: GoogleFonts.poppins().fontFamily,
                   fontWeight: FontWeight.bold),
             ),
             subtitle: Text("${eventModel.clubName}\n${eventModel.startTime}"),
