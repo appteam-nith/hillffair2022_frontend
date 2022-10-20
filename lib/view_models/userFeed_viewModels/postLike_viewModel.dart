@@ -32,6 +32,8 @@ class PostLIkeViewModel extends ChangeNotifier {
   postLike(String postId, String fbId) async {
     setLoading(true);
     var response = await PostLikeService.postLike(postId, fbId);
+    print(postId);
+    print(fbId);
     if (response is Success) {
       log(response.response.toString());
       Map<String, dynamic> likeData = jsonDecode(response.response.toString());

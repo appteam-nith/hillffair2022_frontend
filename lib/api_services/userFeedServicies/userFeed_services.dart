@@ -13,6 +13,7 @@ class UserFeedServices {
       var url = Uri.parse(userFeedUrl);
       var response = await http.get(url);
       if (200 == response.statusCode) {
+        print(response.statusCode);
         print("feed data fetched");
         return Success(
             code: getSuccessCode,

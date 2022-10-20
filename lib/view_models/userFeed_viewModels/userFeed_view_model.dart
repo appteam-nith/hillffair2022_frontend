@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:hillfair2022_frontend/api_services/userFeedServicies/getLIker_services.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
+import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../api_services/api_status.dart';
 import '../../api_services/userFeedServicies/userFeed_services.dart';
@@ -13,7 +14,29 @@ import 'getLikerViewModel.dart';
 class UserFeedViewModel extends ChangeNotifier {
   UserFeedViewModel() {
     getUserFeed();
+    getPresentUser();
   }
+
+//presentUserData
+  UserModel _presentUser = UserModel(
+      firstName: "firstName",
+      lastName: "lastName",
+      firebase: "firebase",
+      name: "name",
+      gender: "gender",
+      phone: "phone",
+      chatAllowed: true,
+      chatReports: 0,
+      email: "email",
+      score: 0,
+      instagramId: "instagramId",
+      profileImage: "https://placekitten.com/250/250");
+
+  UserModel get presentUser => _presentUser;
+  setPrensentUser(UserModel presnetUser) {
+    _presentUser = presnetUser;
+  }
+
   //
   List<UserFeedModel> prefFeedList = [];
   List<bool> prefIsLikedList = [];
@@ -42,10 +65,12 @@ class UserFeedViewModel extends ChangeNotifier {
   }
 
   getUserFeed() async {
-     prefFeedList =await getFeedPref() ;
-    prefIsLikedList =await getIsLikedPref();
+    getPresentUser();
+    prefFeedList = await getFeedPref();
+    prefIsLikedList = await getIsLikedPref();
     setLoading(true);
     //
+
     // prefFeedList = await getFeedPref();
     // prefIsLikedList = await getIsLikedPref();
     //
@@ -56,8 +81,8 @@ class UserFeedViewModel extends ChangeNotifier {
       //
       int n = userFeedListModel.length;
       for (var i = 0; i < n; i++) {
-        bool isAlreadyLiked =
-            await GetLikerViewModel().getLiker(userFeedListModel[i].id, "1234");
+        bool isAlreadyLiked = await GetLikerViewModel()
+            .getLiker(presentUser.firebase,userFeedListModel[i]);
         isAlreadyLikedList.add(isAlreadyLiked);
       }
       //
@@ -79,11 +104,11 @@ class UserFeedViewModel extends ChangeNotifier {
     bool isFeedStored = feedPrefs.containsKey('feedList');
     bool isLikedStored = feedPrefs.containsKey('isAlreadyLikedList');
     if (isFeedStored) {
-  await feedPrefs.remove("feedList");
-  }
+      await feedPrefs.remove("feedList");
+    }
     if (isLikedStored) {
-  await feedPrefs.remove("isAlreadyLikedList");
-  }
+      await feedPrefs.remove("isAlreadyLikedList");
+    }
     feedPrefs.setString("feedList", userFeedModelToJson(feedList));
     feedPrefs.setStringList(
         "isAlreadyLikedList", boolListTOStringList(isAlreadyLikedList));
@@ -98,30 +123,40 @@ class UserFeedViewModel extends ChangeNotifier {
   }
 
   Future<List<bool>> getIsLikedPref() async {
-  SharedPreferences likedpref = await SharedPreferences.getInstance();
-  List<String>? likedlist = likedpref.getStringList("isAlreadyLikedList");
-  if (likedlist!=null) {
-    List<bool> isAlreadyLikedList = stringListToBoolList(likedlist);
-    return isAlreadyLikedList;
+    SharedPreferences likedpref = await SharedPreferences.getInstance();
+    List<String>? likedlist = likedpref.getStringList("isAlreadyLikedList");
+    if (likedlist != null) {
+      List<bool> isAlreadyLikedList = stringListToBoolList(likedlist);
+      return isAlreadyLikedList;
+    }
+    return [];
   }
-  return [];
-}
 
-List<bool> stringListToBoolList(List<String> likedlist) {
-  List<bool> boolList = [];
-  for (var item in likedlist) {
-    item == "true" ? boolList.add(true) : boolList.add(false);
+  List<bool> stringListToBoolList(List<String> likedlist) {
+    List<bool> boolList = [];
+    for (var item in likedlist) {
+      item == "true" ? boolList.add(true) : boolList.add(false);
+    }
+    return boolList;
   }
-  return boolList;
-}
 
-Future<List<UserFeedModel>> getFeedPref() async {
-  SharedPreferences feedPrefs = await SharedPreferences.getInstance();
-  String? feedJsonList = feedPrefs.getString("feedList");
-  if (feedJsonList!= null) {
-    List<UserFeedModel> feedList = userFeedModelFromJson(feedJsonList);
-    return feedList;
+  Future<List<UserFeedModel>> getFeedPref() async {
+    SharedPreferences feedPrefs = await SharedPreferences.getInstance();
+    String? feedJsonList = feedPrefs.getString("feedList");
+    if (feedJsonList != null) {
+      List<UserFeedModel> feedList = userFeedModelFromJson(feedJsonList);
+      return feedList;
+    }
+    return [];
   }
-  return [];
-}
+
+  void getPresentUser() async {
+    SharedPreferences userPrefs = await SharedPreferences.getInstance();
+    String? prseentUserJson = userPrefs.getString("presentUser");
+    if (prseentUserJson!.isNotEmpty) {
+      UserModel presentUser = userModelFromJson(prseentUserJson);
+      setPrensentUser(presentUser);
+    }
+    // UserModel presentUser = userModelFromJson(prseentUserJson);
+  }
 }

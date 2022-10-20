@@ -25,6 +25,7 @@ class PostLikeService {
     } on FormatException {
       return Failure(code: invalidFormat, errorMessage: 'Invalid Format');
     } catch (e) {
+      print(e.toString());
       return Failure(code: unknownError, errorMessage: e.toString());
     }
   }

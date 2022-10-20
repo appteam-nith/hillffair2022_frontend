@@ -11,7 +11,7 @@ import '../models/userFeed/post_img_model.dart';
 import '../utils/api_constants.dart';
 
 class UserServices {
-  static Future<Object> postUser(UserModel data) async {
+   Future<Object> postUser(UserModel data) async {
     http.Response? response;
     try {
       var url = Uri.parse(postUserUrl);
@@ -21,16 +21,18 @@ class UserServices {
           },
           body: userModelToJson(data));
       if (response.statusCode == 201) {
+        print(response.statusCode);
+        print("userPosted");
         return Success(
             code: response.statusCode,
             response: userModelFromJson(response.body));
       }
-       return Failure(code: invalidResponse, errorMessage: 'Invalid Response');
-    }on HttpException {
+      return Failure(code: invalidResponse, errorMessage: 'Invalid Response');
+    } on HttpException {
       return Failure(code: noInternet, errorMessage: 'No Internet');
     } on FormatException {
       return Failure(code: invalidFormat, errorMessage: 'Invalid Format');
-    }  catch (e) {
+    } catch (e) {
       return Failure(code: unknownError, errorMessage: e.toString());
     }
   }
