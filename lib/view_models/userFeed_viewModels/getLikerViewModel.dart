@@ -3,6 +3,7 @@ import 'package:hillfair2022_frontend/api_services/api_status.dart';
 import 'package:hillfair2022_frontend/api_services/userFeedServicies/getLIker_services.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
 import 'package:hillfair2022_frontend/models/userFeed/get_liker_model.dart';
+import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
 
 class GetLikerViewModel extends ChangeNotifier {
   bool _isAlreadyLiked = false;
@@ -26,9 +27,9 @@ class GetLikerViewModel extends ChangeNotifier {
     _getLikerError = getLikerError;
   }
 
-  Future<bool> getLiker(String fbId, String postId) async {
+  Future<bool> getLiker(String fbId, UserFeedModel post) async {
     setLoading(true);
-    var response = await GetLikerServices.getLikers(postId);
+    var response = await GetLikerServices.getLikers(post.id);
     if (response is Success) {
       //check for user fbId
       GetLIkerModel likersData = response.response as GetLIkerModel;

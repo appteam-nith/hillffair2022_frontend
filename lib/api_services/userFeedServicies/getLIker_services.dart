@@ -12,8 +12,8 @@ class GetLikerServices{
      try {
       var url = Uri.parse("$getLikerUrl$postId/");
       response = await http.get(url);
-      if (response.statusCode == postSuccessCode) {
-        return Success(code: postSuccessCode, response: getLIkerModelFromJson(response.body));
+      if (response.statusCode == getSuccessCode  ) {
+        return Success(code: getSuccessCode, response: getLIkerModelFromJson(response.body));
       }
       return Failure(code: invalidResponse, errorMessage: 'Invalid Response');
     } on HttpException {

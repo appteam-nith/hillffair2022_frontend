@@ -103,7 +103,7 @@ class _TeamFeedState extends State<TeamFeed> {
                         image: AssetImage("assets/images/member.png"),
                         height: size.height * .06,
                       ),
-                      title: Text(userFeedModel.author.username,
+                      title: Text(userFeedModel.author.name,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: appBarColor,

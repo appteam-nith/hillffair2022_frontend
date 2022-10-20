@@ -1,19 +1,21 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/models/userFeed/getComment_model.dart';
+import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/getComments_viewModels.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/user_model.dart';
 import '../../utils/snackbar.dart';
 
-
 class Comments extends StatefulWidget {
-  String postId;
-  String fbId;
-  Comments(this.postId, this.fbId, {super.key});
+  UserFeedModel post;
+  UserModel presentUser;
+  Comments(this.post, this.presentUser, {super.key});
 
   @override
   State<Comments> createState() => _CommentsState();
@@ -64,9 +66,26 @@ class _CommentsState extends State<Comments> {
                   child: Column(
                     children: [
                       ListTile(
-                        leading: Image(
-                            image: AssetImage("assets/images/member.png")),
-                        title: Text(widget.fbId,
+                        leading: CircleAvatar(
+                backgroundColor: appBarColor,
+                radius: 30,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30.0),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.presentUser.profileImage,
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        image: imageProvider,
+                        alignment: Alignment.center,
+                        fit: BoxFit.cover,
+                      )),
+                    ),
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
+                )),
+                        title: Text(widget.presentUser.name,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -74,7 +93,7 @@ class _CommentsState extends State<Comments> {
                               color: appBarColor,
                               fontFamily: GoogleFonts.poppins().fontFamily,
                             )),
-                        subtitle: Text("Caption goes here",
+                        subtitle: Text("widget.post.text",
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -85,7 +104,7 @@ class _CommentsState extends State<Comments> {
                       Container(
                         height: size.height * .6,
                         // color: Colors.black,
-                        child: _commentListView(widget.postId, context),
+                        child: _commentListView(widget.post.id, context),
                       ),
                       Padding(
                         padding:
@@ -109,7 +128,7 @@ class _CommentsState extends State<Comments> {
                           decoration: InputDecoration(
                               suffixIcon: IconButton(
                                   onPressed: () {
-                                    _postComment(widget.postId, widget.fbId);
+                                    _postComment(widget.post.id, widget.presentUser.firebase);
                                     setState(() {
                                       commentTxtController.clear();
                                       FocusManager.instance.primaryFocus
@@ -153,7 +172,7 @@ class _CommentsState extends State<Comments> {
 
   _commentListView(String postId, BuildContext context) {
     //getComments
-    
+
     _getCommnnets(String postId) async {
       var provider = Provider.of<GetCommentsViewModel>(context, listen: false);
       await provider.getComments(postId);

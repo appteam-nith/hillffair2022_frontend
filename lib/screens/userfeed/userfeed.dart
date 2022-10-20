@@ -11,6 +11,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
+import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/comments.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
@@ -82,6 +83,7 @@ class _UserFeedState extends State<UserFeed> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => Post(
+                          presentUser: userFeedViewModel.presentUser,
                           photourl: null,
                           comment: null,
                         )));
@@ -129,8 +131,10 @@ class _UserFeedState extends State<UserFeed> {
         shrinkWrap: true,
         itemCount: feedList.length,
         itemBuilder: (context, index) {
+          UserModel presentUser = userFeedViewModel.presentUser;
+          // String presentUser = userFeedViewModel.presentUser.firebase;
           UserFeedModel userFeedModel = feedList[index];
-          bool isAlreadyLiked = isLikedList[index];
+          // bool isAlreadyLiked = isLikedList[index];
 
           return Padding(
             padding: EdgeInsets.all(20),
@@ -148,7 +152,7 @@ class _UserFeedState extends State<UserFeed> {
                         image: AssetImage("assets/images/member.png"),
                         height: size.height * .06,
                       ),
-                      title: Text(userFeedModel.author.username,
+                      title: Text(userFeedModel.author.firebase,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: appBarColor,
@@ -205,14 +209,14 @@ class _UserFeedState extends State<UserFeed> {
                             children: [
                               IconButton(
                                   onPressed: () {
-                                    _postLike(context, userFeedModel.id, "1234");
+                                    _postLike(context, userFeedModel.id, presentUser.firebase);
                                     if (isLikedList[index]) {
                                       setState(() {
                                         isLikedList[index] = false;
                                       });
                                     } else {
-                                      isLikedList[index] = true;
-                                      setState(() {});
+                                      
+                                      setState(() {isLikedList[index] = true;});
                                     }
                                   },
                                   icon: isLikedList[index]
@@ -229,7 +233,7 @@ class _UserFeedState extends State<UserFeed> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => Comments(
-                                                userFeedModel.id, "234")));
+                                                userFeedModel, presentUser)));
                                   },
                                   icon: Icon(Icons.comment_outlined)),
                               SizedBox(
@@ -245,19 +249,23 @@ class _UserFeedState extends State<UserFeed> {
                                   )),
                             ],
                           ),
-                          TextButton(
-                              style: ButtonStyle(
-                                  overlayColor: MaterialStatePropertyAll(
-                                      Colors.transparent)),
-                              onPressed: () {},
-                              child: Text(
-                                "Delete",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red,
-                                  fontFamily: GoogleFonts.poppins().fontFamily,
-                                ),
-                              )),
+                          Visibility(
+                            visible: userFeedModel.author.firebase == presentUser.firebase,
+                            // userFeedModel.author.fbId == presentUserFbId,
+                            child: TextButton(
+                                style: ButtonStyle(
+                                    overlayColor: MaterialStatePropertyAll(
+                                        Colors.transparent)),
+                                onPressed: () {},
+                                child: Text(
+                                  "Delete",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
+                                    fontFamily: GoogleFonts.poppins().fontFamily,
+                                  ),
+                                )),
+                          ),
                         ]),
                   ),
                   Padding(

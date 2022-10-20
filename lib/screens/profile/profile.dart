@@ -184,10 +184,10 @@ class _ProfileState extends State<Profile> {
                     children: [
                       ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EditProfile()));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => EditProfile()));
                           },
                           style: ElevatedButton.styleFrom(
                               fixedSize: Size(120, 35),

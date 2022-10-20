@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
+import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
@@ -20,7 +21,8 @@ import '../../view_models/userFeed_viewModels/userFeed_view_model.dart';
 class Post extends StatefulWidget {
   var photourl;
   var comment;
-  Post({super.key, required this.photourl, required this.comment});
+  UserModel presentUser;
+  Post({super.key, required this.photourl, required this.comment, required this.presentUser});
 
   @override
   State<Post> createState() => _PostState();
@@ -54,7 +56,7 @@ class _PostState extends State<Post> {
 
         print(img.lengthSync() ~/ 1024);
 
-        if (img.lengthSync() ~/ 1024 <= 8000) {
+        if (img.lengthSync() ~/ 1024 <= 20000) {
           setState(() {
             imageFromDevice = img;
           });
@@ -95,7 +97,7 @@ class _PostState extends State<Post> {
       PostImgModel body = PostImgModel(photo: photoUrl, text: caption);
 
       var provider = Provider.of<PostImgViewModel>(context, listen: false);
-      var addedFeedList = await provider.postImg(body, "234");
+      var addedFeedList = await provider.postImg(body, widget.presentUser.firebase);
 
       return addedFeedList;
     }

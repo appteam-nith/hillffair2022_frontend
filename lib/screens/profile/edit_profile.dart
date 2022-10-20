@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hillfair2022_frontend/models/postUser_model.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../utils/api_constants.dart';
+import '../../utils/snackbar.dart';
 
 class EditProfile extends StatefulWidget {
-  const EditProfile({super.key});
+  String userPassword;
+  String fbId;
+  String email;
+
+  EditProfile(this.userPassword, this.fbId, this.email, {super.key});
 
   @override
   State<EditProfile> createState() => _EditProfileState();
@@ -36,6 +46,8 @@ class _EditProfileState extends State<EditProfile> {
   final rollNo = TextEditingController();
 
   final instaId = TextEditingController();
+
+  final gender = TextEditingController(); //TODO: use for gender
 
   final phoneNo = TextEditingController();
   @override
@@ -226,7 +238,21 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      
+                      PostUserModel newUser = PostUserModel(
+                          password: widget.userPassword,
+                          firstName: "firstName",
+                          lastName: "lastName",
+                          firebase: widget.fbId,
+                          name: name.text,
+                          gender: gender.text,
+                          phone: phoneNo.text,
+                          chatAllowed: true,
+                          chatReports: 0,
+                          email: email.text,
+                          score: 0,
+                          instagramId: "instagramId",
+                          profileImage: "https://placekitten.com/250/250");
+                      editUserInfo(newUser);
                     },
                     style: ElevatedButton.styleFrom(
                         maximumSize: const Size(300, 50),
@@ -251,5 +277,30 @@ class _EditProfileState extends State<EditProfile> {
         ),
       ),
     );
+  }
+}
+
+editUserInfo(PostUserModel newUser) async {
+  try {
+    var url = Uri.parse(postUserUrl);
+    var response = await http.post(url,
+        headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+        },
+        body: postUserModelToJson(newUser));
+    if (response.statusCode == 201) {
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      sharedPreferences.setString('presentUser', response.body);
+      Utils.showSnackBar("Info Edited !..");
+      // TODO: navigate to bottom nav
+
+    } else {
+      Utils.showSnackBar("something went wrong");
+      //TODO: RE edit the page
+    }
+  } catch (e) {
+    Utils.showSnackBar(e.toString());
+    print(e.toString());
   }
 }

@@ -1,16 +1,23 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hillfair2022_frontend/api_services/user_services.dart';
+import 'package:hillfair2022_frontend/models/postUser_model.dart';
 import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
+import 'api_services/api_status.dart';
 import 'main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:http/http.dart' as http;
 
+import 'utils/api_constants.dart';
 import 'utils/colors.dart';
 
 class SignUpWidget extends StatefulWidget {
@@ -293,22 +300,48 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       navigatorKey.currentState!.popUntil((route) => route.isFirst);
       String email = emailController.text;
       var userId = FirebaseAuth.instance.currentUser!.uid;
-      UserModel data = UserModel(
-          firstName: "John",
-          lastName: "Doe",
-          firebase: userId,
-          name: "Peter Parker",
-          gender: "other",
-          phone: "0000000000",
-          chatAllowed: true,
-          chatReports: 0,
-          email: email,
-          score: 0,
-          instagramId: "instaId",
-          profileImage: "jkdcksdmcsodkcnjdclj");
-      final SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      sharedPreferences.setString('presentUser', userModelToJson(data));
+      // UserModel data = UserModel(
+      //     firstName: "John",
+      //     lastName: "Doe",
+      //     firebase: userId,
+      //     name: "Peter Parker",
+      //     gender: "M",
+      //     phone: "0000000000",
+      //     chatAllowed: true,
+      //     chatReports: 0,
+      //     email: email,
+      //     score: 0,
+      //     instagramId: "instaId",
+      //     profileImage: "https://placekitten.com/250/250");
+      //postUser
+      // PostUserModel postUserData = PostUserModel(
+      //     password: passwordController.text,
+      //     firstName: "John",
+      //     lastName: "Doe",
+      //     firebase: userId,
+      //     name: "Peter Parker",
+      //     gender: "M",
+      //     phone: "0000000000",
+      //     chatAllowed: true,
+      //     chatReports: 0,
+      //     email: email,
+      //     score: 0,
+      //     instagramId: "instaId",
+      //     profileImage: "https://placekitten.com/250/250");
+
+      // var url = Uri.parse(postUserUrl);
+      // var response = await http.post(url,
+      //     headers: {
+      //       HttpHeaders.contentTypeHeader: "application/json",
+      //     },
+      //     body: postUserModelToJson(postUserData));
+      // print(response.statusCode);
+      //
+//       final SharedPreferences sharedPreferences =
+//           await SharedPreferences.getInstance();
+//       if (response.statusCode == postSuccessCode) {
+//   sharedPreferences.setString('presentUser', response.body);
+// }
     } on FirebaseAuthException catch (e) {
       print(e);
 
