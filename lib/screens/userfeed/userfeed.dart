@@ -31,43 +31,6 @@ class UserFeed extends StatefulWidget {
 }
 
 class _UserFeedState extends State<UserFeed> {
-  showphoto(BuildContext context, photo) async {
-    Size size = MediaQuery.of(context).size;
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: SizedBox(
-              height: size.height * .3,
-              child: CachedNetworkImage(
-                imageUrl: photo,
-                imageBuilder: ((context, imageProvider) {
-                  return Container(
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: imageProvider, fit: BoxFit.cover)),
-                  );
-                }),
-                placeholder: ((context, url) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: appBarColor,
-                    ),
-                  );
-                }),
-                errorWidget: (context, url, error) {
-                  return Icon(
-                    Icons.error,
-                    color: Colors.red,
-                    size: 40,
-                  );
-                },
-              ),
-            ),
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     UserFeedViewModel userFeedViewModel = context.watch<UserFeedViewModel>();
@@ -90,7 +53,7 @@ class _UserFeedState extends State<UserFeed> {
           },
           icon: const Icon(
             Icons.add_to_photos_rounded,
-            color: appBarColor,
+            color: Colors.white,
             size: 40,
           )),
       body: _userFeedView(userFeedViewModel, size),
@@ -116,14 +79,6 @@ class _UserFeedState extends State<UserFeed> {
     if (feedList.isEmpty) {
       return Center(
         child: LoadingData(),
-        // Text(
-        //   "Fecting Data ",
-        //   style: TextStyle(
-        //       color: Colors.white,
-        //       fontSize: size.height * .025,
-        //       fontFamily: GoogleFonts.poppins().fontFamily,
-        //       fontWeight: FontWeight.bold),
-        // ),
       );
     }
 
@@ -156,7 +111,6 @@ class _UserFeedState extends State<UserFeed> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: appBarColor,
-                            fontFamily: GoogleFonts.poppins().fontFamily,
                           )),
                     ),
                   ),
@@ -166,7 +120,29 @@ class _UserFeedState extends State<UserFeed> {
                         vertical: size.height * .017),
                     child: InkWell(
                       onTap: () {
-                        showphoto(context, userFeedModel.photo);
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return CachedNetworkImage(
+                                imageUrl: userFeedModel.photo,
+                                imageBuilder: (context, imageProvider) {
+                                  return InteractiveViewer(
+                                      child: Image(
+                                    image: imageProvider,
+                                  ));
+                                },
+                                placeholder: ((context, url) {
+                                  return LoadingData();
+                                }),
+                                errorWidget: ((context, url, error) {
+                                  return Icon(
+                                    Icons.error,
+                                    size: 50,
+                                    color: Colors.red,
+                                  );
+                                }),
+                              );
+                            });
                       },
                       child: SizedBox(
                         height: size.height * .3,
@@ -210,6 +186,7 @@ class _UserFeedState extends State<UserFeed> {
                               IconButton(
                                   onPressed: () {
                                     _postLike(context, userFeedModel.id, presentUser.firebase);
+
                                     if (isLikedList[index]) {
                                       setState(() {
                                         isLikedList[index] = false;
@@ -244,8 +221,6 @@ class _UserFeedState extends State<UserFeed> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: appBarColor,
-                                    fontFamily:
-                                        GoogleFonts.poppins().fontFamily,
                                   )),
                             ],
                           ),
@@ -279,7 +254,6 @@ class _UserFeedState extends State<UserFeed> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: appBarColor,
-                            fontFamily: GoogleFonts.poppins().fontFamily,
                           )),
                     ),
                   )

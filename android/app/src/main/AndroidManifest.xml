@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.hillffair2022_frontend">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="hillffair2022_frontend"
+        android:label="HillFair"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

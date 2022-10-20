@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/models/postUser_model.dart';
+import 'package:hillfair2022_frontend/main.dart';
+import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
@@ -54,22 +56,23 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Container(
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage("assets/images/bg.png"),
-        fit: BoxFit.fill,
-      )),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
+    return SingleChildScrollView(
+      child: Container(
+        height: size.height,
+        color: bgColor,
+        // decoration: const BoxDecoration(
+        //     image: DecorationImage(
+        //   image: AssetImage("assets/images/bg.png"),
+        //   fit: BoxFit.fill,
+        // )),
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
           backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        backgroundColor: Colors.transparent,
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 45),
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: size.width * .1),
             child: Column(
               children: [
                 GestureDetector(
@@ -102,7 +105,6 @@ class _EditProfileState extends State<EditProfile> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: appBarColor,
-                    fontFamily: GoogleFonts.poppins().fontFamily,
                   ),
                   cursorColor: appBarColor,
                   textInputAction: TextInputAction.next,
@@ -130,7 +132,6 @@ class _EditProfileState extends State<EditProfile> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: appBarColor,
-                    fontFamily: GoogleFonts.poppins().fontFamily,
                   ),
                   cursorColor: appBarColor,
                   textInputAction: TextInputAction.next,
@@ -158,7 +159,6 @@ class _EditProfileState extends State<EditProfile> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: appBarColor,
-                    fontFamily: GoogleFonts.poppins().fontFamily,
                   ),
                   cursorColor: appBarColor,
                   textInputAction: TextInputAction.next,
@@ -186,7 +186,6 @@ class _EditProfileState extends State<EditProfile> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: appBarColor,
-                    fontFamily: GoogleFonts.poppins().fontFamily,
                   ),
                   cursorColor: appBarColor,
                   textInputAction: TextInputAction.next,
@@ -214,7 +213,6 @@ class _EditProfileState extends State<EditProfile> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: appBarColor,
-                    fontFamily: GoogleFonts.poppins().fontFamily,
                   ),
                   cursorColor: appBarColor,
                   textInputAction: TextInputAction.next,
@@ -253,6 +251,10 @@ class _EditProfileState extends State<EditProfile> {
                           instagramId: "instagramId",
                           profileImage: "https://placekitten.com/250/250");
                       editUserInfo(newUser);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const BottomNav()));
                     },
                     style: ElevatedButton.styleFrom(
                         maximumSize: const Size(300, 50),
@@ -264,9 +266,7 @@ class _EditProfileState extends State<EditProfile> {
                       child: Text(
                         "Save",
                         style: TextStyle(
-                            color: Colors.black,
                             fontSize: size.height * .02,
-                            fontFamily: GoogleFonts.poppins().fontFamily,
                             fontWeight: FontWeight.bold),
                       ),
                     )),

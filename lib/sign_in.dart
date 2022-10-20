@@ -4,8 +4,10 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
+import 'package:hillfair2022_frontend/signup_widget.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
+import 'package:image_picker/image_picker.dart';
 import 'main.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -41,12 +43,16 @@ class _SignInState extends State<SignIn> {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage("assets/images/bg.png"),
-          fit: BoxFit.fill,
-        )),
+        color: bgColor,
         child: Scaffold(
+          bottomSheet: Container(
+            height: size.height * .15,
+            decoration: BoxDecoration(
+                color: bgColor,
+                image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: AssetImage("assets/images/loginvector.png"))),
+          ),
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             elevation: 0,
@@ -60,11 +66,11 @@ class _SignInState extends State<SignIn> {
                 child: Column(
                   children: [
                     Text(
-                      'SIGN IN',
+                      'Sign In',
                       style: TextStyle(
                           fontSize: 48,
                           fontWeight: FontWeight.w600,
-                          color: Colors.white),
+                          color: loginColor),
                     ),
                     SizedBox(
                       height: size.height * .1,
@@ -81,18 +87,30 @@ class _SignInState extends State<SignIn> {
                               // color: Colors.black,
                               child: TextFormField(
                                 validator: (e) {
-                                  if (!e!.endsWith(verifyemail)) {
+                                  if (e![0] == "1") {
+                                    if (!RegExp(
+                                            r'[1]+[89]+[1-8]+[015]+[0-9]+[0-9]+@nith.ac.in')
+                                        .hasMatch(e.toLowerCase())) {
+                                      return "Use College Email";
+                                    } else {
+                                      return null;
+                                    }
+                                  } else if (e[0] == "2") {
+                                    if (!RegExp(
+                                            r'[2]+[01]+[bd]+[cemap]+[ecsrha]+[01]+[0-9]+[0-9]+@nith.ac.in')
+                                        .hasMatch(e.toLowerCase())) {
+                                      return "Use College Email";
+                                    } else {
+                                      return null;
+                                    }
+                                  } else {
                                     return "Use College Email";
                                   }
-                                  return null;
                                 },
                                 controller: emailController,
                                 cursorColor: appBarColor,
                                 cursorHeight: 25,
-                                style: TextStyle(
-                                    fontFamily:
-                                        GoogleFonts.poppins().fontFamily,
-                                    color: appBarColor),
+                                style: TextStyle(color: appBarColor),
                                 textInputAction: TextInputAction.next,
                                 decoration: InputDecoration(
                                   hintText: 'Email',
@@ -138,10 +156,7 @@ class _SignInState extends State<SignIn> {
                                 cursorHeight: 25,
                                 controller: passwordController,
                                 cursorColor: appBarColor,
-                                style: TextStyle(
-                                    fontFamily:
-                                        GoogleFonts.poppins().fontFamily,
-                                    color: appBarColor),
+                                style: TextStyle(color: appBarColor),
                                 textInputAction: TextInputAction.next,
                                 decoration: InputDecoration(
                                   hintText: 'Password',
@@ -204,7 +219,7 @@ class _SignInState extends State<SignIn> {
                                         'Sign In',
                                         style: TextStyle(
                                             fontSize: size.width * .06,
-                                            color: Colors.black),
+                                            color: Colors.white),
                                       ),
                                     ),
                                   ),
@@ -224,7 +239,7 @@ class _SignInState extends State<SignIn> {
                                 'Forgot Password?',
                                 style: TextStyle(
                                     decoration: TextDecoration.underline,
-                                    color: Colors.white,
+                                    color: loginColor,
                                     fontSize: size.width * .05,
                                     fontWeight: FontWeight.w700),
                               ),
@@ -235,18 +250,24 @@ class _SignInState extends State<SignIn> {
                             RichText(
                                 text: TextSpan(
                                     style: TextStyle(
-                                        color: Colors.white,
+                                        color: loginColor,
                                         fontSize: size.width * .05,
                                         fontWeight: FontWeight.w700),
                                     text: 'Don’t have an account? ',
                                     children: [
                                   TextSpan(
                                       recognizer: TapGestureRecognizer()
-                                        ..onTap = widget.onClickedSignUp,
+                                        ..onTap = () {
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: ((context) =>
+                                                      SignUpWidget())));
+                                        },
                                       text: 'Sign Up',
                                       style: TextStyle(
                                           decoration: TextDecoration.underline,
-                                          color: Colors.white,
+                                          color: loginColor,
                                           fontSize: size.width * .05))
                                 ]))
                           ]),

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
@@ -12,12 +14,21 @@ class WelcomePage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
+      bottomSheet: Container(
+        height: size.height * .15,
+        decoration: BoxDecoration(
+            color: bgColor,
             image: DecorationImage(
-          image: AssetImage("assets/images/bg.png"),
-          fit: BoxFit.cover,
-        )),
+                fit: BoxFit.fill,
+                image: AssetImage("assets/images/loginvector.png"))),
+      ),
+      body: Container(
+        color: bgColor,
+        // decoration: const BoxDecoration(
+        //     image: DecorationImage(
+        //   image: AssetImage("assets/images/bg.png"),
+        //   fit: BoxFit.cover,
+        // )),
         child: Center(
           child: Column(
             children: [
@@ -59,7 +70,6 @@ class WelcomePage extends StatelessWidget {
                     style: TextStyle(
                         fontSize: size.width * .05,
                         color: Colors.black,
-                        fontFamily: GoogleFonts.poppins().fontFamily,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -81,7 +91,7 @@ class WelcomePage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: ((context) =>
-                            SignUpWidget(onClickedSignIn: () {})),
+                            SignUpWidget())
                       ),
                     );
                   },
@@ -89,7 +99,6 @@ class WelcomePage extends StatelessWidget {
                     "Sign Up",
                     style: TextStyle(
                         fontSize: size.width * .05,
-                        fontFamily: GoogleFonts.poppins().fontFamily,
                         fontWeight: FontWeight.bold),
                   ),
                 ),

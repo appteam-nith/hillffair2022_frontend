@@ -21,10 +21,8 @@ import 'utils/api_constants.dart';
 import 'utils/colors.dart';
 
 class SignUpWidget extends StatefulWidget {
-  final Function() onClickedSignIn;
   const SignUpWidget({
     Key? key,
-    required this.onClickedSignIn,
   }) : super(key: key);
 
   @override
@@ -51,12 +49,21 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage("assets/images/bg.png"),
-          fit: BoxFit.cover,
-        )),
+        color: bgColor,
+        // decoration: const BoxDecoration(
+        //     image: DecorationImage(
+        //   image: AssetImage("assets/images/bg.png"),
+        //   fit: BoxFit.cover,
+        // )),
         child: Scaffold(
+          bottomSheet: Container(
+            height: size.height * .15,
+            decoration: BoxDecoration(
+                color: bgColor,
+                image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: AssetImage("assets/images/loginvector.png"))),
+          ),
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             elevation: 0,
@@ -76,7 +83,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         style: TextStyle(
                             fontSize: 48,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white),
+                            color: loginColor),
                       ),
                     ),
                     SizedBox(
@@ -95,10 +102,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                 child: TextFormField(
                                   cursorColor: appBarColor,
                                   cursorHeight: 25,
-                                  style: TextStyle(
-                                      fontFamily:
-                                          GoogleFonts.poppins().fontFamily,
-                                      color: appBarColor),
+                                  style: TextStyle(color: appBarColor),
                                   controller: emailController,
                                   textInputAction: TextInputAction.next,
                                   decoration: InputDecoration(
@@ -132,10 +136,25 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   validator: (e) {
-                                    if (!e!.endsWith(verifyemail)) {
+                                    if (e![0] == "1") {
+                                      if (!RegExp(
+                                              r'[1]+[89]+[1-8]+[015]+[0-9]+[0-9]+@nith.ac.in')
+                                          .hasMatch(e.toLowerCase())) {
+                                      return "Use College Email";
+                                      } else {
+                                        return null;
+                                    }
+                                    } else if (e[0] == "2") {
+                                      if (!RegExp(
+                                              r'[2]+[01]+[bd]+[cemap]+[ecsrha]+[01]+[0-9]+[0-9]+@nith.ac.in')
+                                          .hasMatch(e.toLowerCase())) {
+                                        return "Use College Email";
+                                      } else {
+                                        return null;
+                                      }
+                                    } else {
                                       return "Use College Email";
                                     }
-                                    return null;
                                   },
                                 ),
                               ),
@@ -146,10 +165,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                 child: TextFormField(
                                   cursorColor: appBarColor,
                                   cursorHeight: 25,
-                                  style: TextStyle(
-                                      fontFamily:
-                                          GoogleFonts.poppins().fontFamily,
-                                      color: appBarColor),
+                                  style: TextStyle(color: appBarColor),
                                   controller: passwordController,
                                   textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
@@ -196,10 +212,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                 child: TextFormField(
                                   cursorColor: appBarColor,
                                   cursorHeight: 25,
-                                  style: TextStyle(
-                                      fontFamily:
-                                          GoogleFonts.poppins().fontFamily,
-                                      color: appBarColor),
+                                  style: TextStyle(color: appBarColor),
                                   controller: confirmPasswordController,
                                   textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
@@ -297,7 +310,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       );
       Utils.showSnackBar("An Email is sent to you for verification");
 
-      navigatorKey.currentState!.popUntil((route) => route.isFirst);
+      // navigatorKey.currentState!.popUntil((route) => route.isFirst);
+      navigatorKey.currentState!.pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => EditProfile()),
+          (route) => false);
       String email = emailController.text;
       var userId = FirebaseAuth.instance.currentUser!.uid;
       // UserModel data = UserModel(

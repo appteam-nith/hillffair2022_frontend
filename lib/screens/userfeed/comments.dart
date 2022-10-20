@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+// ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
@@ -53,7 +54,6 @@ class _CommentsState extends State<Comments> {
             backgroundColor: appBarColor,
             title: Text("Comments",
                 style: TextStyle(
-                    fontFamily: GoogleFonts.poppins().fontFamily,
                     fontWeight: FontWeight.bold)),
           ),
           body: SingleChildScrollView(
@@ -91,14 +91,12 @@ class _CommentsState extends State<Comments> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: appBarColor,
-                              fontFamily: GoogleFonts.poppins().fontFamily,
                             )),
                         subtitle: Text("widget.post.text",
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: appBarColor,
-                              fontFamily: GoogleFonts.poppins().fontFamily,
                             )),
                       ),
                       Container(
@@ -122,7 +120,6 @@ class _CommentsState extends State<Comments> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: appBarColor,
-                            fontFamily: GoogleFonts.poppins().fontFamily,
                           ),
                           cursorColor: appBarColor,
                           decoration: InputDecoration(
@@ -144,7 +141,6 @@ class _CommentsState extends State<Comments> {
                               hintStyle: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: appBarColor,
-                                fontFamily: GoogleFonts.poppins().fontFamily,
                               ),
                               contentPadding: EdgeInsets.only(left: 20),
                               filled: true,
@@ -172,8 +168,7 @@ class _CommentsState extends State<Comments> {
 
   _commentListView(String postId, BuildContext context) {
     //getComments
-
-    _getCommnnets(String postId) async {
+    Future _getCommnnets(String postId) async {
       var provider = Provider.of<GetCommentsViewModel>(context, listen: false);
       await provider.getComments(postId);
       GetCommentsModel _commentBody = provider.commentbody;
@@ -207,7 +202,6 @@ class _CommentsState extends State<Comments> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: appBarColor,
-                                fontFamily: GoogleFonts.poppins().fontFamily,
                               )),
                           children: [
                             Text(comment.author,
@@ -217,7 +211,6 @@ class _CommentsState extends State<Comments> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: appBarColor,
-                                  fontFamily: GoogleFonts.poppins().fontFamily,
                                 )),
                           ],
                         ),

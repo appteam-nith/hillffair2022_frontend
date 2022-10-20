@@ -10,6 +10,7 @@ import 'package:hillfair2022_frontend/models/userFeed/post_img_model.dart';
 import 'package:hillfair2022_frontend/models/team_member_model.dart';
 import 'package:hillfair2022_frontend/models/team_model.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
+import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/tabslider.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
@@ -54,7 +55,7 @@ Future main() async {
         child: Center(
           child: Text("Something Went Wrong!!!",
               style: TextStyle(
-                  fontFamily: GoogleFonts.poppins().fontFamily,
+                  fontFamily: GoogleFonts.inter().fontFamily,
                   fontWeight: FontWeight.bold)),
         ),
       ),
@@ -83,7 +84,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => GetCommentsViewModel()),
           ChangeNotifierProvider(create: (_) => PostCommentViewModel()),
 
-          // ChangeNotifierProvider(create: (_) => CommentViewModel()),
+          ChangeNotifierProvider(create: (_) => PostCommentViewModel()),
           // ChangeNotifierProvider(create: (_) => PostUserViewModel()),
 
         ],
@@ -93,7 +94,8 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: ThemeData(
-              primarySwatch: Colors.blue,
+              fontFamily: GoogleFonts.inter().fontFamily,
+              primarySwatch: Colors.purple,
             ),
             home: AnimatedSplashScreen(
                 duration: 2000,
@@ -126,7 +128,7 @@ class MainPage extends StatelessWidget {
               child: Text('Something Went Wrong!'),
             );
           } else if (snapshot.hasData) {
-            return BottomNav();
+            return EditProfile();
           } else {
             return WelcomePage();
           }

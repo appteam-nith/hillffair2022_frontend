@@ -1,4 +1,7 @@
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last
+
 import 'package:flutter/material.dart';
+import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'chat.dart';
 
 class Chatting extends StatefulWidget {
@@ -15,12 +18,13 @@ class _Chatting extends State<Chatting> {
         body: Stack(
           children: <Widget>[
             Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/bg.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
+          color: bgColor,
+          // decoration: BoxDecoration(
+          //   image: DecorationImage(
+          //     image: AssetImage("assets/images/bg.png"),
+          //     fit: BoxFit.cover,
+          //   ),
+          // ),
             ),
             Center(
               child: Column(
@@ -39,9 +43,9 @@ class _Chatting extends State<Chatting> {
                               color: Colors.white,
                               borderRadius:
                               BorderRadius.all(Radius.circular(20.0))),
-                          child: new Container(
+                      child: Container(
                             padding: EdgeInsets.all(50),
-                            child: new Text(
+                        child: Text(
                               'Guidlines',
                               style: TextStyle(
                                 color: Colors.deepPurple,
@@ -55,7 +59,7 @@ class _Chatting extends State<Chatting> {
                       ),
                       Container(
                         padding: EdgeInsets.all(60),
-                        child: new Text(
+                    child: Text(
                           'Lorem ipsum dolor sit amet, consectetur adipiscing elit,'
                               ' sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                               ' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi'
@@ -131,7 +135,7 @@ class PopDialogueBox extends StatefulWidget {
 class PopDialogueBoxState extends State<PopDialogueBox> {
   @override
   Widget build(BuildContext context) {
-    return new AlertDialog(
+    return AlertDialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20))),
       title: const Text(
@@ -141,7 +145,7 @@ class PopDialogueBoxState extends State<PopDialogueBox> {
           fontWeight: FontWeight.bold,
         ),
       ),
-      content: new Column(
+      content: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -153,7 +157,7 @@ class PopDialogueBoxState extends State<PopDialogueBox> {
         ],
       ),
       actions: <Widget>[
-        new TextButton(
+        TextButton(
           onPressed: () {
             Navigator.push(
               context,

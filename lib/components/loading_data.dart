@@ -10,7 +10,7 @@ class LoadingData extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: const CircularProgressIndicator(
-        color: appBarColor,
+        color: Colors.white,
       ),
     );
   }
