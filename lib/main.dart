@@ -11,6 +11,7 @@ import 'package:hillfair2022_frontend/models/team_member_model.dart';
 import 'package:hillfair2022_frontend/models/team_model.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
+import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/tabslider.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
@@ -19,7 +20,6 @@ import 'package:hillfair2022_frontend/signUp_widget.dart';
 
 import 'package:hillfair2022_frontend/sign_in.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
-
 
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_view_model.dart';
 
@@ -86,7 +86,6 @@ class MyApp extends StatelessWidget {
 
           ChangeNotifierProvider(create: (_) => PostCommentViewModel()),
           // ChangeNotifierProvider(create: (_) => PostUserViewModel()),
-
         ],
         child: MaterialApp(
             scaffoldMessengerKey: Utils.messengerKey,
@@ -116,10 +115,10 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       // body: BottomNav(),
 
-          body: StreamBuilder<User?>(
+      body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot. connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -128,13 +127,13 @@ class MainPage extends StatelessWidget {
               child: Text('Something Went Wrong!'),
             );
           } else if (snapshot.hasData) {
-            return EditProfile();
+            // return PostUser(snapshot.data!.email, snapshot.data!.uid);
+            return BottomNav();
           } else {
             return WelcomePage();
           }
         },
       ),
     );
-
   }
 }

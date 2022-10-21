@@ -63,13 +63,9 @@ class _UserFeedState extends State<UserFeed> {
   _userFeedView(UserFeedViewModel userFeedViewModel, Size size) {
     List<UserFeedModel> feedList = [];
     List<bool> isLikedList = [];
-    // if (userFeedViewModel.loading) {
     if (true) {
       feedList = userFeedViewModel.prefFeedList;
       isLikedList = userFeedViewModel.prefIsLikedList;
-      // return LoadingData();
-      // feedList = getFeedPref() ;
-      // isLikedList = getIsLikedPref();
     }
     if (!userFeedViewModel.loading) {
       feedList = userFeedViewModel.userFeedListModel;
@@ -87,10 +83,8 @@ class _UserFeedState extends State<UserFeed> {
         itemCount: feedList.length,
         itemBuilder: (context, index) {
           UserModel presentUser = userFeedViewModel.presentUser;
-          // String presentUser = userFeedViewModel.presentUser.firebase;
+          //TODO : filter feedList for userfeed.....
           UserFeedModel userFeedModel = feedList[index];
-          // bool isAlreadyLiked = isLikedList[index];
-
           return Padding(
             padding: EdgeInsets.all(20),
             child: Container(
@@ -103,11 +97,26 @@ class _UserFeedState extends State<UserFeed> {
                   Padding(
                     padding: EdgeInsets.only(top: 8.0),
                     child: ListTile(
-                      leading: Image(
-                        image: AssetImage("assets/images/member.png"),
-                        height: size.height * .06,
-                      ),
-                      title: Text(userFeedModel.author.firebase,
+                      leading: CircleAvatar(
+                backgroundColor: appBarColor,
+                radius: 28,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(28.0),
+                  child: CachedNetworkImage(
+                    imageUrl: userFeedModel.author.profileImage,
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        image: imageProvider,
+                        alignment: Alignment.center,
+                        fit: BoxFit.cover,
+                      )),
+                    ),
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
+                )),
+                      title: Text(userFeedModel.author.name,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: appBarColor,
@@ -185,15 +194,19 @@ class _UserFeedState extends State<UserFeed> {
                             children: [
                               IconButton(
                                   onPressed: () {
-                                    _postLike(context, userFeedModel.id, presentUser.firebase);
+                                    _postLike(context, userFeedModel.id,
+                                        presentUser.firebase);
 
                                     if (isLikedList[index]) {
                                       setState(() {
                                         isLikedList[index] = false;
+                                        userFeedModel.numberOfLikes--;
                                       });
                                     } else {
-                                      
-                                      setState(() {isLikedList[index] = true;});
+                                      setState(() {
+                                        isLikedList[index] = true;
+                                        userFeedModel. numberOfLikes++;
+                                      });
                                     }
                                   },
                                   icon: isLikedList[index]
@@ -225,7 +238,8 @@ class _UserFeedState extends State<UserFeed> {
                             ],
                           ),
                           Visibility(
-                            visible: userFeedModel.author.firebase == presentUser.firebase,
+                            visible: userFeedModel.author.firebase ==
+                                presentUser.firebase,
                             // userFeedModel.author.fbId == presentUserFbId,
                             child: TextButton(
                                 style: ButtonStyle(
@@ -237,7 +251,8 @@ class _UserFeedState extends State<UserFeed> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.red,
-                                    fontFamily: GoogleFonts.poppins().fontFamily,
+                                    fontFamily:
+                                        GoogleFonts.poppins().fontFamily,
                                   ),
                                 )),
                           ),
