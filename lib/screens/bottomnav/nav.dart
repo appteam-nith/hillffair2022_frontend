@@ -21,7 +21,7 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
-  List navPages = [TeamList(), TabSlider(), Events(), Profile()];
+  List navPages = [TeamList(),Chatting(), TabSlider(), Events(), Profile()];
 
   int currentIndex = 1;
   void onTap(int index) {
@@ -51,6 +51,8 @@ class _BottomNavState extends State<BottomNav> {
                 icon: Icon(Icons.account_box_outlined), label: "Teams"),
             // BottomNavigationBarItem(
             //     icon: Icon(Icons.chat_rounded), label: "Chatting"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.add_a_photo_outlined), label: "Chatting"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.add_a_photo_outlined), label: "UserFeed"),
             BottomNavigationBarItem(

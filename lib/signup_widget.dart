@@ -9,6 +9,7 @@ import 'package:hillfair2022_frontend/api_services/user_services.dart';
 import 'package:hillfair2022_frontend/models/postUser_model.dart';
 import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
+import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'api_services/api_status.dart';
 import 'main.dart';
@@ -309,13 +310,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         password: passwordController.text.trim(),
       );
       Utils.showSnackBar("An Email is sent to you for verification");
-
-      // navigatorKey.currentState!.popUntil((route) => route.isFirst);
-      navigatorKey.currentState!.pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => EditProfile()),
-          (route) => false);
       String email = emailController.text;
       var userId = FirebaseAuth.instance.currentUser!.uid;
+      navigatorKey.currentState!.popUntil((route) => route.isFirst);
+      navigatorKey.currentState!.pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => PostUser(email, userId)),
+          (route) => false);
+      
       // UserModel data = UserModel(
       //     firstName: "John",
       //     lastName: "Doe",
