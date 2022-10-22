@@ -100,9 +100,12 @@ class _PostState extends State<Post> {
       PostImgModel body = PostImgModel(photo: photoUrl, text: caption);
 
       var provider = Provider.of<PostImgViewModel>(context, listen: false);
-      var addedFeedList = await provider.postImg(body, widget.presentUser.firebase);
+      if (widget.presentUser.firebase != "firebase" ) {
+        var addedFeedList = await provider.postImg(body, widget.presentUser.firebase);
 
       return addedFeedList;
+      }
+      
     }
 
     return Container(
@@ -125,8 +128,9 @@ class _PostState extends State<Post> {
                   var addedList = await _post(imageFromDevice);
                   upadateFeedList(addedList);
                   Navigator.pop(context);
-                  Utils.showSnackBar("Successfully Posted!!!");
-                  Navigator.pop(context);
+                  if (addedList) {
+  Utils.showSnackBar("Successfully Posted!!!");
+}
                 }
               },
               backgroundColor: Colors.white,
