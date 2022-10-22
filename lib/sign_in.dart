@@ -8,10 +8,13 @@ import 'package:hillfair2022_frontend/signup_widget.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'main.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'forgot_password_page.dart';
+import 'utils/api_constants.dart';
 
 class SignIn extends StatefulWidget {
   final VoidCallback onClickedSignUp;
@@ -291,7 +294,19 @@ class _SignInState extends State<SignIn> {
         'email': emailController.text.toString(),
         'password': passwordController.text.toString(),
       };
-      //signInviewMode.getSingedInUser(data, context);
+
+      String email = emailController.text;
+      var url = Uri.parse("$checkUserUrl$email");
+      var response = await http.get(url);
+      if (200 == response.statusCode) {
+        SharedPreferences userPrefs = await SharedPreferences.getInstance();
+        if (userPrefs.containsKey("presentUser")) {
+          userPrefs.remove("presentUser");
+        }
+        userPrefs.setString("presentUser", response.body);
+      } else {
+        Utils.showSnackBar(response.body);
+      }
     } on FirebaseAuthException catch (e) {
       print(e);
 
