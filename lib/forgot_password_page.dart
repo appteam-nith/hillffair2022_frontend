@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'sign_in.dart';
 import 'package:flutter/material.dart';
@@ -24,101 +25,93 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage("assets/images/bg.png"),
-        fit: BoxFit.cover,
-      )),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Center(
-            child: Form(
-          key: formKey,
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 164,
-              ),
-              const SizedBox(
-                width: 173,
-                height: 25,
-                child: FittedBox(
-                  fit: BoxFit.contain,
-                  child: Text(
-                    'Enter your email id',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white),
-                  ),
+    return Scaffold(
+      backgroundColor: bgColor,
+      body: Center(
+          child: Form(
+        key: formKey,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 164,
+            ),
+            const SizedBox(
+              width: 173,
+              height: 25,
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: Text(
+                  'Enter your email id',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white),
                 ),
               ),
-              const SizedBox(
-                height: 18,
-              ),
-              SizedBox(
-                width: 223,
-                height: 37,
-                child: TextFormField(
-                  controller: emailController,
-                  cursorColor: const Color.fromARGB(255, 255, 255, 255),
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    hintText: 'Email',
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide:
-                            const BorderSide(width: 0, color: Colors.white)),
-                            focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    borderSide: const BorderSide(
-                                        width: 0, color: Colors.white)),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                    filled: true,
-                    fillColor: const Color.fromARGB(255, 255, 255, 255),
-                  ),
-                  //autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (email) =>
-                      email != null && !EmailValidator.validate(email)
-                          ? 'Enter a valid email'
-                          : null,
+            ),
+            const SizedBox(
+              height: 18,
+            ),
+            SizedBox(
+              width: 223,
+              height: 37,
+              child: TextFormField(
+                controller: emailController,
+                cursorColor: const Color.fromARGB(255, 255, 255, 255),
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  hintText: 'Email',
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                      borderSide:
+                          const BorderSide(width: 0, color: Colors.white)),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                      borderSide:
+                          const BorderSide(width: 0, color: Colors.white)),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                  filled: true,
+                  fillColor: const Color.fromARGB(255, 255, 255, 255),
                 ),
+                //autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (email) =>
+                    email != null && !EmailValidator.validate(email)
+                        ? 'Enter a valid email'
+                        : null,
               ),
-              const SizedBox(
-                height: 29,
-              ),
-              SizedBox(
-                height: 35,
-                width: 119,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            const Color.fromARGB(255, 184, 151, 213),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25))),
-                    onPressed: resetPassword,
-                    child: const Center(
-                      child: SizedBox(
-                        width: 43,
-                        height: 19,
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: Text(
-                            'Next',
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black),
-                          ),
+            ),
+            const SizedBox(
+              height: 29,
+            ),
+            SizedBox(
+              height: 35,
+              width: 119,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 184, 151, 213),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25))),
+                  onPressed: resetPassword,
+                  child: const Center(
+                    child: SizedBox(
+                      width: 43,
+                      height: 19,
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                        child: Text(
+                          'Next',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
                         ),
                       ),
-                    )),
-              ),
-            ],
-          ),
-        )),
-      ),
+                    ),
+                  )),
+            ),
+          ],
+        ),
+      )),
     );
   }
 

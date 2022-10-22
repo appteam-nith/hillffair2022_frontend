@@ -75,23 +75,22 @@ class _ProfileState extends State<Profile> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    getValidationData();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     return _profileView(size, context);
   }
 
-  Container _profileView(Size size, BuildContext context) {
-    getValidationData();
+  Scaffold _profileView(Size size, BuildContext context) {
 
-    return Container(
-        color: bgColor,
-        // decoration: const BoxDecoration(
-        //     image: DecorationImage(
-        //   image: AssetImage("assets/images/bg.png"),
-        //   fit: BoxFit.fill,
-        // )),
-        child: Scaffold(
+    return Scaffold(
           appBar: AppBar(
             centerTitle: true,
             backgroundColor: Colors.transparent,
@@ -99,7 +98,7 @@ class _ProfileState extends State<Profile> {
             title:
                 Text("Profile", style: TextStyle(fontWeight: FontWeight.bold)),
           ),
-          backgroundColor: Colors.transparent,
+      backgroundColor: bgColor,
           body: Center(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -233,6 +232,6 @@ class _ProfileState extends State<Profile> {
                   )
                 ]),
           ),
-        ));
+    );
   }
 }

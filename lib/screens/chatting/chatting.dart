@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'upcoming.dart';
 
 
@@ -16,12 +17,7 @@ class _Chatting extends State<Chatting> {
         body: Stack(
           children: <Widget>[
             Container(
-              decoration:const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/bg.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
+          color: bgColor,
             ),
             Center(
               child: Column(
