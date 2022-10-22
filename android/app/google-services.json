@@ -1,63 +1,41 @@
 {
   "project_info": {
-    "project_number": "868222655855",
-    "project_id": "login-page-hillfare-96b32",
-    "storage_bucket": "login-page-hillfare-96b32.appspot.com"
+    "project_number": "424848973372",
+    "project_id": "hillfare2k22-2",
+    "storage_bucket": "hillfare2k22-2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:868222655855:android:42f681d62dc8325c429c9a",
+        "mobilesdk_app_id": "1:424848973372:android:9ee175274e54861eebed39",
         "android_client_info": {
           "package_name": "com.example.hillffair2022_frontend"
         }
       },
       "oauth_client": [
         {
-          "client_id": "868222655855-0sj9gj412qrr7srnqg75e6jk44tr6spb.apps.googleusercontent.com",
+          "client_id": "424848973372-g547e7phr7pdngrn5bqqohpmoh363uj9.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAPNoWbnGUaeRF8XnPU0-G_LJBRGB7UN7Y"
+          "current_key": "AIzaSyATOS_lE0LVWg3U9F8tqeME8jAs6HDCPC0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "868222655855-0sj9gj412qrr7srnqg75e6jk44tr6spb.apps.googleusercontent.com",
+              "client_id": "424848973372-g547e7phr7pdngrn5bqqohpmoh363uj9.apps.googleusercontent.com",
               "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:868222655855:android:f1b62e82fec35fcb429c9a",
-        "android_client_info": {
-          "package_name": "com.example.login_page_hillfare"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "868222655855-0sj9gj412qrr7srnqg75e6jk44tr6spb.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAPNoWbnGUaeRF8XnPU0-G_LJBRGB7UN7Y"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
+            },
             {
-              "client_id": "868222655855-0sj9gj412qrr7srnqg75e6jk44tr6spb.apps.googleusercontent.com",
-              "client_type": 3
+              "client_id": "424848973372-oe3qghs3tl38ovmdo0s3c14c3c9cpl6f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hillffair2022Frontend"
+              }
             }
           ]
         }

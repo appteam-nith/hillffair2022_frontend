@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:email_validator/email_validator.dart';
@@ -11,6 +12,7 @@ import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
 import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
+import 'package:hillfair2022_frontend/verify_email_page.dart';
 import 'api_services/api_status.dart';
 import 'main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,11 +33,14 @@ class SignUpWidget extends StatefulWidget {
 }
 
 class _SignUpWidgetState extends State<SignUpWidget> {
+  bool isEmailVerified = false;
+  Timer? timer;
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final String verifyemail = "@nith.ac.in";
+ 
 
   @override
   void dispose() {
@@ -141,10 +146,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                       if (!RegExp(
                                               r'[1]+[89]+[1-8]+[015]+[0-9]+[0-9]+@nith.ac.in')
                                           .hasMatch(e.toLowerCase())) {
-                                      return "Use College Email";
+                                        return "Use College Email";
                                       } else {
                                         return null;
-                                    }
+                                      }
                                     } else if (e[0] == "2") {
                                       if (!RegExp(
                                               r'[2]+[01]+[bd]+[cemap]+[ecsrha]+[01]+[0-9]+[0-9]+@nith.ac.in')
@@ -304,19 +309,23 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   Future signUp() async {
     final isvalid = formKey.currentState!.validate();
     if (!isvalid) return "Error";
+    
+
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-      Utils.showSnackBar("An Email is sent to you for verification");
+      
+
       String email = emailController.text;
       var userId = FirebaseAuth.instance.currentUser!.uid;
-      navigatorKey.currentState!.popUntil((route) => route.isFirst);
+
+      // navigatorKey.currentState!.popUntil((route) => route.isFirst);
       navigatorKey.currentState!.pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => PostUser(email, userId)),
           (route) => false);
-      
+     
       // UserModel data = UserModel(
       //     firstName: "John",
       //     lastName: "Doe",
