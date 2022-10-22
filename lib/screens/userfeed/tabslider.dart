@@ -22,36 +22,26 @@ class _TabSliderState extends State<TabSlider> {
 
     return DefaultTabController(
         length: 2,
-        child: Container(
-            height: size.height,
-            color: bgColor,
-            // decoration: BoxDecoration(
-            //     image: DecorationImage(
-            //         fit: BoxFit.fill,
-            //         image: AssetImage("assets/images/bg.png"))),
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              appBar: AppBar(
-                backgroundColor: Color(0xff44336F),
-                bottom: TabBar(
-                    indicatorColor: Colors.white,
-                    overlayColor: MaterialStateProperty.all(Colors.transparent),
-                    labelStyle: TextStyle(
-                        fontWeight: FontWeight.bold),
-                    tabs: [
-                      Tab(
-                        text: "UserFeed",
-                      ),
-                      Tab(
-                        text: "TeamFeed",
-                      )
-                    ]),
-                centerTitle: true,
-                title: Text("Feeds",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold)),
-              ),
-              body: TabBarView(children: [UserFeed(), TeamFeed()]),
-            )));
+        child: Scaffold(
+          backgroundColor: bgColor,
+          appBar: AppBar(
+            backgroundColor: Color(0xff44336F),
+            bottom: TabBar(
+                indicatorColor: Colors.white,
+                overlayColor: MaterialStateProperty.all(Colors.transparent),
+                labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                tabs: [
+                  Tab(
+                    text: "UserFeed",
+                  ),
+                  Tab(
+                    text: "TeamFeed",
+                  )
+                ]),
+            centerTitle: true,
+            title: Text("Feeds", style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+          body: TabBarView(children: [UserFeed(), TeamFeed()]),
+        ));
   }
 }

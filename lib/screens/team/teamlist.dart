@@ -19,25 +19,15 @@ class TeamList extends StatelessWidget {
     TeamViewModel teamViewModel = context.watch<TeamViewModel>();
     Size size = MediaQuery.of(context).size;
 
-    return Container(
-      height: size.height,
-      color: bgColor,
-      // decoration: BoxDecoration(
-      //     border: Border(),
-      //     image: DecorationImage(
-      //         fit: BoxFit.fill, image: AssetImage("assets/images/bg.png"))),
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: bgColor,
+      appBar: AppBar(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          centerTitle: true,
-          title: Text("Team List",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold)),
-        ),
-        body: _teamsGridView(size, teamViewModel),
+        elevation: 0,
+        centerTitle: true,
+        title: Text("Team List", style: TextStyle(fontWeight: FontWeight.bold)),
       ),
+      body: _teamsGridView(size, teamViewModel),
     );
   }
 

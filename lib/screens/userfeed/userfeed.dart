@@ -53,7 +53,7 @@ class _UserFeedState extends State<UserFeed> {
           },
           icon: const Icon(
             Icons.add_to_photos_rounded,
-            color: Colors.white,
+            color: appBarColor,
             size: 40,
           )),
       body: _userFeedView(userFeedViewModel, size),
@@ -112,7 +112,7 @@ class _UserFeedState extends State<UserFeed> {
                         fit: BoxFit.cover,
                       )),
                     ),
-                    placeholder: (context, url) => CircularProgressIndicator(),
+                              placeholder: (context, url) => LoadingData(),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 )),

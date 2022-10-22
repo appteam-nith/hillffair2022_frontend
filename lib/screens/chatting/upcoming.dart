@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hillfair2022_frontend/utils/colors.dart';
 class Upcoming extends StatefulWidget {
   const Upcoming({Key? key}) : super(key: key);
 
@@ -13,10 +14,7 @@ class _UpcomingState extends State<Upcoming> {
       body: Stack(
         children: <Widget>[
           Container(
-            decoration: const BoxDecoration(
-                image: DecorationImage(image: AssetImage("assets/images/bg.png"),
-                    fit: BoxFit.cover)
-            ),
+            color: bgColor,
           ),
           Container(
             height: 30.0,
