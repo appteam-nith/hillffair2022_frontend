@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hillfair2022_frontend/main.dart';
 import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
@@ -95,9 +96,8 @@ class _ProfileState extends State<Profile> {
             centerTitle: true,
             backgroundColor: Colors.transparent,
             elevation: 0,
-            title: Text("Profile",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold)),
+            title:
+                Text("Profile", style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           backgroundColor: Colors.transparent,
           body: Center(
@@ -205,8 +205,13 @@ class _ProfileState extends State<Profile> {
                         width: 17,
                       ),
                       ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             FirebaseAuth.instance.signOut();
+                             SharedPreferences preferences = await SharedPreferences.getInstance();
+                                                       await preferences.clear();
+                            navigatorKey.currentState!
+                                .popUntil((route) => route.isFirst);
+                                
                             //TO Add a function to save the user details
                           },
                           style: ElevatedButton.styleFrom(

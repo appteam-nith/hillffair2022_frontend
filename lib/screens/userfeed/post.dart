@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
@@ -163,10 +164,26 @@ class _PostState extends State<Post> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             ListTile(
-                              leading: Image(
-                                  image:
-                                      AssetImage("assets/images/member.png")),
-                              title: Text("Sanat Thakur",
+                              leading: CircleAvatar(
+                backgroundColor: appBarColor,
+                radius: 30,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30.0),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.presentUser.profileImage,
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        image: imageProvider,
+                        alignment: Alignment.center,
+                        fit: BoxFit.cover,
+                      )),
+                    ),
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
+                )),
+                              title: Text(widget.presentUser.name,
                                   maxLines: 3,
                                   overflow: TextOverflow.ellipsis,
                                   style:

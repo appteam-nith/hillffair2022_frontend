@@ -20,6 +20,7 @@ import 'package:hillfair2022_frontend/signUp_widget.dart';
 
 import 'package:hillfair2022_frontend/sign_in.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
+import 'package:hillfair2022_frontend/verify_email_page.dart';
 
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_view_model.dart';
 
@@ -42,10 +43,10 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
-      apiKey: "AIzaSyAPNoWbnGUaeRF8XnPU0-G_LJBRGB7UN7Y",
-      appId: "1:868222655855:android:f1b62e82fec35fcb429c9a",
-      messagingSenderId: "868222655855",
-      projectId: "login-page-hillfare-96b32",
+      apiKey: "AIzaSyATOS_lE0LVWg3U9F8tqeME8jAs6HDCPC0",
+      appId: "1:424848973372:android:9ee175274e54861eebed39",
+      messagingSenderId: "424848973372",
+      projectId: "hillfare2k22-2",
     ),
   );
 
@@ -108,8 +109,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MainPage extends StatelessWidget {
-  const MainPage({super.key});
-
+   MainPage({super.key});
+  // bool isEmailVerified=FirebaseAuth.instance.currentUser!.emailVerified;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,7 +119,7 @@ class MainPage extends StatelessWidget {
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          if (snapshot. connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -128,7 +129,11 @@ class MainPage extends StatelessWidget {
             );
           } else if (snapshot.hasData) {
             // return PostUser(snapshot.data!.email, snapshot.data!.uid);
-            return BottomNav();
+            // if (isEmailVerified==true) {
+              return BottomNav();
+            // } else {
+            //   return VerifyEmailPage();
+            // }
           } else {
             return WelcomePage();
           }
