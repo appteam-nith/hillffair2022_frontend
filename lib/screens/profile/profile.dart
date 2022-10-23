@@ -217,6 +217,8 @@ class _ProfileState extends State<Profile> {
                         MaterialPageRoute(builder: (context) => WelcomePage()),
                         (route) => false);
 
+                    RestartWidget.restartApp(context);
+
                     //TO Add a function to save the user details
                   },
                   style: ElevatedButton.styleFrom(

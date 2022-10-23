@@ -15,12 +15,14 @@ import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/comments.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
+import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/postLike_viewModel.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/userFeed_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:http/http.dart' as http;
+import '../../utils/api_constants.dart';
 import '../../view_models/userFeed_viewModels/getComments_viewModels.dart';
 
 class UserFeed extends StatefulWidget {
@@ -61,12 +63,9 @@ class _UserFeedState extends State<UserFeed> {
   }
 
   _userFeedView(UserFeedViewModel userFeedViewModel, Size size) {
-    List<UserFeedModel> feedList = [];
-    List<bool> isLikedList = [];
-    if (true) {
-      feedList = userFeedViewModel.prefFeedList;
-      isLikedList = userFeedViewModel.prefIsLikedList;
-    }
+      List<UserFeedModel> feedList = userFeedViewModel.prefFeedList;
+      List<bool> isLikedList = userFeedViewModel.prefIsLikedList;
+    
     if (!userFeedViewModel.loading) {
       feedList = userFeedViewModel.userFeedListModel;
       isLikedList = userFeedViewModel.isAlreadyLikedList;
@@ -98,24 +97,26 @@ class _UserFeedState extends State<UserFeed> {
                     padding: EdgeInsets.only(top: 8.0),
                     child: ListTile(
                       leading: CircleAvatar(
-                backgroundColor: appBarColor,
-                radius: 28,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(28.0),
-                  child: CachedNetworkImage(
-                    imageUrl: userFeedModel.author.profileImage,
-                    imageBuilder: (context, imageProvider) => Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        image: imageProvider,
-                        alignment: Alignment.center,
-                        fit: BoxFit.cover,
-                      )),
-                    ),
+                          backgroundColor: appBarColor,
+                          radius: 28,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(28.0),
+                            child: CachedNetworkImage(
+                              imageUrl: userFeedModel.author.profileImage,
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                  image: imageProvider,
+                                  alignment: Alignment.center,
+                                  fit: BoxFit.cover,
+                                )),
+                              ),
                               placeholder: (context, url) => LoadingData(),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  ),
-                )),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            ),
+                          )),
                       title: Text(userFeedModel.author.name,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -205,7 +206,7 @@ class _UserFeedState extends State<UserFeed> {
                                     } else {
                                       setState(() {
                                         isLikedList[index] = true;
-                                        userFeedModel. numberOfLikes++;
+                                        userFeedModel.numberOfLikes++;
                                       });
                                     }
                                   },
@@ -245,7 +246,9 @@ class _UserFeedState extends State<UserFeed> {
                                 style: ButtonStyle(
                                     overlayColor: MaterialStatePropertyAll(
                                         Colors.transparent)),
-                                onPressed: () {},
+                                onPressed: () {
+                                  deletePost(userFeedModel.id);
+                                },
                                 child: Text(
                                   "Delete",
                                   style: TextStyle(
@@ -277,6 +280,23 @@ class _UserFeedState extends State<UserFeed> {
             ),
           );
         });
+  }
+
+  void deletePost(String id) async {
+    var url = Uri.parse("$deletePostUrl$id/");
+    final http.Response response = await http.delete(
+      url
+    );
+    if (response.statusCode == 200) {
+      //update feedList
+      var provider = Provider.of<UserFeedViewModel>(context, listen: false);
+      var filteredList =
+          provider.userFeedListModel.where(((element) => element.id != id));
+      provider.setUserFeedListModel(filteredList as List<UserFeedModel>);
+      Utils.showSnackBar("Deleted Succesfully!...");
+    } else {
+      Utils.showSnackBar(response.body);
+    }
   }
 }
 
