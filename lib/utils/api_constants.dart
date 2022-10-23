@@ -1,36 +1,32 @@
 //api_documentation  ---- "http://anmolcoder.pythonanywhere.com/swagger/"
 
+const String apiConstant = "https://hillffair2k22.herokuapp.com";
+
 // Events
-const String eventUrl = "https://hillffair2k22.herokuapp.com/events/";
+const String eventUrl = "$apiConstant/events/";
 
 //teams
-const String teamUrl = "https://hillffair2k22.herokuapp.com/teams/team/";
-const String teamMembersUrl =
-    "https://hillffair2k22.herokuapp.com/teams/member/";
+const String teamUrl = "$apiConstant/teams/team/";
+const String teamMembersUrl = "$apiConstant/teams/member/";
 
 //userFeed
-const String userFeedUrl = "https://hillffair2k22.herokuapp.com/imagefeed/";
-const String postImgUrl = "https://hillffair2k22.herokuapp.com/imagefeed/";
-const String postCommentUrl =
-    "https://hillffair2k22.herokuapp.com/imagefeed/comment/";
-const String getCommentUrl =
-    "https://hillffair2k22.herokuapp.com/imagefeed/getcomment";
-const String postLikeUrl = "https://hillffair2k22.herokuapp.com/imagefeed/like";
-const String getLikerUrl =
-    "https://hillffair2k22.herokuapp.com/imagefeed/get-likers/";
+const String userFeedUrl = "$apiConstant/imagefeed/";
+const String postImgUrl = "$apiConstant/imagefeed/";
+const String deletePostUrl = "$apiConstant/imagefeed/post/";
+const String postCommentUrl = "$apiConstant/imagefeed/comment/";
+const String getCommentUrl = "$apiConstant/imagefeed/getcomment";
+const String postLikeUrl = "$apiConstant/imagefeed/like";
+const String getLikerUrl = "$apiConstant/imagefeed/get-likers/";
 
 //user
 
-const String postUserUrl = "https://hillffair2k22.herokuapp.com/user/";
-const String checkUserUrl =
-    "https://hillffair2k22.herokuapp.com/user/checkUser/";
+const String postUserUrl = "$apiConstant/user/";
+const String checkUserUrl = "$apiConstant/user/checkUser/";
 
 //chatting
-const String getChatRoomUrl =
-    "https://hillffair2k22.herokuapp.com/chat/getRoom/";
-const String getMessagesUrl =
-    "https://hillffair2k22.herokuapp.com/chat/getMessages";
-const String postChatUrl = "https://hillffair2k22.herokuapp.com/chat/send/";
+const String getChatRoomUrl = "$apiConstant/chat/getRoom/";
+const String getMessagesUrl = "$apiConstant/chat/getMessages";
+const String postChatUrl = "$apiConstant/chat/send/";
 
 // Status-Codes
 const postSuccessCode = 201;

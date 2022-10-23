@@ -391,7 +391,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
       // navigatorKey.currentState!.popUntil((route) => route.isFirst);
       navigatorKey.currentState!.pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => PostUser(email, userId)),
+          MaterialPageRoute(builder: (context) => PostUser(email, userId, passwordController.text)),
           (route) => false);
 
       // UserModel data = UserModel(
