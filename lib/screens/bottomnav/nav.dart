@@ -23,7 +23,7 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   List navPages = [TeamList(),Chatting(), TabSlider(), Events(), Profile()];
 
-  int currentIndex = 1;
+  int currentIndex = 2;
   void onTap(int index) {
     setState(() {
       currentIndex = index;

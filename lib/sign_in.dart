@@ -321,9 +321,6 @@ class _SignInState extends State<SignIn> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-      navigatorKey.currentState!.pushAndRemoveUntil(
-          MaterialPageRoute(builder: ((context) => BottomNav())),
-          (route) => false);
       Map data = {
         'email': emailController.text.toString(),
         'password': passwordController.text.toString(),
@@ -346,5 +343,8 @@ class _SignInState extends State<SignIn> {
       navigatorKey.currentState!.pop();
       Utils.showSnackBar(e.message);
     }
+    navigatorKey.currentState!.pushAndRemoveUntil(
+          MaterialPageRoute(builder: ((context) => BottomNav())),
+          (route) => false);
   }
 }

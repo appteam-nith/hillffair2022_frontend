@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:hillfair2022_frontend/api_services/api_status.dart';
+import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/api_constants.dart';
@@ -17,6 +18,7 @@ class PostLikeService {
       //
       if (response.statusCode == postSuccessCode) {
         print("nkssvj");
+        Utils.showSnackBar(response.body);
         return Success(code: postSuccessCode, response: response.body);
       }
       return Failure(code: invalidResponse, errorMessage: 'Invalid Response');

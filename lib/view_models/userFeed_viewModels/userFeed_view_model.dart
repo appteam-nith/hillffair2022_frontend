@@ -35,6 +35,7 @@ class UserFeedViewModel extends ChangeNotifier {
   UserModel get presentUser => _presentUser;
   setPrensentUser(UserModel presnetUser) {
     _presentUser = presnetUser;
+    notifyListeners();
   }
 
   //
@@ -82,7 +83,7 @@ class UserFeedViewModel extends ChangeNotifier {
       int n = userFeedListModel.length;
       for (var i = 0; i < n; i++) {
         bool isAlreadyLiked = await GetLikerViewModel()
-            .getLiker(presentUser.firebase,userFeedListModel[i]);
+            .getLiker(presentUser.firebase, userFeedListModel[i]);
         isAlreadyLikedList.add(isAlreadyLiked);
       }
       //
