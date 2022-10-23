@@ -4,6 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
+import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
 import 'package:hillfair2022_frontend/signup_widget.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
@@ -215,17 +216,10 @@ class _SignInState extends State<SignIn> {
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(25))),
-                                      onPressed: () {
-                                        showDialog(
-                                            context: context,
-                                            barrierDismissible: false,
-                                            builder: ((context) => const Center(
-                                                  child: LoadingData(),
-                                                )));
+                                      onPressed: () async {
                                         if (formKey.currentState!.validate()) {
-                                          signIn();
+                                          await signIn();
                                         }
-                                        Navigator.pop(context);
                                       },
                                       child: Center(
                                         child: SizedBox(
@@ -316,12 +310,20 @@ class _SignInState extends State<SignIn> {
   }
 
   Future signIn() async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return LoadingData();
+        });
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-      navigatorKey.currentState!.popUntil((route) => route.isFirst);
+      navigatorKey.currentState!.pushAndRemoveUntil(
+          MaterialPageRoute(builder: ((context) => BottomNav())),
+          (route) => false);
       Map data = {
         'email': emailController.text.toString(),
         'password': passwordController.text.toString(),
@@ -341,7 +343,7 @@ class _SignInState extends State<SignIn> {
       }
     } on FirebaseAuthException catch (e) {
       print(e);
-
+      navigatorKey.currentState!.pop();
       Utils.showSnackBar(e.message);
     }
   }

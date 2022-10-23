@@ -23,7 +23,11 @@ class Post extends StatefulWidget {
   var photourl;
   var comment;
   UserModel presentUser;
-  Post({super.key, required this.photourl, required this.comment, required this.presentUser});
+  Post(
+      {super.key,
+      required this.photourl,
+      required this.comment,
+      required this.presentUser});
 
   @override
   State<Post> createState() => _PostState();
@@ -32,6 +36,7 @@ class Post extends StatefulWidget {
 class _PostState extends State<Post> {
   final cloudinary = CloudinaryPublic('dugwczlzo', 'nql7r9cr', cache: false);
   File? imageFromDevice;
+  String res = "";
   late TextEditingController captionTxtController;
   final _formkey = GlobalKey<FormState>();
 
@@ -57,7 +62,6 @@ class _PostState extends State<Post> {
         File? img = File(image.path);
 
         print(img.lengthSync() ~/ 1024);
-
 
         if (img.lengthSync() ~/ 1024 <= 15000) {
           setState(() {
@@ -101,12 +105,12 @@ class _PostState extends State<Post> {
       PostImgModel body = PostImgModel(photo: photoUrl, text: caption);
 
       var provider = Provider.of<PostImgViewModel>(context, listen: false);
-      if (widget.presentUser.firebase != "firebase" ) {
-        var addedFeedList = await provider.postImg(body, widget.presentUser.firebase);
+      if (widget.presentUser.firebase != "firebase") {
+        var addedFeedList =
+            await provider.postImg(body, widget.presentUser.firebase);
 
-      return addedFeedList;
+        return addedFeedList;
       }
-      
     }
 
     return Scaffold(
@@ -118,14 +122,22 @@ class _PostState extends State<Post> {
                   context: context,
                   barrierDismissible: false,
                   builder: (context) {
-                    return LoadingData();
+                    return WillPopScope(
+                        onWillPop: () async {
+                          if (res == "Updated") {
+                            return true;
+                          }
+                          return false;
+                        },
+                        child: LoadingData());
                   });
               var addedList = await _post(imageFromDevice);
-              upadateFeedList(addedList);
+              res = await upadateFeedList(addedList);
               Navigator.pop(context);
-              if (addedList) {
-  Utils.showSnackBar("Successfully Posted!!!");
-}
+              Navigator.pop(context);
+              if (res == "Updated") {
+                Utils.showSnackBar("Successfully Posted!!!");
+              }
             }
           },
           backgroundColor: Colors.white,
@@ -137,6 +149,7 @@ class _PostState extends State<Post> {
         appBar: AppBar(
           automaticallyImplyLeading: true,
           backgroundColor: Colors.transparent,
+          elevation: 0,
           centerTitle: true,
           title: Text("Post", style: TextStyle(fontWeight: FontWeight.bold)),
         ),
@@ -295,5 +308,6 @@ class _PostState extends State<Post> {
 
     provider.setUserFeedListModel(provider.userFeedListModel);
     provider.isAlreadyLikedList.insert(0, false);
+    return "Updated";
   }
 }

@@ -39,136 +39,147 @@ class _PostUserState extends State<PostUser> {
     }
   }
 
-  final firstName = TextEditingController(text: "sa");
+  final firstName = TextEditingController();
   final lastName = TextEditingController();
-  final email = TextEditingController();
+  late final TextEditingController email;
   final userName = TextEditingController();
   final rollNo = TextEditingController();
   final gender = TextEditingController();
   final instaId = TextEditingController();
-
   final phoneNo = TextEditingController();
+
+  @override
+  void initState() {
+    email = TextEditingController(text: widget.email);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      backgroundColor: bgColor,
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: size.height * .9,
-          width: size.width,
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 45),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: size.height * .07,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      chooseImage();
-                    },
-                    child: CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.white,
-                      child: ClipOval(
-                          child: selectedImage != null
-                              ? Image.file(
-                                  selectedImage!,
-                                  fit: BoxFit.fill,
-                                  width: 100,
-                                  height: 100,
-                                )
-                              : Image.asset(
-                                  'assets/images/member.png',
-                                  fit: BoxFit.fill,
-                                  width: 100,
-                                  height: 100,
-                                )),
+    return WillPopScope(
+      onWillPop: (() async {
+        return false;
+      }),
+      child: Scaffold(
+        backgroundColor: bgColor,
+        body: SingleChildScrollView(
+          child: SizedBox(
+            height: size.height * .9,
+            width: size.width,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 45),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: size.height * .07,
                     ),
-                  ),
-                  const Spacer(),
-                  _textFielView(size, "First Name", "", firstName),
-                  // const SizedBox(
-                  //   height: 25,
-                  // ),
-                  _textFielView(size, 'Last Name', "", lastName),
-                  // const SizedBox(
-                  //   height: 25,
-                  // ),
-                  // const Spacer(),
-                  _textFielView(size, "username", "", userName),
-                  // const SizedBox(
-                  //   height: 25,
-                  // ),
-                  _textFielView(size, "email", "", email),
-                  // const SizedBox(
-                  //   height: 25,
-                  // ),
-                  _textFielView(size, 'Roll number', "", rollNo),
-                  // const SizedBox(
-                  //   height: 26,
-                  // ),
-                  _textFielView(size, "Insta_Id", "", instaId),
-                  // const SizedBox(
-                  //   height: 26,
-                  // ),
-                  // const Spacer(),
-                  _textFielView(size, "Gender", "", gender),
-                  // const SizedBox(
-                  //   height: 25,
-                  // ),
-                  _textFielView(size, 'Phone Number', "", phoneNo),
-                  SizedBox(
-                    height: size.height * .02,
-                  ),
-                  ElevatedButton(
-                      onPressed: () async {
-                        PostUserModel newUser = PostUserModel(
-                            password: "password", //TODO: PASSWORD ....?>>>
-                            firstName: firstName.text,
-                            lastName: lastName.text,
-                            firebase: widget.fbId,
-                            name: userName.text,
-                            gender: gender.text,
-                            phone: phoneNo.text,
-                            chatAllowed: true,
-                            chatReports: 0,
-                            email: email.text,
-                            score: 0,
-                            instagramId: "instagramId",
-                            profileImage: "https://placekitten.com/250/250");
-                        bool isPosted = await postUser(newUser);
-                        if (isPosted) {
-                          // ignore: use_build_context_synchronously
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const BottomNav()));
-                        } else {
-                          //TODO: same page again
-                        }
+                    GestureDetector(
+                      onTap: () {
+                        chooseImage();
                       },
-                      style: ElevatedButton.styleFrom(
-                          maximumSize: const Size(300, 50),
-                          backgroundColor:
-                              const Color.fromARGB(255, 184, 151, 213),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25))),
-                      child: Center(
-                        child: Text(
-                          "Save",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: size.height * .02,
-                              fontFamily: GoogleFonts.poppins().fontFamily,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      )),
-                  const Spacer(),
-                ],
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.white,
+                        child: ClipOval(
+                            child: selectedImage != null
+                                ? Image.file(
+                                    selectedImage!,
+                                    fit: BoxFit.fill,
+                                    width: 100,
+                                    height: 100,
+                                  )
+                                : Image.asset(
+                                    'assets/images/member.png',
+                                    fit: BoxFit.fill,
+                                    width: 100,
+                                    height: 100,
+                                  )),
+                      ),
+                    ),
+                    const Spacer(),
+                    _textFielView(size, "First Name", "", firstName),
+                    // const SizedBox(
+                    //   height: 25,
+                    // ),
+                    _textFielView(size, 'Last Name', "", lastName),
+                    // const SizedBox(
+                    //   height: 25,
+                    // ),
+                    // const Spacer(),
+                    _textFielView(size, "username", "", userName),
+                    // const SizedBox(
+                    //   height: 25,
+                    // ),
+                    _textFielView(size, "email", "", email),
+                    // const SizedBox(
+                    //   height: 25,
+                    // ),
+                    // _textFielView(size, 'Roll number', "", rollNo),
+                    // const SizedBox(
+                    //   height: 26,
+                    // ),
+                    _textFielView(size, "Insta_Id", "", instaId),
+                    // const SizedBox(
+                    //   height: 26,
+                    // ),
+                    // const Spacer(),
+                    _textFielView(size, "Gender", "", gender),
+                    // const SizedBox(
+                    //   height: 25,
+                    // ),
+                    _textFielView(size, 'Phone Number', "", phoneNo),
+                    SizedBox(
+                      height: size.height * .02,
+                    ),
+                    ElevatedButton(
+                        onPressed: () async {
+                          PostUserModel newUser = PostUserModel(
+                              password: "password", //TODO: PASSWORD ....?>>>
+                              firstName: firstName.text,
+                              lastName: lastName.text,
+                              firebase: widget.fbId,
+                              name: userName.text,
+                              gender: gender.text,
+                              phone: phoneNo.text,
+                              chatAllowed: true,
+                              chatReports: 0,
+                              email: email.text,
+                              score: 0,
+                              instagramId: instaId.text,
+                              profileImage: "https://placekitten.com/250/250");
+                          bool isPosted = await postUser(newUser);
+                          if (isPosted) {
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const BottomNav()));
+                          } else {
+                            //TODO: same page again
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                            maximumSize: const Size(300, 50),
+                            backgroundColor:
+                                const Color.fromARGB(255, 184, 151, 213),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25))),
+                        child: Center(
+                          child: Text(
+                            "Save",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: size.height * .02,
+                                fontFamily: GoogleFonts.poppins().fontFamily,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        )),
+                    const Spacer(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -223,7 +234,7 @@ Future<bool> postUser(PostUserModel newUser) async {
       sharedPreferences.setString('presentUser', response.body);
       Utils.showSnackBar("User_created !..");
       return true;
-    }else{
+    } else {
       // TODO: error handling
       Utils.showSnackBar(response.body);
     }
