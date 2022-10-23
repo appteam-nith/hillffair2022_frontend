@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/models/postUser_model.dart';
@@ -14,9 +16,15 @@ import '../../utils/api_constants.dart';
 import '../../utils/snackbar.dart';
 
 class EditProfile extends StatefulWidget {
+  String name, email, instaid, phno;
 
-
-   EditProfile({super.key});
+  EditProfile({
+    super.key,
+    required this.name,
+    required this.email,
+    required this.instaid,
+    required this.phno,
+  });
 
   @override
   State<EditProfile> createState() => _EditProfileState();
@@ -39,208 +47,224 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
-  final name = TextEditingController();
+  late final name;
 
-  final email = TextEditingController();
+  late final email;
 
-  final rollNo = TextEditingController();
-
-  final instaId = TextEditingController();
-
+  
+  late final instaId;
   // final gender = TextEditingController(); //TODO: use for gender
 
-  final phoneNo = TextEditingController();
+  late final phoneNo;
+
+  @override
+  void initState() {
+    instaId = TextEditingController(text: widget.instaid);
+    name = TextEditingController(text: widget.name);
+    phoneNo = TextEditingController(text: widget.phno);
+    email = TextEditingController(text: widget.email);
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return SingleChildScrollView(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        backgroundColor: bgColor,
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: size.width * .1),
-          child: Column(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  chooseImage();
-                },
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.white,
-                  child: ClipOval(
-                      child: selectedImage != null
-                          ? Image.file(
-                              selectedImage!,
-                              fit: BoxFit.fill,
-                              width: 100,
-                              height: 100,
-                            )
-                          : Image.asset(
-                              'assets/images/member.png',
-                              fit: BoxFit.fill,
-                              width: 100,
-                              height: 100,
-                            )),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      backgroundColor: bgColor,
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: size.height,
+          width: size.width,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: size.width * .1),
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    chooseImage();
+                  },
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.white,
+                    child: ClipOval(
+                        child: selectedImage != null
+                            ? Image.file(
+                                selectedImage!,
+                                fit: BoxFit.fill,
+                                width: 100,
+                                height: 100,
+                              )
+                            : Image.asset(
+                                'assets/images/member.png',
+                                fit: BoxFit.fill,
+                                width: 100,
+                                height: 100,
+                              )),
+                  ),
                 ),
-              ),
-              const Spacer(),
-              TextField(
-                controller: name,
-                cursorHeight: 25,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: appBarColor,
+                SizedBox(
+                  height: size.height * .1,
                 ),
-                cursorColor: appBarColor,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  hintText: 'Name',
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      borderSide:
-                          const BorderSide(width: 0, color: Colors.white)),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      borderSide:
-                          const BorderSide(width: 0, color: Colors.white)),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-                  filled: true,
-                  fillColor: const Color.fromARGB(255, 255, 255, 255),
+                TextField(
+                  controller: name,
+                  cursorHeight: 25,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: appBarColor,
+                  ),
+                  cursorColor: appBarColor,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    hintText: 'Name',
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide:
+                            const BorderSide(width: 0, color: Colors.white)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide:
+                            const BorderSide(width: 0, color: Colors.white)),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 25),
+                    filled: true,
+                    fillColor: const Color.fromARGB(255, 255, 255, 255),
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              TextField(
-                controller: email,
-                cursorHeight: 25,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: appBarColor,
+                const SizedBox(
+                  height: 25,
                 ),
-                cursorColor: appBarColor,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  hintText: 'Email address',
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      borderSide:
-                          const BorderSide(width: 0, color: Colors.white)),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      borderSide:
-                          const BorderSide(width: 0, color: Colors.white)),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-                  filled: true,
-                  fillColor: const Color.fromARGB(255, 255, 255, 255),
+                TextField(
+                  controller: email,
+                  cursorHeight: 25,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: appBarColor,
+                  ),
+                  cursorColor: appBarColor,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    hintText: 'Email address',
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide:
+                            const BorderSide(width: 0, color: Colors.white)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide:
+                            const BorderSide(width: 0, color: Colors.white)),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 25),
+                    filled: true,
+                    fillColor: const Color.fromARGB(255, 255, 255, 255),
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              TextField(
-                controller: rollNo,
-                cursorHeight: 25,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: appBarColor,
+                const SizedBox(
+                  height: 25,
                 ),
-                cursorColor: appBarColor,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  hintText: 'Roll number',
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      borderSide:
-                          const BorderSide(width: 0, color: Colors.white)),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      borderSide:
-                          const BorderSide(width: 0, color: Colors.white)),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-                  filled: true,
-                  fillColor: const Color.fromARGB(255, 255, 255, 255),
+                // TextField(
+                //   controller: rollNo,
+                //   cursorHeight: 25,
+                //   style: TextStyle(
+                //     fontWeight: FontWeight.bold,
+                //     color: appBarColor,
+                //   ),
+                //   cursorColor: appBarColor,
+                //   textInputAction: TextInputAction.next,
+                //   decoration: InputDecoration(
+                //     hintText: 'Roll number',
+                //     enabledBorder: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(25.0),
+                //         borderSide:
+                //             const BorderSide(width: 0, color: Colors.white)),
+                //     focusedBorder: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(25.0),
+                //         borderSide:
+                //             const BorderSide(width: 0, color: Colors.white)),
+                //     contentPadding: const EdgeInsets.symmetric(horizontal: 25),
+                //     filled: true,
+                //     fillColor: const Color.fromARGB(255, 255, 255, 255),
+                //   ),
+                // ),
+                const SizedBox(
+                  height: 26,
                 ),
-              ),
-              const SizedBox(
-                height: 26,
-              ),
-              TextField(
-                controller: instaId,
-                cursorHeight: 25,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: appBarColor,
+                TextField(
+                  controller: instaId,
+                  cursorHeight: 25,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: appBarColor,
+                  ),
+                  cursorColor: appBarColor,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    hintText: 'Instagram Id',
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide:
+                            const BorderSide(width: 0, color: Colors.white)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide:
+                            const BorderSide(width: 0, color: Colors.white)),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 25),
+                    filled: true,
+                    fillColor: const Color.fromARGB(255, 255, 255, 255),
+                  ),
                 ),
-                cursorColor: appBarColor,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  hintText: 'Instagram Id',
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      borderSide:
-                          const BorderSide(width: 0, color: Colors.white)),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      borderSide:
-                          const BorderSide(width: 0, color: Colors.white)),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-                  filled: true,
-                  fillColor: const Color.fromARGB(255, 255, 255, 255),
+                const SizedBox(
+                  height: 26,
                 ),
-              ),
-              const SizedBox(
-                height: 26,
-              ),
-              TextField(
-                controller: phoneNo,
-                cursorHeight: 25,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: appBarColor,
+                TextField(
+                  controller: phoneNo,
+                  cursorHeight: 25,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: appBarColor,
+                  ),
+                  cursorColor: appBarColor,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    hintText: 'Phone Number',
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide:
+                            const BorderSide(width: 0, color: Colors.white)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide:
+                            const BorderSide(width: 0, color: Colors.white)),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 25),
+                    filled: true,
+                    fillColor: const Color.fromARGB(255, 255, 255, 255),
+                  ),
                 ),
-                cursorColor: appBarColor,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  hintText: 'Phone Number',
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      borderSide:
-                          const BorderSide(width: 0, color: Colors.white)),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      borderSide:
-                          const BorderSide(width: 0, color: Colors.white)),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-                  filled: true,
-                  fillColor: const Color.fromARGB(255, 255, 255, 255),
+                const SizedBox(
+                  height: 50,
                 ),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      maximumSize: const Size(300, 50),
-                      backgroundColor: const Color.fromARGB(255, 184, 151, 213),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25))),
-                  child: Center(
-                    child: Text(
-                      "Save",
-                      style: TextStyle(
-                          fontSize: size.height * .02,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )),
-              const Spacer(),
-            ],
+                ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        maximumSize: const Size(300, 50),
+                        backgroundColor:
+                            const Color.fromARGB(255, 184, 151, 213),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25))),
+                    child: Center(
+                      child: Text(
+                        "Save",
+                        style: TextStyle(
+                            fontSize: size.height * .02,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )),
+                const Spacer(),
+              ],
+            ),
           ),
         ),
       ),

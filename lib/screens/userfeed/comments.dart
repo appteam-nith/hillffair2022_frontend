@@ -46,6 +46,7 @@ class _CommentsState extends State<Comments> {
       backgroundColor: bgColor,
       appBar: AppBar(
         centerTitle: true,
+        elevation: 0,
         backgroundColor: Colors.transparent,
         title: Text("Comments", style: TextStyle(fontWeight: FontWeight.bold)),
       ),
@@ -172,7 +173,11 @@ class _CommentsState extends State<Comments> {
         future: _getCommnnets(postId),
         builder: ((context, snapshot) {
           if (!snapshot.hasData) {
-            return LoadingData();
+            return Center(
+              child: CircularProgressIndicator(
+                color: bgColor,
+              ),
+            );
           } else {
             print(snapshot.data);
             return ListView.builder(
