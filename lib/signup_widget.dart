@@ -377,8 +377,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
           return LoadingData();
         });
 
-    final isvalid = formKey.currentState!.validate();
-    if (!isvalid) return "Error";
 
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(

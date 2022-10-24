@@ -1,4 +1,7 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,7 +19,7 @@ class PostUser extends StatefulWidget {
   String fbId;
   String password;
 
-  PostUser(this.email, this.fbId,this.password, {super.key});
+  PostUser(this.email, this.fbId, this.password, {super.key});
 
   @override
   State<PostUser> createState() => _PostUserState();
@@ -25,6 +28,7 @@ class PostUser extends StatefulWidget {
 class _PostUserState extends State<PostUser> {
   File? selectedImage;
   String base64Image = "";
+  String val = "";
 
   Future chooseImage() async {
     var image;
@@ -39,11 +43,21 @@ class _PostUserState extends State<PostUser> {
     }
   }
 
+
+  // to be make in use
+  Future<File> compressImage({
+    required File imagepath,
+  }) async {
+    var path = await FlutterNativeImage.compressImage(imagepath.absolute.path,
+        quality: 100, percentage: 35);
+    return path;
+  }
+
   final firstName = TextEditingController();
   final lastName = TextEditingController();
   late final TextEditingController email;
+  late final TextEditingController pass;
   final userName = TextEditingController();
-  final rollNo = TextEditingController();
   final gender = TextEditingController();
   final instaId = TextEditingController();
   final phoneNo = TextEditingController();
@@ -51,6 +65,7 @@ class _PostUserState extends State<PostUser> {
   @override
   void initState() {
     email = TextEditingController(text: widget.email);
+    pass = TextEditingController(text: widget.password);
     super.initState();
   }
 
@@ -70,7 +85,7 @@ class _PostUserState extends State<PostUser> {
             width: size.width,
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 45),
+                padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Column(
                   children: [
                     SizedBox(
@@ -117,7 +132,7 @@ class _PostUserState extends State<PostUser> {
                     // const SizedBox(
                     //   height: 25,
                     // ),
-                    // _textFielView(size, 'Roll number', "", rollNo),
+                    _textFielView(size, 'Password', "", pass),
                     // const SizedBox(
                     //   height: 26,
                     // ),
@@ -126,7 +141,53 @@ class _PostUserState extends State<PostUser> {
                     //   height: 26,
                     // ),
                     // const Spacer(),
-                    _textFielView(size, "Gender", "", gender),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: size.width * .39,
+                          child: ListTile(
+                            title: Text(
+                              "Male",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                            leading: Radio(
+                              activeColor: Colors.white,
+                              groupValue: val,
+                              value: "M",
+                              onChanged: ((value) {
+                                setState(() {
+                                  val = value as String;
+                                });
+                              }),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: size.width * .39,
+                          child: ListTile(
+                            title: Text(
+                              "Female",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                            leading: Radio(
+                              activeColor: Colors.white,
+                              groupValue: val,
+                              value: "F",
+                              onChanged: ((value) {
+                                setState(() {
+                                  val = value as String;
+                                });
+                              }),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    // _textFielView(size, "Gender", "", gender),
                     // const SizedBox(
                     //   height: 25,
                     // ),
@@ -137,12 +198,12 @@ class _PostUserState extends State<PostUser> {
                     ElevatedButton(
                         onPressed: () async {
                           PostUserModel newUser = PostUserModel(
-                              password: "password", //TODO: PASSWORD ....?>>>
+                              password: pass.text, //TODO: PASSWORD ....?>>>
                               firstName: firstName.text,
                               lastName: lastName.text,
                               firebase: widget.fbId,
                               name: userName.text,
-                              gender: gender.text,
+                              gender: val,
                               phone: phoneNo.text,
                               chatAllowed: true,
                               chatReports: 0,
@@ -199,7 +260,6 @@ class _PostUserState extends State<PostUser> {
         style: TextStyle(
           fontWeight: FontWeight.bold,
           color: appBarColor,
-          fontFamily: GoogleFonts.poppins().fontFamily,
         ),
         cursorColor: appBarColor,
         textInputAction: TextInputAction.next,

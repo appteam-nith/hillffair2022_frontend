@@ -130,7 +130,7 @@ class MainPage extends StatelessWidget {
           } else if (snapshot.hasData) {
             // return PostUser(snapshot.data!.email, snapshot.data!.uid);
             // if (isEmailVerified==true) {
-              return BottomNav();
+            return BottomNav();
             // } else {
             //   return VerifyEmailPage();
             // }
