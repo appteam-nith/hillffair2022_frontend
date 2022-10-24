@@ -313,7 +313,11 @@ class _SignInState extends State<SignIn> {
         context: context,
         barrierDismissible: false,
         builder: (context) {
-          return LoadingData();
+          return WillPopScope(
+              onWillPop: () async {
+                return false;
+              },
+              child: LoadingData());
         });
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -337,13 +341,13 @@ class _SignInState extends State<SignIn> {
       } else {
         Utils.showSnackBar(response.body);
       }
+      navigatorKey.currentState!.pushAndRemoveUntil(
+          MaterialPageRoute(builder: ((context) => BottomNav())),
+          (route) => false);
     } on FirebaseAuthException catch (e) {
       print(e);
       navigatorKey.currentState!.pop();
       Utils.showSnackBar(e.message);
     }
-    navigatorKey.currentState!.pushAndRemoveUntil(
-          MaterialPageRoute(builder: ((context) => BottomNav())),
-          (route) => false);
   }
 }
