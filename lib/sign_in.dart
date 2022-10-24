@@ -32,7 +32,6 @@ class _SignInState extends State<SignIn> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  final String verifyemail = "@nith.ac.in";
 
   @override
   void dispose() {

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/models/postUser_model.dart';
 import 'package:hillfair2022_frontend/main.dart';
@@ -47,14 +48,22 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
+  // to be make in use
+  Future<File> compressImage({
+    required File imagepath,
+  }) async {
+    var path = await FlutterNativeImage.compressImage(imagepath.absolute.path,
+        quality: 100, percentage: 35);
+    return path;
+  }
+
   late final name;
 
   late final email;
 
   
   late final instaId;
-  // final gender = TextEditingController(); //TODO: use for gender
-
+  final pass = TextEditingController();
   late final phoneNo;
 
   @override
@@ -165,30 +174,30 @@ class _EditProfileState extends State<EditProfile> {
                 const SizedBox(
                   height: 25,
                 ),
-                // TextField(
-                //   controller: rollNo,
-                //   cursorHeight: 25,
-                //   style: TextStyle(
-                //     fontWeight: FontWeight.bold,
-                //     color: appBarColor,
-                //   ),
-                //   cursorColor: appBarColor,
-                //   textInputAction: TextInputAction.next,
-                //   decoration: InputDecoration(
-                //     hintText: 'Roll number',
-                //     enabledBorder: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(25.0),
-                //         borderSide:
-                //             const BorderSide(width: 0, color: Colors.white)),
-                //     focusedBorder: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(25.0),
-                //         borderSide:
-                //             const BorderSide(width: 0, color: Colors.white)),
-                //     contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-                //     filled: true,
-                //     fillColor: const Color.fromARGB(255, 255, 255, 255),
-                //   ),
-                // ),
+                TextField(
+                  controller: pass,
+                  cursorHeight: 25,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: appBarColor,
+                  ),
+                  cursorColor: appBarColor,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide:
+                            const BorderSide(width: 0, color: Colors.white)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide:
+                            const BorderSide(width: 0, color: Colors.white)),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 25),
+                    filled: true,
+                    fillColor: const Color.fromARGB(255, 255, 255, 255),
+                  ),
+                ),
                 const SizedBox(
                   height: 26,
                 ),
