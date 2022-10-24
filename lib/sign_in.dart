@@ -314,7 +314,11 @@ class _SignInState extends State<SignIn> {
         context: context,
         barrierDismissible: false,
         builder: (context) {
-          return LoadingData();
+          return WillPopScope(
+              onWillPop: () async {
+                return false;
+              },
+              child: LoadingData());
         });
     
     try {
@@ -326,11 +330,30 @@ class _SignInState extends State<SignIn> {
         'email': emailController.text.toString(),
         'password': passwordController.text.toString(),
       };
+
+
+      String email = emailController.text;
+      var url = Uri.parse("$checkUserUrl$email");
+      var response = await http.get(url);
+      if (200 == response.statusCode) {
+        SharedPreferences userPrefs = await SharedPreferences.getInstance();
+        if (userPrefs.containsKey("presentUser")) {
+          userPrefs.remove("presentUser");
+        }
+        userPrefs.setString("presentUser", response.body);
+      } else {
+        Utils.showSnackBar(response.body);
+      }
+      navigatorKey.currentState!.pushAndRemoveUntil(
+          MaterialPageRoute(builder: ((context) => BottomNav())),
+          (route) => false);
+
     } on FirebaseAuthException catch (e) {
       print(e);
       navigatorKey.currentState!.pop();
       Utils.showSnackBar(e.message);
     }
+
     // navigatorKey.currentState!.pushAndRemoveUntil(
     //     MaterialPageRoute(builder: ((context) => BottomNav())),
     //     (route) => false);
@@ -349,5 +372,6 @@ signInAtBackend(String email) async {
     userPrefs.setString("presentUser", response.body);
   } else {
     Utils.showSnackBar(response.body);
+
   }
 }
