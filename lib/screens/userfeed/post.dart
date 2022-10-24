@@ -195,7 +195,8 @@ class _PostState extends State<Post> {
                                       Icon(Icons.error),
                                 ),
                               )),
-                          title: Text(widget.presentUser.name,
+                          title: Text(
+                            widget.presentUser.name,
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(fontWeight: FontWeight.bold)),
