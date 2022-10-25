@@ -14,7 +14,7 @@ import 'getLikerViewModel.dart';
 class UserFeedViewModel extends ChangeNotifier {
   UserFeedViewModel() {
     getUserFeed();
-    getPresentUser();
+    // getPresentUser();
   }
 
 //presentUserData
