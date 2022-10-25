@@ -24,6 +24,7 @@ class Comments extends StatefulWidget {
 
 class _CommentsState extends State<Comments> {
   TextEditingController commentTxtController = TextEditingController();
+  final _formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +88,7 @@ class _CommentsState extends State<Comments> {
                           fontWeight: FontWeight.bold,
                           color: appBarColor,
                         )),
-                    subtitle: Text("widget.post.text",
+                    subtitle: Text(widget.post.text,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -99,58 +100,67 @@ class _CommentsState extends State<Comments> {
                     // color: Colors.black,
                     child: _commentListView(widget.post.id, context),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    child: TextFormField(
-                      controller: commentTxtController,
-                      // validator: (e) {
-                      //   if (e!.isEmpty) {
-                      //     return "Enter Comment!!!";
-                      //   }
-                      //   return null;
-                      // },
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      cursorHeight: 25,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: appBarColor,
+                  Form(
+                    key: _formkey,
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: TextFormField(
+                        controller: commentTxtController,
+                        validator: (e) {
+                          if (e!.isEmpty) {
+                            return "Enter Comment!!!";
+                          } else if (e.length > 100) {
+                            return "Length should be less than 100 characters!!!";
+                          }
+                          return null;
+                        },
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        cursorHeight: 25,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: appBarColor,
+                        ),
+                        cursorColor: appBarColor,
+                        decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  if (_formkey.currentState!.validate()) {
+                                    _postComment(widget.post.id,
+                                        widget.presentUser.firebase);
+                                    setState(() {
+                                      commentTxtController.clear();
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                    });
+                                    Utils.showSnackBar("Comment Posted!!!");
+                                  }
+                                },
+                                icon: Icon(
+                                  Icons.send,
+                                  color: appBarColor,
+                                )),
+                            hintText: "Enter Comment here",
+                            hintStyle: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: appBarColor,
+                            ),
+                            contentPadding: EdgeInsets.only(left: 20),
+                            filled: true,
+                            fillColor: Color(0xffD9D9D9),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(40)),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(40)),
+                            errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(40)),
+                            focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(40))),
                       ),
-                      cursorColor: appBarColor,
-                      decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                _postComment(widget.post.id,
-                                    widget.presentUser.firebase);
-                                setState(() {
-                                  commentTxtController.clear();
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                });
-                                Utils.showSnackBar("Comment Posted!!!");
-                              },
-                              icon: Icon(
-                                Icons.send,
-                                color: appBarColor,
-                              )),
-                          hintText: "Enter Comment here",
-                          hintStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: appBarColor,
-                          ),
-                          contentPadding: EdgeInsets.only(left: 20),
-                          filled: true,
-                          fillColor: Color(0xffD9D9D9),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                              borderRadius: BorderRadius.circular(40)),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                              borderRadius: BorderRadius.circular(40)),
-                          errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                              borderRadius: BorderRadius.circular(40)),
-                          focusedErrorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                              borderRadius: BorderRadius.circular(40))),
                     ),
                   )
                 ],
@@ -194,7 +204,7 @@ class _CommentsState extends State<Comments> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ExpansionTile(
-                          title: Text(comment.text,
+                          title: Text(comment.author,
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -202,7 +212,7 @@ class _CommentsState extends State<Comments> {
                                 color: appBarColor,
                               )),
                           children: [
-                            Text(comment.author,
+                            Text(comment.text,
                                 textAlign: TextAlign.left,
                                 maxLines: 10,
                                 overflow: TextOverflow.ellipsis,

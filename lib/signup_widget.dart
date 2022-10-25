@@ -374,7 +374,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         context: context,
         barrierDismissible: false,
         builder: (context) {
-          return LoadingData();
+          return WillPopScope(
+              onWillPop: () async {
+                return false;
+              },
+              child: LoadingData());
         });
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(

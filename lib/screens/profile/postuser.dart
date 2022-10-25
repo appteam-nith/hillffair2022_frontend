@@ -98,7 +98,7 @@ class _PostUserState extends State<PostUser> {
         backgroundColor: bgColor,
         body: SingleChildScrollView(
           child: SizedBox(
-            height: size.height * .9,
+            height: size.height,
             width: size.width,
             child: Center(
               child: Padding(
@@ -158,51 +158,54 @@ class _PostUserState extends State<PostUser> {
                     //   height: 26,
                     // ),
                     // const Spacer(),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: size.width * .39,
-                          child: ListTile(
-                            title: Text(
-                              "Male",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                            leading: Radio(
-                              activeColor: Colors.white,
-                              groupValue: val,
-                              value: "M",
-                              onChanged: ((value) {
-                                setState(() {
-                                  val = value as String;
-                                });
-                              }),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: size.width * .39,
-                          child: ListTile(
-                            title: Text(
-                              "Female",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                            leading: Radio(
-                              activeColor: Colors.white,
-                              groupValue: val,
-                              value: "F",
-                              onChanged: ((value) {
-                                setState(() {
-                                  val = value as String;
-                                });
-                              }),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: size.width * .39,
+                            child: ListTile(
+                              title: Text(
+                                "Male",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              leading: Radio(
+                                activeColor: Colors.white,
+                                groupValue: val,
+                                value: "M",
+                                onChanged: ((value) {
+                                  setState(() {
+                                    val = value as String;
+                                  });
+                                }),
+                              ),
                             ),
                           ),
-                        )
-                      ],
+                          SizedBox(
+                            width: size.width * .39,
+                            child: ListTile(
+                              title: Text(
+                                "Female",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              leading: Radio(
+                                activeColor: Colors.white,
+                                groupValue: val,
+                                value: "F",
+                                onChanged: ((value) {
+                                  setState(() {
+                                    val = value as String;
+                                  });
+                                }),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                     // _textFielView(size, "Gender", "", gender),
                     // const SizedBox(
@@ -266,31 +269,33 @@ class _PostUserState extends State<PostUser> {
     );
   }
 
-  Padding _textFielView(Size size, String hintText, String initialValue,
+  Expanded _textFielView(Size size, String hintText, String initialValue,
       TextEditingController textEditingController) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: size.height * .01),
-      child: TextField(
-        //Todo : add initial value
-        controller: textEditingController,
-        cursorHeight: 25,
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: appBarColor,
-        ),
-        cursorColor: appBarColor,
-        textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          hintText: hintText,
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25.0),
-              borderSide: const BorderSide(width: 0, color: Colors.white)),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25.0),
-              borderSide: const BorderSide(width: 0, color: Colors.white)),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-          filled: true,
-          fillColor: const Color.fromARGB(255, 255, 255, 255),
+    return Expanded(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: size.height * .01),
+        child: TextField(
+          //Todo : add initial value
+          controller: textEditingController,
+          cursorHeight: 25,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: appBarColor,
+          ),
+          cursorColor: appBarColor,
+          textInputAction: TextInputAction.next,
+          decoration: InputDecoration(
+            hintText: hintText,
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25.0),
+                borderSide: const BorderSide(width: 0, color: Colors.white)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25.0),
+                borderSide: const BorderSide(width: 0, color: Colors.white)),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 25),
+            filled: true,
+            fillColor: const Color.fromARGB(255, 255, 255, 255),
+          ),
         ),
       ),
     );
