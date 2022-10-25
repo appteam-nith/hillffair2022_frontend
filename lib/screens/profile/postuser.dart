@@ -46,21 +46,20 @@ class _PostUserState extends State<PostUser> {
     }
   }
 
-  //TODO: compress before 
+  //TODO: compress before
   Future<String> getImgUrl(var image) async {
-      try {
-        CloudinaryResponse response = await cloudinary.uploadFile(
-          CloudinaryFile.fromFile(image.path,
-              resourceType: CloudinaryResourceType.Image),
-        );
-        return response.secureUrl;
-      } on CloudinaryException catch (e) {
-        print(e.message);
-        print(e.request);
-        return "";
-      }
+    try {
+      CloudinaryResponse response = await cloudinary.uploadFile(
+        CloudinaryFile.fromFile(image.path,
+            resourceType: CloudinaryResourceType.Image),
+      );
+      return response.secureUrl;
+    } on CloudinaryException catch (e) {
+      print(e.message);
+      print(e.request);
+      return "";
     }
-  
+  }
 
   // to be make in use
   Future<File> compressImage({
@@ -109,29 +108,31 @@ class _PostUserState extends State<PostUser> {
                     SizedBox(
                       height: size.height * .07,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        chooseImage();
-                      },
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.white,
-                        child: ClipOval(
-                            child: selectedImage != null
-                                ? Image.file(
-                                    selectedImage!,
-                                    fit: BoxFit.fill,
-                                    width: 100,
-                                    height: 100,
-                                  )
-                                : Image.asset(
-                                    'assets/images/member.png',
-                                    fit: BoxFit.fill,
-                                    width: 100,
-                                    height: 100,
-                                  )),
-                      ),
-                    ),
+                    // will take profile image in edit profile page
+
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     chooseImage();
+                    //   },
+                    //   child: CircleAvatar(
+                    //     radius: 50,
+                    //     backgroundColor: Colors.white,
+                    //     child: ClipOval(
+                    //         child: selectedImage != null
+                    //             ? Image.file(
+                    //                 selectedImage!,
+                    //                 fit: BoxFit.fill,
+                    //                 width: 100,
+                    //                 height: 100,
+                    //               )
+                    //             : Image.asset(
+                    //                 'assets/images/member.png',
+                    //                 fit: BoxFit.fill,
+                    //                 width: 100,
+                    //                 height: 100,
+                    //               )),
+                    //   ),
+                    // ),
                     const Spacer(),
                     _textFielView(size, "First Name", "", firstName),
                     // const SizedBox(
@@ -243,8 +244,6 @@ class _PostUserState extends State<PostUser> {
                           } else {
                             //TODO: same page again
                           }
-
-
                         },
                         style: ElevatedButton.styleFrom(
                             maximumSize: const Size(300, 50),

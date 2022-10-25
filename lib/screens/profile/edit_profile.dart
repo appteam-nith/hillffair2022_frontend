@@ -2,6 +2,7 @@
 
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/models/postUser_model.dart';
@@ -36,19 +37,27 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   final cloudinary = CloudinaryPublic('dugwczlzo', 'nql7r9cr', cache: false);
-  File? selectedImage;
+  late File? selectedImage;
   String base64Image = "";
 
-  Future chooseImage() async {
-    var image;
+  Future _pickimage(ImageSource source) async {
+    selectedImage = null;
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) {
+        return;
+      }
+      File? img = File(image.path);
 
-    image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      print(img.lengthSync() ~/ 1024);
 
-    if (image != null) {
-      setState(() {
-        selectedImage = File(image.path);
-        base64Image = base64Encode(selectedImage!.readAsBytesSync());
-      });
+      if (img.lengthSync() ~/ 1024 <= 10000) {
+        setState(() {
+          selectedImage = img;
+        });
+      }
+    } on PlatformException catch (e) {
+      print(e);
     }
   }
 
@@ -69,10 +78,10 @@ class _EditProfileState extends State<EditProfile> {
 
   // to be make in use
   Future<File> compressImage({
-    required File imagepath,
+    required File? imagepath,
   }) async {
-    var path = await FlutterNativeImage.compressImage(imagepath.absolute.path,
-        quality: 100, percentage: 35);
+    var path = await FlutterNativeImage.compressImage(imagepath!.absolute.path,
+        quality: 100, percentage: 20);
     return path;
   }
 
@@ -112,8 +121,12 @@ class _EditProfileState extends State<EditProfile> {
             child: Column(
               children: [
                 GestureDetector(
-                  onTap: () {
-                    chooseImage();
+                  onTap: () async {
+                    await _pickimage(ImageSource.gallery);
+                    if (selectedImage == null) {
+                      Utils.showSnackBar(
+                          "Image size should less than 10 MB!!!");
+                    }
                   },
                   child: CircleAvatar(
                     radius: 50,
@@ -165,6 +178,7 @@ class _EditProfileState extends State<EditProfile> {
                   height: 25,
                 ),
                 TextField(
+                  readOnly: true,
                   controller: email,
                   cursorHeight: 25,
                   style: TextStyle(
@@ -273,21 +287,28 @@ class _EditProfileState extends State<EditProfile> {
                   height: 50,
                 ),
                 ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      // To do -> when user does not choose any profile image
+                      // if(selectedImage==null){
+                      //   return
+                      // }
+                      File compressedImage =
+                          await compressImage(imagepath: selectedImage);
+                      String photourl = await getImgUrl(compressedImage);
                       PostUserModel editedUser = PostUserModel(
                           password: pass.text,
                           firstName: widget.presentUser.firstName,
                           lastName: widget.presentUser.lastName,
                           firebase: widget.presentUser.firebase,
-                          name: name,
+                          name: name.text,
                           gender: widget.presentUser.gender,
-                          phone: widget.presentUser.phone,
+                          phone: phoneNo.text,
                           chatAllowed: widget.presentUser.chatAllowed,
                           chatReports: widget.presentUser.chatReports,
-                          email: email,
+                          email: widget.presentUser.email,
                           score: widget.presentUser.score,
-                          instagramId: instaId,
-                          profileImage: widget.presentUser.profileImage);
+                          instagramId: instaId.text,
+                          profileImage: photourl);
 
                       editUserInfo(editedUser);
                     },

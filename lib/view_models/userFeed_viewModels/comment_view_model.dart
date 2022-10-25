@@ -14,6 +14,10 @@ class PostCommentViewModel extends ChangeNotifier {
   postComment(String comment, String postid, String fbid) async {
     loading = true;
     notifyListeners();
+    print("klsf");
+    print(comment);
+    print(postid);
+    print(fbid);
     var response = (await CommentServicie.postComment(comment, postid, fbid))!;
     if (response.statusCode == 201) {
       isBack = true;
