@@ -16,6 +16,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../components/loading_data.dart';
 import '../../utils/api_constants.dart';
 import '../../utils/snackbar.dart';
 
@@ -85,20 +86,18 @@ class _EditProfileState extends State<EditProfile> {
     return path;
   }
 
-  late final name;
-
-  late final email;
-
-  late final instaId;
-  final pass = TextEditingController();
-  late final phoneNo;
+  late final TextEditingController phoneNo;
+  late final TextEditingController name;
+  late final TextEditingController instaId;
+  late final TextEditingController pass;
+  final _formkey = GlobalKey<FormState>();
 
   @override
   void initState() {
     instaId = TextEditingController(text: widget.presentUser.instagramId);
     name = TextEditingController(text: widget.presentUser.name);
     phoneNo = TextEditingController(text: widget.presentUser.phone);
-    email = TextEditingController(text: widget.presentUser.email);
+    pass = TextEditingController();
     super.initState();
   }
 
@@ -118,199 +117,279 @@ class _EditProfileState extends State<EditProfile> {
           width: size.width,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: size.width * .1),
-            child: Column(
-              children: [
-                GestureDetector(
-                  onTap: () async {
-                    await _pickimage(ImageSource.gallery);
-                    if (selectedImage == null) {
-                      Utils.showSnackBar(
-                          "Image size should less than 10 MB!!!");
-                    }
-                  },
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.white,
-                    child: ClipOval(
-                        child: selectedImage != null
-                            ? Image.file(
-                                selectedImage!,
-                                fit: BoxFit.fill,
-                                width: 100,
-                                height: 100,
-                              )
-                            : Image.asset(
-                                'assets/images/member.png',
-                                fit: BoxFit.fill,
-                                width: 100,
-                                height: 100,
-                              )),
+            child: Form(
+              key: _formkey,
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTap: () async {
+                      await _pickimage(ImageSource.gallery);
+                      if (selectedImage == null) {
+                        Utils.showSnackBar(
+                            "Image size should less than 10 MB!!!");
+                      }
+                    },
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.white,
+                      child: ClipOval(
+                          child: selectedImage != null
+                              ? Image.file(
+                                  selectedImage!,
+                                  fit: BoxFit.fill,
+                                  width: 100,
+                                  height: 100,
+                                )
+                              : Image.asset(
+                                  'assets/images/member.png',
+                                  fit: BoxFit.fill,
+                                  width: 100,
+                                  height: 100,
+                                )),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: size.height * .1,
-                ),
-                TextField(
-                  controller: name,
-                  cursorHeight: 25,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: appBarColor,
+                  SizedBox(
+                    height: size.height * .1,
                   ),
-                  cursorColor: appBarColor,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    hintText: 'Name',
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide:
-                            const BorderSide(width: 0, color: Colors.white)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide:
-                            const BorderSide(width: 0, color: Colors.white)),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-                    filled: true,
-                    fillColor: const Color.fromARGB(255, 255, 255, 255),
+                  TextFormField(
+                    controller: name,
+                    cursorHeight: 25,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: appBarColor,
+                    ),
+                    validator: (e) {
+                      if (e!.isEmpty) {
+                        return "Enter name...";
+                      }
+                      return null;
+                    },
+                    cursorColor: appBarColor,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      hintText: 'Name',
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 25),
+                      filled: true,
+                      fillColor: const Color.fromARGB(255, 255, 255, 255),
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                TextField(
-                  readOnly: true,
-                  controller: email,
-                  cursorHeight: 25,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: appBarColor,
+                  const SizedBox(
+                    height: 25,
                   ),
-                  cursorColor: appBarColor,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    hintText: 'Email address',
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide:
-                            const BorderSide(width: 0, color: Colors.white)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide:
-                            const BorderSide(width: 0, color: Colors.white)),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-                    filled: true,
-                    fillColor: const Color.fromARGB(255, 255, 255, 255),
+                  TextFormField(
+                    readOnly: true,
+                    initialValue: widget.presentUser.email,
+                    cursorHeight: 25,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: appBarColor,
+                    ),
+                    cursorColor: appBarColor,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      hintText: 'Email address',
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 25),
+                      filled: true,
+                      fillColor: const Color.fromARGB(255, 255, 255, 255),
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                TextField(
-                  controller: pass,
-                  cursorHeight: 25,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: appBarColor,
+                  const SizedBox(
+                    height: 25,
                   ),
-                  cursorColor: appBarColor,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide:
-                            const BorderSide(width: 0, color: Colors.white)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide:
-                            const BorderSide(width: 0, color: Colors.white)),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-                    filled: true,
-                    fillColor: const Color.fromARGB(255, 255, 255, 255),
+                  TextFormField(
+                    controller: pass,
+                    cursorHeight: 25,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (e) {
+                      if (e!.length < 8) {
+                        return "There should be atleast 8 char ...";
+                      }
+                      return null;
+                    },
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: appBarColor,
+                    ),
+                    cursorColor: appBarColor,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      hintText: 'Password',
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 25),
+                      filled: true,
+                      fillColor: const Color.fromARGB(255, 255, 255, 255),
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 26,
-                ),
-                TextField(
-                  controller: instaId,
-                  cursorHeight: 25,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: appBarColor,
+                  const SizedBox(
+                    height: 26,
                   ),
-                  cursorColor: appBarColor,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    hintText: 'Instagram Id',
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide:
-                            const BorderSide(width: 0, color: Colors.white)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide:
-                            const BorderSide(width: 0, color: Colors.white)),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-                    filled: true,
-                    fillColor: const Color.fromARGB(255, 255, 255, 255),
+                  TextFormField(
+                    controller: instaId,
+                    cursorHeight: 25,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (e) {
+                      if (e!.isEmpty) {
+                        return "Enter id...";
+                      }
+                      return null;
+                    },
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: appBarColor,
+                    ),
+                    cursorColor: appBarColor,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      hintText: 'Instagram Id',
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 25),
+                      filled: true,
+                      fillColor: const Color.fromARGB(255, 255, 255, 255),
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 26,
-                ),
-                TextField(
-                  controller: phoneNo,
-                  cursorHeight: 25,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: appBarColor,
+                  const SizedBox(
+                    height: 26,
                   ),
-                  cursorColor: appBarColor,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    hintText: 'Phone Number',
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide:
-                            const BorderSide(width: 0, color: Colors.white)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide:
-                            const BorderSide(width: 0, color: Colors.white)),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-                    filled: true,
-                    fillColor: const Color.fromARGB(255, 255, 255, 255),
+                  TextFormField(
+                    controller: phoneNo,
+                    cursorHeight: 25,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (e) {
+                      if (e!.length != 10) {
+                        return "There should be 10 digits ...";
+                      }
+                      return null;
+                    },
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: appBarColor,
+                    ),
+                    cursorColor: appBarColor,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      hintText: 'Phone Number',
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              const BorderSide(width: 0, color: Colors.white)),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 25),
+                      filled: true,
+                      fillColor: const Color.fromARGB(255, 255, 255, 255),
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                ElevatedButton(
-                    onPressed: () async {
-                      // To do -> when user does not choose any profile image
-                      // if(selectedImage==null){
-                      //   return
-                      // }
-                      File compressedImage =
-                          await compressImage(imagepath: selectedImage);
-                      String photourl = await getImgUrl(compressedImage);
-                      PostUserModel editedUser = PostUserModel(
-                          password: pass.text,
-                          firstName: widget.presentUser.firstName,
-                          lastName: widget.presentUser.lastName,
-                          firebase: widget.presentUser.firebase,
-                          name: name.text,
-                          gender: widget.presentUser.gender,
-                          phone: phoneNo.text,
-                          chatAllowed: widget.presentUser.chatAllowed,
-                          chatReports: widget.presentUser.chatReports,
-                          email: widget.presentUser.email,
-                          score: widget.presentUser.score,
-                          instagramId: instaId.text,
-                          profileImage: photourl);
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  ElevatedButton(
+                      onPressed: () async {
+                        // To do -> when user does not choose any profile image
+                        // if(selectedImage==null){
+                        //   return
+                        // }
+                        if (_formkey.currentState!.validate()) {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return WillPopScope(
+                                    child: LoadingData(),
+                                    onWillPop: () async {
+                                      return false;
+                                    });
+                              });
+                          File compressedImage =
+                              await compressImage(imagepath: selectedImage);
+                          String photourl = await getImgUrl(compressedImage);
+                          PostUserModel editedUser = PostUserModel(
+                              password: pass.text,
+                              firstName: widget.presentUser.firstName,
+                              lastName: widget.presentUser.lastName,
+                              firebase: widget.presentUser.firebase,
+                              name: name.text,
+                              gender: widget.presentUser.gender,
+                              phone: phoneNo.text,
+                              chatAllowed: widget.presentUser.chatAllowed,
+                              chatReports: widget.presentUser.chatReports,
+                              email: widget.presentUser.email,
+                              score: widget.presentUser.score,
+                              instagramId: instaId.text,
+                              profileImage: photourl);
 
-                      editUserInfo(editedUser);
+
+                          await editUserInfo(editedUser);
+                          Navigator.pop(context);
                       RestartWidget.restartApp(context);
                     },
                     style: ElevatedButton.styleFrom(
@@ -329,6 +408,7 @@ class _EditProfileState extends State<EditProfile> {
                     )),
                 const Spacer(),
               ],
+
             ),
           ),
         ),
@@ -337,7 +417,7 @@ class _EditProfileState extends State<EditProfile> {
   }
 }
 
-void editUserInfo(PostUserModel editedUser) async {
+Future editUserInfo(PostUserModel editedUser) async {
   try {
     var url = Uri.parse("$postUserUrl${editedUser.firebase}/");
     var response = await http.patch(url, body: editedUser);
