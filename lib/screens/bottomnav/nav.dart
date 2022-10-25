@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:hillfair2022_frontend/screens/chatting/chatting.dart';
@@ -55,11 +56,11 @@ class _BottomNavState extends State<BottomNav> {
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
               tabs: const [
                 GButton(
-                  icon: Icons.account_box_outlined,
+                  icon: CupertinoIcons.home,
                   text: "Teams",
                 ),
                 GButton(
-                  icon: Icons.chat_rounded,
+                  icon: CupertinoIcons.chat_bubble_2,
                   text: "Chatting",
                 ),
                 GButton(
@@ -67,11 +68,11 @@ class _BottomNavState extends State<BottomNav> {
                   text: "UserFeed",
                 ),
                 GButton(
-                  icon: Icons.calendar_month_rounded,
+                  icon: CupertinoIcons.calendar,
                   text: "Events",
                 ),
                 GButton(
-                  icon: Icons.account_circle_rounded,
+                  icon: CupertinoIcons.person,
                   text: "Profile",
                 ),
               ]),

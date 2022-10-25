@@ -91,6 +91,7 @@ class _ProfileState extends State<Profile> {
   }
 
   Scaffold _profileView(Size size, BuildContext context) {
+    print(presentUser.name);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

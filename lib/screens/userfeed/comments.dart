@@ -43,6 +43,7 @@ class _CommentsState extends State<Comments> {
     // setState(() {
     //   commentlist = _getCommnnets(widget.postId) as List<dynamic>;
     // });
+    print(widget.presentUser.name);
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(
