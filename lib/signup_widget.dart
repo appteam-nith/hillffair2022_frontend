@@ -376,70 +376,22 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         builder: (context) {
           return LoadingData();
         });
-
-
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-
       String email = emailController.text;
       var userId = FirebaseAuth.instance.currentUser!.uid;
-
-      // navigatorKey.currentState!.popUntil((route) => route.isFirst);
       navigatorKey.currentState!.pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => PostUser(email, userId, passwordController.text)),
+          MaterialPageRoute(
+              builder: (context) =>
+                  PostUser(email, userId, passwordController.text)),
           (route) => false);
-
-      // UserModel data = UserModel(
-      //     firstName: "John",
-      //     lastName: "Doe",
-      //     firebase: userId,
-      //     name: "Peter Parker",
-      //     gender: "M",
-      //     phone: "0000000000",
-      //     chatAllowed: true,
-      //     chatReports: 0,
-      //     email: email,
-      //     score: 0,
-      //     instagramId: "instaId",
-      //     profileImage: "https://placekitten.com/250/250");
-      //postUser
-      // PostUserModel postUserData = PostUserModel(
-      //     password: passwordController.text,
-      //     firstName: "John",
-      //     lastName: "Doe",
-      //     firebase: userId,
-      //     name: "Peter Parker",
-      //     gender: "M",
-      //     phone: "0000000000",
-      //     chatAllowed: true,
-      //     chatReports: 0,
-      //     email: email,
-      //     score: 0,
-      //     instagramId: "instaId",
-      //     profileImage: "https://placekitten.com/250/250");
-
-      // var url = Uri.parse(postUserUrl);
-      // var response = await http.post(url,
-      //     headers: {
-      //       HttpHeaders.contentTypeHeader: "application/json",
-      //     },
-      //     body: postUserModelToJson(postUserData));
-      // print(response.statusCode);
-      //
-//       final SharedPreferences sharedPreferences =
-//           await SharedPreferences.getInstance();
-//       if (response.statusCode == postSuccessCode) {
-//   sharedPreferences.setString('presentUser', response.body);
-// }
     } on FirebaseAuthException catch (e) {
       navigatorKey.currentState!.pop();
       print(e);
-
       Utils.showSnackBar(e.message);
-      // return Future.value("Error");
     }
   }
 }

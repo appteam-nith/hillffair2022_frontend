@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,6 +33,7 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  final cloudinary = CloudinaryPublic('dugwczlzo', 'nql7r9cr', cache: false);
   File? selectedImage;
   String base64Image = "";
 
@@ -47,6 +49,21 @@ class _EditProfileState extends State<EditProfile> {
       });
     }
   }
+
+   //TODO: compress before 
+  Future<String> getImgUrl(var image) async {
+      try {
+        CloudinaryResponse response = await cloudinary.uploadFile(
+          CloudinaryFile.fromFile(image.path,
+              resourceType: CloudinaryResourceType.Image),
+        );
+        return response.secureUrl;
+      } on CloudinaryException catch (e) {
+        print(e.message);
+        print(e.request);
+        return "";
+      }
+    }
 
   // to be make in use
   Future<File> compressImage({
