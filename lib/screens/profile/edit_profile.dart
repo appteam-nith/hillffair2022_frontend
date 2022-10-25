@@ -387,27 +387,28 @@ class _EditProfileState extends State<EditProfile> {
                               instagramId: instaId.text,
                               profileImage: photourl);
 
+
                           await editUserInfo(editedUser);
                           Navigator.pop(context);
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                          maximumSize: const Size(300, 50),
-                          backgroundColor:
-                              const Color.fromARGB(255, 184, 151, 213),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25))),
-                      child: Center(
-                        child: Text(
-                          "Save",
-                          style: TextStyle(
-                              fontSize: size.height * .02,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      )),
-                  const Spacer(),
-                ],
-              ),
+                      RestartWidget.restartApp(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        maximumSize: const Size(300, 50),
+                        backgroundColor:
+                            const Color.fromARGB(255, 184, 151, 213),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25))),
+                    child: Center(
+                      child: Text(
+                        "Save",
+                        style: TextStyle(
+                            fontSize: size.height * .02,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )),
+                const Spacer(),
+              ],
+
             ),
           ),
         ),
@@ -421,6 +422,9 @@ Future editUserInfo(PostUserModel editedUser) async {
     var url = Uri.parse("$postUserUrl${editedUser.firebase}/");
     var response = await http.patch(url, body: editedUser);
     if (response.statusCode == 200) {
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      sharedPreferences.setString('presentUser', response.body);
       Utils.showSnackBar("Successfully Updated!...");
     } else {
       Utils.showSnackBar(response.body);
