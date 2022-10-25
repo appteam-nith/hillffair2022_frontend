@@ -23,9 +23,9 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
-  List navPages = [TeamList(), Chatting(), TabSlider(), Events(), Profile()];
+  List navPages = [TeamList(),TabSlider(), Events(), Profile()];
 
-  int currentIndex = 2;
+  int currentIndex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +58,10 @@ class _BottomNavState extends State<BottomNav> {
                   icon: Icons.account_box_outlined,
                   text: "Teams",
                 ),
-                GButton(
-                  icon: Icons.chat_rounded,
-                  text: "Chatting",
-                ),
+                // GButton(
+                //   icon: Icons.chat_rounded,
+                //   text: "Chatting",
+                // ),
                 GButton(
                   icon: Icons.add_a_photo_outlined,
                   text: "UserFeed",

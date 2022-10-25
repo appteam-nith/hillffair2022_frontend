@@ -332,18 +332,18 @@ class _SignInState extends State<SignIn> {
       };
 
 
-      String email = emailController.text;
-      var url = Uri.parse("$checkUserUrl$email");
-      var response = await http.get(url);
-      if (200 == response.statusCode) {
-        SharedPreferences userPrefs = await SharedPreferences.getInstance();
-        if (userPrefs.containsKey("presentUser")) {
-          userPrefs.remove("presentUser");
-        }
-        userPrefs.setString("presentUser", response.body);
-      } else {
-        Utils.showSnackBar(response.body);
-      }
+      // String email = emailController.text;
+      // var url = Uri.parse("$checkUserUrl$email");
+      // var response = await http.get(url);
+      // if (200 == response.statusCode) {
+      //   SharedPreferences userPrefs = await SharedPreferences.getInstance();
+      //   if (userPrefs.containsKey("presentUser")) {
+      //     userPrefs.remove("presentUser");
+      //   }
+      //   userPrefs.setString("presentUser", response.body);
+      // } else {
+      //   Utils.showSnackBar(response.body);
+      // }
       navigatorKey.currentState!.pushAndRemoveUntil(
           MaterialPageRoute(builder: ((context) => BottomNav())),
           (route) => false);
