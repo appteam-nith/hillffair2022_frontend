@@ -63,9 +63,9 @@ class _UserFeedState extends State<UserFeed> {
   }
 
   _userFeedView(UserFeedViewModel userFeedViewModel, Size size) {
-      List<UserFeedModel> feedList = userFeedViewModel.prefFeedList;
-      List<bool> isLikedList = userFeedViewModel.prefIsLikedList;
-    
+    List<UserFeedModel> feedList = userFeedViewModel.prefFeedList;
+    List<bool> isLikedList = userFeedViewModel.prefIsLikedList;
+
     if (!userFeedViewModel.loading) {
       feedList = userFeedViewModel.userFeedListModel;
       isLikedList = userFeedViewModel.isAlreadyLikedList;
@@ -246,8 +246,18 @@ class _UserFeedState extends State<UserFeed> {
                                 style: ButtonStyle(
                                     overlayColor: MaterialStatePropertyAll(
                                         Colors.transparent)),
-                                onPressed: () {
-                                  deletePost(userFeedModel.id);
+                                onPressed: () async {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return WillPopScope(
+                                            child: LoadingData(),
+                                            onWillPop: () async {
+                                              return false;
+                                            });
+                                      });
+                                  await deletePost(userFeedModel.id);
+                                  Navigator.pop(context);
                                 },
                                 child: Text(
                                   "Delete",
@@ -282,11 +292,9 @@ class _UserFeedState extends State<UserFeed> {
         });
   }
 
-  void deletePost(String id) async {
+  Future deletePost(String id) async {
     var url = Uri.parse("$deletePostUrl$id/");
-    final http.Response response = await http.delete(
-      url
-    );
+    final http.Response response = await http.delete(url);
     if (response.statusCode == 204) {
       //update feedList
       var provider = Provider.of<UserFeedViewModel>(context, listen: false);
