@@ -185,11 +185,7 @@ class _ProfileState extends State<Profile> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => EditProfile(
-                                  name: presentUser.name,
-                                  email: presentUser.email,
-                                  phno: presentUser.phone,
-                                  instaid: presentUser.instagramId,
+                            builder: (context) => EditProfile(presentUser: presentUser,
                                 )));
                   },
                   style: ElevatedButton.styleFrom(
