@@ -217,6 +217,7 @@ class _SignInState extends State<SignIn> {
                                                   BorderRadius.circular(25))),
                                       onPressed: () async {
                                         if (formKey.currentState!.validate()) {
+                                          await signInAtBackend(emailController.text);
                                           await signIn();
                                         }
                                       },
@@ -319,6 +320,7 @@ class _SignInState extends State<SignIn> {
               },
               child: LoadingData());
         });
+    
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
@@ -329,25 +331,47 @@ class _SignInState extends State<SignIn> {
         'password': passwordController.text.toString(),
       };
 
-      String email = emailController.text;
-      var url = Uri.parse("$checkUserUrl$email");
-      var response = await http.get(url);
-      if (200 == response.statusCode) {
-        SharedPreferences userPrefs = await SharedPreferences.getInstance();
-        if (userPrefs.containsKey("presentUser")) {
-          userPrefs.remove("presentUser");
-        }
-        userPrefs.setString("presentUser", response.body);
-      } else {
-        Utils.showSnackBar(response.body);
-      }
+
+      // String email = emailController.text;
+      // var url = Uri.parse("$checkUserUrl$email");
+      // var response = await http.get(url);
+      // if (200 == response.statusCode) {
+      //   SharedPreferences userPrefs = await SharedPreferences.getInstance();
+      //   if (userPrefs.containsKey("presentUser")) {
+      //     userPrefs.remove("presentUser");
+      //   }
+      //   userPrefs.setString("presentUser", response.body);
+      // } else {
+      //   Utils.showSnackBar(response.body);
+      // }
       navigatorKey.currentState!.pushAndRemoveUntil(
           MaterialPageRoute(builder: ((context) => BottomNav())),
           (route) => false);
+
     } on FirebaseAuthException catch (e) {
       print(e);
       navigatorKey.currentState!.pop();
       Utils.showSnackBar(e.message);
     }
+
+    // navigatorKey.currentState!.pushAndRemoveUntil(
+    //     MaterialPageRoute(builder: ((context) => BottomNav())),
+    //     (route) => false);
+  }
+}
+
+signInAtBackend(String email) async {
+  //  String email = emailController.text;
+  var url = Uri.parse("$checkUserUrl$email");
+  var response = await http.get(url);
+  if (200 == response.statusCode) {
+    SharedPreferences userPrefs = await SharedPreferences.getInstance();
+    if (userPrefs.containsKey("presentUser")) {
+      userPrefs.remove("presentUser");
+    }
+    userPrefs.setString("presentUser", response.body);
+  } else {
+    Utils.showSnackBar(response.body);
+
   }
 }

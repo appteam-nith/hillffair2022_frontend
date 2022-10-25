@@ -287,12 +287,12 @@ class _UserFeedState extends State<UserFeed> {
     final http.Response response = await http.delete(
       url
     );
-    if (response.statusCode == 200) {
+    if (response.statusCode == 204) {
       //update feedList
       var provider = Provider.of<UserFeedViewModel>(context, listen: false);
       var filteredList =
           provider.userFeedListModel.where(((element) => element.id != id));
-      provider.setUserFeedListModel(filteredList as List<UserFeedModel>);
+      provider.setUserFeedListModel(filteredList.toList());
       Utils.showSnackBar("Deleted Succesfully!...");
     } else {
       Utils.showSnackBar(response.body);

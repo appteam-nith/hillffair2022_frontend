@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import '../../main.dart';
 import '../../models/postUser_model.dart';
 import '../../utils/api_constants.dart';
 import '../../utils/snackbar.dart';
@@ -29,20 +31,35 @@ class _PostUserState extends State<PostUser> {
   File? selectedImage;
   String base64Image = "";
   String val = "";
+  final cloudinary = CloudinaryPublic('dugwczlzo', 'nql7r9cr', cache: false);
 
   Future chooseImage() async {
-    var image;
+    XFile? image;
 
     image = await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (image != null) {
       setState(() {
-        selectedImage = File(image.path);
+        selectedImage = File(image!.path);
         base64Image = base64Encode(selectedImage!.readAsBytesSync());
       });
     }
   }
 
+  //TODO: compress before
+  Future<String> getImgUrl(var image) async {
+    try {
+      CloudinaryResponse response = await cloudinary.uploadFile(
+        CloudinaryFile.fromFile(image.path,
+            resourceType: CloudinaryResourceType.Image),
+      );
+      return response.secureUrl;
+    } on CloudinaryException catch (e) {
+      print(e.message);
+      print(e.request);
+      return "";
+    }
+  }
 
   // to be make in use
   Future<File> compressImage({
@@ -91,29 +108,31 @@ class _PostUserState extends State<PostUser> {
                     SizedBox(
                       height: size.height * .07,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        chooseImage();
-                      },
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.white,
-                        child: ClipOval(
-                            child: selectedImage != null
-                                ? Image.file(
-                                    selectedImage!,
-                                    fit: BoxFit.fill,
-                                    width: 100,
-                                    height: 100,
-                                  )
-                                : Image.asset(
-                                    'assets/images/member.png',
-                                    fit: BoxFit.fill,
-                                    width: 100,
-                                    height: 100,
-                                  )),
-                      ),
-                    ),
+                    // will take profile image in edit profile page
+
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     chooseImage();
+                    //   },
+                    //   child: CircleAvatar(
+                    //     radius: 50,
+                    //     backgroundColor: Colors.white,
+                    //     child: ClipOval(
+                    //         child: selectedImage != null
+                    //             ? Image.file(
+                    //                 selectedImage!,
+                    //                 fit: BoxFit.fill,
+                    //                 width: 100,
+                    //                 height: 100,
+                    //               )
+                    //             : Image.asset(
+                    //                 'assets/images/member.png',
+                    //                 fit: BoxFit.fill,
+                    //                 width: 100,
+                    //                 height: 100,
+                    //               )),
+                    //   ),
+                    // ),
                     const Spacer(),
                     _textFielView(size, "First Name", "", firstName),
                     // const SizedBox(
@@ -221,6 +240,7 @@ class _PostUserState extends State<PostUser> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const BottomNav()));
+                            RestartWidget.restartApp(context);
                           } else {
                             //TODO: same page again
                           }

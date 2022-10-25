@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:hillfair2022_frontend/api_services/api_status.dart';
+import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:http/http.dart' as http;
 
 import '../../models/event_model.dart';
@@ -20,6 +21,8 @@ class PostImgServices {
           body: postImgModelToJson(data));
       if (response.statusCode == 201) {
         print("feed posted");
+      } else {
+        Utils.showSnackBar(response.body);
       }
     } catch (e) {
       print(e.toString());

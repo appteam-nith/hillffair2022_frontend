@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/models/postUser_model.dart';
 import 'package:hillfair2022_frontend/main.dart';
+import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,43 +20,68 @@ import '../../utils/api_constants.dart';
 import '../../utils/snackbar.dart';
 
 class EditProfile extends StatefulWidget {
-  String name, email, instaid, phno;
+  // String name, email, instaid, phno;
+  UserModel presentUser;
 
-  EditProfile({
-    super.key,
-    required this.name,
-    required this.email,
-    required this.instaid,
-    required this.phno,
-  });
+  EditProfile(
+      {super.key,
+      // required this.name,
+      // required this.email,
+      // required this.instaid,
+      // required this.phno,
+      required this.presentUser});
 
   @override
   State<EditProfile> createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile> {
-  File? selectedImage;
+  final cloudinary = CloudinaryPublic('dugwczlzo', 'nql7r9cr', cache: false);
+  late File? selectedImage;
   String base64Image = "";
 
-  Future chooseImage() async {
-    var image;
+  Future _pickimage(ImageSource source) async {
+    selectedImage = null;
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) {
+        return;
+      }
+      File? img = File(image.path);
 
-    image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      print(img.lengthSync() ~/ 1024);
 
-    if (image != null) {
-      setState(() {
-        selectedImage = File(image.path);
-        base64Image = base64Encode(selectedImage!.readAsBytesSync());
-      });
+      if (img.lengthSync() ~/ 1024 <= 10000) {
+        setState(() {
+          selectedImage = img;
+        });
+      }
+    } on PlatformException catch (e) {
+      print(e);
+    }
+  }
+
+  //TODO: compress before
+  Future<String> getImgUrl(var image) async {
+    try {
+      CloudinaryResponse response = await cloudinary.uploadFile(
+        CloudinaryFile.fromFile(image.path,
+            resourceType: CloudinaryResourceType.Image),
+      );
+      return response.secureUrl;
+    } on CloudinaryException catch (e) {
+      print(e.message);
+      print(e.request);
+      return "";
     }
   }
 
   // to be make in use
   Future<File> compressImage({
-    required File imagepath,
+    required File? imagepath,
   }) async {
-    var path = await FlutterNativeImage.compressImage(imagepath.absolute.path,
-        quality: 100, percentage: 35);
+    var path = await FlutterNativeImage.compressImage(imagepath!.absolute.path,
+        quality: 100, percentage: 20);
     return path;
   }
 
@@ -61,20 +89,18 @@ class _EditProfileState extends State<EditProfile> {
 
   late final email;
 
-  
   late final instaId;
   final pass = TextEditingController();
   late final phoneNo;
 
   @override
   void initState() {
-    instaId = TextEditingController(text: widget.instaid);
-    name = TextEditingController(text: widget.name);
-    phoneNo = TextEditingController(text: widget.phno);
-    email = TextEditingController(text: widget.email);
+    instaId = TextEditingController(text: widget.presentUser.instagramId);
+    name = TextEditingController(text: widget.presentUser.name);
+    phoneNo = TextEditingController(text: widget.presentUser.phone);
+    email = TextEditingController(text: widget.presentUser.email);
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -95,8 +121,12 @@ class _EditProfileState extends State<EditProfile> {
             child: Column(
               children: [
                 GestureDetector(
-                  onTap: () {
-                    chooseImage();
+                  onTap: () async {
+                    await _pickimage(ImageSource.gallery);
+                    if (selectedImage == null) {
+                      Utils.showSnackBar(
+                          "Image size should less than 10 MB!!!");
+                    }
                   },
                   child: CircleAvatar(
                     radius: 50,
@@ -148,6 +178,7 @@ class _EditProfileState extends State<EditProfile> {
                   height: 25,
                 ),
                 TextField(
+                  readOnly: true,
                   controller: email,
                   cursorHeight: 25,
                   style: TextStyle(
@@ -256,8 +287,30 @@ class _EditProfileState extends State<EditProfile> {
                   height: 50,
                 ),
                 ElevatedButton(
-                    onPressed: () {
-                      
+                    onPressed: () async {
+                      // To do -> when user does not choose any profile image
+                      // if(selectedImage==null){
+                      //   return
+                      // }
+                      File compressedImage =
+                          await compressImage(imagepath: selectedImage);
+                      String photourl = await getImgUrl(compressedImage);
+                      PostUserModel editedUser = PostUserModel(
+                          password: pass.text,
+                          firstName: widget.presentUser.firstName,
+                          lastName: widget.presentUser.lastName,
+                          firebase: widget.presentUser.firebase,
+                          name: name.text,
+                          gender: widget.presentUser.gender,
+                          phone: phoneNo.text,
+                          chatAllowed: widget.presentUser.chatAllowed,
+                          chatReports: widget.presentUser.chatReports,
+                          email: widget.presentUser.email,
+                          score: widget.presentUser.score,
+                          instagramId: instaId.text,
+                          profileImage: photourl);
+
+                      editUserInfo(editedUser);
                     },
                     style: ElevatedButton.styleFrom(
                         maximumSize: const Size(300, 50),
@@ -280,5 +333,19 @@ class _EditProfileState extends State<EditProfile> {
         ),
       ),
     );
+  }
+}
+
+void editUserInfo(PostUserModel editedUser) async {
+  try {
+    var url = Uri.parse("$postUserUrl${editedUser.firebase}/");
+    var response = await http.patch(url, body: editedUser);
+    if (response.statusCode == 200) {
+      Utils.showSnackBar("Successfully Updated!...");
+    } else {
+      Utils.showSnackBar(response.body);
+    }
+  } catch (e) {
+    Utils.showSnackBar(e.toString());
   }
 }

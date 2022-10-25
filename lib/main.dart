@@ -132,7 +132,7 @@ class MainPage extends StatelessWidget {
             // if (isEmailVerified==true) {
             return BottomNav();
             // } else {
-            //   return VerifyEmailPage();
+            //   return VerifyEmailPage();    
             // }
           } else {
             return WelcomePage();

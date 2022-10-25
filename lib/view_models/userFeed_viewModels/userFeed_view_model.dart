@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hillfair2022_frontend/api_services/userFeedServicies/getLIker_services.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
 import 'package:hillfair2022_frontend/models/user_model.dart';
+import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../api_services/api_status.dart';
 import '../../api_services/userFeedServicies/userFeed_services.dart';
@@ -14,7 +15,7 @@ import 'getLikerViewModel.dart';
 class UserFeedViewModel extends ChangeNotifier {
   UserFeedViewModel() {
     getUserFeed();
-    getPresentUser();
+    // getPresentUser();
   }
 
 //presentUserData
@@ -95,6 +96,8 @@ class UserFeedViewModel extends ChangeNotifier {
       );
       setuserFeedError(userFeedError);
     }
+    Utils.showSnackBar("new Data Fetched");
+    print("new Data fetched");
     setLoading(false);
     adddFeedToSahredPref(userFeedListModel, isAlreadyLikedList);
   }

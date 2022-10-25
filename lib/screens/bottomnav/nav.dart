@@ -24,9 +24,9 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
-  List navPages = [TeamList(), Chatting(), TabSlider(), Events(), Profile()];
+  List navPages = [TeamList(),TabSlider(), Events(), Profile()];
 
-  int currentIndex = 2;
+  int currentIndex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +59,10 @@ class _BottomNavState extends State<BottomNav> {
                   icon: CupertinoIcons.home,
                   text: "Teams",
                 ),
-                GButton(
-                  icon: CupertinoIcons.chat_bubble_2,
-                  text: "Chatting",
-                ),
+                // GButton(
+                //   icon: CupertinoIcons.chat_bubble_2,
+                //   text: "Chatting",
+                // ),
                 GButton(
                   icon: Icons.add_a_photo_outlined,
                   text: "UserFeed",
