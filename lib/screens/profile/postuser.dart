@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import '../../main.dart';
 import '../../models/postUser_model.dart';
 import '../../utils/api_constants.dart';
 import '../../utils/snackbar.dart';
@@ -238,9 +239,12 @@ class _PostUserState extends State<PostUser> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const BottomNav()));
+                            RestartWidget.restartApp(context);
                           } else {
                             //TODO: same page again
                           }
+
+
                         },
                         style: ElevatedButton.styleFrom(
                             maximumSize: const Size(300, 50),
