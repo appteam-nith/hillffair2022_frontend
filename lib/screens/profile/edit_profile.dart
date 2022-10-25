@@ -37,7 +37,7 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   final cloudinary = CloudinaryPublic('dugwczlzo', 'nql7r9cr', cache: false);
-  late File? selectedImage;
+  File? selectedImage;
   String base64Image = "";
 
   Future _pickimage(ImageSource source) async {
@@ -311,6 +311,7 @@ class _EditProfileState extends State<EditProfile> {
                           profileImage: photourl);
 
                       editUserInfo(editedUser);
+                      RestartWidget.restartApp(context);
                     },
                     style: ElevatedButton.styleFrom(
                         maximumSize: const Size(300, 50),
@@ -341,6 +342,9 @@ void editUserInfo(PostUserModel editedUser) async {
     var url = Uri.parse("$postUserUrl${editedUser.firebase}/");
     var response = await http.patch(url, body: editedUser);
     if (response.statusCode == 200) {
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      sharedPreferences.setString('presentUser', response.body);
       Utils.showSnackBar("Successfully Updated!...");
     } else {
       Utils.showSnackBar(response.body);
