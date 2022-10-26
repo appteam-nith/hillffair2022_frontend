@@ -4,6 +4,7 @@ import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -219,6 +220,15 @@ class _PostUserState extends State<PostUser> {
                     ),
                     ElevatedButton(
                         onPressed: () async {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return WillPopScope(
+                                    child: LoadingData(),
+                                    onWillPop: () async {
+                                      return false;
+                                    });
+                              });
                           PostUserModel newUser = PostUserModel(
                               password: pass.text, //TODO: PASSWORD ....?>>>
                               firstName: firstName.text,
@@ -236,13 +246,15 @@ class _PostUserState extends State<PostUser> {
                           bool isPosted = await postUser(newUser);
                           if (isPosted) {
                             // ignore: use_build_context_synchronously
-                            Navigator.pushReplacement(
+                            Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const BottomNav()));
+                                    builder: ((context) => BottomNav())),
+                                (route) => false);
                             RestartWidget.restartApp(context);
                           } else {
                             //TODO: same page again
+                            Navigator.pop(context);
                           }
                         },
                         style: ElevatedButton.styleFrom(

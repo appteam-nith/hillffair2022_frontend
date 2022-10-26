@@ -22,15 +22,10 @@ import '../../utils/api_constants.dart';
 import '../../utils/snackbar.dart';
 
 class EditProfile extends StatefulWidget {
-  // String name, email, instaid, phno;
   UserModel presentUser;
 
   EditProfile(
       {super.key,
-      // required this.name,
-      // required this.email,
-      // required this.instaid,
-      // required this.phno,
       required this.presentUser});
 
   @override
@@ -63,7 +58,6 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
-  //TODO: compress before
   Future<String> getImgUrl(var image) async {
     try {
       CloudinaryResponse response = await cloudinary.uploadFile(
@@ -78,7 +72,6 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
-  // to be make in use
   Future<File> compressImage({
     required File? imagepath,
   }) async {
@@ -86,14 +79,6 @@ class _EditProfileState extends State<EditProfile> {
         quality: 100, percentage: 20);
     return path;
   }
-
-  // late final name;
-
-  // late final email;
-
-  // late final instaId;
-  // final pass = TextEditingController();
-  // late final phoneNo;
 
   late TextEditingController instaId;
   late TextEditingController name;
@@ -111,10 +96,6 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    // TextEditingController instaId = TextEditingController(text: widget.presentUser.instagramId);
-    // TextEditingController name = TextEditingController(text: widget.presentUser.name);
-    // TextEditingController phoneNo = TextEditingController(text: widget.presentUser.phone);
-    // TextEditingController email = TextEditingController(text: widget.presentUser.email);
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -251,9 +232,9 @@ class _EditProfileState extends State<EditProfile> {
                 //     fillColor: const Color.fromARGB(255, 255, 255, 255),
                 //   ),
                 // ),
-                const SizedBox(
-                  height: 26,
-                ),
+                // const SizedBox(
+                //   height: 26,
+                // ),
                 TextField(
                   controller: instaId,
                   cursorHeight: 25,
