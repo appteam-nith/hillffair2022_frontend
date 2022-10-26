@@ -84,7 +84,7 @@ class _EventsState extends State<Events> {
                         fit: BoxFit.cover,
                       )),
                     ),
-                    placeholder: (context, url) => CircularProgressIndicator(),
+                    placeholder: (context, url) => LoadingData(),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 )),

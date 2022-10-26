@@ -91,6 +91,7 @@ class _EditProfileState extends State<EditProfile> {
   late final TextEditingController instaId;
   late final TextEditingController pass;
   final _formkey = GlobalKey<FormState>();
+  String photourl = "";
 
   @override
   void initState() {
@@ -371,7 +372,7 @@ class _EditProfileState extends State<EditProfile> {
                               });
                           File compressedImage =
                               await compressImage(imagepath: selectedImage);
-                          String photourl = await getImgUrl(compressedImage);
+                          photourl = await getImgUrl(compressedImage);
                           PostUserModel editedUser = PostUserModel(
                               password: pass.text,
                               firstName: widget.presentUser.firstName,
