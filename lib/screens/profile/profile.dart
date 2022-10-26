@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -124,9 +125,24 @@ class _ProfileState extends State<Profile> {
                   height: 18,
                 ),
                 CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage('assets/images/member.png'),
-                ),
+                backgroundColor: appBarColor,
+                radius: 50,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50.0),
+                  child: CachedNetworkImage(
+                    imageUrl: presentUser.profileImage,
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        image: imageProvider,
+                        alignment: Alignment.center,
+                        fit: BoxFit.cover,
+                      )),
+                    ),
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
+                )),
                 SizedBox(
                   height: 15.75,
                 ),
