@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
@@ -13,10 +14,10 @@ import '../bottomnav/nav.dart';
 
 class PostUser extends StatefulWidget {
   var email;
-  String fbId;
+  // String fbId;
   // String password;
 
-  PostUser(this.email, this.fbId, {super.key});
+  PostUser(this.email, {super.key});
 
   @override
   State<PostUser> createState() => _PostUserState();
@@ -25,7 +26,7 @@ class PostUser extends StatefulWidget {
 class _PostUserState extends State<PostUser> {
   File? selectedImage;
   String base64Image = "";
-
+  
   Future chooseImage() async {
     var image;
 
@@ -51,7 +52,7 @@ class _PostUserState extends State<PostUser> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    String fbId = FirebaseAuth.instance.currentUser!.uid;
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
@@ -115,7 +116,7 @@ class _PostUserState extends State<PostUser> {
                 // const SizedBox(
                 //   height: 26,
                 // ),
-                _textFielView("Insta_Id","",instaId),
+                _textFielView("Insta_Id", "", instaId),
                 // const SizedBox(
                 //   height: 26,
                 // ),
@@ -130,11 +131,12 @@ class _PostUserState extends State<PostUser> {
                 // ),
                 ElevatedButton(
                     onPressed: () async {
+                      String fbId = FirebaseAuth.instance.currentUser!.uid;
                       PostUserModel newUser = PostUserModel(
                           password: "password", //TODO: PASSWORD ....?>>>
                           firstName: firstName.text,
                           lastName: lastName.text,
-                          firebase: widget.fbId,
+                          firebase: fbId,
                           name: userName.text,
                           gender: gender.text,
                           phone: phoneNo.text,
@@ -151,7 +153,7 @@ class _PostUserState extends State<PostUser> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const BottomNav()));
-                      }else{
+                      } else {
                         //TODO: same page again
                       }
                     },
@@ -223,7 +225,7 @@ Future<bool> postUser(PostUserModel newUser) async {
       sharedPreferences.setString('presentUser', response.body);
       Utils.showSnackBar("User_creaated !..");
       return true;
-    }else{
+    } else {
       // TODO: error handling
       Utils.showSnackBar(response.body);
     }

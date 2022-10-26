@@ -40,7 +40,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final String verifyemail = "@nith.ac.in";
- 
 
   @override
   void dispose() {
@@ -309,23 +308,25 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   Future signUp() async {
     final isvalid = formKey.currentState!.validate();
     if (!isvalid) return "Error";
-    
 
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-      
 
       String email = emailController.text;
-      var userId = FirebaseAuth.instance.currentUser!.uid;
-
+      String userId = FirebaseAuth.instance.currentUser!.uid;
+      // print(userId);
+      final SharedPreferences Email = await SharedPreferences.getInstance();
+      Email.setString('email', email);
+      final SharedPreferences Id = await SharedPreferences.getInstance();
+      Id.setString('UserId', userId);
       // navigatorKey.currentState!.popUntil((route) => route.isFirst);
       navigatorKey.currentState!.pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => PostUser(email, userId)),
+          MaterialPageRoute(builder: (context) => VerifyEmailPage()),
           (route) => false);
-     
+
       // UserModel data = UserModel(
       //     firstName: "John",
       //     lastName: "Doe",
@@ -363,10 +364,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       //     body: postUserModelToJson(postUserData));
       // print(response.statusCode);
       //
-//       final SharedPreferences sharedPreferences =
-//           await SharedPreferences.getInstance();
-//       if (response.statusCode == postSuccessCode) {
-//   sharedPreferences.setString('presentUser', response.body);
+      //     final SharedPreferences sharedPreferences =
+      //         await SharedPreferences.getInstance();
+      //     if (response.statusCode == postSuccessCode) {
+      // sharedPreferences.setString('presentUser', response.body);
 // }
     } on FirebaseAuthException catch (e) {
       print(e);
