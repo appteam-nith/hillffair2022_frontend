@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +10,7 @@ import 'package:hillfair2022_frontend/models/postUser_model.dart';
 import 'package:hillfair2022_frontend/main.dart';
 import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
+import 'package:hillfair2022_frontend/screens/profile/profile.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
@@ -85,13 +87,18 @@ class _EditProfileState extends State<EditProfile> {
     return path;
   }
 
-  late final name;
+  // late final name;
 
-  late final email;
+  // late final email;
 
-  late final instaId;
-  final pass = TextEditingController();
-  late final phoneNo;
+  // late final instaId;
+  // final pass = TextEditingController();
+  // late final phoneNo;
+
+  late TextEditingController instaId;
+  late TextEditingController name;
+  late TextEditingController phoneNo;
+  late TextEditingController email;
 
   @override
   void initState() {
@@ -104,6 +111,10 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
+    // TextEditingController instaId = TextEditingController(text: widget.presentUser.instagramId);
+    // TextEditingController name = TextEditingController(text: widget.presentUser.name);
+    // TextEditingController phoneNo = TextEditingController(text: widget.presentUser.phone);
+    // TextEditingController email = TextEditingController(text: widget.presentUser.email);
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -132,19 +143,30 @@ class _EditProfileState extends State<EditProfile> {
                     radius: 50,
                     backgroundColor: Colors.white,
                     child: ClipOval(
-                        child: selectedImage != null
-                            ? Image.file(
-                                selectedImage!,
-                                fit: BoxFit.fill,
-                                width: 100,
-                                height: 100,
-                              )
-                            : Image.asset(
-                                'assets/images/member.png',
-                                fit: BoxFit.fill,
-                                width: 100,
-                                height: 100,
-                              )),
+                      child: selectedImage != null
+                          ? Image.file(
+                              selectedImage!,
+                              fit: BoxFit.fill,
+                              width: 100,
+                              height: 100,
+                            )
+                          : CachedNetworkImage(
+                              imageUrl: widget.presentUser.profileImage,
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                  image: imageProvider,
+                                  alignment: Alignment.center,
+                                  fit: BoxFit.cover,
+                                )),
+                              ),
+                              placeholder: (context, url) =>
+                                  CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            ),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -205,30 +227,30 @@ class _EditProfileState extends State<EditProfile> {
                 const SizedBox(
                   height: 25,
                 ),
-                TextField(
-                  controller: pass,
-                  cursorHeight: 25,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: appBarColor,
-                  ),
-                  cursorColor: appBarColor,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide:
-                            const BorderSide(width: 0, color: Colors.white)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide:
-                            const BorderSide(width: 0, color: Colors.white)),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-                    filled: true,
-                    fillColor: const Color.fromARGB(255, 255, 255, 255),
-                  ),
-                ),
+                // TextField(
+                //   controller: pass,
+                //   cursorHeight: 25,
+                //   style: TextStyle(
+                //     fontWeight: FontWeight.bold,
+                //     color: appBarColor,
+                //   ),
+                //   cursorColor: appBarColor,
+                //   textInputAction: TextInputAction.next,
+                //   decoration: InputDecoration(
+                //     hintText: 'Password',
+                //     enabledBorder: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(25.0),
+                //         borderSide:
+                //             const BorderSide(width: 0, color: Colors.white)),
+                //     focusedBorder: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(25.0),
+                //         borderSide:
+                //             const BorderSide(width: 0, color: Colors.white)),
+                //     contentPadding: const EdgeInsets.symmetric(horizontal: 25),
+                //     filled: true,
+                //     fillColor: const Color.fromARGB(255, 255, 255, 255),
+                //   ),
+                // ),
                 const SizedBox(
                   height: 26,
                 ),
@@ -292,26 +314,28 @@ class _EditProfileState extends State<EditProfile> {
                       // if(selectedImage==null){
                       //   return
                       // }
-                      File compressedImage =
-                          await compressImage(imagepath: selectedImage);
-                      String photourl = await getImgUrl(compressedImage);
-                      PostUserModel editedUser = PostUserModel(
-                          password: pass.text,
-                          firstName: widget.presentUser.firstName,
-                          lastName: widget.presentUser.lastName,
-                          firebase: widget.presentUser.firebase,
-                          name: name.text,
-                          gender: widget.presentUser.gender,
-                          phone: phoneNo.text,
-                          chatAllowed: widget.presentUser.chatAllowed,
-                          chatReports: widget.presentUser.chatReports,
-                          email: widget.presentUser.email,
-                          score: widget.presentUser.score,
-                          instagramId: instaId.text,
-                          profileImage: photourl);
+                      String photourl = widget.presentUser.profileImage;
+                      if (selectedImage != null) {
+                        File compressedImage =
+                            await compressImage(imagepath: selectedImage);
+                        photourl = await getImgUrl(compressedImage);
+                      }
 
-                      editUserInfo(editedUser);
-                      RestartWidget.restartApp(context);
+                      String editInfo = jsonEncode(<String, String>{
+                        "name": name.text,
+                        "phone": phoneNo.text,
+                        "instagramId": instaId.text,
+                        "profileImage": photourl
+                      });
+
+                      bool isUpdated = await editUserInfo(editInfo, widget.presentUser.firebase);
+
+                      if (isUpdated) {
+                        RestartWidget.restartApp(context);
+                        navigatorKey.currentState!.pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => BottomNav()),
+                        (route) => false);
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                         maximumSize: const Size(300, 50),
@@ -337,19 +361,28 @@ class _EditProfileState extends State<EditProfile> {
   }
 }
 
-void editUserInfo(PostUserModel editedUser) async {
+Future<bool> editUserInfo(String editInfo, String fbId) async {
   try {
-    var url = Uri.parse("$postUserUrl${editedUser.firebase}/");
-    var response = await http.patch(url, body: editedUser);
+    var url = Uri.parse("$postUserUrl$fbId/");
+    var response = await http.patch(
+      url,
+      body: editInfo,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
     if (response.statusCode == 200) {
       final SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       sharedPreferences.setString('presentUser', response.body);
       Utils.showSnackBar("Successfully Updated!...");
+      return true;
     } else {
       Utils.showSnackBar(response.body);
+      return false;
     }
   } catch (e) {
     Utils.showSnackBar(e.toString());
   }
+  return false;
 }
