@@ -1,6 +1,10 @@
+
+import 'package:firebase_auth/firebase_auth.dart';
+
 // ignore_for_file: prefer_const_constructors
 
 import 'package:cloudinary_public/cloudinary_public.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,10 +23,15 @@ import '../bottomnav/nav.dart';
 
 class PostUser extends StatefulWidget {
   var email;
-  String fbId;
+
+  // String fbId;
   String password;
 
-  PostUser(this.email, this.fbId, this.password, {super.key});
+  PostUser(this.email,this.password, {super.key});
+
+
+ // PostUser(this.email, this.fbId, this.password, {super.key});
+
 
   @override
   State<PostUser> createState() => _PostUserState();
@@ -31,8 +40,12 @@ class PostUser extends StatefulWidget {
 class _PostUserState extends State<PostUser> {
   File? selectedImage;
   String base64Image = "";
+
+  
+
   String val = "";
   final cloudinary = CloudinaryPublic('dugwczlzo', 'nql7r9cr', cache: false);
+
 
   Future chooseImage() async {
     XFile? image;
@@ -91,6 +104,8 @@ class _PostUserState extends State<PostUser> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
+    String fbId = FirebaseAuth.instance.currentUser!.uid;
+   
     return WillPopScope(
       onWillPop: (() async {
         return false;
@@ -208,6 +223,7 @@ class _PostUserState extends State<PostUser> {
                             ),
                           )
                         ],
+
                       ),
                     ),
                     // _textFielView(size, "Gender", "", gender),
@@ -233,7 +249,7 @@ class _PostUserState extends State<PostUser> {
                               password: pass.text, //TODO: PASSWORD ....?>>>
                               firstName: firstName.text,
                               lastName: lastName.text,
-                              firebase: widget.fbId,
+                              firebase: fbId,
                               name: userName.text,
                               gender: val,
                               phone: phoneNo.text,

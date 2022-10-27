@@ -40,7 +40,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-
+  //final String verifyemail = "@nith.ac.in";
   @override
   void dispose() {
     emailController.dispose();
@@ -370,6 +370,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   }
 
   Future signUp() async {
+
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -380,18 +381,37 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               },
               child: LoadingData());
         });
+
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+
+
       String email = emailController.text;
-      var userId = FirebaseAuth.instance.currentUser!.uid;
+      String userId = FirebaseAuth.instance.currentUser!.uid;
+      
+      final SharedPreferences Email = await SharedPreferences.getInstance();
+      Email.setString('email', email);
+      // final SharedPreferences Id = await SharedPreferences.getInstance();
+      // Id.setString('UserId', userId);
+      final SharedPreferences password = await SharedPreferences.getInstance();
+      password.setString('password', passwordController.text);
       navigatorKey.currentState!.pushAndRemoveUntil(
-          MaterialPageRoute(
-              builder: (context) =>
-                  PostUser(email, userId, passwordController.text)),
+          MaterialPageRoute(builder: (context) => VerifyEmailPage()),
           (route) => false);
+
+     
+
+     // String email = emailController.text;
+     // var userId = FirebaseAuth.instance.currentUser!.uid;
+     // navigatorKey.currentState!.pushAndRemoveUntil(
+     //     MaterialPageRoute(
+      //        builder: (context) =>
+       //           PostUser(email, userId, passwordController.text)),
+       //   (route) => false);
+
     } on FirebaseAuthException catch (e) {
       navigatorKey.currentState!.pop();
       print(e);
