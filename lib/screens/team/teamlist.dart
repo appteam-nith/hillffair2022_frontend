@@ -87,7 +87,7 @@ class TeamList extends StatelessWidget {
                               )),
                             ),
                             placeholder: (context, url) =>
-                                CircularProgressIndicator(),
+                                LoadingData(),
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
                           ),

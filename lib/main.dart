@@ -63,7 +63,7 @@ Future main() async {
     );
   };
 
-  runApp(RestartWidget(child:  MyApp()));
+  runApp(RestartWidget(child: MyApp()));
 }
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -109,7 +109,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MainPage extends StatelessWidget {
-   MainPage({super.key});
+  MainPage({super.key});
   // bool isEmailVerified=FirebaseAuth.instance.currentUser!.emailVerified;
   @override
   Widget build(BuildContext context) {
@@ -132,7 +132,7 @@ class MainPage extends StatelessWidget {
             // if (isEmailVerified==true) {
             return BottomNav();
             // } else {
-            //   return VerifyEmailPage();    
+            //   return VerifyEmailPage();
             // }
           } else {
             return WelcomePage();

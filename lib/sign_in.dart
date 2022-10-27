@@ -93,7 +93,10 @@ class _SignInState extends State<SignIn> {
                                     // color: Colors.black,
                                     child: TextFormField(
                                       validator: (e) {
-                                        if (e![0] == "1") {
+                                        if (e!.isEmpty) {
+                                          return "Use College Email";
+                                        }
+                                        if (e[0] == "1") {
                                           if (!RegExp(
                                                   r'[1]+[89]+[1-8]+[015]+[0-9]+[0-9]+@nith.ac.in')
                                               .hasMatch(e.toLowerCase())) {
@@ -217,7 +220,8 @@ class _SignInState extends State<SignIn> {
                                                   BorderRadius.circular(25))),
                                       onPressed: () async {
                                         if (formKey.currentState!.validate()) {
-                                          await signInAtBackend(emailController.text);
+                                          await signInAtBackend(
+                                              emailController.text);
                                           await signIn();
                                         }
                                       },
@@ -320,7 +324,7 @@ class _SignInState extends State<SignIn> {
               },
               child: LoadingData());
         });
-    
+
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
@@ -330,7 +334,6 @@ class _SignInState extends State<SignIn> {
         'email': emailController.text.toString(),
         'password': passwordController.text.toString(),
       };
-
 
       // String email = emailController.text;
       // var url = Uri.parse("$checkUserUrl$email");
@@ -347,7 +350,6 @@ class _SignInState extends State<SignIn> {
       navigatorKey.currentState!.pushAndRemoveUntil(
           MaterialPageRoute(builder: ((context) => BottomNav())),
           (route) => false);
-
     } on FirebaseAuthException catch (e) {
       print(e);
       navigatorKey.currentState!.pop();
@@ -372,6 +374,5 @@ signInAtBackend(String email) async {
     userPrefs.setString("presentUser", response.body);
   } else {
     Utils.showSnackBar(response.body);
-
   }
 }
