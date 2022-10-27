@@ -24,24 +24,15 @@ class _EventsState extends State<Events> {
     Size size = MediaQuery.of(context).size;
 
     EventsViewModel eventsViewModel = context.watch<EventsViewModel>();
-    return Container(
-      color: bgColor,
-      // decoration: const BoxDecoration(
-      //   image: DecorationImage(
-      //     image: AssetImage('assets/images/bg.png'),
-      //     fit: BoxFit.fill,
-      //   ),
-      // ),
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: bgColor,
+      appBar: AppBar(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          centerTitle: true,
-          title: const Text("Events"),
-        ),
-        body: _eventsListView(eventsViewModel, size),
+        elevation: 0,
+        centerTitle: true,
+        title: const Text("Events"),
       ),
+      body: _eventsListView(eventsViewModel, size),
     );
   }
 
@@ -93,7 +84,7 @@ class _EventsState extends State<Events> {
                         fit: BoxFit.cover,
                       )),
                     ),
-                    placeholder: (context, url) => CircularProgressIndicator(),
+                    placeholder: (context, url) => LoadingData(),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 )),

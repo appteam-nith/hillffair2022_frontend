@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/main.dart';
 import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
+import 'package:hillfair2022_frontend/welcome_page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
@@ -22,6 +25,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  
   File? selectedImage;
   String base64Image = "";
 
@@ -37,6 +41,8 @@ class _ProfileState extends State<Profile> {
       });
     }
   }
+
+ 
 
   final name = TextEditingController();
 
@@ -66,12 +72,20 @@ class _ProfileState extends State<Profile> {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     var obtainUserData = sharedPreferences.getString('presentUser');
+    print(obtainUserData);
     presentUser = userModelFromJson(obtainUserData!);
-    if (presentUser != null) {}
+    // if (presentUser != null) {}
     setState(() {
-      presentUser = userModelFromJson(obtainUserData);
+      // presentUser = userModelFromJson(obtainUserData);
     });
     print(obtainUserData);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getValidationData();
+    super.initState();
   }
 
   @override
@@ -81,158 +95,167 @@ class _ProfileState extends State<Profile> {
     return _profileView(size, context);
   }
 
-  Container _profileView(Size size, BuildContext context) {
-    getValidationData();
-
-    return Container(
-        color: bgColor,
-        // decoration: const BoxDecoration(
-        //     image: DecorationImage(
-        //   image: AssetImage("assets/images/bg.png"),
-        //   fit: BoxFit.fill,
-        // )),
-        child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            title:
-                Text("Profile", style: TextStyle(fontWeight: FontWeight.bold)),
+  Scaffold _profileView(Size size, BuildContext context) {
+    print(presentUser.name);
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text("Profile", style: TextStyle(fontWeight: FontWeight.bold)),
+      ),
+      backgroundColor: bgColor,
+      body: Center(
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          const SizedBox(
+            height: 23,
           ),
-          backgroundColor: Colors.transparent,
-          body: Center(
+          Container(
+            width: size.width * .8,
+            height: size.height * .5,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              color: Colors.white,
+            ),
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const SizedBox(
-                    height: 23,
-                  ),
-                  Container(
-                    width: size.width * .8,
-                    height: size.height * .5,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: Colors.white,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                  height: 18,
+                ),
+                CircleAvatar(
+                backgroundColor: appBarColor,
+                radius: 50,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50.0),
+                  child: CachedNetworkImage(
+                    imageUrl: presentUser.profileImage,
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        image: imageProvider,
+                        alignment: Alignment.center,
+                        fit: BoxFit.cover,
+                      )),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SizedBox(
-                          height: 18,
-                        ),
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundImage:
-                              AssetImage('assets/images/member.png'),
-                        ),
-                        SizedBox(
-                          height: 15.75,
-                        ),
-                        Text(presentUser.name,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontSize: size.height * .02,
-                                fontWeight: FontWeight.bold)),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Text(presentUser.email,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontSize: size.height * .02,
-                                fontWeight: FontWeight.bold)),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Text("roll",
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontSize: size.height * .02,
-                                fontWeight: FontWeight.bold)),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Text(presentUser.phone,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontSize: size.height * .02,
-                                fontWeight: FontWeight.bold)),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Text(presentUser.instagramId,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontSize: size.height * .02,
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
-                  SizedBox(
-                    height: 22,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EditProfile()));
-                          },
-                          style: ElevatedButton.styleFrom(
-                              fixedSize: Size(120, 35),
-                              backgroundColor:
-                                  Color.fromARGB(255, 184, 151, 213),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25))),
-                          child: Center(
-                            child: Text(
-                              "Edit",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          )),
-                      SizedBox(
-                        width: 17,
-                      ),
-                      ElevatedButton(
-                          onPressed: () async {
-                            FirebaseAuth.instance.signOut();
-                             SharedPreferences preferences = await SharedPreferences.getInstance();
-                                                       await preferences.clear();
-                            navigatorKey.currentState!
-                                .popUntil((route) => route.isFirst);
-                                
-                            //TO Add a function to save the user details
-                          },
-                          style: ElevatedButton.styleFrom(
-                              fixedSize: Size(120, 35),
-                              backgroundColor:
-                                  Color.fromARGB(255, 184, 151, 213),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25))),
-                          child: Center(
-                            child: Text(
-                              "Log Out",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          )),
-                    ],
-                  )
-                ]),
+                )),
+                SizedBox(
+                  height: 15.75,
+                ),
+                Text(presentUser.name,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: size.height * .02,
+                        fontWeight: FontWeight.bold)),
+                SizedBox(
+                  height: 12,
+                ),
+                Text(presentUser.email,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: size.height * .02,
+                        fontWeight: FontWeight.bold)),
+                SizedBox(
+                  height: 12,
+                ),
+                // Text("roll",
+                //     maxLines: 3,
+                //     overflow: TextOverflow.ellipsis,
+                //     style: TextStyle(
+                //         fontSize: size.height * .02,
+                //         fontWeight: FontWeight.bold)),
+                // SizedBox(
+                //   height: 12,
+                // ),
+                Text(presentUser.phone,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: size.height * .02,
+                        fontWeight: FontWeight.bold)),
+                SizedBox(
+                  height: 12,
+                ),
+                Text(presentUser.instagramId,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: size.height * .02,
+                        fontWeight: FontWeight.bold)),
+              ],
+            ),
           ),
-        ));
+          SizedBox(
+            height: 22,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditProfile(presentUser: presentUser,
+                                )));
+                  },
+                  style: ElevatedButton.styleFrom(
+                      fixedSize: Size(120, 35),
+                      backgroundColor: Color.fromARGB(255, 184, 151, 213),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25))),
+                  child: Center(
+                    child: Text(
+                      "Edit",
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  )),
+              SizedBox(
+                width: 17,
+              ),
+              ElevatedButton(
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+
+                    // do not clear the instance of present user
+                    // SharedPreferences preferences =
+                    //     await SharedPreferences.getInstance();
+                    // await preferences.clear();
+                    navigatorKey.currentState!.pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => WelcomePage()),
+                        (route) => false);
+
+                    RestartWidget.restartApp(context);
+
+                    //TO Add a function to save the user details
+                  },
+                  style: ElevatedButton.styleFrom(
+                      fixedSize: Size(120, 35),
+                      backgroundColor: Color.fromARGB(255, 184, 151, 213),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25))),
+                  child: Center(
+                    child: Text(
+                      "Log Out",
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  )),
+            ],
+          )
+        ]),
+      ),
+    );
   }
 }

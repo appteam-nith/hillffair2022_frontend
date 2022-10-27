@@ -25,25 +25,18 @@ class _TeamMembersState extends State<TeamMembers> {
     TeamMemberViewModel teamMemberViewModel =
         context.watch<TeamMemberViewModel>();
 
-    return Container(
-        height: size.height,
-        color: bgColor,
-        // decoration: BoxDecoration(
-        //     image: DecorationImage(
-        //         fit: BoxFit.fill, image: AssetImage("assets/images/bg.png"))),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            centerTitle: true,
-            automaticallyImplyLeading: true,
-            title: Text("Team Members",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold)),
-          ),
-          body: _teamMemberListView(size, teamMemberViewModel),
-        ));
+    return Scaffold(
+      backgroundColor: bgColor,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        automaticallyImplyLeading: true,
+        title:
+            Text("Team Members", style: TextStyle(fontWeight: FontWeight.bold)),
+      ),
+      body: _teamMemberListView(size, teamMemberViewModel),
+    );
   }
 
   _teamMemberListView(Size size, TeamMemberViewModel teamMemberViewModel) {

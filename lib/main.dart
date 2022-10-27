@@ -20,7 +20,7 @@ import 'package:hillfair2022_frontend/signUp_widget.dart';
 
 import 'package:hillfair2022_frontend/sign_in.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
-import 'package:hillfair2022_frontend/verify_email_page.dart';
+// import 'package:hillfair2022_frontend/verify_email_page.dart';
 
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_view_model.dart';
 
@@ -63,7 +63,7 @@ Future main() async {
     );
   };
 
-  runApp(const MyApp());
+  runApp(RestartWidget(child: MyApp()));
 }
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -109,8 +109,9 @@ class MyApp extends StatelessWidget {
 }
 
 class MainPage extends StatelessWidget {
+
    const MainPage({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,16 +131,49 @@ class MainPage extends StatelessWidget {
           } else if (snapshot.hasData) {
             bool isEmailVerified=FirebaseAuth.instance.currentUser!.emailVerified;
             // return PostUser(snapshot.data!.email, snapshot.data!.uid);
+
              if (isEmailVerified==true) {
               return BottomNav();
              } else {
               return VerifyEmailPage();
             }
+
           } else {
             return WelcomePage();
           }
         },
       ),
+    );
+  }
+}
+
+class RestartWidget extends StatefulWidget {
+  RestartWidget({required this.child});
+
+  final Widget child;
+
+  static void restartApp(BuildContext context) {
+    context.findAncestorStateOfType<_RestartWidgetState>()!.restartApp();
+  }
+
+  @override
+  _RestartWidgetState createState() => _RestartWidgetState();
+}
+
+class _RestartWidgetState extends State<RestartWidget> {
+  Key key = UniqueKey();
+
+  void restartApp() {
+    setState(() {
+      key = UniqueKey();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return KeyedSubtree(
+      key: key,
+      child: widget.child,
     );
   }
 }

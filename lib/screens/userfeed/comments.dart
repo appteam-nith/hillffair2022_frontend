@@ -24,6 +24,7 @@ class Comments extends StatefulWidget {
 
 class _CommentsState extends State<Comments> {
   TextEditingController commentTxtController = TextEditingController();
+  final _formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,128 +43,132 @@ class _CommentsState extends State<Comments> {
     // setState(() {
     //   commentlist = _getCommnnets(widget.postId) as List<dynamic>;
     // });
-    return Container(
-        height: size.height,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.fill, image: AssetImage("assets/images/bg.png"))),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            centerTitle: true,
-            backgroundColor: appBarColor,
-            title: Text("Comments",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold)),
-          ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
-              child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18),
-                      color: Colors.white),
-                  child: Column(
-                    children: [
-                      ListTile(
-                        leading: CircleAvatar(
-                backgroundColor: appBarColor,
-                radius: 30,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30.0),
-                  child: CachedNetworkImage(
-                    imageUrl: widget.presentUser.profileImage,
-                    imageBuilder: (context, imageProvider) => Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        image: imageProvider,
-                        alignment: Alignment.center,
-                        fit: BoxFit.cover,
-                      )),
-                    ),
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  ),
-                )),
-                        title: Text(widget.presentUser.name,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: appBarColor,
-                            )),
-                        subtitle: Text("widget.post.text",
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: appBarColor,
-                            )),
-                      ),
-                      Container(
-                        height: size.height * .6,
-                        // color: Colors.black,
-                        child: _commentListView(widget.post.id, context),
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        child: TextFormField(
-                          controller: commentTxtController,
-                          // validator: (e) {
-                          //   if (e!.isEmpty) {
-                          //     return "Enter Comment!!!";
-                          //   }
-                          //   return null;
-                          // },
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          cursorHeight: 25,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: appBarColor,
+    print(widget.presentUser.name);
+    return Scaffold(
+      backgroundColor: bgColor,
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        title: Text("Comments", style: TextStyle(fontWeight: FontWeight.bold)),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+          child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18), color: Colors.white),
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: CircleAvatar(
+                        backgroundColor: appBarColor,
+                        radius: 30,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(30.0),
+                          child: CachedNetworkImage(
+                            imageUrl: widget.presentUser.profileImage,
+                            imageBuilder: (context, imageProvider) => Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                image: imageProvider,
+                                alignment: Alignment.center,
+                                fit: BoxFit.cover,
+                              )),
+                            ),
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
                           ),
-                          cursorColor: appBarColor,
-                          decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                  onPressed: () {
-                                    _postComment(widget.post.id, widget.presentUser.firebase);
+                        )),
+                    title: Text(widget.presentUser.name,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: appBarColor,
+                        )),
+                    subtitle: Text(widget.post.text,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: appBarColor,
+                        )),
+                  ),
+                  Container(
+                    height: size.height * .6,
+                    // color: Colors.black,
+                    child: _commentListView(widget.post.id, context),
+                  ),
+                  Form(
+                    key: _formkey,
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: TextFormField(
+                        controller: commentTxtController,
+                        validator: (e) {
+                          if (e!.isEmpty) {
+                            return "Enter Comment!!!";
+                          } else if (e.length > 100) {
+                            return "Length should be less than 100 characters!!!";
+                          }
+                          return null;
+                        },
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        cursorHeight: 25,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: appBarColor,
+                        ),
+                        cursorColor: appBarColor,
+                        decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  if (_formkey.currentState!.validate()) {
+                                    _postComment(widget.post.id,
+                                        widget.presentUser.firebase);
                                     setState(() {
                                       commentTxtController.clear();
                                       FocusManager.instance.primaryFocus
                                           ?.unfocus();
                                     });
                                     Utils.showSnackBar("Comment Posted!!!");
-                                  },
-                                  icon: Icon(
-                                    Icons.send,
-                                    color: appBarColor,
-                                  )),
-                              hintText: "Enter Comment here",
-                              hintStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: appBarColor,
-                              ),
-                              contentPadding: EdgeInsets.only(left: 20),
-                              filled: true,
-                              fillColor: Color(0xffD9D9D9),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(40)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(40)),
-                              errorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(40)),
-                              focusedErrorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(40))),
-                        ),
-                      )
-                    ],
-                  )),
-            ),
-          ),
-        ));
+                                  }
+                                },
+                                icon: Icon(
+                                  Icons.send,
+                                  color: appBarColor,
+                                )),
+                            hintText: "Enter Comment here",
+                            hintStyle: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: appBarColor,
+                            ),
+                            contentPadding: EdgeInsets.only(left: 20),
+                            filled: true,
+                            fillColor: Color(0xffD9D9D9),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(40)),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(40)),
+                            errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(40)),
+                            focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(40))),
+                      ),
+                    ),
+                  )
+                ],
+              )),
+        ),
+      ),
+    );
   }
 
   _commentListView(String postId, BuildContext context) {
@@ -179,7 +184,11 @@ class _CommentsState extends State<Comments> {
         future: _getCommnnets(postId),
         builder: ((context, snapshot) {
           if (!snapshot.hasData) {
-            return LoadingData();
+            return Center(
+              child: CircularProgressIndicator(
+                color: bgColor,
+              ),
+            );
           } else {
             print(snapshot.data);
             return ListView.builder(
@@ -196,7 +205,7 @@ class _CommentsState extends State<Comments> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ExpansionTile(
-                          title: Text(comment.text,
+                          title: Text(comment.author,
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -204,7 +213,7 @@ class _CommentsState extends State<Comments> {
                                 color: appBarColor,
                               )),
                           children: [
-                            Text(comment.author,
+                            Text(comment.text,
                                 textAlign: TextAlign.left,
                                 maxLines: 10,
                                 overflow: TextOverflow.ellipsis,

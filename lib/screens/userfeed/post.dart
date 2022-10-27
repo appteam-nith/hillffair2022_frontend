@@ -23,7 +23,11 @@ class Post extends StatefulWidget {
   var photourl;
   var comment;
   UserModel presentUser;
-  Post({super.key, required this.photourl, required this.comment, required this.presentUser});
+  Post(
+      {super.key,
+      required this.photourl,
+      required this.comment,
+      required this.presentUser});
 
   @override
   State<Post> createState() => _PostState();
@@ -32,6 +36,7 @@ class Post extends StatefulWidget {
 class _PostState extends State<Post> {
   final cloudinary = CloudinaryPublic('dugwczlzo', 'nql7r9cr', cache: false);
   File? imageFromDevice;
+  String res = "";
   late TextEditingController captionTxtController;
   final _formkey = GlobalKey<FormState>();
 
@@ -57,7 +62,6 @@ class _PostState extends State<Post> {
         File? img = File(image.path);
 
         print(img.lengthSync() ~/ 1024);
-
 
         if (img.lengthSync() ~/ 1024 <= 15000) {
           setState(() {
@@ -101,197 +105,199 @@ class _PostState extends State<Post> {
       PostImgModel body = PostImgModel(photo: photoUrl, text: caption);
 
       var provider = Provider.of<PostImgViewModel>(context, listen: false);
-      var addedFeedList = await provider.postImg(body, widget.presentUser.firebase);
+      if (widget.presentUser.firebase != "firebase") {
+        var addedFeedList =
+            await provider.postImg(body, widget.presentUser.firebase);
 
-      return addedFeedList;
+        return addedFeedList;
+      }
     }
 
-    return Container(
-        height: size.height,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-              fit: BoxFit.fill, image: AssetImage("assets/images/bg.png")),
+    return Scaffold(
+        backgroundColor: bgColor,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            if (_formkey.currentState!.validate()) {
+              showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) {
+                    return WillPopScope(
+                        onWillPop: () async {
+                          if (res == "Updated") {
+                            return true;
+                          }
+                          return false;
+                        },
+                        child: LoadingData());
+                  });
+              var addedList = await _post(imageFromDevice);
+              res = await upadateFeedList(addedList);
+              Navigator.pop(context);
+              Navigator.pop(context);
+              if (res == "Updated") {
+                Utils.showSnackBar("Successfully Posted!!!");
+              }
+            }
+          },
+          backgroundColor: Colors.white,
+          child: Icon(
+            Icons.send,
+            color: appBarColor,
+          ),
         ),
-        child: Scaffold(
-            backgroundColor: Colors.transparent,
-            floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                if (_formkey.currentState!.validate()) {
-                  showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) {
-                        return LoadingData();
-                      });
-                  var addedList = await _post(imageFromDevice);
-                  upadateFeedList(addedList);
-                  Navigator.pop(context);
-                  Utils.showSnackBar("Successfully Posted!!!");
-                  Navigator.pop(context);
-                }
-              },
-              backgroundColor: Colors.white,
-              child: Icon(
-                Icons.send,
-                color: appBarColor,
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          title: Text("Post", style: TextStyle(fontWeight: FontWeight.bold)),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: size.height * .1,
               ),
-            ),
-            appBar: AppBar(
-              automaticallyImplyLeading: true,
-              backgroundColor: appBarColor,
-              centerTitle: true,
-              title: Text("Post",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold)),
-            ),
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: size.height * .1,
-                  ),
-                  Align(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Container(
-                        height: size.height * .55,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(18),
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            ListTile(
-                              leading: CircleAvatar(
-                backgroundColor: appBarColor,
-                radius: 30,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30.0),
-                  child: CachedNetworkImage(
-                    imageUrl: widget.presentUser.profileImage,
-                    imageBuilder: (context, imageProvider) => Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        image: imageProvider,
-                        alignment: Alignment.center,
-                        fit: BoxFit.cover,
-                      )),
+              Align(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Container(
+                    height: size.height * .55,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(18),
+                      color: Color.fromARGB(255, 255, 255, 255),
                     ),
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  ),
-                )),
-                              title: Text(widget.presentUser.name,
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  style:
-                                      TextStyle(
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Container(
-                                width: size.width * .8,
-                                height: size.height * .3,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(18),
-                                    color: Color(0xffD9D9D9)),
-                                child: InkWell(
-                                  onTap: () async {
-                                    await _pickimage(ImageSource.gallery);
-                                    print("ks");
-                                    print(imageFromDevice);
-                                    if (imageFromDevice == null) {
-                                      Utils.showSnackBar(
-                                          "Image size should less than 15 MB!!!");
-                                    }
-                                  },
-                                  child: widget.photourl == null
-                                      ? imageFromDevice == null
-                                          ? Icon(
-                                              Icons.add_to_photos_rounded,
-                                              size: 80,
-                                              color: appBarColor,
-                                            )
-                                          : Image.file(
-                                              imageFromDevice!,
-                                              fit: BoxFit.fill,
-                                              filterQuality:
-                                                  FilterQuality.medium,
-                                            )
-                                      : Image(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(widget.photourl)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ListTile(
+                          leading: CircleAvatar(
+                              backgroundColor: appBarColor,
+                              radius: 30,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(30.0),
+                                child: CachedNetworkImage(
+                                  imageUrl: widget.presentUser.profileImage,
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                      image: imageProvider,
+                                      alignment: Alignment.center,
+                                      fit: BoxFit.cover,
+                                    )),
+                                  ),
+                                  placeholder: (context, url) =>
+                                      CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
                                 ),
-                              ),
+                              )),
+                          title: Text(
+                            widget.presentUser.name,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Container(
+                            width: size.width * .8,
+                            height: size.height * .3,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(18),
+                                color: Color(0xffD9D9D9)),
+                            child: InkWell(
+                              onTap: () async {
+                                await _pickimage(ImageSource.gallery);
+                                print("ks");
+                                print(imageFromDevice);
+                                if (imageFromDevice == null) {
+                                  Utils.showSnackBar(
+                                      "Image size should less than 15 MB!!!");
+                                }
+                              },
+                              child: widget.photourl == null
+                                  ? imageFromDevice == null
+                                      ? Icon(
+                                          Icons.add_to_photos_rounded,
+                                          size: 80,
+                                          color: appBarColor,
+                                        )
+                                      : Image.file(
+                                          imageFromDevice!,
+                                          fit: BoxFit.fill,
+                                          filterQuality: FilterQuality.medium,
+                                        )
+                                  : Image(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(widget.photourl)),
                             ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
-                              child: Form(
-                                key: _formkey,
-                                child: TextFormField(
-                                  cursorColor: appBarColor,
-                                  controller: captionTxtController,
-                                  validator: (e) {
-                                    if (e!.isEmpty) {
-                                      return "Enter Caption!!!";
-                                    } else if (e.length > 100) {
-                                      return "Length should be less than 100 characters!!!";
-                                    }
-                                    return null;
-                                  },
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  cursorHeight: 25,
-                                  style: TextStyle(
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          child: Form(
+                            key: _formkey,
+                            child: TextFormField(
+                              cursorColor: appBarColor,
+                              controller: captionTxtController,
+                              validator: (e) {
+                                if (e!.isEmpty) {
+                                  return "Enter Caption!!!";
+                                } else if (e.length > 100) {
+                                  return "Length should be less than 100 characters!!!";
+                                }
+                                return null;
+                              },
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              cursorHeight: 25,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: appBarColor,
+                              ),
+                              decoration: InputDecoration(
+                                  hintText: "Enter Caption here",
+                                  hintStyle: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: appBarColor,
                                   ),
-                                  decoration: InputDecoration(
-                                      hintText: "Enter Caption here",
-                                      hintStyle: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: appBarColor,
-                                      ),
-                                      contentPadding: EdgeInsets.only(
-                                        left: 20,
-                                      ),
-                                      filled: true,
-                                      fillColor: Color(0xffD9D9D9),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                          borderRadius:
-                                              BorderRadius.circular(40)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                          borderRadius:
-                                              BorderRadius.circular(40)),
-                                      errorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                          borderRadius:
-                                              BorderRadius.circular(40)),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                          borderRadius:
-                                              BorderRadius.circular(40))),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
+                                  contentPadding: EdgeInsets.only(
+                                    left: 20,
+                                  ),
+                                  filled: true,
+                                  fillColor: Color(0xffD9D9D9),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(40)),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(40)),
+                                  errorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(40)),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(40))),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                ],
+                ),
               ),
-            )));
+            ],
+          ),
+        ));
   }
 
   //update_FeedList
@@ -303,5 +309,6 @@ class _PostState extends State<Post> {
 
     provider.setUserFeedListModel(provider.userFeedListModel);
     provider.isAlreadyLikedList.insert(0, false);
+    return "Updated";
   }
 }
