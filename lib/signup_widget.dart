@@ -320,8 +320,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       // print(userId);
       final SharedPreferences Email = await SharedPreferences.getInstance();
       Email.setString('email', email);
-      final SharedPreferences Id = await SharedPreferences.getInstance();
-      Id.setString('UserId', userId);
+      // final SharedPreferences Id = await SharedPreferences.getInstance();
+      // Id.setString('UserId', userId);
+      final SharedPreferences password = await SharedPreferences.getInstance();
+      password.setString('password', passwordController.text);
       // navigatorKey.currentState!.popUntil((route) => route.isFirst);
       navigatorKey.currentState!.pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => VerifyEmailPage()),

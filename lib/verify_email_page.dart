@@ -24,11 +24,12 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   Timer? timer;
   String? email;
   // String? userId;
+  late String password;
   getData() async {
     final SharedPreferences Email = await SharedPreferences.getInstance();
     email = Email.getString('email');
-    // final SharedPreferences user = await SharedPreferences.getInstance();
-    // userId = user.getString('UserId');
+     final SharedPreferences pass = await SharedPreferences.getInstance();
+    password = pass.getString('password')!;
   }
 
   @override
@@ -67,7 +68,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   @override
   Widget build(BuildContext context) => isEmailVerified
-      ? PostUser(email)
+      ? PostUser(email,password)
       : Container(
           color: bgColor,
           child: Scaffold(

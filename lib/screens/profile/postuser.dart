@@ -15,9 +15,9 @@ import '../bottomnav/nav.dart';
 class PostUser extends StatefulWidget {
   var email;
   // String fbId;
-  // String password;
+  String password;
 
-  PostUser(this.email, {super.key});
+  PostUser(this.email,this.password, {super.key});
 
   @override
   State<PostUser> createState() => _PostUserState();
