@@ -1,5 +1,4 @@
-// ignore_for_file: prefer_const_constructors
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,15 +20,10 @@ import '../../utils/api_constants.dart';
 import '../../utils/snackbar.dart';
 
 class EditProfile extends StatefulWidget {
-  // String name, email, instaid, phno;
   UserModel presentUser;
 
   EditProfile(
       {super.key,
-      // required this.name,
-      // required this.email,
-      // required this.instaid,
-      // required this.phno,
       required this.presentUser});
 
   @override
@@ -89,7 +83,7 @@ class _EditProfileState extends State<EditProfile> {
   late final TextEditingController phoneNo;
   late final TextEditingController name;
   late final TextEditingController instaId;
-  late final TextEditingController pass;
+  // late final TextEditingController pass;
   final _formkey = GlobalKey<FormState>();
   String photourl = "";
 
@@ -98,7 +92,7 @@ class _EditProfileState extends State<EditProfile> {
     instaId = TextEditingController(text: widget.presentUser.instagramId);
     name = TextEditingController(text: widget.presentUser.name);
     phoneNo = TextEditingController(text: widget.presentUser.phone);
-    pass = TextEditingController();
+    // pass = TextEditingController();
     super.initState();
   }
 
@@ -141,11 +135,22 @@ class _EditProfileState extends State<EditProfile> {
                                   width: 100,
                                   height: 100,
                                 )
-                              : Image.asset(
-                                  'assets/images/member.png',
-                                  fit: BoxFit.fill,
-                                  width: 100,
-                                  height: 100,
+                              : CachedNetworkImage(
+                                  imageUrl: widget.presentUser.profileImage,
+                                  imageBuilder: ((context, imageProvider) {
+                                    return Container(
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                      image: imageProvider,
+                                      alignment: Alignment.center,
+                                      fit: BoxFit.cover,
+                                    )));
+                                  }),
+                                  placeholder: (context, url) {
+                                    return LoadingData();
+                                  },
+                                  errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
                                 )),
                     ),
                   ),
@@ -225,46 +230,46 @@ class _EditProfileState extends State<EditProfile> {
                   const SizedBox(
                     height: 25,
                   ),
-                  TextFormField(
-                    controller: pass,
-                    cursorHeight: 25,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (e) {
-                      if (e!.length < 8) {
-                        return "There should be atleast 8 char ...";
-                      }
-                      return null;
-                    },
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: appBarColor,
-                    ),
-                    cursorColor: appBarColor,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                      hintText: 'Password',
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                          borderSide:
-                              const BorderSide(width: 0, color: Colors.white)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                          borderSide:
-                              const BorderSide(width: 0, color: Colors.white)),
-                      errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                          borderSide:
-                              const BorderSide(width: 0, color: Colors.white)),
-                      focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                          borderSide:
-                              const BorderSide(width: 0, color: Colors.white)),
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 25),
-                      filled: true,
-                      fillColor: const Color.fromARGB(255, 255, 255, 255),
-                    ),
-                  ),
+                  // TextFormField(
+                  //   controller: pass,
+                  //   cursorHeight: 25,
+                  //   autovalidateMode: AutovalidateMode.onUserInteraction,
+                  //   validator: (e) {
+                  //     if (e!.length < 8) {
+                  //       return "There should be atleast 8 char ...";
+                  //     }
+                  //     return null;
+                  //   },
+                  //   style: TextStyle(
+                  //     fontWeight: FontWeight.bold,
+                  //     color: appBarColor,
+                  //   ),
+                  //   cursorColor: appBarColor,
+                  //   textInputAction: TextInputAction.next,
+                  //   decoration: InputDecoration(
+                  //     hintText: 'Password',
+                  //     enabledBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(25.0),
+                  //         borderSide:
+                  //             const BorderSide(width: 0, color: Colors.white)),
+                  //     focusedBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(25.0),
+                  //         borderSide:
+                  //             const BorderSide(width: 0, color: Colors.white)),
+                  //     errorBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(25.0),
+                  //         borderSide:
+                  //             const BorderSide(width: 0, color: Colors.white)),
+                  //     focusedErrorBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(25.0),
+                  //         borderSide:
+                  //             const BorderSide(width: 0, color: Colors.white)),
+                  //     contentPadding:
+                  //         const EdgeInsets.symmetric(horizontal: 25),
+                  //     filled: true,
+                  //     fillColor: const Color.fromARGB(255, 255, 255, 255),
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 26,
                   ),
@@ -370,26 +375,30 @@ class _EditProfileState extends State<EditProfile> {
                                       return false;
                                     });
                               });
-                          File compressedImage =
-                              await compressImage(imagepath: selectedImage);
-                          photourl = await getImgUrl(compressedImage);
-                          PostUserModel editedUser = PostUserModel(
-                              password: pass.text,
-                              firstName: widget.presentUser.firstName,
-                              lastName: widget.presentUser.lastName,
-                              firebase: widget.presentUser.firebase,
-                              name: name.text,
-                              gender: widget.presentUser.gender,
-                              phone: phoneNo.text,
-                              chatAllowed: widget.presentUser.chatAllowed,
-                              chatReports: widget.presentUser.chatReports,
-                              email: widget.presentUser.email,
-                              score: widget.presentUser.score,
-                              instagramId: instaId.text,
-                              profileImage: photourl);
+                          String photourl = widget.presentUser.profileImage;
+                          if (selectedImage != null) {
+                            File compressedImage =
+                                await compressImage(imagepath: selectedImage);
+                            photourl = await getImgUrl(compressedImage);
+                          }
 
-                          await editUserInfo(editedUser);
-                          Navigator.pop(context);
+                          String editInfo = jsonEncode(<String, String>{
+                            "name": name.text,
+                            "phone": phoneNo.text,
+                            "instagramId": instaId.text,
+                            "profileImage": photourl
+                          });
+
+                          bool isUpdated = await editUserInfo(
+                              editInfo, widget.presentUser.firebase);
+
+                          if (isUpdated) {
+                            RestartWidget.restartApp(context);
+                            navigatorKey.currentState!.pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => BottomNav()),
+                                (route) => false);
+                          }
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -417,16 +426,28 @@ class _EditProfileState extends State<EditProfile> {
   }
 }
 
-Future editUserInfo(PostUserModel editedUser) async {
+Future<bool> editUserInfo(String editInfo, String fbId) async {
   try {
-    var url = Uri.parse("$postUserUrl${editedUser.firebase}/");
-    var response = await http.patch(url, body: editedUser);
+    var url = Uri.parse("$postUserUrl$fbId/");
+    var response = await http.patch(
+      url,
+      body: editInfo,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
     if (response.statusCode == 200) {
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      sharedPreferences.setString('presentUser', response.body);
       Utils.showSnackBar("Successfully Updated!...");
+      return true;
     } else {
       Utils.showSnackBar(response.body);
+      return false;
     }
   } catch (e) {
     Utils.showSnackBar(e.toString());
   }
+  return false;
 }
