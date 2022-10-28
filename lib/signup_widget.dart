@@ -393,12 +393,12 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       String email = emailController.text;
       String userId = FirebaseAuth.instance.currentUser!.uid;
       
-      final SharedPreferences Email = await SharedPreferences.getInstance();
-      Email.setString('email', email);
+      final SharedPreferences data = await SharedPreferences.getInstance();
+      data.setString('email', email);
       // final SharedPreferences Id = await SharedPreferences.getInstance();
       // Id.setString('UserId', userId);
-      final SharedPreferences password = await SharedPreferences.getInstance();
-      password.setString('password', passwordController.text);
+      
+      data.setString('password', passwordController.text);
       navigatorKey.currentState!.pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => VerifyEmailPage()),
           (route) => false);
