@@ -227,9 +227,9 @@ class _EditProfileState extends State<EditProfile> {
                       fillColor: const Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
-                  const SizedBox(
-                    height: 25,
-                  ),
+                  // const SizedBox(
+                  //   height: 25,
+                  // ),
                   // TextFormField(
                   //   controller: pass,
                   //   cursorHeight: 25,

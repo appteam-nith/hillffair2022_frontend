@@ -13,6 +13,7 @@ import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
 import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
+import 'package:hillfair2022_frontend/verify_email_page.dart';
 // import 'package:hillfair2022_frontend/verify_email_page.dart';
 import 'api_services/api_status.dart';
 import 'main.dart';

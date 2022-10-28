@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hillfair2022_frontend/screens/chatting/chatlist.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'upcoming.dart';
 
@@ -82,24 +83,26 @@ class _Chatting extends State<Chatting> {
                                       style: TextStyle(fontSize: 16)
                                   ),
                                   style: ButtonStyle(
+                                  splashFactory: NoSplash.splashFactory,
                                       foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                                       backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurple),
                                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                           const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(Radius.circular(15)),
-                                              side: BorderSide(color: Colors.black54)
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15)),
                                           )
                                       )
                                   ),
                                   onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) => const Upcoming(),
-                                    );
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(builder: (context) => const Chat()),
+                                // showDialog(
+                                //   context: context,
+                                //   builder: (BuildContext context) => const Upcoming(),
                                     // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const ChatList()),
+                                );
                                   }
                               ),
                             ),

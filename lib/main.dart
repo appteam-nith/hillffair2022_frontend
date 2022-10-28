@@ -6,10 +6,12 @@ import 'dart:async';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hillfair2022_frontend/models/getChat_messages_mode.dart';
 import 'package:hillfair2022_frontend/models/userFeed/post_img_model.dart';
 import 'package:hillfair2022_frontend/models/team_member_model.dart';
 import 'package:hillfair2022_frontend/models/team_model.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
+import 'package:hillfair2022_frontend/screens/chatting/chatlist.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
 import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
@@ -20,11 +22,13 @@ import 'package:hillfair2022_frontend/signUp_widget.dart';
 
 import 'package:hillfair2022_frontend/sign_in.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
+import 'package:hillfair2022_frontend/verify_email_page.dart';
 
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_view_model.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'screens/chatting/message_screen.dart';
 import 'utils/colors.dart';
 import 'view_models/userFeed_viewModels/getComments_viewModels.dart';
 import 'view_models/userFeed_viewModels/postLike_viewModel.dart';
