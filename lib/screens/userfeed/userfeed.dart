@@ -264,8 +264,6 @@ class _UserFeedState extends State<UserFeed> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.red,
-                                    fontFamily:
-                                        GoogleFonts.poppins().fontFamily,
                                   ),
                                 )),
                           ),

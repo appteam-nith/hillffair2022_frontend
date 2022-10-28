@@ -28,13 +28,14 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   getData() async {
     final SharedPreferences Email = await SharedPreferences.getInstance();
     email = Email.getString('email');
-     final SharedPreferences pass = await SharedPreferences.getInstance();
+    final SharedPreferences pass = await SharedPreferences.getInstance();
     password = pass.getString('password')!;
   }
 
   @override
   initState() {
     super.initState();
+    getData();
     var user = FirebaseAuth.instance.currentUser!;
     isEmailVerified = user.emailVerified;
     if (!isEmailVerified) {
@@ -68,7 +69,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   @override
   Widget build(BuildContext context) => isEmailVerified
-      ? PostUser(email,password)
+      ? PostUser(email, password)
       : Container(
           color: bgColor,
           child: Scaffold(
