@@ -107,8 +107,9 @@ class MyApp extends StatelessWidget {
 }
 
 class MainPage extends StatelessWidget {
-  MainPage({super.key});
-  // bool isEmailVerified=FirebaseAuth.instance.currentUser!.emailVerified;
+
+   const MainPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,12 +127,15 @@ class MainPage extends StatelessWidget {
               child: Text('Something Went Wrong!'),
             );
           } else if (snapshot.hasData) {
+            bool isEmailVerified=FirebaseAuth.instance.currentUser!.emailVerified;
             // return PostUser(snapshot.data!.email, snapshot.data!.uid);
-            // if (isEmailVerified==true) {
-            return BottomNav();
-            // } else {
-            //   return VerifyEmailPage();
-            // }
+
+             if (isEmailVerified==true) {
+              return BottomNav();
+             } else {
+              return VerifyEmailPage();
+            }
+
           } else {
             return WelcomePage();
           }
