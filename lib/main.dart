@@ -20,13 +20,11 @@ import 'package:hillfair2022_frontend/signUp_widget.dart';
 
 import 'package:hillfair2022_frontend/sign_in.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
-// import 'package:hillfair2022_frontend/verify_email_page.dart';
 
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_view_model.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-// import 'package:hillfair2022_frontend/view_models/postUser_view_model.dart';
 import 'utils/colors.dart';
 import 'view_models/userFeed_viewModels/getComments_viewModels.dart';
 import 'view_models/userFeed_viewModels/postLike_viewModel.dart';
