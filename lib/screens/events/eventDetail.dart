@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../models/event_model.dart';
+import '../../models/events/event_model.dart';
 import '../../view_models/events_view_model.dart';
 
 class EventDetailsPage extends StatelessWidget {
@@ -45,7 +45,7 @@ class EventDetailsPage extends StatelessWidget {
                     SizedBox(height: 30),
                     CircleAvatar(
                         backgroundColor: appBarColor,
-                        radius: 45,
+                        radius: 80,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(45.0),
                           child: CachedNetworkImage(

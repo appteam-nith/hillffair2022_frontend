@@ -3,12 +3,12 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:hillfair2022_frontend/api_services/api_status.dart';
-import 'package:hillfair2022_frontend/models/getChat_Room_model.dart';
+import 'package:hillfair2022_frontend/models/chatting/getChat_Room_model.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/event_model.dart';
-import '../models/getChat_messages_mode.dart';
+import '../models/events/event_model.dart';
+import '../models/chatting/getChat_messages_mode.dart';
 import '../models/userFeed/post_img_model.dart';
 import '../utils/api_constants.dart';
 
@@ -28,15 +28,19 @@ class ChattingServices {
       );
       if (postSuccessCode == response.statusCode) {
         return Success(
-            code: postSuccessCode,
-            response: getChatRoomModelFromJson(response.body)) as GetChatRoomModel;
+                code: postSuccessCode,
+                response: getChatRoomModelFromJson(response.body))
+            as GetChatRoomModel;
       }
-      return Failure(code: invalidResponse, errorMessage: 'Invalid Response');
-    } on HttpException {
-      return Failure(code: noInternet, errorMessage: 'No Internet');
-    } on FormatException {
-      return Failure(code: invalidFormat, errorMessage: 'Invalid Format');
-    } catch (e) {
+      // return Failure(code: invalidResponse, errorMessage: 'Invalid Response');
+      return response;
+    }
+    // on HttpException {
+    //   return Failure(code: noInternet, errorMessage: 'No Internet');
+    // } on FormatException {
+    //   return Failure(code: invalidFormat, errorMessage: 'Invalid Format');
+    // }
+    catch (e) {
       return Failure(code: unknownError, errorMessage: e.toString());
     }
   }

@@ -3,7 +3,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hillfair2022_frontend/models/event_model.dart';
+import 'package:hillfair2022_frontend/models/events/event_model.dart';
 import 'package:hillfair2022_frontend/screens/events/eventDetail.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/view_models/events_view_model.dart';
@@ -67,7 +67,7 @@ class _EventsState extends State<Events> {
               style: TextStyle(
                   fontWeight: FontWeight.bold),
             ),
-            subtitle: Text("${eventModel.clubName}\n${eventModel.startTime}"),
+            subtitle: Text("${eventModel.clubName}\n${eventModel.startTime.day} ${eventModel.startTime.hour} ${eventModel.startTime.minute}"),
             isThreeLine: true,
             leading: CircleAvatar(
                 backgroundColor: appBarColor,

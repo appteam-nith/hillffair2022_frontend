@@ -30,8 +30,8 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     final SharedPreferences data = await SharedPreferences.getInstance();
     email = data.getString('email');
     password = data.getString('password');
-    // print(email);
-    // print(password);
+    print(email);
+    print(password);
   }
 
   @override
@@ -71,42 +71,62 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   }
 
   @override
-  Widget build(BuildContext context) => isEmailVerified
-      ? PostUser(email, password!)
-      : Container(
-          color: bgColor,
-          child: Scaffold(
-            bottomSheet: Container(
-              height: MediaQuery.of(context).size.height * .15,
-              decoration: const BoxDecoration(
-                  color: bgColor,
-                  image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage("assets/images/loginvector.png"))),
-            ),
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              elevation: 0,
+  Widget build(BuildContext context) {
+    getData();
+    return isEmailVerified
+        ? PostUser(email, password!)
+        : Container(
+            color: bgColor,
+            child: Scaffold(
+              bottomSheet: Container(
+                height: MediaQuery.of(context).size.height * .15,
+                decoration: const BoxDecoration(
+                    color: bgColor,
+                    image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage("assets/images/loginvector.png"))),
+              ),
               backgroundColor: Colors.transparent,
-              automaticallyImplyLeading: true,
-            ),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'A verification email has been sent to your Email.\n      kindly check your spam folder',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  ElevatedButton(
-                      onPressed: canResendEmail ? sendVerificationEmail : null,
+              appBar: AppBar(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                automaticallyImplyLeading: true,
+              ),
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'A verification email has been sent to your Email.\n      kindly check your spam folder',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    ElevatedButton(
+                        onPressed:
+                            canResendEmail ? sendVerificationEmail : null,
+                        style: ElevatedButton.styleFrom(
+                            splashFactory: NoSplash.splashFactory,
+                            backgroundColor:
+                                const Color.fromARGB(255, 66, 57, 140),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25))),
+                        child: const Text(
+                          'Resent Email',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        )),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    TextButton(
+                      onPressed: (() => FirebaseAuth.instance.signOut()),
                       style: ElevatedButton.styleFrom(
                           splashFactory: NoSplash.splashFactory,
                           backgroundColor:
@@ -114,28 +134,13 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25))),
                       child: const Text(
-                        'Resent Email',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
-                      )),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  TextButton(
-                    onPressed: (() => FirebaseAuth.instance.signOut()),
-                    style: ElevatedButton.styleFrom(
-                        splashFactory: NoSplash.splashFactory,
-                        backgroundColor: const Color.fromARGB(255, 66, 57, 140),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25))),
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(fontSize: 24),
-                    ),
-                  )
-                ],
+                        'Cancel',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ));
+            ));
+  }
 }

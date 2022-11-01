@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:hillfair2022_frontend/api_services/api_status.dart';
 import 'package:http/http.dart' as http;
-import '../models/team_member_model.dart';
+import '../models/teams/team_member_model.dart';
 import '../utils/api_constants.dart';
 
 class TeamMemberService {

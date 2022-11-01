@@ -6,12 +6,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
-import 'package:hillfair2022_frontend/models/user_model.dart';
+import 'package:hillfair2022_frontend/models/user_profile/user_model.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/comments.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
@@ -41,6 +42,20 @@ class _UserFeedState extends State<UserFeed> {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
+      // floatingActionButton: Container(
+      //   height: size.width * .17,
+      //   width: size.width * .17,
+      //   decoration: BoxDecoration(
+      //       color: Color.fromARGB(255, 212, 131, 226), 
+      //       borderRadius: BorderRadius.circular(40)),
+      //   child: InkWell(
+      //     child: Icon(
+      //       Icons.add_to_photos_rounded,
+      //       color: appBarColor,
+      //       size: 40,
+      //     ),
+      //   ),
+      // ),
       floatingActionButton: IconButton(
           splashRadius: 1,
           onPressed: () {
@@ -55,7 +70,7 @@ class _UserFeedState extends State<UserFeed> {
           },
           icon: const Icon(
             Icons.add_to_photos_rounded,
-            color: appBarColor,
+            color: Color.fromARGB(255, 199, 150, 24), // TODO : TO GIVE THE RIGHT COLOR
             size: 40,
           )),
       body: _userFeedView(userFeedViewModel, size),

@@ -41,7 +41,7 @@ class _BottomNavState extends State<BottomNav> {
           color: Colors.white,
         ),
         child: Padding(
-          padding: EdgeInsets.all(size.width * .03),
+          padding: EdgeInsets.symmetric(vertical: size.height*.01),
           child: GNav(
               activeColor: bgColor,
               color: Color(0xff525252),
@@ -56,7 +56,8 @@ class _BottomNavState extends State<BottomNav> {
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
               tabs: const [
                 GButton(
-                  icon: CupertinoIcons.home,
+                  iconSize: 28,
+                  icon: CupertinoIcons.person_3,
                   text: "Teams",
                 ),
                 GButton(
@@ -64,7 +65,7 @@ class _BottomNavState extends State<BottomNav> {
                   text: "Chatting",
                 ),
                 GButton(
-                  icon: Icons.add_a_photo_outlined,
+                  icon: CupertinoIcons.home,
                   text: "UserFeed",
                 ),
                 GButton(

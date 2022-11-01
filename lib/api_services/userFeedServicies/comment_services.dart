@@ -6,7 +6,7 @@ import 'package:hillfair2022_frontend/api_services/api_status.dart';
 import 'package:hillfair2022_frontend/models/userFeed/getComment_model.dart';
 import 'package:http/http.dart' as http;
 
-import '../../models/event_model.dart';
+import '../../models/events/event_model.dart';
 import '../../models/userFeed/post_img_model.dart';
 import '../../utils/api_constants.dart';
 

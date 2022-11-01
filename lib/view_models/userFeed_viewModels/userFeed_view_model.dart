@@ -3,13 +3,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:hillfair2022_frontend/api_services/userFeedServicies/getLIker_services.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
-import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../api_services/api_status.dart';
 import '../../api_services/userFeedServicies/userFeed_services.dart';
 import '../../models/error_model.dart';
 import '../../models/userFeed/user_feed_model.dart';
+import '../../models/user_profile/user_model.dart';
 import 'getLikerViewModel.dart';
 
 class UserFeedViewModel extends ChangeNotifier {
@@ -161,6 +161,5 @@ class UserFeedViewModel extends ChangeNotifier {
       UserModel presentUser = userModelFromJson(prseentUserJson);
       setPrensentUser(presentUser);
     }
-    // UserModel presentUser = userModelFromJson(prseentUserJson);
   }
 }
