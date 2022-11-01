@@ -24,7 +24,7 @@ const String postUserUrl = "$apiConstant/user/";
 const String checkUserUrl = "$apiConstant/user/checkUser/";
 
 //chatting
-const String getChatRoomUrl = "$apiConstant/chat/getRoom/";
+const String getChatRoomUrl = "$apiConstant/chat/getRoom";
 const String getMessagesUrl = "$apiConstant/chat/getMessages";
 const String postChatUrl = "$apiConstant/chat/send/";
 const String checkChater = "$apiConstant/chat/checkchater";

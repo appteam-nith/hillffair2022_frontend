@@ -10,7 +10,7 @@ import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_vi
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/getComments_viewModels.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/user_model.dart';
+import '../../models/user_profile/user_model.dart';
 import '../../utils/snackbar.dart';
 
 class Comments extends StatefulWidget {
@@ -108,10 +108,7 @@ class _CommentsState extends State<Comments> {
                           EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       child: TextFormField(
                         controller: commentTxtController,
-                        validator: (e) {
-                          if (e!.isEmpty) {
-                            return "Enter Comment!!!";
-                          } else if (e.length > 100) {
+                        validator: (e) {if (e!.length > 100) {
                             return "Length should be less than 100 characters!!!";
                           }
                           return null;
@@ -126,7 +123,7 @@ class _CommentsState extends State<Comments> {
                         decoration: InputDecoration(
                             suffixIcon: IconButton(
                                 onPressed: () {
-                                  if (_formkey.currentState!.validate()) {
+                                  if (_formkey.currentState!.validate() && commentTxtController.text.isNotEmpty) {
                                     _postComment(widget.post.id,
                                         widget.presentUser.firebase);
                                     setState(() {

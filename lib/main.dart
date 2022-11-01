@@ -6,10 +6,10 @@ import 'dart:async';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hillfair2022_frontend/models/getChat_messages_mode.dart';
+import 'package:hillfair2022_frontend/models/chatting/getChat_messages_mode.dart';
 import 'package:hillfair2022_frontend/models/userFeed/post_img_model.dart';
-import 'package:hillfair2022_frontend/models/team_member_model.dart';
-import 'package:hillfair2022_frontend/models/team_model.dart';
+import 'package:hillfair2022_frontend/models/teams/team_member_model.dart';
+import 'package:hillfair2022_frontend/models/teams/team_model.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
 import 'package:hillfair2022_frontend/screens/chatting/chatlist.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
@@ -111,8 +111,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MainPage extends StatelessWidget {
-
-   const MainPage({super.key});
+  const MainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -131,15 +130,15 @@ class MainPage extends StatelessWidget {
               child: Text('Something Went Wrong!'),
             );
           } else if (snapshot.hasData) {
-            bool isEmailVerified=FirebaseAuth.instance.currentUser!.emailVerified;
+            bool isEmailVerified =
+                FirebaseAuth.instance.currentUser!.emailVerified;
             // return PostUser(snapshot.data!.email, snapshot.data!.uid);
 
-             if (isEmailVerified==true) {
+            if (isEmailVerified == true) {
               return BottomNav();
-             } else {
+            } else {
               return VerifyEmailPage();
             }
-
           } else {
             return WelcomePage();
           }
