@@ -46,7 +46,7 @@ class _UserFeedState extends State<UserFeed> {
       //   height: size.width * .17,
       //   width: size.width * .17,
       //   decoration: BoxDecoration(
-      //       color: Color.fromARGB(255, 212, 131, 226), 
+      //       color: Color.fromARGB(255, 212, 131, 226),
       //       borderRadius: BorderRadius.circular(40)),
       //   child: InkWell(
       //     child: Icon(
@@ -70,7 +70,8 @@ class _UserFeedState extends State<UserFeed> {
           },
           icon: const Icon(
             Icons.add_to_photos_rounded,
-            color: Color.fromARGB(255, 199, 150, 24), // TODO : TO GIVE THE RIGHT COLOR
+            color: Color.fromARGB(
+                255, 199, 150, 24), // TODO : TO GIVE THE RIGHT COLOR
             size: 40,
           )),
       body: _userFeedView(userFeedViewModel, size),

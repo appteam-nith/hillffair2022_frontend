@@ -18,6 +18,9 @@ const String getCommentUrl = "$apiConstant/imagefeed/getcomment";
 const String postLikeUrl = "$apiConstant/imagefeed/like";
 const String getLikerUrl = "$apiConstant/imagefeed/get-likers/";
 
+//teamfeed
+const String teamFeedLikeUrl = "$apiConstant/TeamFeed/get-likers/";
+
 //user
 
 const String postUserUrl = "$apiConstant/user/";

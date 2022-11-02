@@ -1,18 +1,22 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:hillfair2022_frontend/api_services/team_member_services.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
+import 'package:hillfair2022_frontend/models/teamFeed/teamFeed_model.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
+import 'package:hillfair2022_frontend/view_models/teamFeed_VMs/teamFeed_liker_VM.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../api_services/api_status.dart';
+import '../../api_services/teamFeedServices/teamFeed_list.dart';
 import '../../api_services/userFeedServicies/userFeed_services.dart';
 import '../../models/userFeed/user_feed_model.dart';
 import '../../models/user_profile/user_model.dart';
-import 'getLikerViewModel.dart';
+import '../userFeed_viewModels/getLikerViewModel.dart';
 
-class UserFeedViewModel extends ChangeNotifier {
-  UserFeedViewModel() {
-    getUserFeed();
+class TeamFeedViewModel extends ChangeNotifier {
+  TeamFeedViewModel() {
+    getTeamFeed();
     // getPresentUser();
   }
 
@@ -38,82 +42,82 @@ class UserFeedViewModel extends ChangeNotifier {
   }
 
   //
-  List<UserFeedModel> prefFeedList = [];
+  List<TeamFeedModel> prefTeamFeedList = [];
   List<bool> prefIsLikedList = [];
   //
   bool _loading = false;
-  List<UserFeedModel> _userFeedListModel = [];
-  List<bool> isAlreadyLikedList = [];
-  ErrorModel _userFeedError = ErrorModel(000, " error not set");
+  List<TeamFeedModel> _teamFeedListModel = [];
+  List<bool> isTeamFeedAlreadyLikedList = [];
+  ErrorModel _teamFeedError = ErrorModel(000, " error not set");
 
   bool get loading => _loading;
-  List<UserFeedModel> get userFeedListModel => _userFeedListModel;
-  ErrorModel get userFeedError => _userFeedError;
+  List<TeamFeedModel> get teamFeedListModel => _teamFeedListModel;
+  ErrorModel get teamFeedError => _teamFeedError;
 
   setLoading(bool loading) async {
     _loading = loading;
     notifyListeners();
   }
 
-  setUserFeedListModel(List<UserFeedModel> userFeedListModel) {
-    _userFeedListModel = userFeedListModel;
+  setTeamFeedListModel(List<TeamFeedModel> teamFeedListModel) {
+    _teamFeedListModel = teamFeedListModel;
     notifyListeners();
   }
 
-  setuserFeedError(ErrorModel userFeedError) {
-    _userFeedError = userFeedError;
+  setTeamFeedError(ErrorModel teamFeedError) {
+    _teamFeedError = teamFeedError;
   }
 
-  getUserFeed() async {
+  getTeamFeed() async {
     getPresentUser();
-    prefFeedList = await getFeedPref();
-    prefIsLikedList = await getIsLikedPref();
+    // prefTeamFeedList = await getFeedPref();
+    // prefIsLikedList = await getIsLikedPref();
     setLoading(true);
     //
 
-    // prefFeedList = await getFeedPref();
+    // prefTeamFeedList = await getFeedPref();
     // prefIsLikedList = await getIsLikedPref();
     //
-    var response = await UserFeedServices.getUserFeed();
+    var response = await TeamFeedList.getTeamFeed();
     if (response is Success) {
-      setUserFeedListModel(response.response as List<UserFeedModel>);
+      setTeamFeedListModel(response.response as List<TeamFeedModel>);
       log(response.response.toString());
       //
-      int n = userFeedListModel.length;
+      int n = teamFeedListModel.length;
       for (var i = 0; i < n; i++) {
-        bool isAlreadyLiked = await GetLikerViewModel()
-            .getLiker(presentUser.firebase, userFeedListModel[i]);
-        isAlreadyLikedList.add(isAlreadyLiked);
+        bool isAlreadyLiked = await GetTeamFeedLIkeVM()
+            .getLiker(presentUser.firebase, teamFeedListModel[i]);
+        isTeamFeedAlreadyLikedList.add(isAlreadyLiked);
       }
       //
     }
     if (response is Failure) {
-      ErrorModel userFeedError = ErrorModel(
+      ErrorModel teamFeedError = ErrorModel(
         response.code,
         response.errorMessage,
       );
-      setuserFeedError(userFeedError);
+      setTeamFeedError(teamFeedError);
     }
     Utils.showSnackBar("new Data Fetched");
     print("new Data fetched");
     setLoading(false);
-    adddFeedToSahredPref(userFeedListModel, isAlreadyLikedList);
+    adddFeedToSahredPref(teamFeedListModel, isTeamFeedAlreadyLikedList);
   }
 
   adddFeedToSahredPref(
-      List<UserFeedModel> feedList, List<bool> isAlreadyLikedList) async {
+      List<TeamFeedModel> teamFeedList, List<bool> isTeamFeedAlreadyLikedList) async {
     SharedPreferences feedPrefs = await SharedPreferences.getInstance();
-    bool isFeedStored = feedPrefs.containsKey('feedList');
-    bool isLikedStored = feedPrefs.containsKey('isAlreadyLikedList');
+    bool isFeedStored = feedPrefs.containsKey('teamFeedList');
+    bool isLikedStored = feedPrefs.containsKey('isTeamFeedAlreadyLikedList');
     if (isFeedStored) {
-      await feedPrefs.remove("feedList");
+      await feedPrefs.remove("teamFeedList");
     }
     if (isLikedStored) {
-      await feedPrefs.remove("isAlreadyLikedList");
+      await feedPrefs.remove("isTeamFeedAlreadyLikedList");
     }
-    feedPrefs.setString("feedList", userFeedModelToJson(feedList));
+    feedPrefs.setString("teamFeedList", teamFeedModelToJson(teamFeedList));
     feedPrefs.setStringList(
-        "isAlreadyLikedList", boolListTOStringList(isAlreadyLikedList));
+        "isTeamFeedAlreadyLikedList", boolListTOStringList(isTeamFeedAlreadyLikedList));
   }
 
   List<String> boolListTOStringList(List<bool> listBool) {
@@ -126,10 +130,10 @@ class UserFeedViewModel extends ChangeNotifier {
 
   Future<List<bool>> getIsLikedPref() async {
     SharedPreferences likedpref = await SharedPreferences.getInstance();
-    List<String>? likedlist = likedpref.getStringList("isAlreadyLikedList");
+    List<String>? likedlist = likedpref.getStringList("isTeamFeedAlreadyLikedList");
     if (likedlist != null) {
-      List<bool> isAlreadyLikedList = stringListToBoolList(likedlist);
-      return isAlreadyLikedList;
+      List<bool> isTeamFeedAlreadyLikedList = stringListToBoolList(likedlist);
+      return isTeamFeedAlreadyLikedList;
     }
     return [];
   }
@@ -142,12 +146,12 @@ class UserFeedViewModel extends ChangeNotifier {
     return boolList;
   }
 
-  Future<List<UserFeedModel>> getFeedPref() async {
+  Future<List<TeamFeedModel>> getFeedPref() async {
     SharedPreferences feedPrefs = await SharedPreferences.getInstance();
-    String? feedJsonList = feedPrefs.getString("feedList");
+    String? feedJsonList = feedPrefs.getString("teamFeedList");
     if (feedJsonList != null) {
-      List<UserFeedModel> feedList = userFeedModelFromJson(feedJsonList);
-      return feedList;
+      List<TeamFeedModel> teamFeedList = teamFeedModelFromJson(feedJsonList);
+      return teamFeedList;
     }
     return [];
   }
