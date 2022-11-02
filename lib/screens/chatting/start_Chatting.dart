@@ -16,7 +16,7 @@ class StartChatting extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ElevatedButton(
-          child: Text("StartCahtting", style: TextStyle(fontSize: 16)),
+          child: Text("Start Chatting", style: TextStyle(fontSize: 16)),
           style: ButtonStyle(
             splashFactory: NoSplash.splashFactory,
             foregroundColor: MaterialStateProperty.all<Color>(Colors.white),

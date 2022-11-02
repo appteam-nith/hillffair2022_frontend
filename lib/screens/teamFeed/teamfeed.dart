@@ -68,11 +68,11 @@ class _TeamFeedState extends State<TeamFeed> {
 
   _userFeedView(TeamFeedViewModel teamFeedViewModel, Size size) {
     List<TeamFeedModel> teamFeedList = teamFeedViewModel.prefTeamFeedList;
-    List<bool> isLikedList = teamFeedViewModel.prefIsLikedList;
+    // List<bool> isLikedList = teamFeedViewModel.prefIsLikedList;
 
     if (!teamFeedViewModel.loading) {
       teamFeedList = teamFeedViewModel.teamFeedListModel;
-      isLikedList = teamFeedViewModel.isTeamFeedAlreadyLikedList;
+      // isLikedList = teamFeedViewModel.isTeamFeedAlreadyLikedList;
     }
 
     if (teamFeedList.isEmpty) {
@@ -196,31 +196,31 @@ class _TeamFeedState extends State<TeamFeed> {
                         children: [
                           Row(
                             children: [
-                              IconButton(
-                                  onPressed: () {
-                                    _postLike(context, teamFeedModel.id,
-                                        presentUser.firebase);
+                              // IconButton(
+                              //     onPressed: () {
+                              //       _postLike(context, teamFeedModel.id,
+                              //           presentUser.firebase);
 
-                                    if (isLikedList[index]) {
-                                      setState(() {
-                                        isLikedList[index] = false;
-                                        teamFeedModel.numberOfLikes--;
-                                      });
-                                    } else {
-                                      setState(() {
-                                        isLikedList[index] = true;
-                                        teamFeedModel.numberOfLikes++;
-                                      });
-                                    }
-                                  },
-                                  icon: isLikedList[index]
-                                      ? Icon(
-                                          CupertinoIcons.heart_fill,
-                                          color: Colors.red,
-                                        )
-                                      : Icon(
-                                          CupertinoIcons.heart,
-                                        )),
+                              //       if (isLikedList[index]) {
+                              //         setState(() {
+                              //           isLikedList[index] = false;
+                              //           teamFeedModel.numberOfLikes--;
+                              //         });
+                              //       } else {
+                              //         setState(() {
+                              //           isLikedList[index] = true;
+                              //           teamFeedModel.numberOfLikes++;
+                              //         });
+                              //       }
+                              //     },
+                              //     icon: isLikedList[index]
+                              //         ? Icon(
+                              //             CupertinoIcons.heart_fill,
+                              //             color: Colors.red,
+                              //           )
+                              //         : Icon(
+                              //             CupertinoIcons.heart,
+                              //           )),
                               // IconButton(
                               //     onPressed: () {
                               //       Navigator.push(
@@ -233,12 +233,12 @@ class _TeamFeedState extends State<TeamFeed> {
                               SizedBox(
                                 width: size.width * .03,
                               ),
-                              Text(
-                                  "${teamFeedModel.numberOfLikes.toString()} Likes",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: appBarColor,
-                                  )),
+                              // Text(
+                              //     "${teamFeedModel.numberOfLikes.toString()} Likes",
+                              //     style: TextStyle(
+                              //       fontWeight: FontWeight.bold,
+                              //       color: appBarColor,
+                              //     )),
                             ],
                           ),
                           // Visibility(
