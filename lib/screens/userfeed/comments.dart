@@ -108,7 +108,8 @@ class _CommentsState extends State<Comments> {
                           EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       child: TextFormField(
                         controller: commentTxtController,
-                        validator: (e) {if (e!.length > 100) {
+                        validator: (e) {
+                          if (e!.length > 100) {
                             return "Length should be less than 100 characters!!!";
                           }
                           return null;
@@ -123,7 +124,8 @@ class _CommentsState extends State<Comments> {
                         decoration: InputDecoration(
                             suffixIcon: IconButton(
                                 onPressed: () {
-                                  if (_formkey.currentState!.validate() && commentTxtController.text.isNotEmpty) {
+                                  if (_formkey.currentState!.validate() &&
+                                      commentTxtController.text.isNotEmpty) {
                                     _postComment(widget.post.id,
                                         widget.presentUser.firebase);
                                     setState(() {
