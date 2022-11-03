@@ -16,7 +16,7 @@ class StartChatting extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ElevatedButton(
-          child: Text("StartCahtting", style: TextStyle(fontSize: 16)),
+          child: Text("Start Chatting", style: TextStyle(fontSize: 16)),
           style: ButtonStyle(
             splashFactory: NoSplash.splashFactory,
             foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
@@ -45,12 +45,14 @@ void getchatRoom(String fbId, BuildContext context) async {
   var response = await ChattingServices.getChatRoom("anonymous", fbId);
 
   // if (response is Success) {
-    GetChatRoomModel getChatRoomModel = response as GetChatRoomModel;
+
+    GetChatRoomModel getChatRoomModel = getChatRoomModelFromJson(response.body);
     if (getChatRoomModel.chater2 == null) {
       //check cahtter
-      Timer(Duration(seconds: 5), () {
-        int count = 0;
-        Timer.periodic(Duration(seconds: 5), (timer) async {
+      int count = 0;
+      Timer(Duration(seconds: 20), () {
+        
+        Timer.periodic(Duration(seconds: 20), (timer) async {
           bool isChatter2 =
               await ChattingServices.check2ndChatter(getChatRoomModel.roomId);
           if (isChatter2) {

@@ -37,6 +37,7 @@ class GetTeamFeedLIkeVM extends ChangeNotifier {
     if (response is Success) {
       //check for user fbId
       TeamFeedLikeModel likersData = response.response as TeamFeedLikeModel;
+      print(likersData.results.length);
       int n = likersData.results.length;
       for (var i = 0; i < n; i++) {
         if (likersData.results[i].firebase == fbId) {

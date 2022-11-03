@@ -43,11 +43,11 @@ class TeamFeedViewModel extends ChangeNotifier {
 
   //
   List<TeamFeedModel> prefTeamFeedList = [];
-  List<bool> prefIsLikedList = [];
+  // List<bool> prefIsLikedList = [];
   //
   bool _loading = false;
   List<TeamFeedModel> _teamFeedListModel = [];
-  List<bool> isTeamFeedAlreadyLikedList = [];
+  // List<bool> isTeamFeedAlreadyLikedList = [];
   ErrorModel _teamFeedError = ErrorModel(000, " error not set");
 
   bool get loading => _loading;
@@ -83,12 +83,12 @@ class TeamFeedViewModel extends ChangeNotifier {
       setTeamFeedListModel(response.response as List<TeamFeedModel>);
       log(response.response.toString());
       //
-      int n = teamFeedListModel.length;
-      for (var i = 0; i < n; i++) {
-        bool isAlreadyLiked = await GetTeamFeedLIkeVM()
-            .getLiker(presentUser.firebase, teamFeedListModel[i]);
-        isTeamFeedAlreadyLikedList.add(isAlreadyLiked);
-      }
+      // int n = teamFeedListModel.length;
+      // for (var i = 0; i < n; i++) {
+      //   bool isAlreadyLiked = await GetTeamFeedLIkeVM()
+      //       .getLiker(presentUser.firebase, teamFeedListModel[i]);
+      //   isTeamFeedAlreadyLikedList.add(isAlreadyLiked);
+      // }
       //
     }
     if (response is Failure) {
@@ -101,7 +101,7 @@ class TeamFeedViewModel extends ChangeNotifier {
     Utils.showSnackBar("new Data Fetched");
     print("new Data fetched");
     setLoading(false);
-    adddFeedToSahredPref(teamFeedListModel, isTeamFeedAlreadyLikedList);
+    // adddFeedToSahredPref(teamFeedListModel, isTeamFeedAlreadyLikedList);
   }
 
   adddFeedToSahredPref(

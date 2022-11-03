@@ -23,6 +23,7 @@ import 'package:hillfair2022_frontend/signUp_widget.dart';
 import 'package:hillfair2022_frontend/sign_in.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:hillfair2022_frontend/verify_email_page.dart';
+import 'package:hillfair2022_frontend/view_models/teamFeed_VMs/teamFeedList_VM.dart';
 
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_view_model.dart';
 
@@ -86,9 +87,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => GetCommentsViewModel()),
           ChangeNotifierProvider(create: (_) => GetCommentsViewModel()),
           ChangeNotifierProvider(create: (_) => PostCommentViewModel()),
-
-          ChangeNotifierProvider(create: (_) => PostCommentViewModel()),
-          // ChangeNotifierProvider(create: (_) => PostUserViewModel()),
+          ChangeNotifierProvider(create: (_) => TeamFeedViewModel())
         ],
         child: MaterialApp(
             scaffoldMessengerKey: Utils.messengerKey,

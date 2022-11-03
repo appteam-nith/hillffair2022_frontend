@@ -6,6 +6,7 @@ import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
 import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
 import 'package:hillfair2022_frontend/signUp_widget.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
+import 'package:hillfair2022_frontend/utils/global.dart';
 
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,11 +28,13 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   // String? userId;
 
   getData() async {
-    final SharedPreferences data = await SharedPreferences.getInstance();
-    email = data.getString('email');
-    password = data.getString('password');
-    print(email);
-    print(password);
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // email = prefs.getString('email');
+    // password = prefs.getString('password');
+    // print(email);
+    // print(password);
+    email = Globals.email;
+    password = Globals.password;
   }
 
   @override
@@ -42,7 +45,6 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     isEmailVerified = user.emailVerified;
     if (!isEmailVerified) {
       sendVerificationEmail();
-      // Utils.showSnackBar('A email Has been sent.Please check your spam folder');
     }
     timer =
         Timer.periodic(const Duration(seconds: 3), (_) => checkEmailVerified());
@@ -72,8 +74,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    getData();
+    // getData();
     return isEmailVerified
         ? PostUser(email, password!)
         : Container(

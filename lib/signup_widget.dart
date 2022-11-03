@@ -10,6 +10,7 @@ import 'package:hillfair2022_frontend/api_services/user_services.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
 import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
+import 'package:hillfair2022_frontend/utils/global.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:hillfair2022_frontend/verify_email_page.dart';
 // import 'package:hillfair2022_frontend/verify_email_page.dart';
@@ -369,7 +370,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   }
 
   Future signUp() async {
-
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -387,29 +387,24 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         password: passwordController.text.trim(),
       );
 
-
       String email = emailController.text;
       String userId = FirebaseAuth.instance.currentUser!.uid;
-      
-      final SharedPreferences data = await SharedPreferences.getInstance();
-      data.setString('email', email);
-      // final SharedPreferences Id = await SharedPreferences.getInstance();
-      // Id.setString('UserId', userId);
-      
-      data.setString('password', passwordController.text);
+      Globals.email = email;
+      Globals.password = passwordController.text;
+      // final SharedPreferences data = await SharedPreferences.getInstance();
+      // data.setString('email', email);
+      // data.setString('password', passwordController.text);
       navigatorKey.currentState!.pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => VerifyEmailPage()),
           (route) => false);
 
-     
-
-     // String email = emailController.text;
-     // var userId = FirebaseAuth.instance.currentUser!.uid;
-     // navigatorKey.currentState!.pushAndRemoveUntil(
-     //     MaterialPageRoute(
+      // String email = emailController.text;
+      // var userId = FirebaseAuth.instance.currentUser!.uid;
+      // navigatorKey.currentState!.pushAndRemoveUntil(
+      //     MaterialPageRoute(
       //        builder: (context) =>
-       //           PostUser(email, userId, passwordController.text)),
-       //   (route) => false);
+      //           PostUser(email, userId, passwordController.text)),
+      //   (route) => false);
 
     } on FirebaseAuthException catch (e) {
       navigatorKey.currentState!.pop();

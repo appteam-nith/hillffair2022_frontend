@@ -270,6 +270,7 @@ class _SignInState extends State<SignIn> {
                                           text: 'Don’t have an account? ',
                                           children: [
                                         TextSpan(
+                                          // TODO : TO FUNCTION SIGN UP 
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
                                                 Navigator.pushReplacement(
@@ -334,19 +335,6 @@ class _SignInState extends State<SignIn> {
         'email': emailController.text.toString(),
         'password': passwordController.text.toString(),
       };
-
-      // String email = emailController.text;
-      // var url = Uri.parse("$checkUserUrl$email");
-      // var response = await http.get(url);
-      // if (200 == response.statusCode) {
-      //   SharedPreferences userPrefs = await SharedPreferences.getInstance();
-      //   if (userPrefs.containsKey("presentUser")) {
-      //     userPrefs.remove("presentUser");
-      //   }
-      //   userPrefs.setString("presentUser", response.body);
-      // } else {
-      //   Utils.showSnackBar(response.body);
-      // }
       navigatorKey.currentState!.pushAndRemoveUntil(
           MaterialPageRoute(builder: ((context) => BottomNav())),
           (route) => false);
@@ -355,10 +343,6 @@ class _SignInState extends State<SignIn> {
       navigatorKey.currentState!.pop();
       Utils.showSnackBar(e.message);
     }
-
-    // navigatorKey.currentState!.pushAndRemoveUntil(
-    //     MaterialPageRoute(builder: ((context) => BottomNav())),
-    //     (route) => false);
   }
 }
 
