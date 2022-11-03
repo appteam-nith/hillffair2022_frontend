@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hillfair2022_frontend/api_services/chatting_services.dart';
 import 'package:hillfair2022_frontend/screens/chatting/chatlist.dart';
+import 'package:hillfair2022_frontend/screens/chatting/start_Chatting.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'upcoming.dart';
 
@@ -94,6 +96,7 @@ class _Chatting extends State<Chatting> {
                                       )
                                   ),
                                   onPressed: () {
+
                                 // showDialog(
                                 //   context: context,
                                 //   builder: (BuildContext context) => const Upcoming(),
@@ -101,7 +104,7 @@ class _Chatting extends State<Chatting> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const ChatList()),
+                                      builder: (context) => const StartChatting()),
                                 );
                                   }
                               ),

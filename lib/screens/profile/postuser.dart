@@ -16,7 +16,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../../main.dart';
-import '../../models/postUser_model.dart';
+import '../../models/user_profile/postUser_model.dart';
 import '../../utils/api_constants.dart';
 import '../../utils/snackbar.dart';
 import '../bottomnav/nav.dart';
@@ -93,6 +93,7 @@ class _PostUserState extends State<PostUser> {
   final instaId = TextEditingController();
   final phoneNo = TextEditingController();
 
+
   @override
   void initState() {
     email = TextEditingController(text: widget.email);
@@ -118,7 +119,7 @@ class _PostUserState extends State<PostUser> {
             width: size.width,
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
+                padding: EdgeInsets.symmetric(horizontal: size.width*.08),
                 child: Column(
                   children: [
                     SizedBox(
@@ -202,7 +203,7 @@ class _PostUserState extends State<PostUser> {
                             ),
                           ),
                           SizedBox(
-                            width: size.width * .39,
+                            width: size.width * .46,
                             child: ListTile(
                               title: Text(
                                 "Female",

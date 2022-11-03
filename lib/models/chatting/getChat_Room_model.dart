@@ -23,7 +23,7 @@ class GetChatRoomModel {
     String nickname2;
     bool roomBlocked;
     String chater1;
-    String chater2;
+    String? chater2;
 
     factory GetChatRoomModel.fromJson(Map<String, dynamic> json) => GetChatRoomModel(
         roomId: json["id"],

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:hillfair2022_frontend/api_services/api_status.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/event_model.dart';
+import '../models/events/event_model.dart';
 import '../utils/api_constants.dart';
 
 class EventServices {

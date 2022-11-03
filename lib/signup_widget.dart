@@ -8,8 +8,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/api_services/user_services.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
-import 'package:hillfair2022_frontend/models/postUser_model.dart';
-import 'package:hillfair2022_frontend/models/user_model.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
 import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
@@ -393,12 +391,12 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       String email = emailController.text;
       String userId = FirebaseAuth.instance.currentUser!.uid;
       
-      final SharedPreferences Email = await SharedPreferences.getInstance();
-      Email.setString('email', email);
+      final SharedPreferences data = await SharedPreferences.getInstance();
+      data.setString('email', email);
       // final SharedPreferences Id = await SharedPreferences.getInstance();
       // Id.setString('UserId', userId);
-      final SharedPreferences password = await SharedPreferences.getInstance();
-      password.setString('password', passwordController.text);
+      
+      data.setString('password', passwordController.text);
       navigatorKey.currentState!.pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => VerifyEmailPage()),
           (route) => false);

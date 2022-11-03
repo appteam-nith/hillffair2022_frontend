@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
-import 'package:hillfair2022_frontend/screens/userfeed/teamfeed.dart';
+import 'package:hillfair2022_frontend/screens/teamFeed/teamfeed.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
 
 import '../../utils/colors.dart';

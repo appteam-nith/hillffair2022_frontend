@@ -11,6 +11,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
+import 'package:hillfair2022_frontend/models/teamFeed/teamFeed_model.dart';
 import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
 import 'package:hillfair2022_frontend/models/user_profile/user_model.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/comments.dart';
@@ -24,38 +25,25 @@ import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../utils/api_constants.dart';
+import '../../view_models/teamFeed_VMs/teamFeedList_VM.dart';
 import '../../view_models/userFeed_viewModels/getComments_viewModels.dart';
 
-class UserFeed extends StatefulWidget {
-  const UserFeed({Key? key}) : super(key: key);
+class TeamFeed extends StatefulWidget {
+  const TeamFeed({Key? key}) : super(key: key);
 
   @override
-  State<UserFeed> createState() => _UserFeedState();
+  State<TeamFeed> createState() => _TeamFeedState();
 }
 
-class _UserFeedState extends State<UserFeed> {
+class _TeamFeedState extends State<TeamFeed> {
   @override
   Widget build(BuildContext context) {
-    UserFeedViewModel userFeedViewModel = context.watch<UserFeedViewModel>();
+    TeamFeedViewModel teamFeedViewModel = context.watch<TeamFeedViewModel>();
 
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      // floatingActionButton: Container(
-      //   height: size.width * .17,
-      //   width: size.width * .17,
-      //   decoration: BoxDecoration(
-      //       color: Color.fromARGB(255, 212, 131, 226),
-      //       borderRadius: BorderRadius.circular(40)),
-      //   child: InkWell(
-      //     child: Icon(
-      //       Icons.add_to_photos_rounded,
-      //       color: appBarColor,
-      //       size: 40,
-      //     ),
-      //   ),
-      // ),
       floatingActionButton: IconButton(
           splashRadius: 1,
           onPressed: () {
@@ -63,7 +51,7 @@ class _UserFeedState extends State<UserFeed> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => Post(
-                          presentUser: userFeedViewModel.presentUser,
+                          presentUser: teamFeedViewModel.presentUser,
                           photourl: null,
                           comment: null,
                         )));
@@ -74,20 +62,20 @@ class _UserFeedState extends State<UserFeed> {
                 255, 199, 150, 24), // TODO : TO GIVE THE RIGHT COLOR
             size: 40,
           )),
-      body: _userFeedView(userFeedViewModel, size),
+      body: _userFeedView(teamFeedViewModel, size),
     );
   }
 
-  _userFeedView(UserFeedViewModel userFeedViewModel, Size size) {
-    List<UserFeedModel> feedList = userFeedViewModel.prefFeedList;
-    List<bool> isLikedList = userFeedViewModel.prefIsLikedList;
+  _userFeedView(TeamFeedViewModel teamFeedViewModel, Size size) {
+    List<TeamFeedModel> teamFeedList = teamFeedViewModel.prefTeamFeedList;
+    List<bool> isLikedList = teamFeedViewModel.prefIsLikedList;
 
-    if (!userFeedViewModel.loading) {
-      feedList = userFeedViewModel.userFeedListModel;
-      isLikedList = userFeedViewModel.isAlreadyLikedList;
+    if (!teamFeedViewModel.loading) {
+      teamFeedList = teamFeedViewModel.teamFeedListModel;
+      isLikedList = teamFeedViewModel.isTeamFeedAlreadyLikedList;
     }
 
-    if (feedList.isEmpty) {
+    if (teamFeedList.isEmpty) {
       return Center(
         child: LoadingData(),
       );
@@ -95,11 +83,10 @@ class _UserFeedState extends State<UserFeed> {
 
     return ListView.builder(
         shrinkWrap: true,
-        itemCount: feedList.length,
+        itemCount: teamFeedList.length,
         itemBuilder: (context, index) {
-          UserModel presentUser = userFeedViewModel.presentUser;
-          //TODO : filter feedList for userfeed.....
-          UserFeedModel userFeedModel = feedList[index];
+          UserModel presentUser = teamFeedViewModel.presentUser;
+          TeamFeedModel teamFeedModel = teamFeedList[index];
           return Padding(
             padding: EdgeInsets.all(20),
             child: Container(
@@ -118,7 +105,7 @@ class _UserFeedState extends State<UserFeed> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(28.0),
                             child: CachedNetworkImage(
-                              imageUrl: userFeedModel.author.profileImage,
+                              imageUrl: teamFeedModel.author.profileImage,
                               imageBuilder: (context, imageProvider) =>
                                   Container(
                                 decoration: BoxDecoration(
@@ -133,7 +120,7 @@ class _UserFeedState extends State<UserFeed> {
                                   Icon(Icons.error),
                             ),
                           )),
-                      title: Text(userFeedModel.author.name,
+                      title: Text(teamFeedModel.author.name,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: appBarColor,
@@ -150,7 +137,7 @@ class _UserFeedState extends State<UserFeed> {
                             context: context,
                             builder: (context) {
                               return CachedNetworkImage(
-                                imageUrl: userFeedModel.photo,
+                                imageUrl: teamFeedModel.photo,
                                 imageBuilder: (context, imageProvider) {
                                   return InteractiveViewer(
                                       child: Image(
@@ -173,7 +160,7 @@ class _UserFeedState extends State<UserFeed> {
                       child: SizedBox(
                         height: size.height * .3,
                         child: CachedNetworkImage(
-                          imageUrl: userFeedModel.photo,
+                          imageUrl: teamFeedModel.photo,
                           imageBuilder: (context, imageProvider) {
                             return Container(
                               decoration: BoxDecoration(
@@ -211,18 +198,18 @@ class _UserFeedState extends State<UserFeed> {
                             children: [
                               IconButton(
                                   onPressed: () {
-                                    _postLike(context, userFeedModel.id,
+                                    _postLike(context, teamFeedModel.id,
                                         presentUser.firebase);
 
                                     if (isLikedList[index]) {
                                       setState(() {
                                         isLikedList[index] = false;
-                                        userFeedModel.numberOfLikes--;
+                                        teamFeedModel.numberOfLikes--;
                                       });
                                     } else {
                                       setState(() {
                                         isLikedList[index] = true;
-                                        userFeedModel.numberOfLikes++;
+                                        teamFeedModel.numberOfLikes++;
                                       });
                                     }
                                   },
@@ -234,55 +221,55 @@ class _UserFeedState extends State<UserFeed> {
                                       : Icon(
                                           CupertinoIcons.heart,
                                         )),
-                              IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Comments(
-                                                userFeedModel, presentUser)));
-                                  },
-                                  icon: Icon(Icons.comment_outlined)),
+                              // IconButton(
+                              //     onPressed: () {
+                              //       Navigator.push(
+                              //           context,
+                              //           MaterialPageRoute(
+                              //               builder: (context) => Comments(
+                              //                   teamFeedModel, presentUser)));
+                              //     },
+                              //     icon: Icon(Icons.comment_outlined)),
                               SizedBox(
                                 width: size.width * .03,
                               ),
                               Text(
-                                  "${userFeedModel.numberOfLikes.toString()} Likes",
+                                  "${teamFeedModel.numberOfLikes.toString()} Likes",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: appBarColor,
                                   )),
                             ],
                           ),
-                          Visibility(
-                            visible: userFeedModel.author.firebase ==
-                                presentUser.firebase,
-                            // userFeedModel.author.fbId == presentUserFbId,
-                            child: TextButton(
-                                style: ButtonStyle(
-                                    overlayColor: MaterialStatePropertyAll(
-                                        Colors.transparent)),
-                                onPressed: () async {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return WillPopScope(
-                                            child: LoadingData(),
-                                            onWillPop: () async {
-                                              return false;
-                                            });
-                                      });
-                                  await deletePost(userFeedModel.id);
-                                  Navigator.pop(context);
-                                },
-                                child: Text(
-                                  "Delete",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.red,
-                                  ),
-                                )),
-                          ),
+                          // Visibility(
+                          //   visible: teamFeedModel.author.firebase ==
+                          //       presentUser.firebase,
+                          //   // teamFeedModel.author.fbId == presentUserFbId,
+                          //   child: TextButton(
+                          //       style: ButtonStyle(
+                          //           overlayColor: MaterialStatePropertyAll(
+                          //               Colors.transparent)),
+                          //       onPressed: () async {
+                          //         showDialog(
+                          //             context: context,
+                          //             builder: (context) {
+                          //               return WillPopScope(
+                          //                   child: LoadingData(),
+                          //                   onWillPop: () async {
+                          //                     return false;
+                          //                   });
+                          //             });
+                          //         await deletePost(teamFeedModel.id);
+                          //         Navigator.pop(context);
+                          //       },
+                          //       child: Text(
+                          //         "Delete",
+                          //         style: TextStyle(
+                          //           fontWeight: FontWeight.bold,
+                          //           color: Colors.red,
+                          //         ),
+                          //       )),
+                          // ),
                         ]),
                   ),
                   Padding(
@@ -291,7 +278,7 @@ class _UserFeedState extends State<UserFeed> {
                         vertical: size.height * .01),
                     child: Container(
                       alignment: Alignment.centerLeft,
-                      child: Text(userFeedModel.text,
+                      child: Text(teamFeedModel.text,
                           // textAlign: TextAlign.left,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -306,22 +293,23 @@ class _UserFeedState extends State<UserFeed> {
         });
   }
 
-  Future deletePost(String id) async {
-    var url = Uri.parse("$deletePostUrl$id/");
-    final http.Response response = await http.delete(url);
-    if (response.statusCode == 204) {
-      //update feedList
-      var provider = Provider.of<UserFeedViewModel>(context, listen: false);
-      var filteredList =
-          provider.userFeedListModel.where(((element) => element.id != id));
-      provider.setUserFeedListModel(filteredList.toList());
-      Utils.showSnackBar("Deleted Succesfully!...");
-    } else {
-      Utils.showSnackBar(response.body);
-    }
-  }
+  // Future deletePost(String id) async {
+  //   var url = Uri.parse("$deletePostUrl$id/");
+  //   final http.Response response = await http.delete(url);
+  //   if (response.statusCode == 204) {
+  //     //update teamFeedList
+  //     var provider = Provider.of<TeamFeedViewModel>(context, listen: false);
+  //     var filteredList =
+  //         provider.userFeedListModel.where(((element) => element.id != id));
+  //     provider.setUserFeedListModel(filteredList.toList());
+  //     Utils.showSnackBar("Deleted Succesfully!...");
+  //   } else {
+  //     Utils.showSnackBar(response.body);
+  //   }
+  // }
 }
 
+//TODO  : TEAMfEED LIKE SERVICES......
 _postLike(BuildContext context, String postId, String fbId) async {
   print("klsfd");
   PostLIkeViewModel provider =

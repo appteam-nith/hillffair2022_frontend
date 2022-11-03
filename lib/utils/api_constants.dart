@@ -18,15 +18,19 @@ const String getCommentUrl = "$apiConstant/imagefeed/getcomment";
 const String postLikeUrl = "$apiConstant/imagefeed/like";
 const String getLikerUrl = "$apiConstant/imagefeed/get-likers/";
 
+//teamfeed
+const String teamFeedLikeUrl = "$apiConstant/TeamFeed/get-likers/";
+
 //user
 
 const String postUserUrl = "$apiConstant/user/";
 const String checkUserUrl = "$apiConstant/user/checkUser/";
 
 //chatting
-const String getChatRoomUrl = "$apiConstant/chat/getRoom/";
+const String getChatRoomUrl = "$apiConstant/chat/getRoom";
 const String getMessagesUrl = "$apiConstant/chat/getMessages";
 const String postChatUrl = "$apiConstant/chat/send/";
+const String checkChater = "$apiConstant/chat/checkchater";
 
 // Status-Codes
 const postSuccessCode = 201;

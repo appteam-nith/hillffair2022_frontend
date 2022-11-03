@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
-import 'package:hillfair2022_frontend/models/user_model.dart';
+import 'package:hillfair2022_frontend/models/user_profile/user_model.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
@@ -195,8 +195,7 @@ class _PostState extends State<Post> {
                                       Icon(Icons.error),
                                 ),
                               )),
-                          title: Text(
-                            widget.presentUser.name,
+                          title: Text(widget.presentUser.name,
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(fontWeight: FontWeight.bold)),
