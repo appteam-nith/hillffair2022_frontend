@@ -94,53 +94,64 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                 backgroundColor: Colors.transparent,
                 automaticallyImplyLeading: true,
               ),
-              body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'A verification email has been sent to your Email.\n      kindly check your spam folder',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    ElevatedButton(
-                        onPressed:
-                            canResendEmail ? sendVerificationEmail : null,
-                        style: ElevatedButton.styleFrom(
-                            splashFactory: NoSplash.splashFactory,
-                            backgroundColor:
-                                const Color.fromARGB(255, 66, 57, 140),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25))),
-                        child: const Text(
-                          'Resent Email',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        )),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    TextButton(
-                      onPressed: (() => FirebaseAuth.instance.signOut()),
-                      style: ElevatedButton.styleFrom(
-                          splashFactory: NoSplash.splashFactory,
-                          backgroundColor:
-                              const Color.fromARGB(255, 66, 57, 140),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25))),
-                      child: const Text(
-                        'Cancel',
-                        style: TextStyle(fontSize: 24),
+              body: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'A verification email has been sent to your Email.\n      kindly check your spam folder',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                        textAlign: TextAlign.center,
                       ),
-                    )
-                  ],
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      SizedBox(
+                        width: size.width * .5,
+                        height: size.height * .05,
+                        child: ElevatedButton(
+                            onPressed:
+                                canResendEmail ? sendVerificationEmail : null,
+                            style: ElevatedButton.styleFrom(
+                                splashFactory: NoSplash.splashFactory,
+                                backgroundColor:
+                                    const Color.fromARGB(255, 66, 57, 140),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25))),
+                            child: const Text(
+                              'Resent Email',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),
+                            )),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      SizedBox(
+                        width: size.width * .3,
+                        height: size.height * .05,
+                        child: TextButton(
+                          onPressed: (() => FirebaseAuth.instance.signOut()),
+                          style: ElevatedButton.styleFrom(
+                              splashFactory: NoSplash.splashFactory,
+                              backgroundColor:
+                                  const Color.fromARGB(255, 66, 57, 140),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25))),
+                          child: const Text(
+                            'Cancel',
+                            style: TextStyle(fontSize: 22, color: Colors.white),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ));
