@@ -13,7 +13,7 @@ import '../models/userFeed/post_img_model.dart';
 import '../utils/api_constants.dart';
 
 class ChattingServices {
-  static Future<Object> getChatRoom(String nickName, String fbId) async {
+  static getChatRoom(String nickName, String fbId) async {
     http.Response? response;
     try {
       var url = Uri.parse("$getChatRoomUrl/$fbId/");
@@ -26,12 +26,12 @@ class ChattingServices {
           'nickname1': nickName,
         }),
       );
-      if (postSuccessCode == response.statusCode) {
-        return Success(
-                code: postSuccessCode,
-                response: getChatRoomModelFromJson(response.body))
-            as GetChatRoomModel;
-      }
+      // if (postSuccessCode == response.statusCode) {
+      //   return Success(
+      //           code: postSuccessCode,
+      //           response: getChatRoomModelFromJson(response.body))
+      //       as GetChatRoomModel;
+      // }
       // return Failure(code: invalidResponse, errorMessage: 'Invalid Response');
       return response;
     }
@@ -41,7 +41,8 @@ class ChattingServices {
     //   return Failure(code: invalidFormat, errorMessage: 'Invalid Format');
     // }
     catch (e) {
-      return Failure(code: unknownError, errorMessage: e.toString());
+      // return Failure(code: unknownError, errorMessage: e.toString());
+      return response;
     }
   }
 
