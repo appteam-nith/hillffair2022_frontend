@@ -42,38 +42,37 @@ class _UserFeedState extends State<UserFeed> {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      // floatingActionButton: Container(
-      //   height: size.width * .17,
-      //   width: size.width * .17,
-      //   decoration: BoxDecoration(
-      //       color: Color.fromARGB(255, 212, 131, 226),
-      //       borderRadius: BorderRadius.circular(40)),
-      //   child: InkWell(
-      //     child: Icon(
-      //       Icons.add_to_photos_rounded,
-      //       color: appBarColor,
-      //       size: 40,
-      //     ),
-      //   ),
-      // ),
-      floatingActionButton: IconButton(
-          splashRadius: 1,
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Post(
-                          presentUser: userFeedViewModel.presentUser,
-                          photourl: null,
-                          comment: null,
-                        )));
-          },
-          icon: const Icon(
+      floatingActionButton: Container(
+        height: size.width * .15,
+        width: size.width * .15,
+        decoration: BoxDecoration(
+            color: Color(0xff7C70D4), borderRadius: BorderRadius.circular(40)),
+        child: InkWell(
+          child: Icon(
             Icons.add_to_photos_rounded,
-            color: Color.fromARGB(
-                255, 199, 150, 24), // TODO : TO GIVE THE RIGHT COLOR
-            size: 40,
-          )),
+            color: Colors.white,
+            size: 35,
+          ),
+        ),
+      ),
+      // floatingActionButton: IconButton(
+      //     splashRadius: 1,
+      //     onPressed: () {
+      //       Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //               builder: (context) => Post(
+      //                     presentUser: userFeedViewModel.presentUser,
+      //                     photourl: null,
+      //                     comment: null,
+      //                   )));
+      //     },
+      //     icon: const Icon(
+      //       Icons.add_to_photos_rounded,
+      //       color: Color.fromARGB(
+      //           255, 199, 150, 24), // TODO : TO GIVE THE RIGHT COLOR
+      //       size: 40,
+      //     )),
       body: _userFeedView(userFeedViewModel, size),
     );
   }
