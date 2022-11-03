@@ -18,7 +18,6 @@ const btnColor2 = Color(0xffB897E7);
 
 // chat color
 const kPrimaryColor = Color(0xFF00BF6D);
-const kSecondaryColor = Color(0xFFFE9901);
 const kWarninngColor = Color(0xFFF3BB1C);
 const kErrorColor = Color(0xFFF03738);
 
