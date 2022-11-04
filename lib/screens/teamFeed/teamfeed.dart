@@ -134,6 +134,7 @@ class _TeamFeedState extends State<TeamFeed> {
                     child: InkWell(
                       onTap: () {
                         showDialog(
+                            barrierColor: Colors.black,
                             context: context,
                             builder: (context) {
                               return CachedNetworkImage(
@@ -311,7 +312,7 @@ class _TeamFeedState extends State<TeamFeed> {
 
 //TODO  : TEAMfEED LIKE SERVICES......
 _postLike(BuildContext context, String postId, String fbId) async {
-  print("klsfd");
+  // print("klsfd");
   PostLIkeViewModel provider =
       Provider.of<PostLIkeViewModel>(context, listen: false);
   await provider.postLike(postId, fbId);

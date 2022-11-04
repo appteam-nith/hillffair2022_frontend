@@ -391,8 +391,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       String userId = FirebaseAuth.instance.currentUser!.uid;
       Globals.email = email;
       Globals.password = passwordController.text;
-      // final SharedPreferences data = await SharedPreferences.getInstance();
-      // data.setString('email', email);
+      SharedPreferences userPrefs = await SharedPreferences.getInstance();
+      userPrefs.setBool("isuserdatapresent", false);
+      userPrefs.setString("useremail", emailController.text);
+      userPrefs.setString("userpass", passwordController.text);
       // data.setString('password', passwordController.text);
       navigatorKey.currentState!.pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => VerifyEmailPage()),
@@ -408,8 +410,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
     } on FirebaseAuthException catch (e) {
       navigatorKey.currentState!.pop();
-      print(e);
-      Utils.showSnackBar(e.message);
+      // print(e);
+      // Utils.showSnackBar(e.message);
     }
   }
 }

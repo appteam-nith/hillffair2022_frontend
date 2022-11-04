@@ -21,6 +21,7 @@ import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
 import 'package:hillfair2022_frontend/signUp_widget.dart';
 
 import 'package:hillfair2022_frontend/sign_in.dart';
+import 'package:hillfair2022_frontend/utils/global.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:hillfair2022_frontend/verify_email_page.dart';
 import 'package:hillfair2022_frontend/view_models/teamFeed_VMs/teamFeedList_VM.dart';
@@ -29,6 +30,7 @@ import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_vi
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/chatting/message_screen.dart';
 import 'utils/colors.dart';
 import 'view_models/userFeed_viewModels/getComments_viewModels.dart';
@@ -41,9 +43,14 @@ import 'package:hillfair2022_frontend/view_models/team_member_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/team_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/userFeed_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_splash_screen/easy_splash_screen.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  Globals.email = preferences.getString("useremail");
+  Globals.password = preferences.getString("userpass");
+  Globals.isuserhavedata = preferences.getBool("isuserdatapresent");
   await Firebase.initializeApp(
     options: const FirebaseOptions(
       apiKey: "AIzaSyATOS_lE0LVWg3U9F8tqeME8jAs6HDCPC0",
@@ -90,22 +97,37 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => TeamFeedViewModel())
         ],
         child: MaterialApp(
-            scaffoldMessengerKey: Utils.messengerKey,
-            navigatorKey: navigatorKey,
-            debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
-            theme: ThemeData(
-              fontFamily: GoogleFonts.inter().fontFamily,
-              primarySwatch: Colors.purple,
+          scaffoldMessengerKey: Utils.messengerKey,
+          navigatorKey: navigatorKey,
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            fontFamily: GoogleFonts.inter().fontFamily,
+            primarySwatch: Colors.purple,
+          ),
+          home: EasySplashScreen(
+            logoWidth: 200,
+            logo: Image(
+              image: AssetImage("assets/images/hillfairlogo.png"),
             ),
-            home: AnimatedSplashScreen(
-                duration: 2000,
-                splashTransition: SplashTransition.scaleTransition,
-                splash: Image(
-                  image: AssetImage("assets/images/hillfairlogo.png"),
-                ),
-                splashIconSize: 500,
-                nextScreen: MainPage())));
+            navigator: MainPage(),
+            durationInSeconds: 2,
+            loadingText: Text(
+              "Developed by AppTeam",
+              style: TextStyle(color: Colors.white),
+            ),
+            loaderColor: Colors.white,
+            backgroundColor: bgColor,
+          ),
+          // home: AnimatedSplashScreen(
+          //     backgroundColor: bgColor,
+          //     duration: 1500,
+          //     splash: Image(
+          //       image: AssetImage("assets/images/hillfairlogo.png"),
+          //     ),
+          //     splashIconSize: 500,
+          //     nextScreen: MainPage())
+        ));
   }
 }
 
@@ -132,14 +154,13 @@ class MainPage extends StatelessWidget {
             bool isEmailVerified =
                 FirebaseAuth.instance.currentUser!.emailVerified;
             // return PostUser(snapshot.data!.email, snapshot.data!.uid);
-
             if (isEmailVerified == true) {
               return BottomNav();
             } else {
               return VerifyEmailPage();
             }
           } else {
-            return WelcomePage();
+            return SignIn();
           }
         },
       ),
