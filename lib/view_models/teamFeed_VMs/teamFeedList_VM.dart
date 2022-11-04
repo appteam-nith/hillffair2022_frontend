@@ -98,7 +98,7 @@ class TeamFeedViewModel extends ChangeNotifier {
       );
       setTeamFeedError(teamFeedError);
     }
-    Utils.showSnackBar("new Data Fetched");
+    // Utils.showSnackBar("new Data Fetched");
     print("new Data fetched");
     setLoading(false);
     // adddFeedToSahredPref(teamFeedListModel, isTeamFeedAlreadyLikedList);

@@ -75,8 +75,6 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    getData();
     return isEmailVerified
         ? PostUser(email, password!)
         : Container(
@@ -103,7 +101,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'A verification email has been sent to your Email.\n      kindly check your spam folder',
+                        "A verification email has been sent to your Email.\n      Don't forget to check your spam folder",
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

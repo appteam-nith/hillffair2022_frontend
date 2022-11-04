@@ -9,6 +9,7 @@ import 'package:hillfair2022_frontend/models/user_profile/user_model.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
 import 'package:hillfair2022_frontend/sign_in.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
+import 'package:hillfair2022_frontend/utils/global.dart';
 import 'package:hillfair2022_frontend/welcome_page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,7 +27,6 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  
   File? selectedImage;
   String base64Image = "";
 
@@ -42,8 +42,6 @@ class _ProfileState extends State<Profile> {
       });
     }
   }
-
- 
 
   final name = TextEditingController();
 
@@ -126,24 +124,25 @@ class _ProfileState extends State<Profile> {
                   height: 18,
                 ),
                 CircleAvatar(
-                backgroundColor: appBarColor,
-                radius: 50,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(50.0),
-                  child: CachedNetworkImage(
-                    imageUrl: presentUser.profileImage,
-                    imageBuilder: (context, imageProvider) => Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        image: imageProvider,
-                        alignment: Alignment.center,
-                        fit: BoxFit.cover,
-                      )),
-                    ),
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  ),
-                )),
+                    backgroundColor: appBarColor,
+                    radius: 50,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(50.0),
+                      child: CachedNetworkImage(
+                        imageUrl: presentUser.profileImage,
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                            image: imageProvider,
+                            alignment: Alignment.center,
+                            fit: BoxFit.cover,
+                          )),
+                        ),
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
+                    )),
                 SizedBox(
                   height: 15.75,
                 ),
@@ -203,7 +202,8 @@ class _ProfileState extends State<Profile> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => EditProfile(presentUser: presentUser,
+                            builder: (context) => EditProfile(
+                                  presentUser: presentUser,
                                 )));
                   },
                   style: ElevatedButton.styleFrom(
@@ -228,13 +228,14 @@ class _ProfileState extends State<Profile> {
                     await FirebaseAuth.instance.signOut();
 
                     // do not clear the instance of present user
-                    // SharedPreferences preferences =
-                    //     await SharedPreferences.getInstance();
-                    // await preferences.clear();
+                    SharedPreferences preferences =
+                        await SharedPreferences.getInstance();
+                    await preferences.clear();
                     navigatorKey.currentState!.pushAndRemoveUntil(
                         MaterialPageRoute(builder: (context) => SignIn()),
                         (route) => false);
 
+                    Globals.isuserhavedata = false;
                     RestartWidget.restartApp(context);
 
                     //TO Add a function to save the user details

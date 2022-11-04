@@ -55,13 +55,30 @@ class _UserFeedState extends State<UserFeed> {
         width: size.width * .15,
         decoration: BoxDecoration(
             color: Color(0xff7C70D4), borderRadius: BorderRadius.circular(40)),
-        child: InkWell(
-          child: Icon(
+        child: IconButton(
+          splashRadius: 1,
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Post(
+                          presentUser: userFeedViewModel.presentUser,
+                          photourl: null,
+                          comment: null,
+                        )));
+          },
+          icon: const Icon(
             Icons.add_to_photos_rounded,
-            color: Colors.white,
-            size: 35,
-          ),
-        ),
+            color: Colors.white, // TODO : TO GIVE THE RIGHT COLOR
+              size: 35,
+          )),
+        // InkWell(
+        //   child: Icon(
+        //     Icons.add_to_photos_rounded,
+        //     color: Colors.white,
+        //     size: 35,
+        //   ),
+        // ),
       ),
       // floatingActionButton: IconButton(
       //     splashRadius: 1,
@@ -156,6 +173,7 @@ class _UserFeedState extends State<UserFeed> {
                     child: InkWell(
                       onTap: () {
                         showDialog(
+                            barrierColor: Colors.black,
                             context: context,
                             builder: (context) {
                               return CachedNetworkImage(

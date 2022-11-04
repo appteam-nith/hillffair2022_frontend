@@ -44,24 +44,24 @@ class _TeamFeedState extends State<TeamFeed> {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      floatingActionButton: IconButton(
-          splashRadius: 1,
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Post(
-                          presentUser: teamFeedViewModel.presentUser,
-                          photourl: null,
-                          comment: null,
-                        )));
-          },
-          icon: const Icon(
-            Icons.add_to_photos_rounded,
-            color: Color.fromARGB(
-                255, 199, 150, 24), // TODO : TO GIVE THE RIGHT COLOR
-            size: 40,
-          )),
+      // floatingActionButton: IconButton(
+      //     splashRadius: 1,
+      //     onPressed: () {
+      //       Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //               builder: (context) => Post(
+      //                     presentUser: teamFeedViewModel.presentUser,
+      //                     photourl: null,
+      //                     comment: null,
+      //                   )));
+      //     },
+      //     icon: const Icon(
+      //       Icons.add_to_photos_rounded,
+      //       color: Color.fromARGB(
+      //           255, 199, 150, 24), // TODO : TO GIVE THE RIGHT COLOR
+      //       size: 40,
+      //     )),
       body: _userFeedView(teamFeedViewModel, size),
     );
   }
@@ -134,6 +134,7 @@ class _TeamFeedState extends State<TeamFeed> {
                     child: InkWell(
                       onTap: () {
                         showDialog(
+                            barrierColor: Colors.black,
                             context: context,
                             builder: (context) {
                               return CachedNetworkImage(

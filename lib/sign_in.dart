@@ -8,6 +8,7 @@ import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
 import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
 import 'package:hillfair2022_frontend/signup_widget.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
+import 'package:hillfair2022_frontend/utils/global.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -220,11 +221,22 @@ class _SignInState extends State<SignIn> {
                                                   BorderRadius.circular(25))),
                                       onPressed: () async {
                                         if (formKey.currentState!.validate()) {
-                                          await signIn();
+                                          showDialog(
+                                              context: context,
+                                              barrierDismissible: false,
+                                              builder: (context) {
+                                                return WillPopScope(
+                                                    onWillPop: () async {
+                                                      return false;
+                                                    },
+                                                    child: LoadingData());
+                                              });
                                           await signInAtBackend(
                                               emailController.text,
                                               passwordController.text);
                                         }
+                                        await signIn();
+                                        // navigatorKey.currentState!.pop();
                                       },
                                       child: Center(
                                         child: SizedBox(
@@ -316,31 +328,41 @@ class _SignInState extends State<SignIn> {
   }
 
   Future signIn() async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return WillPopScope(
-              onWillPop: () async {
-                return false;
-              },
-              child: LoadingData());
-        });
+    // showDialog(
+    //     context: context,
+    //     barrierDismissible: false,
+    //     builder: (context) {
+    //       return WillPopScope(
+    //           onWillPop: () async {
+    //             return false;
+    //           },
+    //           child: LoadingData());
+    //     });
 
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+      SharedPreferences userPrefs = await SharedPreferences.getInstance();
+      userPrefs.setString("useremail", emailController.text);
+      userPrefs.setString("userpass", passwordController.text);
+      Globals.email = emailController.text;
+      Globals.password = passwordController.text;
+      // Globals.email = emailController.text;
+      // Globals.password = passwordController.text;
       Map data = {
         'email': emailController.text.toString(),
         'password': passwordController.text.toString(),
       };
-      // navigatorKey.currentState!.pushAndRemoveUntil(
-      //     MaterialPageRoute(builder: ((context) => BottomNav())),
-      //     (route) => false);
+      navigatorKey.currentState!.pushAndRemoveUntil(
+          MaterialPageRoute(builder: ((context) => BottomNav())),
+          (route) => false);
     } on FirebaseAuthException catch (e) {
-      print(e);
+      // Globals.isuserhavedata = true;
+      // Globals.email = "";
+      // Globals.password = "";
+      // print(e);
       navigatorKey.currentState!.pop();
       Utils.showSnackBar(e.message);
     }
@@ -356,16 +378,15 @@ signInAtBackend(String email, pass) async {
     var body = json.decode(response.body);
     print(json.decode(response.body));
     if (body["user_present"] == false) {
-      navigatorKey.currentState!.pushReplacement(
-          MaterialPageRoute(builder: (context) => PostUser(email, pass)));
+      SharedPreferences userPrefs = await SharedPreferences.getInstance();
+      userPrefs.setBool("isuserdatapresent", false);
     } else {
-      navigatorKey.currentState!.pushAndRemoveUntil(
-          MaterialPageRoute(builder: ((context) => BottomNav())),
-          (route) => false);
       SharedPreferences userPrefs = await SharedPreferences.getInstance();
       if (userPrefs.containsKey("presentUser")) {
         userPrefs.remove("presentUser");
       }
+      userPrefs.setBool("isuserdatapresent", true);
+      Globals.isuserhavedata = true;
       userPrefs.setString("presentUser", response.body);
     }
   } else {
