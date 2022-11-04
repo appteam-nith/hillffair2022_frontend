@@ -8,7 +8,7 @@ import 'package:hillfair2022_frontend/screens/events/eventDetail.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/view_models/events_view_model.dart';
 import 'package:provider/provider.dart';
-
+import 'package:intl/intl.dart';
 import '../../components/loading_data.dart';
 
 class Events extends StatefulWidget {
@@ -55,6 +55,8 @@ class _EventsState extends State<Events> {
 
     return ListView.builder(
       itemBuilder: (context, index) {
+        final DateFormat dayformatter = DateFormat('yMMMMd');
+        final DateFormat dateformatter = DateFormat('jms');
         EventModel eventModel = eventsViewModel.eventsListModel[index];
         return Card(
           shape: RoundedRectangleBorder(
@@ -64,10 +66,9 @@ class _EventsState extends State<Events> {
           child: ListTile(
             title: Text(
               eventModel.title,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            subtitle: Text("${eventModel.clubName}\n${eventModel.startTime.day} ${eventModel.startTime.hour} ${eventModel.startTime.minute}"),
+            subtitle: Text("${eventModel.clubName}\n${dayformatter.format(eventModel.startTime)}\n${dateformatter.format(eventModel.startTime)}"),
             isThreeLine: true,
             leading: CircleAvatar(
                 backgroundColor: appBarColor,

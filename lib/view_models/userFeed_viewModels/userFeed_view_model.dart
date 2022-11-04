@@ -94,7 +94,7 @@ class UserFeedViewModel extends ChangeNotifier {
       );
       setuserFeedError(userFeedError);
     }
-    Utils.showSnackBar("new Data Fetched");
+    // Utils.showSnackBar("new Data Fetched");
     print("new Data fetched");
     setLoading(false);
     adddFeedToSahredPref(userFeedListModel, isAlreadyLikedList);

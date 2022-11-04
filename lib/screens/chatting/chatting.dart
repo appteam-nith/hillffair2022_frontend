@@ -104,7 +104,7 @@ class _Chatting extends State<Chatting> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const StartChatting()),
+                                      builder: (context) => const Upcoming()),
                                 );
                                   }
                               ),
