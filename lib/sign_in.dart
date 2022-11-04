@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
+import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
 import 'package:hillfair2022_frontend/signup_widget.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
@@ -16,12 +17,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'forgot_password_page.dart';
 import 'utils/api_constants.dart';
+import 'dart:convert';
 
 class SignIn extends StatefulWidget {
-  final VoidCallback onClickedSignUp;
   const SignIn({
     Key? key,
-    required this.onClickedSignUp,
   }) : super(key: key);
 
   @override
@@ -220,9 +220,10 @@ class _SignInState extends State<SignIn> {
                                                   BorderRadius.circular(25))),
                                       onPressed: () async {
                                         if (formKey.currentState!.validate()) {
-                                          await signInAtBackend(
-                                              emailController.text);
                                           await signIn();
+                                          await signInAtBackend(
+                                              emailController.text,
+                                              passwordController.text);
                                         }
                                       },
                                       child: Center(
@@ -270,10 +271,10 @@ class _SignInState extends State<SignIn> {
                                           text: 'Don’t have an account? ',
                                           children: [
                                         TextSpan(
-                                          // TODO : TO FUNCTION SIGN UP 
+                                            // TODO : TO FUNCTION SIGN UP
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
-                                                Navigator.pushReplacement(
+                                                Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: ((context) =>
@@ -335,9 +336,9 @@ class _SignInState extends State<SignIn> {
         'email': emailController.text.toString(),
         'password': passwordController.text.toString(),
       };
-      navigatorKey.currentState!.pushAndRemoveUntil(
-          MaterialPageRoute(builder: ((context) => BottomNav())),
-          (route) => false);
+      // navigatorKey.currentState!.pushAndRemoveUntil(
+      //     MaterialPageRoute(builder: ((context) => BottomNav())),
+      //     (route) => false);
     } on FirebaseAuthException catch (e) {
       print(e);
       navigatorKey.currentState!.pop();
@@ -346,16 +347,27 @@ class _SignInState extends State<SignIn> {
   }
 }
 
-signInAtBackend(String email) async {
+signInAtBackend(String email, pass) async {
   //  String email = emailController.text;
+  print("lsafd");
   var url = Uri.parse("$checkUserUrl$email");
   var response = await http.get(url);
   if (200 == response.statusCode) {
-    SharedPreferences userPrefs = await SharedPreferences.getInstance();
-    if (userPrefs.containsKey("presentUser")) {
-      userPrefs.remove("presentUser");
+    var body = json.decode(response.body);
+    print(json.decode(response.body));
+    if (body["user_present"] == false) {
+      navigatorKey.currentState!.pushReplacement(
+          MaterialPageRoute(builder: (context) => PostUser(email, pass)));
+    } else {
+      navigatorKey.currentState!.pushAndRemoveUntil(
+          MaterialPageRoute(builder: ((context) => BottomNav())),
+          (route) => false);
+      SharedPreferences userPrefs = await SharedPreferences.getInstance();
+      if (userPrefs.containsKey("presentUser")) {
+        userPrefs.remove("presentUser");
+      }
+      userPrefs.setString("presentUser", response.body);
     }
-    userPrefs.setString("presentUser", response.body);
   } else {
     Utils.showSnackBar(response.body);
   }

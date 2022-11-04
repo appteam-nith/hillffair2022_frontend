@@ -135,9 +135,9 @@ class _PostState extends State<Post> {
               res = await upadateFeedList(addedList);
               Navigator.pop(context);
               Navigator.pop(context);
-              if (res == "Updated") {
-                Utils.showSnackBar("Successfully Posted!!!");
-              }
+              // if (res == "Updated") {
+              //   Utils.showSnackBar("Successfully Posted!!!");
+              // }
             }
           },
           backgroundColor: Colors.white,

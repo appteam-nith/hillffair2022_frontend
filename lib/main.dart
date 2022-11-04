@@ -41,6 +41,7 @@ import 'package:hillfair2022_frontend/view_models/team_member_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/team_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/userFeed_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_splash_screen/easy_splash_screen.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -98,14 +99,29 @@ class MyApp extends StatelessWidget {
               fontFamily: GoogleFonts.inter().fontFamily,
               primarySwatch: Colors.purple,
             ),
-            home: AnimatedSplashScreen(
-                duration: 2000,
-                splashTransition: SplashTransition.scaleTransition,
-                splash: Image(
-                  image: AssetImage("assets/images/hillfairlogo.png"),
-                ),
-                splashIconSize: 500,
-                nextScreen: MainPage())));
+          home: EasySplashScreen(
+            logoWidth: 200,
+            logo: Image(
+              image: AssetImage("assets/images/hillfairlogo.png"),
+            ),
+            navigator: MainPage(),
+            durationInSeconds: 2,
+            loadingText: Text(
+              "Developed by AppTeam",
+              style: TextStyle(color: Colors.white),
+            ),
+            loaderColor: Colors.white,
+            backgroundColor: bgColor,
+          ),
+          // home: AnimatedSplashScreen(
+          //     backgroundColor: bgColor,
+          //     duration: 1500,
+          //     splash: Image(
+          //       image: AssetImage("assets/images/hillfairlogo.png"),
+          //     ),
+          //     splashIconSize: 500,
+          //     nextScreen: MainPage())
+        ));
   }
 }
 
@@ -139,7 +155,7 @@ class MainPage extends StatelessWidget {
               return VerifyEmailPage();
             }
           } else {
-            return WelcomePage();
+            return SignIn();
           }
         },
       ),

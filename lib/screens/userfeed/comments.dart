@@ -123,10 +123,10 @@ class _CommentsState extends State<Comments> {
                         cursorColor: appBarColor,
                         decoration: InputDecoration(
                             suffixIcon: IconButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   if (_formkey.currentState!.validate() &&
                                       commentTxtController.text.isNotEmpty) {
-                                    _postComment(widget.post.id,
+                                    await _postComment(widget.post.id,
                                         widget.presentUser.firebase);
                                     setState(() {
                                       commentTxtController.clear();

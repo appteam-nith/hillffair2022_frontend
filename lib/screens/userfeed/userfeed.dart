@@ -34,6 +34,14 @@ class UserFeed extends StatefulWidget {
 }
 
 class _UserFeedState extends State<UserFeed> {
+  // Future refresh() {
+  //   try {
+  //     UserFeedViewModel userFeedViewModel = context.watch<UserFeedViewModel>();
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     UserFeedViewModel userFeedViewModel = context.watch<UserFeedViewModel>();
@@ -74,6 +82,8 @@ class _UserFeedState extends State<UserFeed> {
       //       size: 40,
       //     )),
       body: _userFeedView(userFeedViewModel, size),
+      // body: RefreshIndicator(
+      //     child: _userFeedView(userFeedViewModel, size), onRefresh: refresh),
     );
   }
 
@@ -314,9 +324,9 @@ class _UserFeedState extends State<UserFeed> {
       var filteredList =
           provider.userFeedListModel.where(((element) => element.id != id));
       provider.setUserFeedListModel(filteredList.toList());
-      Utils.showSnackBar("Deleted Succesfully!...");
+      // Utils.showSnackBar("Deleted Succesfully!...");
     } else {
-      Utils.showSnackBar(response.body);
+      // Utils.showSnackBar(response.body);
     }
   }
 }

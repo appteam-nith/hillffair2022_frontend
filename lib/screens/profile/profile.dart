@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/main.dart';
 import 'package:hillfair2022_frontend/models/user_profile/user_model.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
+import 'package:hillfair2022_frontend/sign_in.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/welcome_page.dart';
 import 'package:image_picker/image_picker.dart';
@@ -231,7 +232,7 @@ class _ProfileState extends State<Profile> {
                     //     await SharedPreferences.getInstance();
                     // await preferences.clear();
                     navigatorKey.currentState!.pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => WelcomePage()),
+                        MaterialPageRoute(builder: (context) => SignIn()),
                         (route) => false);
 
                     RestartWidget.restartApp(context);

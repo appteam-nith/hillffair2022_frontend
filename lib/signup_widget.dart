@@ -408,8 +408,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
     } on FirebaseAuthException catch (e) {
       navigatorKey.currentState!.pop();
-      print(e);
-      Utils.showSnackBar(e.message);
+      // print(e);
+      // Utils.showSnackBar(e.message);
     }
   }
 }

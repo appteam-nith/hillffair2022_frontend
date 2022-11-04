@@ -346,15 +346,15 @@ Future<bool> postUser(PostUserModel newUser) async {
       final SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       sharedPreferences.setString('presentUser', response.body);
-      Utils.showSnackBar("User_created !..");
+      // Utils.showSnackBar("User_created !..");
       return true;
     } else {
       // TODO: error handling
-      Utils.showSnackBar(response.body);
+      // Utils.showSnackBar(response.body);
     }
   } catch (e) {
-    Utils.showSnackBar(e.toString());
-    print(e.toString());
+    // Utils.showSnackBar(e.toString());
+    // print(e.toString());
   }
   return false;
 }

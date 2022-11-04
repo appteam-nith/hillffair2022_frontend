@@ -188,7 +188,7 @@ class MessagePage extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      SignIn(onClickedSignUp: () {})));
+                                      SignIn()));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

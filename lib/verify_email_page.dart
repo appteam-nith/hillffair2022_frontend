@@ -59,7 +59,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       setState(() => canResendEmail = true);
     } catch (e) {
       // Utils.showSnackBar(e.toString());
-      print(e);
+      // print(e);
     }
   }
 
@@ -74,7 +74,9 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   @override
   Widget build(BuildContext context) {
-    // getData();
+    Size size = MediaQuery.of(context).size;
+
+    getData();
     return isEmailVerified
         ? PostUser(email, password!)
         : Container(
