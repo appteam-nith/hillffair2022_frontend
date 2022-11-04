@@ -22,7 +22,7 @@ class PostImgServices {
       if (response.statusCode == 201) {
         print("feed posted");
       } else {
-        Utils.showSnackBar(response.body);
+        // Utils.showSnackBar(response.body);
       }
     } catch (e) {
       print(e.toString());

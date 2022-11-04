@@ -1,6 +1,7 @@
 //api_documentation  ---- "http://anmolcoder.pythonanywhere.com/swagger/"
 
-const String apiConstant = "https://hillffair2k22.herokuapp.com";
+// const String apiConstant = "https://hillffair2k22.herokuapp.com";
+const String apiConstant = "https://appteam.mhsalmaan.me";
 
 // Events
 const String eventUrl = "$apiConstant/events/";

@@ -136,7 +136,7 @@ class _PostState extends State<Post> {
               Navigator.pop(context);
               Navigator.pop(context);
               if (res == "Updated") {
-                Utils.showSnackBar("Successfully Posted!!!");
+                // Utils.showSnackBar("Successfully Posted!!!");
               }
             }
           },

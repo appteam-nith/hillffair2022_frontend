@@ -10,7 +10,7 @@ import '../../utils/api_constants.dart';
 class TeamFeedList {
   static Future<Object> getTeamFeed() async {
     try {
-      var url = Uri.parse("https://hillffair2k22.herokuapp.com/TeamFeed/");
+      var url = Uri.parse("https://appteam.mhsalmaan.me/TeamFeed/");
       var response = await http.get(url);
       if (200 == response.statusCode) {
         print(response.statusCode);
