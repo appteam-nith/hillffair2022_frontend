@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:hillfair2022_frontend/api_services/api_status.dart';
+import 'package:hillfair2022_frontend/models/events/newEvent_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/events/event_model.dart';
@@ -14,7 +15,7 @@ class EventServices {
       var response = await http.get(url);
       if (getSuccessCode == response.statusCode) {
         return Success(
-            code: getSuccessCode, response: eventModelFromJson(response.body));
+            code: getSuccessCode, response: newEventsModelFromJson(response.body));
       }
 
       return Failure(code: invalidResponse, errorMessage: 'Invalid Response');

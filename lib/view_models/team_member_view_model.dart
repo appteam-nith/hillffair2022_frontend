@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
+import 'package:hillfair2022_frontend/models/teams/newTeam_members_model.dart';
 import '../api_services/api_status.dart';
 import '../api_services/team_member_services.dart';
 import '../models/teams/team_member_model.dart';
@@ -36,7 +37,8 @@ class TeamMemberViewModel extends ChangeNotifier {
     setLoading(true);
     var response = await TeamMemberService.getTeamMembers();
     if (response is Success) {
-      setTeamMembersListModel(response.response as List<TeamMemberModel>);
+      NewTeamMemberModel teamMembers = response.response as NewTeamMemberModel;
+      setTeamMembersListModel(teamMembers.results);
     }
     if (response is Failure) {
       ErrorModel teamMembersError = ErrorModel(
