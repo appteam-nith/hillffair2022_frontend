@@ -5,6 +5,7 @@ import 'package:hillfair2022_frontend/api_services/api_status.dart';
 import 'package:hillfair2022_frontend/models/teamFeed/teamFeed_model.dart';
 import 'package:http/http.dart' as http;
 
+import '../../models/teamFeed/newTeamFeedModel.dart';
 import '../../utils/api_constants.dart';
 
 class TeamFeedList {
@@ -17,7 +18,7 @@ class TeamFeedList {
         print("Team feed data fetched");
         return Success(
             code: getSuccessCode,
-            response: teamFeedModelFromJson(response.body));
+            response: newTeamFeedModelFromJson(response.body));
       }
 
       return Failure(code: invalidResponse, errorMessage: 'Invalid Response');
