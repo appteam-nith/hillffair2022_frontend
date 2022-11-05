@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
+import 'package:hillfair2022_frontend/models/userFeed/newFeedModel.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../api_services/api_status.dart';
@@ -76,7 +77,8 @@ class UserFeedViewModel extends ChangeNotifier {
     //
     var response = await UserFeedServices.getUserFeed();
     if (response is Success) {
-      setUserFeedListModel(response.response as List<UserFeedModel>);
+      NewUserFeedModel feed = response.response as NewUserFeedModel;
+      setUserFeedListModel(feed.results);
       log(response.response.toString());
       //
       int n = userFeedListModel.length;

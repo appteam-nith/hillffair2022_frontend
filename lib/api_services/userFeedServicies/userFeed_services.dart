@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:hillfair2022_frontend/api_services/api_status.dart';
+import 'package:hillfair2022_frontend/models/userFeed/newFeedModel.dart';
 import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,7 +18,7 @@ class UserFeedServices {
         print("feed data fetched");
         return Success(
             code: getSuccessCode,
-            response: userFeedModelFromJson(response.body));
+            response: newUserFeedModelFromJson(response.body));
       }
 
       return Failure(code: invalidResponse, errorMessage: 'Invalid Response');
