@@ -97,13 +97,19 @@ class _UserFeedState extends State<UserFeed> {
       //     )),
       // body: _userFeedView(userFeedViewModel, size),
       body: RefreshIndicator(
-          child: _userFeedView(userFeedViewModel, size), onRefresh: refresh),
+          color: bgColor,
+          child: _userFeedView(userFeedViewModel, size),
+          onRefresh: refresh),
     );
   }
 
   _userFeedView(UserFeedViewModel userFeedViewModel, Size size) {
     List<UserFeedModel> feedList = userFeedViewModel.prefFeedList;
     List<bool> isLikedList = userFeedViewModel.prefIsLikedList;
+
+    print("main");
+    print(feedList.length);
+    print(isLikedList.length);
 
     if (!userFeedViewModel.loading) {
       feedList = userFeedViewModel.userFeedListModel;
@@ -234,8 +240,8 @@ class _UserFeedState extends State<UserFeed> {
                           Row(
                             children: [
                               IconButton(
-                                  onPressed: () {
-                                    _postLike(context, userFeedModel.id,
+                                  onPressed: () async {
+                                    await _postLike(context, userFeedModel.id,
                                         presentUser.firebase);
 
                                     if (isLikedList[index]) {
@@ -351,5 +357,6 @@ _postLike(BuildContext context, String postId, String fbId) async {
   PostLIkeViewModel provider =
       Provider.of<PostLIkeViewModel>(context, listen: false);
   await provider.postLike(postId, fbId);
+  print("liked");
   return provider.isLiked;
 }

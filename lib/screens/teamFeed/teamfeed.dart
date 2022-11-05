@@ -36,6 +36,13 @@ class TeamFeed extends StatefulWidget {
 }
 
 class _TeamFeedState extends State<TeamFeed> {
+
+  Future refresh() {
+    var provider = Provider.of<TeamFeedViewModel>(context, listen: false);
+    return provider.getTeamFeed();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     TeamFeedViewModel teamFeedViewModel = context.watch<TeamFeedViewModel>();
@@ -62,7 +69,10 @@ class _TeamFeedState extends State<TeamFeed> {
       //           255, 199, 150, 24), // TODO : TO GIVE THE RIGHT COLOR
       //       size: 40,
       //     )),
-      body: _userFeedView(teamFeedViewModel, size),
+      body: RefreshIndicator(
+          color: bgColor,
+          child: _userFeedView(teamFeedViewModel, size),
+          onRefresh: refresh),
     );
   }
 

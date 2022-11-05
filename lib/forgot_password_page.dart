@@ -143,80 +143,73 @@ class MessagePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage("assets/images/bg.png"),
-        fit: BoxFit.cover,
+    return Scaffold(
+      backgroundColor: bgColor,
+      body: Center(
+          child: Column(
+        children: [
+          const Spacer(),
+          Container(
+              width: 291,
+              height: 172,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  const SizedBox(
+                    height: 56,
+                    width: 272,
+                    child: Center(
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                        child: Text(
+                            'An email to reset your password has\n     been sent to the entered email\n                        address.'),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 26,
+                  ),
+                  SizedBox(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => const SignIn())),
+                            (route) => false);
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            Icons.arrow_back,
+                            size: 22,
+                            color: Colors.black,
+                          ),
+                          Text(
+                            'Back to sign in',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+          const Spacer(
+            flex: 2,
+          ),
+        ],
       )),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Center(
-            child: Column(
-          children: [
-            const Spacer(),
-            Container(
-                width: 291,
-                height: 172,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
-                ),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    const SizedBox(
-                      height: 56,
-                      width: 272,
-                      child: Center(
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: Text(
-                              'An email to reset your password has\n     been sent to the entered email\n                        address.'),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 26,
-                    ),
-                    SizedBox(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      SignIn()));
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(
-                              Icons.arrow_back,
-                              size: 22,
-                              color: Colors.black,
-                            ),
-                            Text(
-                              'Back to sign in',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                )),
-            const Spacer(
-              flex: 2,
-            ),
-          ],
-        )),
-      ),
     );
   }
 }

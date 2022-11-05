@@ -18,7 +18,7 @@ class PostLikeService {
       //
       if (response.statusCode == postSuccessCode) {
         print("nkssvj");
-        // Utils.showSnackBar(response.body);
+        Utils.showSnackBar(response.body);
         return Success(code: postSuccessCode, response: response.body);
       }
       return Failure(code: invalidResponse, errorMessage: 'Invalid Response');
