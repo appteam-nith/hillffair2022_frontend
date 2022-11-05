@@ -204,15 +204,15 @@ class _CommentsState extends State<Comments> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ExpansionTile(
-                          title: Text(comment.author,
-                              maxLines: 3,
+                          title: Text(comment.text,
+                              maxLines: 4,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: appBarColor,
                               )),
                           children: [
-                            Text(comment.text,
+                            Text(comment.author,
                                 textAlign: TextAlign.left,
                                 maxLines: 10,
                                 overflow: TextOverflow.ellipsis,

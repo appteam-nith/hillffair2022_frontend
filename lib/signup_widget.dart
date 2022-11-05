@@ -40,7 +40,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  //final String verifyemail = "@nith.ac.in";
+  final String emaildomain = "@nith.ac.in";
+
   @override
   void dispose() {
     emailController.dispose();
@@ -108,7 +109,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                             textInputAction:
                                                 TextInputAction.next,
                                             decoration: InputDecoration(
-                                              hintText: 'Email',
+                                              hintText: 'Roll No',
                                               enabledBorder: OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(
@@ -151,28 +152,28 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                                 .onUserInteraction,
                                             validator: (e) {
                                               if (e!.isEmpty) {
-                                                return "Use College Email";
+                                                return "Use College Roll No";
                                               }
                                               if (e[0] == "1") {
                                                 if (!RegExp(
-                                                        r'[1]+[89]+[1-8]+[015]+[0-9]+[0-9]+@nith.ac.in')
+                                                        r'[1]+[89]+[1-8]+[015]+[0-9]+[0-9]')
                                                     .hasMatch(
                                                         e.toLowerCase())) {
-                                                  return "Use College Email";
+                                                  return "Use College Roll No";
                                                 } else {
                                                   return null;
                                                 }
                                               } else if (e[0] == "2") {
                                                 if (!RegExp(
-                                                        r'[2]+[01]+[bd]+[cemap]+[ecsrha]+[01]+[0-9]+[0-9]+@nith.ac.in')
+                                                        r'[2]+[01]+[bd]+[cemap]+[ecsrha]+[01]+[0-9]+[0-9]')
                                                     .hasMatch(
                                                         e.toLowerCase())) {
-                                                  return "Use College Email";
+                                                  return "Use College Roll No";
                                                 } else {
                                                   return null;
                                                 }
                                               } else {
-                                                return "Use College Email";
+                                                return "Use College Roll No";
                                               }
                                             },
                                           ),
@@ -383,17 +384,17 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text.trim(),
+        email: emailController.text.trim() + emaildomain,
         password: passwordController.text.trim(),
       );
 
-      String email = emailController.text;
+      String email = emailController.text + emaildomain;
       String userId = FirebaseAuth.instance.currentUser!.uid;
       Globals.email = email;
       Globals.password = passwordController.text;
       SharedPreferences userPrefs = await SharedPreferences.getInstance();
       userPrefs.setBool("isuserdatapresent", false);
-      userPrefs.setString("useremail", emailController.text);
+      userPrefs.setString("useremail", emailController.text + emaildomain);
       userPrefs.setString("userpass", passwordController.text);
       // data.setString('password', passwordController.text);
       navigatorKey.currentState!.pushAndRemoveUntil(
@@ -411,7 +412,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     } on FirebaseAuthException catch (e) {
       navigatorKey.currentState!.pop();
       // print(e);
-      // Utils.showSnackBar(e.message);
+      Utils.showSnackBar(e.message);
     }
   }
 }

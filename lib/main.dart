@@ -112,6 +112,7 @@ class MyApp extends StatelessWidget {
             ),
             navigator: MainPage(),
             durationInSeconds: 2,
+            showLoader: false,
             loadingText: Text(
               "Developed by AppTeam",
               style: TextStyle(color: Colors.white),

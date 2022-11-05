@@ -19,6 +19,12 @@ class Events extends StatefulWidget {
 }
 
 class _EventsState extends State<Events> {
+
+  Future refresh() {
+    var provider = Provider.of<EventsViewModel>(context, listen: false);
+    return provider.getEvents();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -32,7 +38,10 @@ class _EventsState extends State<Events> {
         centerTitle: true,
         title: const Text("Events"),
       ),
-      body: _eventsListView(eventsViewModel, size),
+      body: RefreshIndicator(
+          color: bgColor,
+          child: _eventsListView(eventsViewModel, size),
+          onRefresh: refresh),
     );
   }
 

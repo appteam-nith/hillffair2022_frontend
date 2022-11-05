@@ -34,6 +34,8 @@ class _SignInState extends State<SignIn> {
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
+  String emaildomain = "@nith.ac.in";
+
   @override
   void dispose() {
     emailController.dispose();
@@ -95,26 +97,26 @@ class _SignInState extends State<SignIn> {
                                     child: TextFormField(
                                       validator: (e) {
                                         if (e!.isEmpty) {
-                                          return "Use College Email";
+                                          return "Use College Roll No";
                                         }
                                         if (e[0] == "1") {
                                           if (!RegExp(
-                                                  r'[1]+[89]+[1-8]+[015]+[0-9]+[0-9]+@nith.ac.in')
+                                                  r'[1]+[89]+[1-8]+[015]+[0-9]+[0-9]')
                                               .hasMatch(e.toLowerCase())) {
-                                            return "Use College Email";
+                                            return "Use College Roll No";
                                           } else {
                                             return null;
                                           }
                                         } else if (e[0] == "2") {
                                           if (!RegExp(
-                                                  r'[2]+[01]+[bd]+[cemap]+[ecsrha]+[01]+[0-9]+[0-9]+@nith.ac.in')
+                                                  r'[2]+[01]+[bd]+[cemap]+[ecsrha]+[01]+[0-9]+[0-9]')
                                               .hasMatch(e.toLowerCase())) {
-                                            return "Use College Email";
+                                            return "Use College Roll No";
                                           } else {
                                             return null;
                                           }
                                         } else {
-                                          return "Use College Email";
+                                          return "Use College Roll No";
                                         }
                                       },
                                       controller: emailController,
@@ -123,7 +125,7 @@ class _SignInState extends State<SignIn> {
                                       style: TextStyle(color: appBarColor),
                                       textInputAction: TextInputAction.next,
                                       decoration: InputDecoration(
-                                        hintText: 'Email',
+                                        hintText: 'Roll No',
                                         enabledBorder: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(25.0),
@@ -232,10 +234,11 @@ class _SignInState extends State<SignIn> {
                                                     child: LoadingData());
                                               });
                                           await signInAtBackend(
-                                              emailController.text,
+                                              emailController.text +
+                                                  emaildomain,
                                               passwordController.text);
-                                        }
                                         await signIn();
+                                        }
                                         // navigatorKey.currentState!.pop();
                                       },
                                       child: Center(
@@ -271,8 +274,8 @@ class _SignInState extends State<SignIn> {
                                           fontWeight: FontWeight.w700),
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 110,
+                                  SizedBox(
+                                    height: size.height * .1,
                                   ),
                                   RichText(
                                       text: TextSpan(
@@ -341,18 +344,18 @@ class _SignInState extends State<SignIn> {
 
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
+        email: emailController.text.trim() + emaildomain,
         password: passwordController.text.trim(),
       );
       SharedPreferences userPrefs = await SharedPreferences.getInstance();
-      userPrefs.setString("useremail", emailController.text);
+      userPrefs.setString("useremail", emailController.text + emaildomain);
       userPrefs.setString("userpass", passwordController.text);
-      Globals.email = emailController.text;
+      Globals.email = emailController.text + emaildomain;
       Globals.password = passwordController.text;
       // Globals.email = emailController.text;
       // Globals.password = passwordController.text;
       Map data = {
-        'email': emailController.text.toString(),
+        'email': emailController.text.toString() + emaildomain,
         'password': passwordController.text.toString(),
       };
       navigatorKey.currentState!.pushAndRemoveUntil(

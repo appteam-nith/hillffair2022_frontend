@@ -81,6 +81,7 @@ class UserFeedViewModel extends ChangeNotifier {
       setUserFeedListModel(feed.results);
       log(response.response.toString());
       //
+      isAlreadyLikedList.clear(); // to be right
       int n = userFeedListModel.length;
       for (var i = 0; i < n; i++) {
         bool isAlreadyLiked = await GetLikerViewModel()
@@ -129,6 +130,8 @@ class UserFeedViewModel extends ChangeNotifier {
   Future<List<bool>> getIsLikedPref() async {
     SharedPreferences likedpref = await SharedPreferences.getInstance();
     List<String>? likedlist = likedpref.getStringList("isAlreadyLikedList");
+    print("klsf");
+    print(likedlist);
     if (likedlist != null) {
       List<bool> isAlreadyLikedList = stringListToBoolList(likedlist);
       return isAlreadyLikedList;

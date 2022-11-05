@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:hillfair2022_frontend/api_services/api_status.dart';
 import 'package:hillfair2022_frontend/models/teamFeed/newTeamFeedModel.dart';
+import 'package:hillfair2022_frontend/models/teams/new_team_model.dart';
 import 'package:hillfair2022_frontend/models/teams/team_model.dart';
 import 'package:http/http.dart' as http;
 import '../utils/api_constants.dart';
@@ -14,7 +15,8 @@ class TeamServices {
       var response = await http.get(url);
       if (200 == response.statusCode) {
         return Success(
-            code: getSuccessCode, response: newTeamFeedModelFromJson(response.body));
+            code: getSuccessCode,
+            response: newTeamsModelFromJson(response.body));
       }
 
       return Failure(code: invalidResponse, errorMessage: 'Invalid Response');
