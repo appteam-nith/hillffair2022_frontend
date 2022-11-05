@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:hillfair2022_frontend/api_services/team_member_services.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
+import 'package:hillfair2022_frontend/models/teamFeed/newTeamFeedModel.dart';
 import 'package:hillfair2022_frontend/models/teamFeed/teamFeed_model.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:hillfair2022_frontend/view_models/teamFeed_VMs/teamFeed_liker_VM.dart';
@@ -20,7 +21,6 @@ class TeamFeedViewModel extends ChangeNotifier {
     // getPresentUser();
   }
 
-//presentUserData
   UserModel _presentUser = UserModel(
       firstName: "firstName",
       lastName: "lastName",
@@ -41,13 +41,9 @@ class TeamFeedViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  //
   List<TeamFeedModel> prefTeamFeedList = [];
-  // List<bool> prefIsLikedList = [];
-  //
   bool _loading = false;
   List<TeamFeedModel> _teamFeedListModel = [];
-  // List<bool> isTeamFeedAlreadyLikedList = [];
   ErrorModel _teamFeedError = ErrorModel(000, " error not set");
 
   bool get loading => _loading;
@@ -70,8 +66,7 @@ class TeamFeedViewModel extends ChangeNotifier {
 
   getTeamFeed() async {
     getPresentUser();
-    // prefTeamFeedList = await getFeedPref();
-    // prefIsLikedList = await getIsLikedPref();
+    prefTeamFeedList = await getFeedPref();
     setLoading(true);
     //
 
@@ -80,16 +75,9 @@ class TeamFeedViewModel extends ChangeNotifier {
     //
     var response = await TeamFeedList.getTeamFeed();
     if (response is Success) {
-      setTeamFeedListModel(response.response as List<TeamFeedModel>);
+      NewTeamFeedModel teamFeed = response.response as NewTeamFeedModel;
+      setTeamFeedListModel(teamFeed.results);
       log(response.response.toString());
-      //
-      // int n = teamFeedListModel.length;
-      // for (var i = 0; i < n; i++) {
-      //   bool isAlreadyLiked = await GetTeamFeedLIkeVM()
-      //       .getLiker(presentUser.firebase, teamFeedListModel[i]);
-      //   isTeamFeedAlreadyLikedList.add(isAlreadyLiked);
-      // }
-      //
     }
     if (response is Failure) {
       ErrorModel teamFeedError = ErrorModel(
@@ -98,53 +86,47 @@ class TeamFeedViewModel extends ChangeNotifier {
       );
       setTeamFeedError(teamFeedError);
     }
-    // Utils.showSnackBar("new Data Fetched");
+    Utils.showSnackBar("new TeamFeed Fetched");
     print("new Data fetched");
     setLoading(false);
-    // adddFeedToSahredPref(teamFeedListModel, isTeamFeedAlreadyLikedList);
+    adddFeedToSahredPref(teamFeedListModel);
   }
 
-  adddFeedToSahredPref(
-      List<TeamFeedModel> teamFeedList, List<bool> isTeamFeedAlreadyLikedList) async {
+  adddFeedToSahredPref(List<TeamFeedModel> teamFeedList) async {
     SharedPreferences feedPrefs = await SharedPreferences.getInstance();
     bool isFeedStored = feedPrefs.containsKey('teamFeedList');
-    bool isLikedStored = feedPrefs.containsKey('isTeamFeedAlreadyLikedList');
     if (isFeedStored) {
       await feedPrefs.remove("teamFeedList");
     }
-    if (isLikedStored) {
-      await feedPrefs.remove("isTeamFeedAlreadyLikedList");
-    }
     feedPrefs.setString("teamFeedList", teamFeedModelToJson(teamFeedList));
-    feedPrefs.setStringList(
-        "isTeamFeedAlreadyLikedList", boolListTOStringList(isTeamFeedAlreadyLikedList));
   }
 
-  List<String> boolListTOStringList(List<bool> listBool) {
-    List<String> listString = [];
-    listBool.forEach((item) {
-      item == true ? listString.add("true") : listString.add("false");
-    });
-    return listString;
-  }
+  // List<String> boolListTOStringList(List<bool> listBool) {
+  //   List<String> listString = [];
+  //   listBool.forEach((item) {
+  //     item == true ? listString.add("true") : listString.add("false");
+  //   });
+  //   return listString;
+  // }
 
-  Future<List<bool>> getIsLikedPref() async {
-    SharedPreferences likedpref = await SharedPreferences.getInstance();
-    List<String>? likedlist = likedpref.getStringList("isTeamFeedAlreadyLikedList");
-    if (likedlist != null) {
-      List<bool> isTeamFeedAlreadyLikedList = stringListToBoolList(likedlist);
-      return isTeamFeedAlreadyLikedList;
-    }
-    return [];
-  }
+  // Future<List<bool>> getIsLikedPref() async {
+  //   SharedPreferences likedpref = await SharedPreferences.getInstance();
+  //   List<String>? likedlist =
+  //       likedpref.getStringList("isTeamFeedAlreadyLikedList");
+  //   if (likedlist != null) {
+  //     List<bool> isTeamFeedAlreadyLikedList = stringListToBoolList(likedlist);
+  //     return isTeamFeedAlreadyLikedList;
+  //   }
+  //   return [];
+  // }
 
-  List<bool> stringListToBoolList(List<String> likedlist) {
-    List<bool> boolList = [];
-    for (var item in likedlist) {
-      item == "true" ? boolList.add(true) : boolList.add(false);
-    }
-    return boolList;
-  }
+  // List<bool> stringListToBoolList(List<String> likedlist) {
+  //   List<bool> boolList = [];
+  //   for (var item in likedlist) {
+  //     item == "true" ? boolList.add(true) : boolList.add(false);
+  //   }
+  //   return boolList;
+  // }
 
   Future<List<TeamFeedModel>> getFeedPref() async {
     SharedPreferences feedPrefs = await SharedPreferences.getInstance();
@@ -165,3 +147,4 @@ class TeamFeedViewModel extends ChangeNotifier {
     }
   }
 }
+
