@@ -45,7 +45,7 @@ class EventDetailsPage extends StatelessWidget {
                     SizedBox(height: 30),
                     CircleAvatar(
                         backgroundColor: appBarColor,
-                        radius: 80,
+                        radius: 100,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(45.0),
                           child: CachedNetworkImage(
@@ -55,7 +55,7 @@ class EventDetailsPage extends StatelessWidget {
                                   image: DecorationImage(
                                 image: imageProvider,
                                 alignment: Alignment.center,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                               )),
                             ),
                             placeholder: (context, url) =>

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +23,7 @@ import '../../utils/snackbar.dart';
 class EditProfile extends StatefulWidget {
   UserModel presentUser;
 
-  EditProfile(
-      {super.key,
-      required this.presentUser});
+  EditProfile({super.key, required this.presentUser});
 
   @override
   State<EditProfile> createState() => _EditProfileState();
@@ -149,7 +149,7 @@ class _EditProfileState extends State<EditProfile> {
                                     return LoadingData();
                                   },
                                   errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
+                                      Icon(Icons.error),
                                 )),
                     ),
                   ),
@@ -319,6 +319,7 @@ class _EditProfileState extends State<EditProfile> {
                     controller: phoneNo,
                     cursorHeight: 25,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
+                    keyboardType: TextInputType.phone,
                     validator: (e) {
                       if (e!.length != 10) {
                         return "There should be 10 digits ...";

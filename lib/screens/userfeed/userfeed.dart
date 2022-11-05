@@ -41,7 +41,6 @@ class _UserFeedState extends State<UserFeed> {
     return provider.getUserFeed();
   }
 
-
   // To make in use
   // final _baseUrl = 'https://jsonplaceholder.typicode.com/posts';
 
@@ -225,7 +224,13 @@ class _UserFeedState extends State<UserFeed> {
 
     if (feedList.isEmpty) {
       return Center(
-        child: LoadingData(),
+        child: Text(
+          "No Data Present",
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: size.height * .025,
+              fontWeight: FontWeight.bold),
+        ),
       );
     }
 
