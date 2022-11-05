@@ -34,13 +34,10 @@ class UserFeed extends StatefulWidget {
 }
 
 class _UserFeedState extends State<UserFeed> {
-  // Future refresh() {
-  //   try {
-  //     UserFeedViewModel userFeedViewModel = context.watch<UserFeedViewModel>();
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
+  Future refresh() {
+    var provider = Provider.of<UserFeedViewModel>(context, listen: false);
+    return provider.getUserFeed();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,22 +53,22 @@ class _UserFeedState extends State<UserFeed> {
         decoration: BoxDecoration(
             color: Color(0xff7C70D4), borderRadius: BorderRadius.circular(40)),
         child: IconButton(
-          splashRadius: 1,
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Post(
-                          presentUser: userFeedViewModel.presentUser,
-                          photourl: null,
-                          comment: null,
-                        )));
-          },
-          icon: const Icon(
-            Icons.add_to_photos_rounded,
-            color: Colors.white, // TODO : TO GIVE THE RIGHT COLOR
+            splashRadius: 1,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Post(
+                            presentUser: userFeedViewModel.presentUser,
+                            photourl: null,
+                            comment: null,
+                          )));
+            },
+            icon: const Icon(
+              Icons.add_to_photos_rounded,
+              color: Colors.white, // TODO : TO GIVE THE RIGHT COLOR
               size: 35,
-          )),
+            )),
         // InkWell(
         //   child: Icon(
         //     Icons.add_to_photos_rounded,
@@ -98,9 +95,9 @@ class _UserFeedState extends State<UserFeed> {
       //           255, 199, 150, 24), // TODO : TO GIVE THE RIGHT COLOR
       //       size: 40,
       //     )),
-      body: _userFeedView(userFeedViewModel, size),
-      // body: RefreshIndicator(
-      //     child: _userFeedView(userFeedViewModel, size), onRefresh: refresh),
+      // body: _userFeedView(userFeedViewModel, size),
+      body: RefreshIndicator(
+          child: _userFeedView(userFeedViewModel, size), onRefresh: refresh),
     );
   }
 

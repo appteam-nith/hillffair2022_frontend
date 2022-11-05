@@ -29,9 +29,9 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
-  List navPages = [TeamList(), Chatting(), TabSlider(), Events(), Profile()];
+  List navPages = [TeamList(), TabSlider(), Events(), Profile()];
 
-  int currentIndex = 2;
+  int currentIndex = 1;
   // late bool ispresentdata;
   // late String? email;
   // late String? pass;
@@ -85,10 +85,10 @@ class _BottomNavState extends State<BottomNav> {
                     icon: CupertinoIcons.person_3,
                     text: "Teams",
                   ),
-                  GButton(
-                    icon: CupertinoIcons.chat_bubble_2,
-                    text: "Chatting",
-                  ),
+                  // GButton(
+                  //   icon: CupertinoIcons.chat_bubble_2,
+                  //   text: "Chatting",
+                  // ),
                   GButton(
                     icon: CupertinoIcons.home,
                     text: "Home",
