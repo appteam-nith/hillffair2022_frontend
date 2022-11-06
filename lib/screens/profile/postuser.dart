@@ -36,48 +36,7 @@ class PostUser extends StatefulWidget {
 }
 
 class _PostUserState extends State<PostUser> {
-  File? selectedImage;
-  String base64Image = "";
-
   String val = "";
-  final cloudinary = CloudinaryPublic('dugwczlzo', 'nql7r9cr', cache: false);
-
-  Future chooseImage() async {
-    XFile? image;
-
-    image = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if (image != null) {
-      setState(() {
-        selectedImage = File(image!.path);
-        base64Image = base64Encode(selectedImage!.readAsBytesSync());
-      });
-    }
-  }
-
-  //TODO: compress before
-  // Future<String> getImgUrl(var image) async {
-  //   try {
-  //     CloudinaryResponse response = await cloudinary.uploadFile(
-  //       CloudinaryFile.fromFile(image.path,
-  //           resourceType: CloudinaryResourceType.Image),
-  //     );
-  //     return response.secureUrl;
-  //   } on CloudinaryException catch (e) {
-  //     print(e.message);
-  //     print(e.request);
-  //     return "";
-  //   }
-  // }
-
-  // to be make in use
-  Future<File> compressImage({
-    required File imagepath,
-  }) async {
-    var path = await FlutterNativeImage.compressImage(imagepath.absolute.path,
-        quality: 100, percentage: 35);
-    return path;
-  }
 
   final firstName = TextEditingController();
   final lastName = TextEditingController();
@@ -375,7 +334,6 @@ class _PostUserState extends State<PostUser> {
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: size.height * .02,
-                                  fontFamily: GoogleFonts.poppins().fontFamily,
                                   fontWeight: FontWeight.bold),
                             ),
                           )),

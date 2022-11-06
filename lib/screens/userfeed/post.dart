@@ -98,6 +98,10 @@ class _PostState extends State<Post> {
     _post(var imageFromDevice) async {
       String caption = captionTxtController.text;
 
+      if (imageFromDevice == null) {
+        return "Select Image";
+      }
+
       print(imageFromDevice.lengthSync() / 1024);
       File compressedFile = await compressImage(imagepath: imageFromDevice);
       print(compressedFile.lengthSync() / 1024);
@@ -132,6 +136,10 @@ class _PostState extends State<Post> {
                         child: LoadingData());
                   });
               var addedList = await _post(imageFromDevice);
+              if (addedList == "Select Image") {
+                Navigator.pop(context);
+                return;
+              }
               res = await upadateFeedList(addedList);
               Navigator.pop(context);
               Navigator.pop(context);

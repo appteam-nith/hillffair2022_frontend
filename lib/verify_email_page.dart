@@ -69,15 +69,25 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     setState(() {
       isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
     });
-    if (isEmailVerified) timer?.cancel();
+    if (isEmailVerified) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: ((context) => BottomNav())),
+          (route) => false);
+      timer?.cancel();
+    }
+  }
+
+  @override
+  void dispose() {
+    timer!.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return isEmailVerified
-        ? PostUser(email, password!)
-        : Container(
+    return Container(
             color: bgColor,
             child: Scaffold(
               bottomSheet: Container(
@@ -101,7 +111,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        "A verification email has been sent to your Email.\n      Don't forget to check your spam folder",
+                    "A verification email has been sent to your College Email.",
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -137,7 +147,9 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                         width: size.width * .3,
                         height: size.height * .05,
                         child: TextButton(
-                          onPressed: (() => FirebaseAuth.instance.signOut()),
+                      onPressed: (() async {
+                        await FirebaseAuth.instance.signOut();
+                      }),
                           style: ElevatedButton.styleFrom(
                               splashFactory: NoSplash.splashFactory,
                               backgroundColor:

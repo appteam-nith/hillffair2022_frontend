@@ -38,46 +38,57 @@ class _UserFeedState extends State<UserFeed> {
   // bool _isFirstLoadRunning = false;
   // bool _hasNextPage = true;
 
-  // bool _isLoadMoreRunning = false;
+  bool _isLoadMoreRunning = false;
 
   // List _posts = [];
 
-  // void _loadMore() async {
-  //   if (_hasNextPage == true &&
-  //       _isFirstLoadRunning == false &&
-  //       _isLoadMoreRunning == false &&
-  //       _controller.position.extentAfter < 300) {
-  //     setState(() {
-  //       _isLoadMoreRunning = true; // Display a progress indicator at the bottom
-  //     });
+  void _loadMore() async {
+    // if (_hasNextPage == true &&
+    //     _isFirstLoadRunning == false &&
+    //     _isLoadMoreRunning == false &&
+    //     _controller.position.extentAfter < 300) {
+    //   setState(() {
+    //     _isLoadMoreRunning = true; // Display a progress indicator at the bottom
+    //   });
 
-  //     _page += 1; // Increase _page by 1
+    //   _page += 1; // Increase _page by 1
 
-  //     try {
-  //       final res =
-  //           await http.get(Uri.parse("$_baseUrl?_page=$_page&_limit=$_limit"));
+    //   try {
+    //     final res =
+    //         await http.get(Uri.parse("$_baseUrl?_page=$_page&_limit=$_limit"));
 
-  //       final List fetchedPosts = json.decode(res.body);
-  //       if (fetchedPosts.isNotEmpty) {
-  //         setState(() {
-  //           _posts.addAll(fetchedPosts);
-  //         });
-  //       } else {
-  //         setState(() {
-  //           _hasNextPage = false;
-  //         });
-  //       }
-  //     } catch (err) {
-  //       if (kDebugMode) {
-  //         print('Something went wrong!');
-  //       }
-  //     }
+    //     final List fetchedPosts = json.decode(res.body);
+    //     if (fetchedPosts.isNotEmpty) {
+    //       setState(() {
+    //         _posts.addAll(fetchedPosts);
+    //       });
+    //     } else {
+    //       setState(() {
+    //         _hasNextPage = false;
+    //       });
+    //     }
+    //   } catch (err) {
+    //     if (kDebugMode) {
+    //       print('Something went wrong!');
+    //     }
+    //   }
 
-  //     setState(() {
-  //       _isLoadMoreRunning = false;
-  //     });
-  //   }
-  // }
+    //   setState(() {
+    //     _isLoadMoreRunning = false;
+    //   });
+    // }
+
+    setState(() {
+      _isLoadMoreRunning = true;
+    });
+
+    var provider = await Provider.of<UserFeedViewModel>(context, listen: false);
+    await provider.getUserFeed();
+
+    setState(() {
+      _isLoadMoreRunning = false;
+    });
+  }
 
   // void _firstLoad() async {
   //   setState(() {
@@ -108,7 +119,7 @@ class _UserFeedState extends State<UserFeed> {
     // var provider = Provider.of<UserFeedViewModel>(context, listen: false);
     // _posts.addAll(provider.userFeedListModel);
     // _firstLoad();
-    // _controller = ScrollController()..addListener(_loadMore);
+    _controller = ScrollController()..addListener(_loadMore);
   }
 
   @override
@@ -176,13 +187,13 @@ class _UserFeedState extends State<UserFeed> {
                 child: _userFeedView(userFeedViewModel, size),
                 onRefresh: refresh),
           ),
-          // if (_isLoadMoreRunning == true)
-          //   const Padding(
-          //     padding: EdgeInsets.only(top: 10, bottom: 40),
-          //     child: Center(
-          //       child: LoadingData(),
-          //     ),
-          //   ),
+          if (_isLoadMoreRunning == true)
+            const Padding(
+              padding: EdgeInsets.only(top: 10, bottom: 40),
+              child: Center(
+                child: LoadingData(),
+              ),
+            ),
           // if (_hasNextPage == false)
           //   Container(
           //     padding: const EdgeInsets.only(top: 30, bottom: 40),
