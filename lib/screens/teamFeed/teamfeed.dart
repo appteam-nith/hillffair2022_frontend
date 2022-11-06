@@ -24,9 +24,11 @@ import 'package:provider/provider.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+// import 'package:video_player/video_player.dart';
 import '../../utils/api_constants.dart';
 import '../../view_models/teamFeed_VMs/teamFeedList_VM.dart';
 import '../../view_models/userFeed_viewModels/getComments_viewModels.dart';
+// import 'package:videos_player/videos_player.dart';
 
 class TeamFeed extends StatefulWidget {
   const TeamFeed({Key? key}) : super(key: key);
@@ -174,33 +176,40 @@ class _TeamFeedState extends State<TeamFeed> {
                       },
                       child: SizedBox(
                         height: size.height * .3,
-                        child: CachedNetworkImage(
-                          imageUrl: teamFeedModel.photo,
-                          imageBuilder: (context, imageProvider) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  image: DecorationImage(
-                                      image: imageProvider,
-                                      alignment: Alignment.center,
-                                      fit: BoxFit.cover)),
-                            );
-                          },
-                          placeholder: ((context, url) {
-                            return Center(
-                              child: CircularProgressIndicator(
-                                color: appBarColor,
-                              ),
-                            );
-                          }),
-                          errorWidget: ((context, url, error) {
-                            return Icon(
-                              Icons.error,
-                              size: 50,
-                              color: Colors.red,
-                            );
-                          }),
-                        ),
+                        // child: VideosPlayer(networkVideos: [
+                        //   NetworkVideo(
+                        //       id: teamFeedModel.id,
+                        //       name: teamFeedModel.text,
+                        //       videoUrl: teamFeedModel.photo)
+                        // ]
+                        // ),
+                        // child: CachedNetworkImage(
+                        //   imageUrl: teamFeedModel.photo,
+                        //   imageBuilder: (context, imageProvider) {
+                        //     return Container(
+                        //       decoration: BoxDecoration(
+                        //           borderRadius: BorderRadius.circular(20),
+                        //           image: DecorationImage(
+                        //               image: imageProvider,
+                        //               alignment: Alignment.center,
+                        //               fit: BoxFit.cover)),
+                        //     );
+                        //   },
+                        //   placeholder: ((context, url) {
+                        //     return Center(
+                        //       child: CircularProgressIndicator(
+                        //         color: appBarColor,
+                        //       ),
+                        //     );
+                        //   }),
+                        //   errorWidget: ((context, url, error) {
+                        //     return Icon(
+                        //       Icons.error,
+                        //       size: 50,
+                        //       color: Colors.red,
+                        //     );
+                        //   }),
+                        // ),
                       ),
                     ),
                   ),

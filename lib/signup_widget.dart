@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/api_services/user_services.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
+import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
 import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
 import 'package:hillfair2022_frontend/utils/global.dart';
@@ -41,6 +42,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final String emaildomain = "@nith.ac.in";
+  bool showpass1 = false;
+  bool showpass2 = false;
 
   @override
   void dispose() {
@@ -160,6 +163,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                                     .hasMatch(
                                                         e.toLowerCase())) {
                                                   return "Use College Roll No";
+                                                } else if (e.length > 6) {
+                                                  return "Use College Roll No";
                                                 } else {
                                                   return null;
                                                 }
@@ -168,6 +173,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                                         r'[2]+[01]+[bd]+[cemap]+[ecsrha]+[01]+[0-9]+[0-9]')
                                                     .hasMatch(
                                                         e.toLowerCase())) {
+                                                  return "Use College Roll No";
+                                                } else if (e.length > 8) {
                                                   return "Use College Roll No";
                                                 } else {
                                                   return null;
@@ -191,6 +198,19 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                             textInputAction:
                                                 TextInputAction.done,
                                             decoration: InputDecoration(
+                                              suffixIcon: IconButton(
+                                                  splashRadius: 1,
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      showpass1 = !showpass1;
+                                                    });
+                                                  },
+                                                  icon: Icon(
+                                                    showpass1
+                                                        ? Icons.visibility
+                                                        : Icons.visibility_off,
+                                                    color: Colors.black,
+                                                  )),
                                               hintText: 'Password',
                                               enabledBorder: OutlineInputBorder(
                                                   borderRadius:
@@ -230,7 +250,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                               fillColor: const Color.fromARGB(
                                                   255, 255, 255, 255),
                                             ),
-                                            obscureText: true,
+                                            obscureText:
+                                                showpass1 ? false : true,
                                             autovalidateMode: AutovalidateMode
                                                 .onUserInteraction,
                                             validator: (value) =>
@@ -249,11 +270,25 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                             cursorHeight: 25,
                                             style:
                                                 TextStyle(color: appBarColor),
+                                            
                                             controller:
                                                 confirmPasswordController,
                                             textInputAction:
                                                 TextInputAction.done,
                                             decoration: InputDecoration(
+                                              suffixIcon: IconButton(
+                                                  splashRadius: 1,
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      showpass2 = !showpass2;
+                                                    });
+                                                  },
+                                                  icon: Icon(
+                                                    showpass2
+                                                        ? Icons.visibility
+                                                        : Icons.visibility_off,
+                                                    color: Colors.black,
+                                                  )),
                                               hintText: 'Re-enter Password',
                                               enabledBorder: OutlineInputBorder(
                                                   borderRadius:
@@ -293,7 +328,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                               fillColor: const Color.fromARGB(
                                                   255, 255, 255, 255),
                                             ),
-                                            obscureText: true,
+                                            obscureText:
+                                                showpass2 ? false : true,
                                             autovalidateMode: AutovalidateMode
                                                 .onUserInteraction,
                                             validator: ((value) {
@@ -394,6 +430,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       Globals.password = passwordController.text;
       SharedPreferences userPrefs = await SharedPreferences.getInstance();
       userPrefs.setBool("isuserdatapresent", false);
+      Globals.isuserhavedata = false;
       userPrefs.setString("useremail", emailController.text + emaildomain);
       userPrefs.setString("userpass", passwordController.text);
       // data.setString('password', passwordController.text);

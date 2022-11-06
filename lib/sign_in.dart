@@ -35,6 +35,7 @@ class _SignInState extends State<SignIn> {
   final formKey = GlobalKey<FormState>();
 
   String emaildomain = "@nith.ac.in";
+  bool showpass1 = false;
 
   @override
   void dispose() {
@@ -104,6 +105,8 @@ class _SignInState extends State<SignIn> {
                                                   r'[1]+[89]+[1-8]+[015]+[0-9]+[0-9]')
                                               .hasMatch(e.toLowerCase())) {
                                             return "Use College Roll No";
+                                          } else if (e.length > 6) {
+                                            return "Use College Roll No";
                                           } else {
                                             return null;
                                           }
@@ -111,6 +114,8 @@ class _SignInState extends State<SignIn> {
                                           if (!RegExp(
                                                   r'[2]+[01]+[bd]+[cemap]+[ecsrha]+[01]+[0-9]+[0-9]')
                                               .hasMatch(e.toLowerCase())) {
+                                            return "Use College Roll No";
+                                          } else if (e.length > 8) {
                                             return "Use College Roll No";
                                           } else {
                                             return null;
@@ -169,13 +174,26 @@ class _SignInState extends State<SignIn> {
                                         }
                                         return null;
                                       },
-                                      obscureText: true,
+                                      obscureText: showpass1 ? false : true,
                                       cursorHeight: 25,
                                       controller: passwordController,
                                       cursorColor: appBarColor,
                                       style: TextStyle(color: appBarColor),
                                       textInputAction: TextInputAction.next,
                                       decoration: InputDecoration(
+                                        suffixIcon: IconButton(
+                                            splashRadius: 1,
+                                            onPressed: () {
+                                              setState(() {
+                                                showpass1 = !showpass1;
+                                              });
+                                            },
+                                            icon: Icon(
+                                              showpass1
+                                                  ? Icons.visibility
+                                                  : Icons.visibility_off,
+                                              color: Colors.black,
+                                            )),
                                         hintText: 'Password',
                                         enabledBorder: OutlineInputBorder(
                                             borderRadius:
@@ -237,7 +255,7 @@ class _SignInState extends State<SignIn> {
                                               emailController.text +
                                                   emaildomain,
                                               passwordController.text);
-                                        await signIn();
+                                          await signIn();
                                         }
                                         // navigatorKey.currentState!.pop();
                                       },
