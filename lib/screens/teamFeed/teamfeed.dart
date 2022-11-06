@@ -36,12 +36,10 @@ class TeamFeed extends StatefulWidget {
 }
 
 class _TeamFeedState extends State<TeamFeed> {
-
   Future refresh() {
     var provider = Provider.of<TeamFeedViewModel>(context, listen: false);
     return provider.getTeamFeed();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +85,13 @@ class _TeamFeedState extends State<TeamFeed> {
 
     if (teamFeedList.isEmpty) {
       return Center(
-        child: LoadingData(),
+        child: Text(
+          "No Data Present",
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: size.height * .025,
+              fontWeight: FontWeight.bold),
+        ),
       );
     }
 

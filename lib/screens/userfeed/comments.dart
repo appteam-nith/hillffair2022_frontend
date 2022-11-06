@@ -118,9 +118,9 @@ class _CommentsState extends State<Comments> {
                         cursorHeight: 25,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: appBarColor,
+                          color: Colors.black,
                         ),
-                        cursorColor: appBarColor,
+                        cursorColor: Colors.black,
                         decoration: InputDecoration(
                             suffixIcon: IconButton(
                                 onPressed: () async {
@@ -143,7 +143,7 @@ class _CommentsState extends State<Comments> {
                             hintText: "Enter Comment here",
                             hintStyle: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: appBarColor,
+                              color: Colors.black,
                             ),
                             contentPadding: EdgeInsets.only(left: 20),
                             filled: true,
@@ -208,15 +208,17 @@ class _CommentsState extends State<Comments> {
                               maxLines: 4,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
+                                fontSize: 13,
                                 fontWeight: FontWeight.bold,
-                                color: appBarColor,
+                                color: Colors.black,
                               )),
                           children: [
                             Text(comment.author,
                                 textAlign: TextAlign.left,
-                                maxLines: 10,
+                                maxLines: 4,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: appBarColor,
                                 )),

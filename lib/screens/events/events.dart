@@ -19,7 +19,6 @@ class Events extends StatefulWidget {
 }
 
 class _EventsState extends State<Events> {
-
   Future refresh() {
     var provider = Provider.of<EventsViewModel>(context, listen: false);
     return provider.getEvents();
@@ -67,45 +66,55 @@ class _EventsState extends State<Events> {
         final DateFormat dayformatter = DateFormat('yMMMMd');
         final DateFormat dateformatter = DateFormat('jms');
         EventModel eventModel = eventsViewModel.eventsListModel[index];
-        return Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
+        return Container(
+          constraints: BoxConstraints(
+            minHeight: size.height * .14,
           ),
-          margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
-          child: ListTile(
-            title: Text(
-              eventModel.title,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            subtitle: Text("${eventModel.clubName}\n${dayformatter.format(eventModel.startTime)}\n${dateformatter.format(eventModel.startTime)}"),
-            isThreeLine: true,
-            leading: CircleAvatar(
-                backgroundColor: appBarColor,
-                radius: 45,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(45.0),
-                  child: CachedNetworkImage(
-                    imageUrl: eventModel.image,
-                    imageBuilder: (context, imageProvider) => Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        image: imageProvider,
-                        alignment: Alignment.center,
-                        fit: BoxFit.cover,
-                      )),
-                    ),
-                    placeholder: (context, url) => LoadingData(),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  ),
-                )),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EventDetailsPage(index),
+          child: Center(
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
+              child: ListTile(
+                title: Text(
+                  eventModel.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-              );
-            },
+                subtitle: Text(
+                    "${eventModel.clubName}\n${dayformatter.format(eventModel.startTime)}\n${dateformatter.format(eventModel.startTime)}"),
+                isThreeLine: true,
+                leading: CircleAvatar(
+                    backgroundColor: appBarColor,
+                    radius: 47,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: CachedNetworkImage(
+                        imageUrl: eventModel.image,
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                            image: imageProvider,
+                            alignment: Alignment.center,
+                            fit: BoxFit.cover,
+                          )),
+                        ),
+                        placeholder: (context, url) => LoadingData(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
+                    )),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EventDetailsPage(index),
+                    ),
+                  );
+                },
+              ),
+            ),
           ),
         );
       },

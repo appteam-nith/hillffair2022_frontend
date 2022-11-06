@@ -275,7 +275,7 @@ class _SignInState extends State<SignIn> {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: size.height * .1,
+                                    height: size.height * .09,
                                   ),
                                   RichText(
                                       text: TextSpan(
