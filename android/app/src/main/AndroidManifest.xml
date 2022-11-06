@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.hillffair2022_frontend">
-    <uses-permission android:name="android.permission.INTERNET" />
+    package="nith.appteam.hillffair2022_frontend">
+    <!-- <uses-permission android:name="android.permission.INTERNET" android:maxSdkVersion="28"/> -->
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="Hillffair"
         android:name="${applicationName}"

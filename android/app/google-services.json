@@ -40,6 +40,42 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424848973372:android:c5d700bd981c6ee2ebed39",
+        "android_client_info": {
+          "package_name": "nith.appteam.hillffair2022_frontend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "424848973372-g547e7phr7pdngrn5bqqohpmoh363uj9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATOS_lE0LVWg3U9F8tqeME8jAs6HDCPC0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "424848973372-g547e7phr7pdngrn5bqqohpmoh363uj9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "424848973372-oe3qghs3tl38ovmdo0s3c14c3c9cpl6f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hillffair2022Frontend"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
