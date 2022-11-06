@@ -9,10 +9,27 @@ import 'package:http/http.dart' as http;
 import '../../utils/api_constants.dart';
 
 class UserFeedServices {
-  static Future<Object> getUserFeed() async {
+  static int istNull = 0;
+  static Future<Object> getUserFeed(String? nxtUrl, String? prevUrl) async {
+    
     try {
-      var url = Uri.parse(userFeedUrl);
+      var url;
+      
+      if (prevUrl == null && nxtUrl == null && istNull ==0) {
+        istNull=1;
+        url = Uri.parse(userFeedUrl);
+      } else if (prevUrl == null && nxtUrl == null && istNull ==1) {
+        return Success(
+            code: 002,
+            response: newUserFeedModelFromJson(
+                "{'count': 2,'next': null,'previous': null,'results': []}"));
+      } else {
+        url = nxtUrl;
+      }
+
+      // var url = Uri.parse(userFeedUrl);
       var response = await http.get(url);
+
       if (200 == response.statusCode) {
         print(response.statusCode);
         print("feed data fetched");
