@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
 import 'package:hillfair2022_frontend/models/userFeed/newFeedModel.dart';
-import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../api_services/api_status.dart';
 import '../../api_services/userFeedServicies/userFeed_services.dart';
@@ -13,11 +12,12 @@ import 'getLikerViewModel.dart';
 
 class UserFeedViewModel extends ChangeNotifier {
   UserFeedViewModel() {
+    getPresentUser();
     getUserFeed();
-    // getPresentUser();
   }
 
-//presentUserData
+  String? nxtUrl = null;
+  String? prevUrl = null;
   UserModel _presentUser = UserModel(
       firstName: "firstName",
       lastName: "lastName",
@@ -38,10 +38,8 @@ class UserFeedViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  //
   List<UserFeedModel> prefFeedList = [];
   List<bool> prefIsLikedList = [];
-  //
   bool _loading = false;
   List<UserFeedModel> _userFeedListModel = [];
   List<bool> isAlreadyLikedList = [];
@@ -66,29 +64,28 @@ class UserFeedViewModel extends ChangeNotifier {
   }
 
   getUserFeed() async {
-    getPresentUser();
+    // getPresentUser();
     prefFeedList = await getFeedPref();
     prefIsLikedList = await getIsLikedPref();
     setLoading(true);
-    //
-
     // prefFeedList = await getFeedPref();
     // prefIsLikedList = await getIsLikedPref();
-    //
-    var response = await UserFeedServices.getUserFeed();
+    var response = await UserFeedServices.getUserFeed(nxtUrl, prevUrl);
     if (response is Success) {
       NewUserFeedModel feed = response.response as NewUserFeedModel;
-      setUserFeedListModel(feed.results);
+      nxtUrl = feed.next;
+      setUserFeedListModel(feed.results + userFeedListModel);
       log(response.response.toString());
-      //
-      isAlreadyLikedList.clear(); // to be right
-      int n = userFeedListModel.length;
+      int n = feed.results.length;
       for (var i = 0; i < n; i++) {
+        print("OUTER_LOOP_ONDEX${i}");
         bool isAlreadyLiked = await GetLikerViewModel()
             .getLiker(presentUser.firebase, userFeedListModel[i]);
+        print("OUTER_LOOP_ONDEX${i} ==> ${isAlreadyLiked}");
         isAlreadyLikedList.add(isAlreadyLiked);
       }
-      //
+      print("feed ==>${userFeedListModel.length}");
+      print("like ==>${isAlreadyLikedList.length}");
     }
     if (response is Failure) {
       ErrorModel userFeedError = ErrorModel(

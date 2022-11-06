@@ -1,32 +1,19 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
 import 'package:hillfair2022_frontend/models/user_profile/user_model.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/comments.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
-import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/postLike_viewModel.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/userFeed_view_model.dart';
 import 'package:provider/provider.dart';
-import 'package:hillfair2022_frontend/components/loading_data.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../utils/api_constants.dart';
-import '../../view_models/userFeed_viewModels/getComments_viewModels.dart';
 
 class UserFeed extends StatefulWidget {
   const UserFeed({Key? key}) : super(key: key);

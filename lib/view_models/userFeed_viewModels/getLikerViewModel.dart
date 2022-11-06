@@ -35,11 +35,11 @@ class GetLikerViewModel extends ChangeNotifier {
       GetLIkerModel likersData = response.response as GetLIkerModel;
       int n = likersData.results.length;
       for (var i = 0; i < n; i++) {
+        print("innerLopp index ${i}");
         if (likersData.results[i].firebase == fbId) {
           setIsAlreadyLiked(true);
-        } else {
-          setIsAlreadyLiked(false);
         }
+        print("innerLopp index ${i} ==> ${isAlreadyLiked}");
       }
     }
     if (response is Failure) {
