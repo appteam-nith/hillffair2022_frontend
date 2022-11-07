@@ -183,9 +183,19 @@ class UserFeedViewModel extends ChangeNotifier {
     if (response is Success) {
       NewUserFeedModel feed = response.response as NewUserFeedModel;
       nxtUrl = feed.next;
-      var nxt = feed.results[0];
-      userFeedListModel.insert(0, nxt);
-      setUserFeedListModel(userFeedListModel);
+      //
+      int diffIndex = 0;
+      for (var i = 0; i < feed.results.length; i++) {
+        if (feed.results[i] == userFeedListModel[0]) {
+          diffIndex = i;
+          return;
+        }
+      }
+      var newList = feed.results.getRange(0, diffIndex).toList();
+      // var nxt = feed.results[0];
+      // userFeedListModel.insert(0, nxt);
+      //
+      setUserFeedListModel(newList + userFeedListModel);
       log(response.response.toString());
       int n = feed.results.length;
       for (var i = 0; i < n; i++) {
