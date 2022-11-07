@@ -111,9 +111,19 @@ class UserFeedViewModel extends ChangeNotifier {
     if (isLikedStored) {
       await feedPrefs.remove("isAlreadyLikedList");
     }
-    feedPrefs.setString("feedList", userFeedModelToJson(feedList));
-    feedPrefs.setStringList(
-        "isAlreadyLikedList", boolListTOStringList(isAlreadyLikedList));
+
+    if (feedList.length <= 20) {
+      feedPrefs.setString("feedList", userFeedModelToJson(feedList));
+      feedPrefs.setStringList(
+          "isAlreadyLikedList", boolListTOStringList(isAlreadyLikedList));
+    } else {
+      var newFeedList = feedList.getRange(0, 20);
+      var newLikeList = isAlreadyLikedList.getRange(0, 20);
+      feedPrefs.setString(
+          "feedList", userFeedModelToJson(newFeedList.toList()));
+      feedPrefs.setStringList(
+          "isAlreadyLikedList", boolListTOStringList(newLikeList.toList()));
+    }
   }
 
   List<String> boolListTOStringList(List<bool> listBool) {
