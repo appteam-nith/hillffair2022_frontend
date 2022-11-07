@@ -40,10 +40,36 @@ class TeamFeed extends StatefulWidget {
 }
 
 class _TeamFeedState extends State<TeamFeed> {
+  bool _isLoadMoreRunning = false;
+
   Future refresh() {
     var provider = Provider.of<TeamFeedViewModel>(context, listen: false);
     return provider.getTeamFeed();
   }
+
+  void _loadMore() async {
+    var provider = Provider.of<UserFeedViewModel>(context, listen: false);
+    if (_controller.offset >= _controller.position.maxScrollExtent &&
+        !_controller.position.outOfRange) {
+      if (!provider.loading) {
+        setState(() {
+          _isLoadMoreRunning = true;
+        });
+        await provider.getUserFeed();
+        setState(() {
+          _isLoadMoreRunning = false;
+        });
+      }
+    }
+  }
+
+  late ScrollController _controller;
+  @override
+  void initState() {
+    super.initState();
+    _controller = ScrollController()..addListener(_loadMore);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,10 +97,23 @@ class _TeamFeedState extends State<TeamFeed> {
       //           255, 199, 150, 24), // TODO : TO GIVE THE RIGHT COLOR
       //       size: 40,
       //     )),
-      body: RefreshIndicator(
-          color: bgColor,
-          child: _userFeedView(teamFeedViewModel, size),
-          onRefresh: refresh),
+      body: Column(
+        children: [
+          Expanded(
+            child: RefreshIndicator(
+                color: bgColor,
+                child: _userFeedView(teamFeedViewModel, size),
+                onRefresh: refresh),
+          ),
+          if (_isLoadMoreRunning == true)
+            const Padding(
+              padding: EdgeInsets.only(top: 10, bottom: 40),
+              child: Center(
+                child: LoadingData(),
+              ),
+            ),
+        ],
+      ),
     );
   }
 
