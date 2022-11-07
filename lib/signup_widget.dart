@@ -420,18 +420,19 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text.trim() + emaildomain,
+        email: emailController.text.trim().toLowerCase() + emaildomain,
         password: passwordController.text.trim(),
       );
 
-      String email = emailController.text + emaildomain;
+      String email = emailController.text.toLowerCase() + emaildomain;
       String userId = FirebaseAuth.instance.currentUser!.uid;
       Globals.email = email;
       Globals.password = passwordController.text;
       SharedPreferences userPrefs = await SharedPreferences.getInstance();
       userPrefs.setBool("isuserdatapresent", false);
       Globals.isuserhavedata = false;
-      userPrefs.setString("useremail", emailController.text + emaildomain);
+      userPrefs.setString(
+          "useremail", emailController.text.toLowerCase() + emaildomain);
       userPrefs.setString("userpass", passwordController.text);
       // data.setString('password', passwordController.text);
       navigatorKey.currentState!.pushAndRemoveUntil(
