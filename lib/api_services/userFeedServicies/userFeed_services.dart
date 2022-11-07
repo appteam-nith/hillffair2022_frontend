@@ -11,20 +11,19 @@ import '../../utils/api_constants.dart';
 class UserFeedServices {
   static int istNull = 0;
   static Future<Object> getUserFeed(String? nxtUrl, String? prevUrl) async {
-    
     try {
       var url;
-      
-      if (prevUrl == null && nxtUrl == null && istNull ==0) {
-        istNull=1;
+
+      if (prevUrl == null && nxtUrl == null && istNull == 0) {
+        istNull = 1;
         url = Uri.parse(userFeedUrl);
-      } else if (prevUrl == null && nxtUrl == null && istNull ==1) {
+      } else if (prevUrl == null && nxtUrl == null && istNull == 1) {
         return Success(
             code: 002,
             response: newUserFeedModelFromJson(
                 "{'count': 2,'next': null,'previous': null,'results': []}"));
       } else {
-        url = nxtUrl;
+        url = Uri.parse(nxtUrl!);
       }
 
       // var url = Uri.parse(userFeedUrl);
