@@ -27,7 +27,7 @@ class _UserFeedState extends State<UserFeed> {
 
   Future refresh() {
     var provider = Provider.of<UserFeedViewModel>(context, listen: false);
-    return provider.getUserFeed();
+    return provider.refesh();
   }
 
 
