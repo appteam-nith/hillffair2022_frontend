@@ -220,15 +220,21 @@ class _UserFeedState extends State<UserFeed> {
       isLikedList = userFeedViewModel.isAlreadyLikedList;
     }
 
+    // if (feedList.isEmpty) {
+    //   return Center(
+    //     child: Text(
+    //       "No Data Present",
+    //       style: TextStyle(
+    //           color: Colors.white,
+    //           fontSize: size.height * .025,
+    //           fontWeight: FontWeight.bold),
+    //     ),
+    //   );
+    // }
+
     if (feedList.isEmpty) {
       return Center(
-        child: Text(
-          "No Data Present",
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: size.height * .025,
-              fontWeight: FontWeight.bold),
-        ),
+        child: CircularProgressIndicator(color: Colors.white,),
       );
     }
 
@@ -427,7 +433,7 @@ class _UserFeedState extends State<UserFeed> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: size.width * .035,
+                        horizontal: size.width * .06,
                         vertical: size.height * .01),
                     child: Container(
                       alignment: Alignment.centerLeft,
