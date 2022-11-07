@@ -78,16 +78,21 @@ class _UserFeedState extends State<UserFeed> {
     //   });
     // }
 
-    setState(() {
-      _isLoadMoreRunning = true;
-    });
+    print("klsfsss");
+    if (_controller.position.extentAfter < 800) {
+      print("kls");
+      setState(() {
+        _isLoadMoreRunning = true;
+      });
 
-    var provider = await Provider.of<UserFeedViewModel>(context, listen: false);
-    await provider.getUserFeed();
+      var provider =
+          await Provider.of<UserFeedViewModel>(context, listen: false);
+      await provider.getUserFeed();
 
-    setState(() {
-      _isLoadMoreRunning = false;
-    });
+      setState(() {
+        _isLoadMoreRunning = false;
+      });
+    }
   }
 
   // void _firstLoad() async {
@@ -111,6 +116,10 @@ class _UserFeedState extends State<UserFeed> {
   //     _isFirstLoadRunning = false;
   //   });
   // }
+
+  void hel() {
+    print("gelo");
+  }
 
   late ScrollController _controller;
   @override
@@ -220,19 +229,25 @@ class _UserFeedState extends State<UserFeed> {
       isLikedList = userFeedViewModel.isAlreadyLikedList;
     }
 
+    // if (feedList.isEmpty) {
+    //   return Center(
+    //     child: Text(
+    //       "No Data Present",
+    //       style: TextStyle(
+    //           color: Colors.white,
+    //           fontSize: size.height * .025,
+    //           fontWeight: FontWeight.bold),
+    //     ),
+    //   );
+    // }
     if (feedList.isEmpty) {
       return Center(
-        child: Text(
-          "No Data Present",
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: size.height * .025,
-              fontWeight: FontWeight.bold),
-        ),
+        child: CircularProgressIndicator(),
       );
     }
 
     return ListView.builder(
+        controller: _controller,
         shrinkWrap: true,
         itemCount: feedList.length,
         itemBuilder: (context, index) {
