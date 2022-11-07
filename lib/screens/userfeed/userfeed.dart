@@ -24,7 +24,6 @@ class UserFeed extends StatefulWidget {
 
 class _UserFeedState extends State<UserFeed> {
   bool _isLoadMoreRunning = false;
-  Timer? timer;
 
   Future refresh() {
     var provider = Provider.of<UserFeedViewModel>(context, listen: false);
@@ -127,14 +126,6 @@ class _UserFeedState extends State<UserFeed> {
                 child: LoadingData(),
               ),
             ),
-          // if (_hasNextPage == false)
-          //   Container(
-          //     padding: const EdgeInsets.only(top: 30, bottom: 40),
-          //     color: Colors.amber,
-          //     child: const Center(
-          //       child: Text('You have fetched all of the content'),
-          //     ),
-          //   ),
         ],
       ),
     );
