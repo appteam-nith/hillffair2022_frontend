@@ -169,4 +169,43 @@ class UserFeedViewModel extends ChangeNotifier {
       setPrensentUser(presentUser);
     }
   }
+
+  refesh() async {
+    // getPresentUser();
+    prefFeedList = await getFeedPref();
+    prefIsLikedList = await getIsLikedPref();
+    setLoading(true);
+    // prefFeedList = await getFeedPref();
+    // prefIsLikedList = await getIsLikedPref();
+    var response = await UserFeedServices.getUserFeed("nxtUrl", "prevUrl");
+    if (response is Success) {
+      NewUserFeedModel feed = response.response as NewUserFeedModel;
+      nxtUrl = feed.next;
+      var nxt = feed.results[0];
+      userFeedListModel.insert(0, nxt);
+      setUserFeedListModel(userFeedListModel);
+      log(response.response.toString());
+      int n = feed.results.length;
+      for (var i = 0; i < n; i++) {
+        print("OUTER_LOOP_ONDEX${i}");
+        bool isAlreadyLiked = await GetLikerViewModel()
+            .getLiker(presentUser.firebase, userFeedListModel[i]);
+        print("OUTER_LOOP_ONDEX${i} ==> ${isAlreadyLiked}");
+        isAlreadyLikedList.add(isAlreadyLiked);
+      }
+      print("feed ==>${userFeedListModel.length}");
+      print("like ==>${isAlreadyLikedList.length}");
+    }
+    if (response is Failure) {
+      ErrorModel userFeedError = ErrorModel(
+        response.code,
+        response.errorMessage,
+      );
+      setuserFeedError(userFeedError);
+    }
+    // Utils.showSnackBar("new Data Fetched");
+    print("new Data fetched");
+    setLoading(false);
+    // adddFeedToSahredPref(userFeedListModel, isAlreadyLikedList);
+  }
 }

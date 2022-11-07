@@ -22,7 +22,9 @@ class UserFeedServices {
             code: 002,
             response: newUserFeedModelFromJson(
                 "{'count': 2,'next': null,'previous': null,'results': []}"));
-      } else {
+      } else if(prevUrl == "prevUrl" && nxtUrl == "nxtUrl"){
+          url = Uri.parse(userFeedUrl);
+      }else {
         url = Uri.parse(nxtUrl!);
       }
 
