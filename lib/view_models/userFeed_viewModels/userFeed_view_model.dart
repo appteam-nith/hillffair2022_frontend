@@ -74,7 +74,7 @@ class UserFeedViewModel extends ChangeNotifier {
     if (response is Success) {
       NewUserFeedModel feed = response.response as NewUserFeedModel;
       nxtUrl = feed.next;
-      setUserFeedListModel(feed.results + userFeedListModel);
+      setUserFeedListModel(userFeedListModel + feed.results);
       log(response.response.toString());
       int n = feed.results.length;
       for (var i = 0; i < n; i++) {
@@ -111,7 +111,6 @@ class UserFeedViewModel extends ChangeNotifier {
     if (isLikedStored) {
       await feedPrefs.remove("isAlreadyLikedList");
     }
-
     if (feedList.length <= 20) {
       feedPrefs.setString("feedList", userFeedModelToJson(feedList));
       feedPrefs.setStringList(
