@@ -1,5 +1,3 @@
-//api_documentation  ---- "http://anmolcoder.pythonanywhere.com/swagger/"
-
 // const String apiConstant = "https://hillffair2k22.herokuapp.com";
 const String apiConstant = "https://appteam.mhsalmaan.me";
 
@@ -21,6 +19,7 @@ const String getLikerUrl = "$apiConstant/imagefeed/get-likers/";
 
 //teamfeed
 const String teamFeedLikeUrl = "$apiConstant/TeamFeed/get-likers/";
+const String teamFeedUrl = "$apiConstant/TeamFeed/";
 
 //user
 

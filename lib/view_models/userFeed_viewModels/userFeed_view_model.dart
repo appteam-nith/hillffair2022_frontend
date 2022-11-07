@@ -109,7 +109,6 @@ class UserFeedViewModel extends ChangeNotifier {
     if (isLikedStored) {
       await feedPrefs.remove("isAlreadyLikedList");
     }
-
     if (feedList.length <= 20) {
       feedPrefs.setString("feedList", userFeedModelToJson(feedList));
       feedPrefs.setStringList(

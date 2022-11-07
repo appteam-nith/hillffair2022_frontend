@@ -20,7 +20,8 @@ class TeamFeedViewModel extends ChangeNotifier {
     getTeamFeed();
     // getPresentUser();
   }
-
+  String? nxtUrl = null;
+  String? prevUrl = null;
   UserModel _presentUser = UserModel(
       firstName: "firstName",
       lastName: "lastName",
@@ -73,10 +74,12 @@ class TeamFeedViewModel extends ChangeNotifier {
     // prefTeamFeedList = await getFeedPref();
     // prefIsLikedList = await getIsLikedPref();
     //
-    var response = await TeamFeedList.getTeamFeed();
+    var response = await TeamFeedList.getTeamFeed(nxtUrl, prevUrl);
     if (response is Success) {
       NewTeamFeedModel teamFeed = response.response as NewTeamFeedModel;
-      setTeamFeedListModel(teamFeed.results);
+      nxtUrl = teamFeed.next;
+      setTeamFeedListModel(teamFeedListModel+teamFeed.results);
+      adddFeedToSahredPref(teamFeed.results);
       log(response.response.toString());
     }
     if (response is Failure) {
@@ -89,7 +92,7 @@ class TeamFeedViewModel extends ChangeNotifier {
     Utils.showSnackBar("new TeamFeed Fetched");
     print("new Data fetched");
     setLoading(false);
-    adddFeedToSahredPref(teamFeedListModel);
+    
   }
 
   adddFeedToSahredPref(List<TeamFeedModel> teamFeedList) async {
@@ -98,7 +101,8 @@ class TeamFeedViewModel extends ChangeNotifier {
     if (isFeedStored) {
       await feedPrefs.remove("teamFeedList");
     }
-    feedPrefs.setString("teamFeedList", teamFeedModelToJson(teamFeedList));
+  feedPrefs.setString("teamFeedList", teamFeedModelToJson(teamFeedList));
+
   }
 
   // List<String> boolListTOStringList(List<bool> listBool) {
@@ -147,4 +151,3 @@ class TeamFeedViewModel extends ChangeNotifier {
     }
   }
 }
-
