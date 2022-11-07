@@ -252,8 +252,9 @@ class _SignInState extends State<SignIn> {
                                                     child: LoadingData());
                                               });
                                           await signInAtBackend(
-                                              emailController.text +
-                                                  emaildomain,
+                                              (emailController.text +
+                                                      emaildomain)
+                                                  .toLowerCase(),
                                               passwordController.text);
                                           await signIn();
                                         }
@@ -362,18 +363,19 @@ class _SignInState extends State<SignIn> {
 
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim() + emaildomain,
+        email: emailController.text.trim().toLowerCase() + emaildomain,
         password: passwordController.text.trim(),
       );
       SharedPreferences userPrefs = await SharedPreferences.getInstance();
-      userPrefs.setString("useremail", emailController.text + emaildomain);
+      userPrefs.setString(
+          "useremail", emailController.text.toLowerCase() + emaildomain);
       userPrefs.setString("userpass", passwordController.text);
-      Globals.email = emailController.text + emaildomain;
+      Globals.email = (emailController.text + emaildomain).toLowerCase();
       Globals.password = passwordController.text;
       // Globals.email = emailController.text;
       // Globals.password = passwordController.text;
       Map data = {
-        'email': emailController.text.toString() + emaildomain,
+        'email': emailController.text.toString().toLowerCase() + emaildomain,
         'password': passwordController.text.toString(),
       };
       navigatorKey.currentState!.pushAndRemoveUntil(

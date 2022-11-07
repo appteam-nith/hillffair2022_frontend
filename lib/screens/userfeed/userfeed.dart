@@ -23,111 +23,35 @@ class UserFeed extends StatefulWidget {
 }
 
 class _UserFeedState extends State<UserFeed> {
+  bool _isLoadMoreRunning = false;
+  Timer? timer;
+
   Future refresh() {
     var provider = Provider.of<UserFeedViewModel>(context, listen: false);
     return provider.getUserFeed();
   }
 
-  // To make in use
-  // final _baseUrl = 'https://jsonplaceholder.typicode.com/posts';
-
-  // int _page = 0;
-
-  // final int _limit = 20;
-
-  // bool _isFirstLoadRunning = false;
-  // bool _hasNextPage = true;
-
-  bool _isLoadMoreRunning = false;
-
-  // List _posts = [];
 
   void _loadMore() async {
-    // if (_hasNextPage == true &&
-    //     _isFirstLoadRunning == false &&
-    //     _isLoadMoreRunning == false &&
-    //     _controller.position.extentAfter < 300) {
-    //   setState(() {
-    //     _isLoadMoreRunning = true; // Display a progress indicator at the bottom
-    //   });
-
-    //   _page += 1; // Increase _page by 1
-
-    //   try {
-    //     final res =
-    //         await http.get(Uri.parse("$_baseUrl?_page=$_page&_limit=$_limit"));
-
-    //     final List fetchedPosts = json.decode(res.body);
-    //     if (fetchedPosts.isNotEmpty) {
-    //       setState(() {
-    //         _posts.addAll(fetchedPosts);
-    //       });
-    //     } else {
-    //       setState(() {
-    //         _hasNextPage = false;
-    //       });
-    //     }
-    //   } catch (err) {
-    //     if (kDebugMode) {
-    //       print('Something went wrong!');
-    //     }
-    //   }
-
-    //   setState(() {
-    //     _isLoadMoreRunning = false;
-    //   });
-    // }
-
-    print("klsfsss");
-    if (_controller.position.extentAfter < 800) {
-      print("kls");
-      setState(() {
-        _isLoadMoreRunning = true;
-      });
-
-      var provider =
-          await Provider.of<UserFeedViewModel>(context, listen: false);
-      await provider.getUserFeed();
-
-      setState(() {
-        _isLoadMoreRunning = false;
-      });
+    var provider = Provider.of<UserFeedViewModel>(context, listen: false);
+    if (_controller.offset >= _controller.position.maxScrollExtent &&
+        !_controller.position.outOfRange) {
+      if (!provider.loading) {
+        setState(() {
+          _isLoadMoreRunning = true;
+        });
+        await provider.getUserFeed();
+        setState(() {
+          _isLoadMoreRunning = false;
+        });
+      }
     }
-  }
-
-  // void _firstLoad() async {
-  //   setState(() {
-  //     _isFirstLoadRunning = true;
-  //   });
-
-  //   try {
-  //     final res =
-  //         await http.get(Uri.parse("$_baseUrl?_page=$_page&_limit=$_limit"));
-  //     setState(() {
-  //       _posts = json.decode(res.body);
-  //     });
-  //   } catch (err) {
-  //     if (kDebugMode) {
-  //       print('Something went wrong');
-  //     }
-  //   }
-
-  //   setState(() {
-  //     _isFirstLoadRunning = false;
-  //   });
-  // }
-
-  void hel() {
-    print("gelo");
   }
 
   late ScrollController _controller;
   @override
   void initState() {
     super.initState();
-    // var provider = Provider.of<UserFeedViewModel>(context, listen: false);
-    // _posts.addAll(provider.userFeedListModel);
-    // _firstLoad();
     _controller = ScrollController()..addListener(_loadMore);
   }
 
@@ -242,12 +166,15 @@ class _UserFeedState extends State<UserFeed> {
     // }
     if (feedList.isEmpty) {
       return Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          color: Colors.white,
+        ),
       );
     }
 
     return ListView.builder(
         controller: _controller,
+        physics: ClampingScrollPhysics(),
         shrinkWrap: true,
         itemCount: feedList.length,
         itemBuilder: (context, index) {
@@ -365,8 +292,8 @@ class _UserFeedState extends State<UserFeed> {
                           Row(
                             children: [
                               IconButton(
-                                  onPressed: () async {
-                                    await _postLike(context, userFeedModel.id,
+                                  onPressed: () {
+                                    _postLike(context, userFeedModel.id,
                                         presentUser.firebase);
 
                                     if (isLikedList[index]) {
