@@ -9,9 +9,24 @@ import '../../models/teamFeed/newTeamFeedModel.dart';
 import '../../utils/api_constants.dart';
 
 class TeamFeedList {
-  static Future<Object> getTeamFeed() async {
+  static int istNull = 0;
+  static Future<Object> getTeamFeed(String? nxtUrl, String? prevUrl) async {
     try {
-      var url = Uri.parse("https://appteam.mhsalmaan.me/TeamFeed/");
+        var url;
+
+      if (prevUrl == null && nxtUrl == null && istNull == 0) {
+        istNull = 1;
+        url = Uri.parse(teamFeedUrl);
+      } else if (prevUrl == null && nxtUrl == null && istNull == 1) {
+        return Success(
+            code: 002,
+            response: newTeamFeedModelFromJson(
+                "{'count': 2,'next': null,'previous': null,'results': []}"));
+      } else {
+        url = Uri.parse(nxtUrl!);
+      }
+
+      // var url = Uri.parse(teamFeedUrl);
       var response = await http.get(url);
       if (200 == response.statusCode) {
         print(response.statusCode);
