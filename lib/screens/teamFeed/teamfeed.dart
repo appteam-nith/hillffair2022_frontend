@@ -7,6 +7,7 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,6 +29,7 @@ import 'package:http/http.dart' as http;
 import '../../utils/api_constants.dart';
 import '../../view_models/teamFeed_VMs/teamFeedList_VM.dart';
 import '../../view_models/userFeed_viewModels/getComments_viewModels.dart';
+import 'package:vimeo_video_player/vimeo_video_player.dart';
 // import 'package:videos_player/videos_player.dart';
 
 class TeamFeed extends StatefulWidget {
@@ -138,10 +140,11 @@ class _TeamFeedState extends State<TeamFeed> {
 
     return ListView.builder(
         shrinkWrap: true,
-        itemCount: teamFeedList.length,
+        itemCount: 1,
         itemBuilder: (context, index) {
           UserModel presentUser = teamFeedViewModel.presentUser;
           TeamFeedModel teamFeedModel = teamFeedList[index];
+          print(teamFeedModel.photo);
           return Padding(
             padding: EdgeInsets.all(20),
             child: Container(
@@ -215,6 +218,18 @@ class _TeamFeedState extends State<TeamFeed> {
                       },
                       child: SizedBox(
                         height: size.height * .3,
+
+                        // child: Ca,
+
+                        // child: VimeoVideoPlayer(
+                        //     vimeoPlayerModel: VimeoPlayerModel(
+                        //         url:"https://www.pexels.com/video/video-of-funny-cat-855029/",
+                        //         deviceOrientation: DeviceOrientation.portraitUp,
+                        //         systemUiOverlay: const [
+                        //       SystemUiOverlay.top,
+                        //       SystemUiOverlay.bottom
+                        //     ])),
+
                         // child: VideosPlayer(networkVideos: [
                         //   NetworkVideo(
                         //       id: teamFeedModel.id,
@@ -304,40 +319,11 @@ class _TeamFeedState extends State<TeamFeed> {
                               //     )),
                             ],
                           ),
-                          // Visibility(
-                          //   visible: teamFeedModel.author.firebase ==
-                          //       presentUser.firebase,
-                          //   // teamFeedModel.author.fbId == presentUserFbId,
-                          //   child: TextButton(
-                          //       style: ButtonStyle(
-                          //           overlayColor: MaterialStatePropertyAll(
-                          //               Colors.transparent)),
-                          //       onPressed: () async {
-                          //         showDialog(
-                          //             context: context,
-                          //             builder: (context) {
-                          //               return WillPopScope(
-                          //                   child: LoadingData(),
-                          //                   onWillPop: () async {
-                          //                     return false;
-                          //                   });
-                          //             });
-                          //         await deletePost(teamFeedModel.id);
-                          //         Navigator.pop(context);
-                          //       },
-                          //       child: Text(
-                          //         "Delete",
-                          //         style: TextStyle(
-                          //           fontWeight: FontWeight.bold,
-                          //           color: Colors.red,
-                          //         ),
-                          //       )),
-                          // ),
                         ]),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: size.width * .035,
+                        horizontal: size.width * .06,
                         vertical: size.height * .01),
                     child: Container(
                       alignment: Alignment.centerLeft,

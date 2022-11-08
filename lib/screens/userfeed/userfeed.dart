@@ -157,12 +157,10 @@ class _UserFeedState extends State<UserFeed> {
     // }
     if (feedList.isEmpty) {
       return Center(
-        child: CircularProgressIndicator(
-          color: Colors.white,
-        ),
+        child: CircularProgressIndicator(color: Colors.white,),
+
       );
     }
-
     return ListView.builder(
         controller: _controller,
         physics: ClampingScrollPhysics(),
@@ -360,7 +358,7 @@ class _UserFeedState extends State<UserFeed> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: size.width * .035,
+                        horizontal: size.width * .06,
                         vertical: size.height * .01),
                     child: Container(
                       alignment: Alignment.centerLeft,

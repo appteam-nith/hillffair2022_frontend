@@ -6,10 +6,11 @@ import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/models/userFeed/getComment_model.dart';
 import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
+import 'package:hillfair2022_frontend/view_models/presentUser.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/getComments_viewModels.dart';
 import 'package:provider/provider.dart';
-
+import 'package:http/http.dart' as http;
 import '../../models/user_profile/user_model.dart';
 import '../../utils/snackbar.dart';
 
@@ -213,15 +214,45 @@ class _CommentsState extends State<Comments> {
                                 color: Colors.black,
                               )),
                           children: [
-                            Text(comment.author,
-                                textAlign: TextAlign.left,
-                                maxLines: 4,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: appBarColor,
-                                )),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(comment.author,
+                                    textAlign: TextAlign.left,
+                                    maxLines: 4,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: appBarColor,
+                                    )),
+                                Visibility(
+                                  visible:
+                                      comment.author == widget.presentUser.name,
+                                  child: TextButton(
+                                      onPressed: () async {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return WillPopScope(
+                                                  child: LoadingData(),
+                                                  onWillPop: () async {
+                                                    return false;
+                                                  });
+                                            });
+
+                                        await deleteComment(comment.id);
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        "Delete",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.red),
+                                      )),
+                                )
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -231,4 +262,18 @@ class _CommentsState extends State<Comments> {
           }
         }));
   }
+  deleteComment(int cId) async {
+  var url = Uri.parse("https://appteam.mhsalmaan.me/imagefeed/comment/${cId}/");
+  final http.Response response = await http.delete(url);
+  if (response.statusCode == 204) {
+    setState(() {
+      
+    });
+    Utils.showSnackBar("Comment Deleted!....");
+  } else {
+    Utils.showSnackBar(response.body);
+  }
 }
+}
+
+

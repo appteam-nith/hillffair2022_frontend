@@ -98,7 +98,9 @@ class EventDetailsPage extends StatelessWidget {
                     const SizedBox(height: 30),
                     ElevatedButton(
                       onPressed: () {
-                        _launchUrl(Uri.parse(eventModel.regUrl));
+                        if (eventModel.regUrl.isNotEmpty) {
+                          _launchUrl(Uri.parse(eventModel.regUrl));
+                        }
                         // Future.delayed(const Duration(milliseconds: 3000),
                         //     () {
                         //   Navigator.pop(context);
