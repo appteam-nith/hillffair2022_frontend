@@ -64,7 +64,7 @@ class UserFeedViewModel extends ChangeNotifier {
   setUserFeedListModel(List<UserFeedModel> userFeedListModel) {
     _userFeedListModel = userFeedListModel;
     notifyListeners();
-  }
+  }            
 
   setuserFeedError(ErrorModel userFeedError) {
     _userFeedError = userFeedError;
