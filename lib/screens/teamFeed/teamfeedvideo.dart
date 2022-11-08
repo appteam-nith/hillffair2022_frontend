@@ -23,8 +23,7 @@ class _TeamFeedVideoState extends State<TeamFeedVideo> {
     flickManager = FlickManager(
         videoPlayerController: VideoPlayerController.network(widget.videourl));
 
-    // _controller = VideoPlayerController.network(
-    //     "https://www.youtube.com/watch?v=dSBRQUebo7g");
+    // _controller = VideoPlayerController.network(widget.videourl);
     // _initializerVideoPlayerFuture = _controller.initialize();
     // _controller.setLooping(true);
     // _controller.setVolume(1.0);
@@ -75,7 +74,13 @@ class _TeamFeedVideoState extends State<TeamFeedVideo> {
       //       return Center(
       //         child: AspectRatio(
       //           aspectRatio: _controller.value.aspectRatio,
-      //           child: VideoPlayer(_controller),
+      //           // aspectRatio: 16 / 9,
+      //           child: Stack(
+      //             children: [
+      //               VideoPlayer(_controller),
+      //               VideoProgressIndicator(_controller, allowScrubbing: true)
+      //             ],
+      //           ),
       //         ),
       //       );
       //     } else {

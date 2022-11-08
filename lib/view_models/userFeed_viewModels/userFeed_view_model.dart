@@ -64,13 +64,13 @@ class UserFeedViewModel extends ChangeNotifier {
   setUserFeedListModel(List<UserFeedModel> userFeedListModel) {
     _userFeedListModel = userFeedListModel;
     notifyListeners();
-  }            
+  }
 
   setuserFeedError(ErrorModel userFeedError) {
     _userFeedError = userFeedError;
   }
 
-  static bool is1stLoad = false;
+  static bool is1stLoad = true;
 
   getUserFeed() async {
     // getPresentUser();
