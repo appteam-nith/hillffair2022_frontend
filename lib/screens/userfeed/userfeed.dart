@@ -155,10 +155,10 @@ class _UserFeedState extends State<UserFeed> {
     //     ),
     //   );
     // }
+
     if (feedList.isEmpty) {
       return Center(
         child: CircularProgressIndicator(color: Colors.white,),
-
       );
     }
     return ListView.builder(
