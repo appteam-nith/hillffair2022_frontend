@@ -43,6 +43,7 @@ class UserFeedViewModel extends ChangeNotifier {
   bool _loading = false;
   bool _redfesrhLoading = false;
   List<UserFeedModel> _userFeedListModel = [];
+  List<UserFeedModel> redfeshFeedList = [];
   List<bool> isAlreadyLikedList = [];
   ErrorModel _userFeedError = ErrorModel(000, " error not set");
 
@@ -64,13 +65,13 @@ class UserFeedViewModel extends ChangeNotifier {
   setUserFeedListModel(List<UserFeedModel> userFeedListModel) {
     _userFeedListModel = userFeedListModel;
     notifyListeners();
-  }            
+  }
 
   setuserFeedError(ErrorModel userFeedError) {
     _userFeedError = userFeedError;
   }
 
-  static bool is1stLoad = false;
+  static bool is1stLoad = true;
 
   getUserFeed() async {
     // getPresentUser();
@@ -194,24 +195,32 @@ class UserFeedViewModel extends ChangeNotifier {
     var response = await UserFeedServices.getUserFeed("nxtUrl", "prevUrl");
     if (response is Success) {
       NewUserFeedModel feed = response.response as NewUserFeedModel;
-      nxtUrl = feed.next;
+      // nxtUrl = feed.next;
       int diffIndex = 0;
       for (var i = 0; i < feed.results.length; i++) {
-        if (feed.results[i] == userFeedListModel[0]) {
+        // if (feed.results[i] == userFeedListModel[0]) {
+        print(feed.results[i]);
+        print(userFeedListModel[0]);
+        if (feed.results[i].id == userFeedListModel[0].id) {
           diffIndex = i;
-          return;
+          break;
         }
       }
       var newList = feed.results.getRange(0, diffIndex).toList();
       setUserFeedListModel(newList + userFeedListModel);
+      // setUserFeedListModel();
       log(response.response.toString());
-      int n = feed.results.length;
-      for (var i = 0; i < n; i++) {
+      // int n = feed.results.length;
+      for (var i = 0; i < newList.length; i++) {
         print("OUTER_LOOP_ONDEX${i}");
         bool isAlreadyLiked = await GetLikerViewModel()
             .getLiker(presentUser.firebase, userFeedListModel[i]);
         print("OUTER_LOOP_ONDEX${i} ==> ${isAlreadyLiked}");
-        isAlreadyLikedList.add(isAlreadyLiked);
+        // if (i < newList.length) {
+          isAlreadyLikedList.insert(i, isAlreadyLiked);
+          print("added times ==> ${i+1}");
+          // break;
+        // }
       }
       print("feed ==>${userFeedListModel.length}");
       print("like ==>${isAlreadyLikedList.length}");
