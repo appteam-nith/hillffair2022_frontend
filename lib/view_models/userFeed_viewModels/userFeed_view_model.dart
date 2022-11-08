@@ -41,11 +41,13 @@ class UserFeedViewModel extends ChangeNotifier {
   List<UserFeedModel> prefFeedList = [];
   List<bool> prefIsLikedList = [];
   bool _loading = false;
+  bool _redfesrhLoading = false;
   List<UserFeedModel> _userFeedListModel = [];
   List<bool> isAlreadyLikedList = [];
   ErrorModel _userFeedError = ErrorModel(000, " error not set");
 
   bool get loading => _loading;
+  bool get refreshLoading => _redfesrhLoading;
   List<UserFeedModel> get userFeedListModel => _userFeedListModel;
   ErrorModel get userFeedError => _userFeedError;
 
@@ -54,20 +56,32 @@ class UserFeedViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  setRefreshLoading(redfesrhLoading) async {
+    _redfesrhLoading = redfesrhLoading;
+    notifyListeners();
+  }
+
   setUserFeedListModel(List<UserFeedModel> userFeedListModel) {
     _userFeedListModel = userFeedListModel;
     notifyListeners();
-  }
+  }            
 
   setuserFeedError(ErrorModel userFeedError) {
     _userFeedError = userFeedError;
   }
 
+  static bool is1stLoad = false;
+
   getUserFeed() async {
     // getPresentUser();
+    if (is1stLoad) {
+      prefFeedList = await getFeedPref();
+      prefIsLikedList = await getIsLikedPref();
+      is1stLoad = false;
+    }
     setLoading(true);
-    prefFeedList = await getFeedPref();
-    prefIsLikedList = await getIsLikedPref();
+    // prefFeedList = await getFeedPref();
+    // prefIsLikedList = await getIsLikedPref();
     var response = await UserFeedServices.getUserFeed(nxtUrl, prevUrl);
     if (response is Success) {
       NewUserFeedModel feed = response.response as NewUserFeedModel;
@@ -172,16 +186,15 @@ class UserFeedViewModel extends ChangeNotifier {
 
   refesh() async {
     // getPresentUser();
-    prefFeedList = await getFeedPref();
-    prefIsLikedList = await getIsLikedPref();
-    setLoading(true);
+    // prefFeedList = await getFeedPref();
+    // prefIsLikedList = await getIsLikedPref();
+    setRefreshLoading(true);
     // prefFeedList = await getFeedPref();
     // prefIsLikedList = await getIsLikedPref();
     var response = await UserFeedServices.getUserFeed("nxtUrl", "prevUrl");
     if (response is Success) {
       NewUserFeedModel feed = response.response as NewUserFeedModel;
       nxtUrl = feed.next;
-      //
       int diffIndex = 0;
       for (var i = 0; i < feed.results.length; i++) {
         if (feed.results[i] == userFeedListModel[0]) {
@@ -190,9 +203,6 @@ class UserFeedViewModel extends ChangeNotifier {
         }
       }
       var newList = feed.results.getRange(0, diffIndex).toList();
-      // var nxt = feed.results[0];
-      // userFeedListModel.insert(0, nxt);
-      //
       setUserFeedListModel(newList + userFeedListModel);
       log(response.response.toString());
       int n = feed.results.length;
@@ -215,7 +225,7 @@ class UserFeedViewModel extends ChangeNotifier {
     }
     // Utils.showSnackBar("new Data Fetched");
     print("new Data fetched");
-    setLoading(false);
+    setRefreshLoading(false);
     // adddFeedToSahredPref(userFeedListModel, isAlreadyLikedList);
   }
 }
