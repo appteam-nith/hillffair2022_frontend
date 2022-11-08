@@ -30,7 +30,6 @@ class _UserFeedState extends State<UserFeed> {
     return provider.refesh();
   }
 
-
   void _loadMore() async {
     var provider = Provider.of<UserFeedViewModel>(context, listen: false);
     if (_controller.offset >= _controller.position.maxScrollExtent &&
@@ -158,7 +157,9 @@ class _UserFeedState extends State<UserFeed> {
 
     if (feedList.isEmpty) {
       return Center(
-        child: CircularProgressIndicator(color: Colors.white,),
+        child: CircularProgressIndicator(
+          color: Colors.white,
+        ),
       );
     }
     return ListView.builder(
@@ -399,5 +400,9 @@ _postLike(BuildContext context, String postId, String fbId) async {
       Provider.of<PostLIkeViewModel>(context, listen: false);
   await provider.postLike(postId, fbId);
   print("liked");
+  UserFeedViewModel feedProvider =
+      Provider.of<UserFeedViewModel>(context, listen: false);
+  // feedProvider.isAlreadyLikedList.insert(0, true);
+  print({feedProvider.isAlreadyLikedList.length});
   return provider.isLiked;
 }
