@@ -165,7 +165,48 @@ class _PostUserState extends State<PostUser> {
                       // const SizedBox(
                       //   height: 25,
                       // ),
-                      _textFielView(size, 'Password', "", pass),
+                      Expanded(
+                        child: Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: size.height * .01),
+                          child: TextFormField(
+                            readOnly: true,
+                            controller: pass,
+                            keyboardType: TextInputType.phone,
+                            cursorHeight: 25,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: appBarColor,
+                            ),
+                            cursorColor: appBarColor,
+                            textInputAction: TextInputAction.next,
+                            decoration: InputDecoration(
+                              hintText: "Password",
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide: const BorderSide(
+                                      width: 0, color: Colors.white)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide: const BorderSide(
+                                      width: 0, color: Colors.white)),
+                              errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide: const BorderSide(
+                                      width: 0, color: Colors.white)),
+                              focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide: const BorderSide(
+                                      width: 0, color: Colors.white)),
+                              contentPadding:
+                                  const EdgeInsets.symmetric(horizontal: 25),
+                              filled: true,
+                              fillColor:
+                                  const Color.fromARGB(255, 255, 255, 255),
+                            ),
+                          ),
+                        ),
+                      ),
                       // const SizedBox(
                       //   height: 26,
                       // ),
@@ -400,7 +441,13 @@ Future<bool> postUser(PostUserModel newUser) async {
       return true;
     } else {
       // TODO: error handling
-      // Utils.showSnackBar(response.body);
+      var data = json.decode(response.body);
+      if (data["Errors:"]["name"][0] ==
+          "user with this username already exists.") {
+        Utils.showSnackBar("Username already exits!!!");
+        return false;
+      }
+      Utils.showSnackBar(response.body);
     }
   } catch (e) {
     // Utils.showSnackBar(e.toString());

@@ -82,8 +82,6 @@ class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print("lks");
-    print(Globals.isuserhavedata);
 
     if (Globals.isuserhavedata == true) {
       return Scaffold(
@@ -95,7 +93,8 @@ class _BottomNavState extends State<BottomNav> {
             color: Colors.white,
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: size.height * .01),
+            padding: EdgeInsets.symmetric(
+                vertical: size.height * .01, horizontal: size.width * .01),
             child: GNav(
                 activeColor: bgColor,
                 color: Color(0xff525252),
@@ -135,9 +134,7 @@ class _BottomNavState extends State<BottomNav> {
         ),
       );
     } else {
-      // Navigator.pop(context);
       return PostUser(Globals.email, Globals.password);
-      // return postuser(Globals.email, Globals.password, size, context, sstate);
     }
   }
 }

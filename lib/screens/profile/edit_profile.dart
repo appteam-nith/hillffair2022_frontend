@@ -398,6 +398,8 @@ class _EditProfileState extends State<EditProfile> {
                                 MaterialPageRoute(
                                     builder: (context) => BottomNav()),
                                 (route) => false);
+                          } else {
+                            Navigator.pop(context);
                           }
                         }
                       },
@@ -443,6 +445,11 @@ Future<bool> editUserInfo(String editInfo, String fbId) async {
       Utils.showSnackBar("Successfully Updated!...");
       return true;
     } else {
+      var data = json.decode(response.body);
+      if (data["name"][0] == "user with this username already exists.") {
+        Utils.showSnackBar("Username already exits!!!");
+        return false;
+      }
       Utils.showSnackBar(response.body);
       return false;
     }

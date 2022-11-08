@@ -141,7 +141,7 @@ class _TeamFeedState extends State<TeamFeed> {
 
     return ListView.builder(
         shrinkWrap: true,
-        itemCount: 1,
+        itemCount: teamFeedList.length,
         itemBuilder: (context, index) {
           UserModel presentUser = teamFeedViewModel.presentUser;
           TeamFeedModel teamFeedModel = teamFeedList[index];
@@ -225,16 +225,16 @@ class _TeamFeedState extends State<TeamFeed> {
                             });
                       },
                       child: SizedBox(
-                        height: size.height * .3,
+                          height: size.height * .3,
                           child: teamFeedModel.isVid
+                              // ? TeamFeedVideo(videourl: teamFeedModel.photo)
                               ? Container(
+                                  child: Center(
+                                      child: Text("Tap to play video!!!")),
                                   decoration: BoxDecoration(
+                                    
                                       borderRadius: BorderRadius.circular(20),
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/post.png"),
-                                          alignment: Alignment.center,
-                                          fit: BoxFit.cover)),
+                                  ),
                                 )
                               : CachedNetworkImage(
                                   imageUrl: teamFeedModel.photo,
@@ -266,60 +266,21 @@ class _TeamFeedState extends State<TeamFeed> {
                                 )),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: size.width * .02),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              // IconButton(
-                              //     onPressed: () {
-                              //       _postLike(context, teamFeedModel.id,
-                              //           presentUser.firebase);
-
-                              //       if (isLikedList[index]) {
-                              //         setState(() {
-                              //           isLikedList[index] = false;
-                              //           teamFeedModel.numberOfLikes--;
-                              //         });
-                              //       } else {
-                              //         setState(() {
-                              //           isLikedList[index] = true;
-                              //           teamFeedModel.numberOfLikes++;
-                              //         });
-                              //       }
-                              //     },
-                              //     icon: isLikedList[index]
-                              //         ? Icon(
-                              //             CupertinoIcons.heart_fill,
-                              //             color: Colors.red,
-                              //           )
-                              //         : Icon(
-                              //             CupertinoIcons.heart,
-                              //           )),
-                              // IconButton(
-                              //     onPressed: () {
-                              //       Navigator.push(
-                              //           context,
-                              //           MaterialPageRoute(
-                              //               builder: (context) => Comments(
-                              //                   teamFeedModel, presentUser)));
-                              //     },
-                              //     icon: Icon(Icons.comment_outlined)),
-                              SizedBox(
-                                width: size.width * .03,
-                              ),
-                              // Text(
-                              //     "${teamFeedModel.numberOfLikes.toString()} Likes",
-                              //     style: TextStyle(
-                              //       fontWeight: FontWeight.bold,
-                              //       color: appBarColor,
-                              //     )),
-                            ],
-                          ),
-                        ]),
-                  ),
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: size.width * .02),
+                  //   child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: [
+                  //         Row(
+                  //           children: [
+                          
+                  //             SizedBox(
+                  //               width: size.width * .03,
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ]),
+                  // ),
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: size.width * .06,
@@ -341,27 +302,4 @@ class _TeamFeedState extends State<TeamFeed> {
         });
   }
 
-  // Future deletePost(String id) async {
-  //   var url = Uri.parse("$deletePostUrl$id/");
-  //   final http.Response response = await http.delete(url);
-  //   if (response.statusCode == 204) {
-  //     //update teamFeedList
-  //     var provider = Provider.of<TeamFeedViewModel>(context, listen: false);
-  //     var filteredList =
-  //         provider.userFeedListModel.where(((element) => element.id != id));
-  //     provider.setUserFeedListModel(filteredList.toList());
-  //     Utils.showSnackBar("Deleted Succesfully!...");
-  //   } else {
-  //     Utils.showSnackBar(response.body);
-  //   }
-  // }
-}
-
-//TODO  : TEAMfEED LIKE SERVICES......
-_postLike(BuildContext context, String postId, String fbId) async {
-  // print("klsfd");
-  PostLIkeViewModel provider =
-      Provider.of<PostLIkeViewModel>(context, listen: false);
-  await provider.postLike(postId, fbId);
-  return provider.isLiked;
 }
