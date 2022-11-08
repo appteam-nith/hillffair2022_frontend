@@ -15,6 +15,7 @@ import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/models/teamFeed/teamFeed_model.dart';
 import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
 import 'package:hillfair2022_frontend/models/user_profile/user_model.dart';
+import 'package:hillfair2022_frontend/screens/teamFeed/teamfeedvideo.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/comments.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
@@ -191,7 +192,14 @@ class _TeamFeedState extends State<TeamFeed> {
                         vertical: size.height * .017),
                     child: InkWell(
                       onTap: () {
-                        showDialog(
+                        teamFeedModel.isVid
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => TeamFeedVideo(
+                                          videourl: teamFeedModel.photo,
+                                        ))))
+                            : showDialog(
                             barrierColor: Colors.black,
                             context: context,
                             builder: (context) {
@@ -218,53 +226,44 @@ class _TeamFeedState extends State<TeamFeed> {
                       },
                       child: SizedBox(
                         height: size.height * .3,
-
-                        // child: Ca,
-
-                        // child: VimeoVideoPlayer(
-                        //     vimeoPlayerModel: VimeoPlayerModel(
-                        //         url:"https://www.pexels.com/video/video-of-funny-cat-855029/",
-                        //         deviceOrientation: DeviceOrientation.portraitUp,
-                        //         systemUiOverlay: const [
-                        //       SystemUiOverlay.top,
-                        //       SystemUiOverlay.bottom
-                        //     ])),
-
-                        // child: VideosPlayer(networkVideos: [
-                        //   NetworkVideo(
-                        //       id: teamFeedModel.id,
-                        //       name: teamFeedModel.text,
-                        //       videoUrl: teamFeedModel.photo)
-                        // ]
-                        // ),
-                        // child: CachedNetworkImage(
-                        //   imageUrl: teamFeedModel.photo,
-                        //   imageBuilder: (context, imageProvider) {
-                        //     return Container(
-                        //       decoration: BoxDecoration(
-                        //           borderRadius: BorderRadius.circular(20),
-                        //           image: DecorationImage(
-                        //               image: imageProvider,
-                        //               alignment: Alignment.center,
-                        //               fit: BoxFit.cover)),
-                        //     );
-                        //   },
-                        //   placeholder: ((context, url) {
-                        //     return Center(
-                        //       child: CircularProgressIndicator(
-                        //         color: appBarColor,
-                        //       ),
-                        //     );
-                        //   }),
-                        //   errorWidget: ((context, url, error) {
-                        //     return Icon(
-                        //       Icons.error,
-                        //       size: 50,
-                        //       color: Colors.red,
-                        //     );
-                        //   }),
-                        // ),
-                      ),
+                          child: teamFeedModel.isVid
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              "assets/images/post.png"),
+                                          alignment: Alignment.center,
+                                          fit: BoxFit.cover)),
+                                )
+                              : CachedNetworkImage(
+                                  imageUrl: teamFeedModel.photo,
+                                  imageBuilder: (context, imageProvider) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              alignment: Alignment.center,
+                                              fit: BoxFit.cover)),
+                                    );
+                                  },
+                                  placeholder: ((context, url) {
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: appBarColor,
+                                      ),
+                                    );
+                                  }),
+                                  errorWidget: ((context, url, error) {
+                                    return Icon(
+                                      Icons.error,
+                                      size: 50,
+                                      color: Colors.red,
+                                    );
+                                  }),
+                                )),
                     ),
                   ),
                   Padding(

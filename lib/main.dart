@@ -151,10 +151,7 @@ class MainPage extends StatelessWidget {
               return VerifyEmailPage();
             }
           } else {
-            return TeamFeedVideo(
-              videourl:
-                  "https://res.cloudinary.com/dugwczlzo/video/upload/v1667913676/WhatsApp_Video_2022-11-08_at_6.49.55_PM_xdnwav.mp4",
-            );
+            return SignIn();
           }
         },
       ),
