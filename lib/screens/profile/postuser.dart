@@ -281,7 +281,8 @@ class _PostUserState extends State<PostUser> {
                       ),
                       ElevatedButton(
                           onPressed: () async {
-                            if (_formkey.currentState!.validate()) {
+                            if (_formkey.currentState!.validate() &&
+                                val.isNotEmpty) {
                               showDialog(
                                   context: context,
                                   builder: (context) {

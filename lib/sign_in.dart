@@ -403,6 +403,7 @@ signInAtBackend(String email, pass) async {
     if (body["user_present"] == false) {
       SharedPreferences userPrefs = await SharedPreferences.getInstance();
       userPrefs.setBool("isuserdatapresent", false);
+      Globals.isuserhavedata = false;
     } else {
       SharedPreferences userPrefs = await SharedPreferences.getInstance();
       if (userPrefs.containsKey("presentUser")) {
