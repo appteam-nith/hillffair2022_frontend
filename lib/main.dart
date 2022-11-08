@@ -14,6 +14,7 @@ import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
 import 'package:hillfair2022_frontend/screens/chatting/chatlist.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
 import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
+import 'package:hillfair2022_frontend/screens/teamFeed/teamfeedvideo.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/tabslider.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
@@ -120,14 +121,6 @@ class MyApp extends StatelessWidget {
             loaderColor: Colors.white,
             backgroundColor: bgColor,
           ),
-          // home: AnimatedSplashScreen(
-          //     backgroundColor: bgColor,
-          //     duration: 1500,
-          //     splash: Image(
-          //       image: AssetImage("assets/images/hillfairlogo.png"),
-          //     ),
-          //     splashIconSize: 500,
-          //     nextScreen: MainPage())
         ));
   }
 }
@@ -138,8 +131,6 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // body: BottomNav(),
-
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
@@ -154,14 +145,16 @@ class MainPage extends StatelessWidget {
           } else if (snapshot.hasData) {
             bool isEmailVerified =
                 FirebaseAuth.instance.currentUser!.emailVerified;
-            // return PostUser(snapshot.data!.email, snapshot.data!.uid);
             if (isEmailVerified == true) {
               return BottomNav();
             } else {
               return VerifyEmailPage();
             }
           } else {
-            return SignIn();
+            return TeamFeedVideo(
+              videourl:
+                  "https://res.cloudinary.com/dugwczlzo/video/upload/v1667913676/WhatsApp_Video_2022-11-08_at_6.49.55_PM_xdnwav.mp4",
+            );
           }
         },
       ),

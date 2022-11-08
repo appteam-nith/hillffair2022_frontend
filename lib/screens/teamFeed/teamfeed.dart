@@ -29,7 +29,7 @@ import 'package:http/http.dart' as http;
 import '../../utils/api_constants.dart';
 import '../../view_models/teamFeed_VMs/teamFeedList_VM.dart';
 import '../../view_models/userFeed_viewModels/getComments_viewModels.dart';
-import 'package:vimeo_video_player/vimeo_video_player.dart';
+// import 'package:vimeo_video_player/vimeo_video_player.dart';
 // import 'package:videos_player/videos_player.dart';
 
 class TeamFeed extends StatefulWidget {
