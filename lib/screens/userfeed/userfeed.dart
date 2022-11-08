@@ -161,7 +161,6 @@ class _UserFeedState extends State<UserFeed> {
         child: CircularProgressIndicator(color: Colors.white,),
       );
     }
-
     return ListView.builder(
         controller: _controller,
         physics: ClampingScrollPhysics(),
