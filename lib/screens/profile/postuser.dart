@@ -37,6 +37,7 @@ class PostUser extends StatefulWidget {
 
 class _PostUserState extends State<PostUser> {
   String val = "";
+  final _formkey = GlobalKey<FormState>();
 
   final firstName = TextEditingController();
   final lastName = TextEditingController();
@@ -58,8 +59,6 @@ class _PostUserState extends State<PostUser> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final _formkey = GlobalKey<FormState>();
-
     String fbId = FirebaseAuth.instance.currentUser!.uid;
 
     return WillPopScope(
