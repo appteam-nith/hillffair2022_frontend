@@ -172,6 +172,7 @@ class _PostUserState extends State<PostUser> {
                           child: TextFormField(
                             readOnly: true,
                             controller: pass,
+                            obscureText: true,
                             keyboardType: TextInputType.phone,
                             cursorHeight: 25,
                             style: TextStyle(
@@ -210,7 +211,48 @@ class _PostUserState extends State<PostUser> {
                       // const SizedBox(
                       //   height: 26,
                       // ),
-                      _textFielView(size, "Insta_Id", "", instaId),
+                      Expanded(
+                        child: Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: size.height * .01),
+                          child: TextFormField(
+                            readOnly: true,
+                            controller: instaId,
+                            keyboardType: TextInputType.phone,
+                            cursorHeight: 25,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: appBarColor,
+                            ),
+                            cursorColor: appBarColor,
+                            textInputAction: TextInputAction.next,
+                            decoration: InputDecoration(
+                              hintText: "Insta id (Optional)",
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide: const BorderSide(
+                                      width: 0, color: Colors.white)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide: const BorderSide(
+                                      width: 0, color: Colors.white)),
+                              errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide: const BorderSide(
+                                      width: 0, color: Colors.white)),
+                              focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide: const BorderSide(
+                                      width: 0, color: Colors.white)),
+                              contentPadding:
+                                  const EdgeInsets.symmetric(horizontal: 25),
+                              filled: true,
+                              fillColor:
+                                  const Color.fromARGB(255, 255, 255, 255),
+                            ),
+                          ),
+                        ),
+                      ),
                       // const SizedBox(
                       //   height: 26,
                       // ),

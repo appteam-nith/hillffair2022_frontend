@@ -26,6 +26,7 @@ class Comments extends StatefulWidget {
 class _CommentsState extends State<Comments> {
   TextEditingController commentTxtController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
+  int commentcount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +111,7 @@ class _CommentsState extends State<Comments> {
                       child: TextFormField(
                         controller: commentTxtController,
                         validator: (e) {
+                          commentcount = 0;
                           if (e!.length > 100) {
                             return "Length should be less than 100 characters!!!";
                           }
@@ -126,7 +128,9 @@ class _CommentsState extends State<Comments> {
                             suffixIcon: IconButton(
                                 onPressed: () async {
                                   if (_formkey.currentState!.validate() &&
-                                      commentTxtController.text.isNotEmpty) {
+                                      commentTxtController.text.isNotEmpty &&
+                                      commentcount == 0) {
+                                    commentcount = 1;
                                     await _postComment(widget.post.id,
                                         widget.presentUser.firebase);
                                     setState(() {
@@ -262,18 +266,16 @@ class _CommentsState extends State<Comments> {
           }
         }));
   }
+
   deleteComment(int cId) async {
-  var url = Uri.parse("https://appteam.mhsalmaan.me/imagefeed/comment/${cId}/");
-  final http.Response response = await http.delete(url);
-  if (response.statusCode == 204) {
-    setState(() {
-      
-    });
-    Utils.showSnackBar("Comment Deleted!....");
-  } else {
-    Utils.showSnackBar(response.body);
+    var url =
+        Uri.parse("https://appteam.mhsalmaan.me/imagefeed/comment/${cId}/");
+    final http.Response response = await http.delete(url);
+    if (response.statusCode == 204) {
+      setState(() {});
+      Utils.showSnackBar("Comment Deleted!....");
+    } else {
+      Utils.showSnackBar(response.body);
+    }
   }
 }
-}
-
-

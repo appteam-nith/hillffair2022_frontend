@@ -197,6 +197,7 @@ class _TeamFeedState extends State<TeamFeed> {
                                 MaterialPageRoute(
                                     builder: ((context) => TeamFeedVideo(
                                           videourl: teamFeedModel.photo,
+                                          volume: 1.0,
                                         ))))
                             : showDialog(
                                 barrierColor: Colors.black,
@@ -225,20 +226,12 @@ class _TeamFeedState extends State<TeamFeed> {
                       },
                       child: SizedBox(
                           height: size.height * .3,
-                          child: teamFeedModel.isVid?
-                              // ? TeamFeedVideo(videourl: teamFeedModel.photo)
-                              // ? Container(
-                              //     height: size.height * .3,
-
-                              //     child: Center(
+                          child: teamFeedModel.isVid
+                              ?
                                        TeamFeedVideo(
-                                    videourl: teamFeedModel.photo,
-                                  )
-                              // decoration: BoxDecoration(
-
-                              // borderRadius: BorderRadius.circular(20),
-                              // ),
-                              // )
+                                  videourl: teamFeedModel.photo,
+                                  volume: 0.0,
+                                )
                               : CachedNetworkImage(
                                   imageUrl: teamFeedModel.photo,
                                   imageBuilder: (context, imageProvider) {

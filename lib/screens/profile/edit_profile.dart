@@ -279,49 +279,6 @@ class _EditProfileState extends State<EditProfile> {
                       fillColor: const Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
-                  // const SizedBox(
-                  //   height: 25,
-                  // ),
-                  // TextFormField(
-                  //   controller: pass,
-                  //   cursorHeight: 25,
-                  //   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  //   validator: (e) {
-                  //     if (e!.length < 8) {
-                  //       return "There should be atleast 8 char ...";
-                  //     }
-                  //     return null;
-                  //   },
-                  //   style: TextStyle(
-                  //     fontWeight: FontWeight.bold,
-                  //     color: appBarColor,
-                  //   ),
-                  //   cursorColor: appBarColor,
-                  //   textInputAction: TextInputAction.next,
-                  //   decoration: InputDecoration(
-                  //     hintText: 'Password',
-                  //     enabledBorder: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(25.0),
-                  //         borderSide:
-                  //             const BorderSide(width: 0, color: Colors.white)),
-                  //     focusedBorder: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(25.0),
-                  //         borderSide:
-                  //             const BorderSide(width: 0, color: Colors.white)),
-                  //     errorBorder: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(25.0),
-                  //         borderSide:
-                  //             const BorderSide(width: 0, color: Colors.white)),
-                  //     focusedErrorBorder: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(25.0),
-                  //         borderSide:
-                  //             const BorderSide(width: 0, color: Colors.white)),
-                  //     contentPadding:
-                  //         const EdgeInsets.symmetric(horizontal: 25),
-                  //     filled: true,
-                  //     fillColor: const Color.fromARGB(255, 255, 255, 255),
-                  //   ),
-                  // ),
                   const SizedBox(
                     height: 26,
                   ),
@@ -342,7 +299,7 @@ class _EditProfileState extends State<EditProfile> {
                     cursorColor: appBarColor,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                      hintText: 'Instagram Id',
+                      hintText: 'Instagram Id (Optional)',
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25.0),
                           borderSide:
