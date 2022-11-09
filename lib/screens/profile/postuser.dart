@@ -346,8 +346,9 @@ class _PostUserState extends State<PostUser> {
                                   email: email.text,
                                   score: 0,
                                   instagramId: instaId.text,
-                                  profileImage:
-                                      "https://placekitten.com/250/250");
+                                  profileImage: val == "M"
+                                      ? "https://th.bing.com/th/id/OIP.cDzYQ0dIsQvWieDUHI9gXQHaHa?pid=ImgDet&rs=1"
+                                      : "https://cdn3.iconfinder.com/data/icons/business-avatar-1/512/4_avatar-512.png");
                               bool isPosted = await postUser(newUser);
                               if (isPosted) {
                                 // ignore: use_build_context_synchronously

@@ -101,7 +101,7 @@ class MyApp extends StatelessWidget {
           scaffoldMessengerKey: Utils.messengerKey,
           navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
+          title: 'Hillffair',
           theme: ThemeData(
             fontFamily: GoogleFonts.inter().fontFamily,
             primarySwatch: Colors.purple,
