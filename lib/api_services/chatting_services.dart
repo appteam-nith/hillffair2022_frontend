@@ -95,7 +95,7 @@ class ChattingServices {
   static Future<bool> check2ndChatter(String roomId) async {
     bool is2ndChatter = false;
     try {
-      var url = Uri.parse("$checkChater/$roomId/");
+      var url = Uri.parse("$checkChater/$roomId");
       var response = await http.get(url);
       if (getSuccessCode == response.statusCode) {
         Map<String, dynamic> map = jsonDecode(response.body);
