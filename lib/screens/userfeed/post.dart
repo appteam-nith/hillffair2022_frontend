@@ -231,7 +231,7 @@ class _PostState extends State<Post> {
                               child: widget.photourl == null
                                   ? imageFromDevice == null
                                       ? Icon(
-                                          Icons.add_to_photos_rounded,
+                                          Icons.add,
                                           size: 80,
                                           color: appBarColor,
                                         )

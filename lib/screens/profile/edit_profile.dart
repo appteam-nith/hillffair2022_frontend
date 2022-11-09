@@ -289,7 +289,7 @@ class _EditProfileState extends State<EditProfile> {
                     cursorColor: appBarColor,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                      hintText: 'Instagram Id',
+                      hintText: 'Instagram Id (Optional)',
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25.0),
                           borderSide:
