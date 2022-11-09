@@ -232,11 +232,11 @@ class _ProfileState extends State<Profile> {
                         await SharedPreferences.getInstance();
                     await preferences.clear();
                     navigatorKey.currentState!.pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => SignIn()),
+                        MaterialPageRoute(builder: (context) => MainPage()),
                         (route) => false);
 
                     Globals.isuserhavedata = false;
-                    RestartWidget.restartApp(context);
+                    // RestartWidget.restartApp(context);
 
                     //TO Add a function to save the user details
                   },

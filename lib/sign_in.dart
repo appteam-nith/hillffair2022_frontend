@@ -411,6 +411,7 @@ signInAtBackend(String email, pass) async {
       }
       userPrefs.setBool("isuserdatapresent", true);
       Globals.isuserhavedata = true;
+      print(response.body);
       userPrefs.setString("presentUser", response.body);
     }
   } else {

@@ -393,7 +393,7 @@ class _EditProfileState extends State<EditProfile> {
                               editInfo, widget.presentUser.firebase);
 
                           if (isUpdated) {
-                            RestartWidget.restartApp(context);
+                            // RestartWidget.restartApp(context);
                             navigatorKey.currentState!.pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) => BottomNav()),
