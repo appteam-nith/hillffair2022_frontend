@@ -79,7 +79,7 @@ class _UserFeedState extends State<UserFeed> {
                           )));
             },
             icon: const Icon(
-              Icons.add_to_photos_rounded,
+              Icons.add,
               color: Colors.white, // TODO : TO GIVE THE RIGHT COLOR
               size: 35,
             )),
@@ -360,7 +360,7 @@ class _UserFeedState extends State<UserFeed> {
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: size.width * .06,
-                        vertical: size.height * .01),
+                        vertical: size.height * .02),
                     child: Container(
                       alignment: Alignment.centerLeft,
                       child: Text(userFeedModel.text,
