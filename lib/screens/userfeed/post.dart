@@ -37,6 +37,7 @@ class _PostState extends State<Post> {
   final cloudinary = CloudinaryPublic('dugwczlzo', 'nql7r9cr', cache: false);
   File? imageFromDevice;
   String res = "";
+  bool isselectedImage = true;
   late TextEditingController captionTxtController;
   final _formkey = GlobalKey<FormState>();
 
@@ -57,6 +58,7 @@ class _PostState extends State<Post> {
       try {
         final image = await ImagePicker().pickImage(source: source);
         if (image == null) {
+          isselectedImage = false;
           return;
         }
         File? img = File(image.path);
@@ -68,6 +70,9 @@ class _PostState extends State<Post> {
             imageFromDevice = img;
           });
         }
+        else{
+        isselectedImage = true;
+      }
       } on PlatformException catch (e) {
         print(e);
       }
@@ -221,9 +226,8 @@ class _PostState extends State<Post> {
                             child: InkWell(
                               onTap: () async {
                                 await _pickimage(ImageSource.gallery);
-                                print("ks");
                                 print(imageFromDevice);
-                                if (imageFromDevice == null) {
+                                if (imageFromDevice == null && isselectedImage == true) {
                                   Utils.showSnackBar(
                                       "Image size should less than 15 MB!!!");
                                 }

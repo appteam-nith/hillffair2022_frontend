@@ -32,23 +32,26 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   final cloudinary = CloudinaryPublic('dugwczlzo', 'nql7r9cr', cache: false);
   File? selectedImage;
-  String base64Image = "";
+  bool isselectedImage = true;
 
   Future _pickimage(ImageSource source) async {
     selectedImage = null;
     try {
       final image = await ImagePicker().pickImage(source: source);
+      print(image);
       if (image == null) {
+        isselectedImage = false;
         return;
       }
       File? img = File(image.path);
 
       print(img.lengthSync() ~/ 1024);
-
       if (img.lengthSync() ~/ 1024 <= 10000) {
         setState(() {
           selectedImage = img;
         });
+      } else {
+        isselectedImage = true;
       }
     } on PlatformException catch (e) {
       print(e);
@@ -115,46 +118,96 @@ class _EditProfileState extends State<EditProfile> {
               key: _formkey,
               child: Column(
                 children: [
-                  GestureDetector(
-                    onTap: () async {
-                      await _pickimage(ImageSource.gallery);
-                      if (selectedImage == null) {
-                        Utils.showSnackBar(
-                            "Image size should less than 10 MB!!!");
-                      }
-                    },
-                    child: CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.white,
-                      child: ClipOval(
-                          child: selectedImage != null
-                              ? Image.file(
-                                  selectedImage!,
-                                  fit: BoxFit.fill,
-                                  width: 100,
-                                  height: 100,
-                                )
-                              : CachedNetworkImage(
-                                  imageUrl: widget.presentUser.profileImage,
-                                  imageBuilder: ((context, imageProvider) {
-                                    return Container(
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                      image: imageProvider,
-                                      alignment: Alignment.center,
-                                      fit: BoxFit.cover,
-                                    )));
-                                  }),
-                                  placeholder: (context, url) {
-                                    return LoadingData();
+                  Container(
+                    // color: Colors.red,
+                    height: size.height * .2,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          // top: size.height*.03,
+                          left: size.width * .2,
+                          child: Container(
+                            alignment: Alignment.center,
+                            // color: Colors.black,
+                            child: GestureDetector(
+                              onTap: () async {
+                                await _pickimage(ImageSource.gallery);
+                                if (selectedImage == null &&
+                                    isselectedImage == true) {
+                                  Utils.showSnackBar(
+                                      "Image size should less than 10 MB!!!");
+                                }
+                              },
+                              child: CircleAvatar(
+                                radius: 70,
+                                // backgroundColor: Colors.white,
+                                child: ClipOval(
+                                    child: selectedImage != null
+                                        ? Image.file(
+                                            selectedImage!,
+                                            fit: BoxFit.cover,
+                                            width: 140,
+                                            height: 140,
+                                          )
+                                        : CachedNetworkImage(
+                                            imageUrl:
+                                                widget.presentUser.profileImage,
+                                            imageBuilder:
+                                                ((context, imageProvider) {
+                                              return Container(
+                                                  decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                image: imageProvider,
+                                                alignment: Alignment.center,
+                                                fit: BoxFit.cover,
+                                              )));
+                                            }),
+                                            placeholder: (context, url) {
+                                              return LoadingData();
+                                            },
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
+                                          )),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: size.height * .11,
+                          left: size.width * .46,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: 44,
+                              width: 44,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  color: Colors.white),
+                              child: IconButton(
+                                  splashRadius: 1,
+                                  onPressed: () async {
+                                    await _pickimage(ImageSource.gallery);
+                                    if (selectedImage == null &&
+                                        isselectedImage == true) {
+                                      Utils.showSnackBar(
+                                          "Image size should less than 10 MB!!!");
+                                    }
                                   },
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                )),
+                                  icon: Icon(
+                                    Icons.photo_camera,
+                                    size: 25,
+                                    color: bgColor,
+                                    // color: Color.fromARGB(255, 184, 151, 213),
+                                  )),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(
-                    height: size.height * .1,
+                    height: size.height * .05,
                   ),
                   TextFormField(
                     controller: name,

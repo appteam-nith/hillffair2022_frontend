@@ -18,10 +18,13 @@ class _TeamFeedVideoState extends State<TeamFeedVideo> {
   // late Future<void> _initializerVideoPlayerFuture;
   late FlickManager flickManager;
 
+
   @override
   void initState() {
+    var x = VideoPlayerController.network(widget.videourl, );
+    x.setLooping(true);
     flickManager = FlickManager(
-        videoPlayerController: VideoPlayerController.network(widget.videourl));
+        videoPlayerController: x);
 
     // _controller = VideoPlayerController.network(widget.videourl);
     // _initializerVideoPlayerFuture = _controller.initialize();
@@ -47,61 +50,66 @@ class _TeamFeedVideoState extends State<TeamFeedVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     setState(() {
-      //       if (_controller.value.isPlaying) {
-      //         _controller.pause();
-      //       } else {
-      //         _controller.play();
-      //       }
-      //     });
-      //   },
-      //   child: Icon(
-      //       _controller.value.isPlaying ? Icons.pause : Icons.play_arrow),
-      // ),
-      backgroundColor: bgColor,
+    return
+        // Scaffold(
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+        //     setState(() {
+        //       if (_controller.value.isPlaying) {
+        //         _controller.pause();
+        //       } else {
+        //         _controller.play();
+        //       }
+        //     });
+        //   },
+        //   child: Icon(
+        //       _controller.value.isPlaying ? Icons.pause : Icons.play_arrow),
+        // ),
+        // backgroundColor: bgColor,
 
-      body: Container(
-        child: FlickVideoPlayer(flickManager: flickManager),
-      ),
-
-      // body: FutureBuilder(
-      //   future: _initializerVideoPlayerFuture,
-      //   builder: (context, snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.done) {
-      //       return Center(
-      //         child: AspectRatio(
-      //           aspectRatio: _controller.value.aspectRatio,
-      //           // aspectRatio: 16 / 9,
-      //           child: Stack(
-      //             children: [
-      //               VideoPlayer(_controller),
-      //               VideoProgressIndicator(_controller, allowScrubbing: true)
-      //             ],
-      //           ),
-      //         ),
-      //       );
-      //     } else {
-      //       return Center(
-      //         child: CircularProgressIndicator(),
-      //       );
-      //     }
-      //   },
-
-      // body: Column(
-      //   crossAxisAlignment: CrossAxisAlignment.start,
-      //   children: [
-      //     YoutubePlayer(
-      //       controller: _controller,
-      //       showVideoProgressIndicator: true,
-      //       onReady: () {
-      //         print("ready");
-      //       },
-      //     )
-      //   ],
-      // ),
+        // body: Container(
+        FlickVideoPlayer(
+      flickManager: flickManager,
+      flickVideoWithControls:
+          FlickVideoWithControls(videoFit: BoxFit.fitHeight ),
     );
+    // ),
+
+    // body: FutureBuilder(
+    //   future: _initializerVideoPlayerFuture,
+    //   builder: (context, snapshot) {
+    //     if (snapshot.connectionState == ConnectionState.done) {
+    //       return Center(
+    //         child: AspectRatio(
+    //           aspectRatio: _controller.value.aspectRatio,
+    //           // aspectRatio: 16 / 9,
+    //           child: Stack(
+    //             children: [
+    //               VideoPlayer(_controller),
+    //               VideoProgressIndicator(_controller, allowScrubbing: true)
+    //             ],
+    //           ),
+    //         ),
+    //       );
+    //     } else {
+    //       return Center(
+    //         child: CircularProgressIndicator(),
+    //       );
+    //     }
+    //   },
+
+    // body: Column(
+    //   crossAxisAlignment: CrossAxisAlignment.start,
+    //   children: [
+    //     YoutubePlayer(
+    //       controller: _controller,
+    //       showVideoProgressIndicator: true,
+    //       onReady: () {
+    //         print("ready");
+    //       },
+    //     )
+    //   ],
+    // ),
+    // );
   }
 }
