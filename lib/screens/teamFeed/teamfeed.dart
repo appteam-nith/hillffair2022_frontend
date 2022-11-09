@@ -71,7 +71,6 @@ class _TeamFeedState extends State<TeamFeed> {
     _controller = ScrollController()..addListener(_loadMore);
   }
 
-
   @override
   Widget build(BuildContext context) {
     TeamFeedViewModel teamFeedViewModel = context.watch<TeamFeedViewModel>();
@@ -200,42 +199,46 @@ class _TeamFeedState extends State<TeamFeed> {
                                           videourl: teamFeedModel.photo,
                                         ))))
                             : showDialog(
-                            barrierColor: Colors.black,
-                            context: context,
-                            builder: (context) {
-                              return CachedNetworkImage(
-                                imageUrl: teamFeedModel.photo,
-                                imageBuilder: (context, imageProvider) {
-                                  return InteractiveViewer(
-                                      child: Image(
-                                    image: imageProvider,
-                                  ));
-                                },
-                                placeholder: ((context, url) {
-                                  return LoadingData();
-                                }),
-                                errorWidget: ((context, url, error) {
-                                  return Icon(
-                                    Icons.error,
-                                    size: 50,
-                                    color: Colors.red,
+                                barrierColor: Colors.black,
+                                context: context,
+                                builder: (context) {
+                                  return CachedNetworkImage(
+                                    imageUrl: teamFeedModel.photo,
+                                    imageBuilder: (context, imageProvider) {
+                                      return InteractiveViewer(
+                                          child: Image(
+                                        image: imageProvider,
+                                      ));
+                                    },
+                                    placeholder: ((context, url) {
+                                      return LoadingData();
+                                    }),
+                                    errorWidget: ((context, url, error) {
+                                      return Icon(
+                                        Icons.error,
+                                        size: 50,
+                                        color: Colors.red,
+                                      );
+                                    }),
                                   );
-                                }),
-                              );
-                            });
+                                });
                       },
                       child: SizedBox(
                           height: size.height * .3,
-                          child: teamFeedModel.isVid
+                          child: teamFeedModel.isVid?
                               // ? TeamFeedVideo(videourl: teamFeedModel.photo)
-                              ? Container(
-                                  child: Center(
-                                      child: Text("Tap to play video!!!")),
-                                  decoration: BoxDecoration(
-                                    
-                                      borderRadius: BorderRadius.circular(20),
-                                  ),
-                                )
+                              // ? Container(
+                              //     height: size.height * .3,
+
+                              //     child: Center(
+                                       TeamFeedVideo(
+                                    videourl: teamFeedModel.photo,
+                                  )
+                              // decoration: BoxDecoration(
+
+                              // borderRadius: BorderRadius.circular(20),
+                              // ),
+                              // )
                               : CachedNetworkImage(
                                   imageUrl: teamFeedModel.photo,
                                   imageBuilder: (context, imageProvider) {
@@ -273,7 +276,7 @@ class _TeamFeedState extends State<TeamFeed> {
                   //       children: [
                   //         Row(
                   //           children: [
-                          
+
                   //             SizedBox(
                   //               width: size.width * .03,
                   //             ),
@@ -301,5 +304,4 @@ class _TeamFeedState extends State<TeamFeed> {
           );
         });
   }
-
 }

@@ -89,12 +89,13 @@ class _BottomNavState extends State<BottomNav> {
         body: navPages[currentIndex],
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15), topRight: Radius.circular(15)),
             color: Colors.white,
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(
-                vertical: size.height * .01, horizontal: size.width * .01),
+                vertical: size.height * .01, horizontal: size.width * .02),
             child: GNav(
                 activeColor: bgColor,
                 color: Color(0xff525252),
@@ -106,11 +107,10 @@ class _BottomNavState extends State<BottomNav> {
                     currentIndex = i;
                   });
                 },
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                 tabs: const [
                   GButton(
-                    iconSize: 28,
-                    icon: CupertinoIcons.person_3,
+                    icon: Icons.group,
                     text: "Teams",
                   ),
                   // GButton(
@@ -126,7 +126,7 @@ class _BottomNavState extends State<BottomNav> {
                     text: "Events",
                   ),
                   GButton(
-                    icon: CupertinoIcons.person,
+                    icon: Icons.person,
                     text: "Profile",
                   ),
                 ]),
