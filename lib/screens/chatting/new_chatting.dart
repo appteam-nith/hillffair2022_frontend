@@ -4,17 +4,14 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'new_channelPage.dart';
 
 class NewChatting extends StatelessWidget {
-  const NewChatting(
-      {super.key,
-      required this.client,
-      required this.channel,
-      required this.user1,
-      required this.user2});
+  const NewChatting({
+    super.key,
+    required this.client,
+    required this.channel,
+  });
 
   final StreamChatClient client;
   final Channel channel;
-  final String user1;
-  final String user2;
 
   @override
   Widget build(BuildContext context) {

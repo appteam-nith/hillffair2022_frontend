@@ -3,25 +3,14 @@
 import 'dart:async';
 // import 'verify_email_page.dart';
 
-import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hillfair2022_frontend/models/chatting/getChat_messages_mode.dart';
-import 'package:hillfair2022_frontend/models/userFeed/post_img_model.dart';
-import 'package:hillfair2022_frontend/models/teams/team_member_model.dart';
-import 'package:hillfair2022_frontend/models/teams/team_model.dart';
+import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
-import 'package:hillfair2022_frontend/screens/chatting/chatlist.dart';
-import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
-import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
-import 'package:hillfair2022_frontend/screens/teamFeed/teamfeedvideo.dart';
-import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
-import 'package:hillfair2022_frontend/screens/userfeed/tabslider.dart';
-import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
-
-import 'package:hillfair2022_frontend/signUp_widget.dart';
 
 import 'package:hillfair2022_frontend/sign_in.dart';
+import 'package:hillfair2022_frontend/undermaintainance.dart';
 import 'package:hillfair2022_frontend/utils/global.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:hillfair2022_frontend/verify_email_page.dart';
@@ -32,19 +21,18 @@ import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_vi
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'screens/chatting/message_screen.dart';
 import 'utils/colors.dart';
 import 'view_models/userFeed_viewModels/getComments_viewModels.dart';
 import 'view_models/userFeed_viewModels/postLike_viewModel.dart';
-import 'welcome_page.dart';
-
 import 'package:hillfair2022_frontend/view_models/events_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/post_img_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/team_member_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/team_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/userFeed_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:easy_splash_screen/easy_splash_screen.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -125,36 +113,87 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainPage extends StatelessWidget {
-  const MainPage({super.key});
+class MainPage extends StatefulWidget {
+  MainPage({super.key});
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  DatabaseReference ref = FirebaseDatabase.instance.ref();
+  StreamSubscription? internetconnection;
+
+  getdata() async {
+    final res = await ref.child("appCrashed").get();
+    return res.value;
+  }
+
+  @override
+  void initState() {
+    internetconnection = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        showDialogBox(context);
+      }
+    });
+
+    super.initState();
+  }
+
+  @override
+  dispose() {
+    super.dispose();
+    internetconnection!.cancel();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
+    return FutureBuilder(
+      future: getdata(),
+      builder: ((context, snapshot) {
+        if (snapshot.hasData) {
+          var data = snapshot.data;
+          print(data);
+
+          if (data == false) {
+            return Scaffold(
+              backgroundColor: bgColor,
+              body: StreamBuilder<User?>(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return const Center(
+                      child: Text('Something Went Wrong!'),
+                    );
+                  } else if (snapshot.hasData) {
+                    bool isEmailVerified =
+                        FirebaseAuth.instance.currentUser!.emailVerified;
+                    if (isEmailVerified == true) {
+                      return BottomNav();
+                    } else {
+                      return VerifyEmailPage();
+                    }
+                  } else {
+                    return SignIn();
+                  }
+                },
+              ),
             );
-          } else if (snapshot.hasError) {
-            return const Center(
-              child: Text('Something Went Wrong!'),
-            );
-          } else if (snapshot.hasData) {
-            bool isEmailVerified =
-                FirebaseAuth.instance.currentUser!.emailVerified;
-            if (isEmailVerified == true) {
-              return BottomNav();
-            } else {
-              return VerifyEmailPage();
-            }
           } else {
-            return SignIn();
+            return UnderMaintainance();
           }
-        },
-      ),
+        }
+        return Scaffold(
+          backgroundColor: bgColor,
+          body: LoadingData(),
+        );
+      }),
     );
   }
 }
@@ -189,3 +228,19 @@ class _RestartWidgetState extends State<RestartWidget> {
     );
   }
 }
+
+showDialogBox(context) => showCupertinoDialog<String>(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: const Text('No Connection'),
+        content: const Text('Please check your internet connectivity'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context, 'Cancel');
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );

@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:hillfair2022_frontend/api_services/api_status.dart';
 import 'package:hillfair2022_frontend/api_services/chatting_services.dart';
 import 'package:hillfair2022_frontend/models/chatting/getChat_Room_model.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/user_profile/user_model.dart';
-import 'message_screen.dart';
 import 'new_chatting.dart';
 
 class StartChatting extends StatelessWidget {
@@ -81,11 +79,11 @@ void getchatRoom(String fbId, BuildContext context) async {
 
           // var result = await channel.addMembers([user1.id, userId2]);
           print("upper");
-          // Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (context) =>
-          //             NewChatting(client: client, channel: channel)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      NewChatting(client: client, channel: channel)));
           print("nicha");
           return;
         }
@@ -125,12 +123,9 @@ void getchatRoom(String fbId, BuildContext context) async {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                NewChatting(
+            builder: (context) => NewChatting(
                   client: client,
                   channel: channel,
-                  user1: user1.id,
-                  user2: user2.id,
                 )));
     print("nicha");
     return;
