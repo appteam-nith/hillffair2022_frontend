@@ -81,11 +81,11 @@ void getchatRoom(String fbId, BuildContext context) async {
 
           // var result = await channel.addMembers([user1.id, userId2]);
           print("upper");
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      NewChatting(client: client, channel: channel)));
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) =>
+          //             NewChatting(client: client, channel: channel)));
           print("nicha");
           return;
         }
@@ -112,19 +112,26 @@ void getchatRoom(String fbId, BuildContext context) async {
     String userId1 = getChatRoomModel.chater1;
     String userId2 = getChatRoomModel.chater2!;
     var user2 = User(id: userId2);
+    // await client.d
+    var user1 = User(id: userId1);
     await client.connectUser(user2, client.devToken(user2.id).rawValue);
 
     // Get channel
     final channel = client.channel("messaging", id: getChatRoomModel.roomId);
 
     await channel.watch();
-    var result = await channel.addMembers([user2.id, userId1]);
+    var result = await channel.addMembers([user2.id, user1.id]);
     print("upper");
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) =>
-                NewChatting(client: client, channel: channel)));
+                NewChatting(
+                  client: client,
+                  channel: channel,
+                  user1: user1.id,
+                  user2: user2.id,
+                )));
     print("nicha");
     return;
   }

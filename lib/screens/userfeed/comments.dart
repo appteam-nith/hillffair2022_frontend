@@ -27,6 +27,7 @@ class _CommentsState extends State<Comments> {
   TextEditingController commentTxtController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
   int commentcount = 0;
+  String val = "";
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +112,6 @@ class _CommentsState extends State<Comments> {
                       child: TextFormField(
                         controller: commentTxtController,
                         validator: (e) {
-                          commentcount = 0;
                           if (e!.length > 100) {
                             return "Length should be less than 100 characters!!!";
                           }
@@ -131,6 +131,7 @@ class _CommentsState extends State<Comments> {
                                       commentTxtController.text.isNotEmpty &&
                                       commentcount == 0) {
                                     commentcount = 1;
+                                    print(commentcount);
                                     await _postComment(widget.post.id,
                                         widget.presentUser.firebase);
                                     setState(() {
@@ -139,6 +140,7 @@ class _CommentsState extends State<Comments> {
                                           ?.unfocus();
                                     });
                                     Utils.showSnackBar("Comment Posted!!!");
+                                    commentcount = 0;
                                   }
                                 },
                                 icon: Icon(
