@@ -286,12 +286,6 @@ class _EditProfileState extends State<EditProfile> {
                     controller: instaId,
                     cursorHeight: 25,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (e) {
-                      if (e!.isEmpty) {
-                        return "Enter id...";
-                      }
-                      return null;
-                    },
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: appBarColor,

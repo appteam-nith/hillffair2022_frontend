@@ -21,7 +21,7 @@ class NewChatting extends StatelessWidget {
       }),
       home: StreamChannel(
         channel: channel,
-        child: const ChannelPage(),
+        child:  ChannelPage(),
       ),
     );
   }
