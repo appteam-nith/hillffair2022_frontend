@@ -14,6 +14,8 @@ import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
 import 'package:hillfair2022_frontend/utils/global.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:hillfair2022_frontend/verify_email_page.dart';
+
+import 'package:stream_chat_flutter/stream_chat_flutter.dart' as streamChatFlutter;
 // import 'package:hillfair2022_frontend/verify_email_page.dart';
 import 'api_services/api_status.dart';
 import 'main.dart';
@@ -423,9 +425,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         email: emailController.text.trim().toLowerCase() + emaildomain,
         password: passwordController.text.trim(),
       );
-
-      String email = emailController.text.toLowerCase() + emaildomain;
       String userId = FirebaseAuth.instance.currentUser!.uid;
+      streamChatFlutter.User user = streamChatFlutter.User(id: userId);
+      String email = emailController.text.toLowerCase() + emaildomain;
       Globals.email = email;
       Globals.password = passwordController.text;
       SharedPreferences userPrefs = await SharedPreferences.getInstance();

@@ -7,7 +7,7 @@ class ChannelPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: const StreamChannelHeader(),
+      appBar: const StreamChannelHeader(),
       body: Column(children: const [
         Expanded(
           child: StreamMessageListView(),

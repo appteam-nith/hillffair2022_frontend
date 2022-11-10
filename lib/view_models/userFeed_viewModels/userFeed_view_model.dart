@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
 import 'package:hillfair2022_frontend/models/userFeed/newFeedModel.dart';
+import 'package:hillfair2022_frontend/utils/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../api_services/api_status.dart';
 import '../../api_services/userFeedServicies/userFeed_services.dart';
@@ -182,6 +184,8 @@ class UserFeedViewModel extends ChangeNotifier {
     if (prseentUserJson!.isNotEmpty) {
       UserModel presentUser = userModelFromJson(prseentUserJson);
       setPrensentUser(presentUser);
+      Globals.presentUser = presentUser;
+      Globals.authToken = await FirebaseAuth.instance.currentUser!.getIdToken();
     }
   }
 
@@ -217,9 +221,9 @@ class UserFeedViewModel extends ChangeNotifier {
             .getLiker(presentUser.firebase, userFeedListModel[i]);
         print("OUTER_LOOP_ONDEX${i} ==> ${isAlreadyLiked}");
         // if (i < newList.length) {
-          isAlreadyLikedList.insert(i, isAlreadyLiked);
-          print("added times ==> ${i+1}");
-          // break;
+        isAlreadyLikedList.insert(i, isAlreadyLiked);
+        print("added times ==> ${i + 1}");
+        // break;
         // }
       }
       print("feed ==>${userFeedListModel.length}");
