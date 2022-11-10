@@ -485,9 +485,13 @@ Future<bool> postUser(PostUserModel newUser) async {
     } else {
       // TODO: error handling
       var data = json.decode(response.body);
+
       if (data["Errors:"]["name"][0] ==
           "user with this username already exists.") {
         Utils.showSnackBar("Username already exits!!!");
+        return false;
+      } else if (data["Errors:"]["name"][0] == "This field may not be blank.") {
+        Utils.showSnackBar("Enter username!!!");
         return false;
       }
       Utils.showSnackBar(response.body);

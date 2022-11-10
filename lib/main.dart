@@ -3,6 +3,7 @@
 import 'dart:async';
 // import 'verify_email_page.dart';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
@@ -31,6 +32,7 @@ import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/userFeed_v
 import 'package:provider/provider.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:easy_splash_screen/easy_splash_screen.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -120,6 +122,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   DatabaseReference ref = FirebaseDatabase.instance.ref();
+  StreamSubscription? internetconnection;
 
   getdata() async {
     final res = await ref.child("appCrashed").get();
@@ -128,7 +131,21 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
+    internetconnection = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        showDialogBox(context);
+      }
+    });
+
     super.initState();
+  }
+
+  @override
+  dispose() {
+    super.dispose();
+    internetconnection!.cancel();
   }
 
   @override
@@ -211,3 +228,19 @@ class _RestartWidgetState extends State<RestartWidget> {
     );
   }
 }
+
+showDialogBox(context) => showCupertinoDialog<String>(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: const Text('No Connection'),
+        content: const Text('Please check your internet connectivity'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context, 'Cancel');
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );

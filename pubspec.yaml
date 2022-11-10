@@ -55,6 +55,7 @@ dependencies:
   flick_video_player: ^0.5.0
   stream_chat_flutter: ^5.1.0
   firebase_database:
+  connectivity_plus:
 
 dev_dependencies:
   flutter_test:
