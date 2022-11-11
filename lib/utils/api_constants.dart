@@ -9,7 +9,7 @@ const String teamUrl = "$apiConstant/teams/team/";
 const String teamMembersUrl = "$apiConstant/teams/member/";
 
 //userFeed
-const String userFeedUrl = "$apiConstant/imagefeed";
+const String userFeedUrl = "$apiConstant/imagefeed/";
 const String postImgUrl = "$apiConstant/imagefeed/addpost/";
 const String deletePostUrl = "$apiConstant/imagefeed/post/";
 const String postCommentUrl = "$apiConstant/imagefeed/comment/";
