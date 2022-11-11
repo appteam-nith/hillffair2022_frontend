@@ -19,7 +19,7 @@ const String getLikerUrl = "$apiConstant/imagefeed/get-likers/";
 
 //teamfeed
 const String teamFeedLikeUrl = "$apiConstant/TeamFeed/get-likers/";
-const String teamFeedUrl = "$apiConstant/TeamFeed/";
+const String teamFeedUrl = "$apiConstant/TeamFeed";
 
 //user
 

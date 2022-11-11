@@ -49,14 +49,14 @@ class _TeamFeedState extends State<TeamFeed> {
   }
 
   void _loadMore() async {
-    var provider = Provider.of<UserFeedViewModel>(context, listen: false);
+    var provider = Provider.of<TeamFeedViewModel>(context, listen: false);
     if (_controller.offset >= _controller.position.maxScrollExtent &&
         !_controller.position.outOfRange) {
       if (!provider.loading) {
         setState(() {
           _isLoadMoreRunning = true;
         });
-        await provider.getUserFeed();
+        await provider.getTeamFeed();
         setState(() {
           _isLoadMoreRunning = false;
         });
@@ -139,6 +139,8 @@ class _TeamFeedState extends State<TeamFeed> {
     }
 
     return ListView.builder(
+        controller: _controller,
+        physics: ClampingScrollPhysics(),
         shrinkWrap: true,
         itemCount: teamFeedList.length,
         itemBuilder: (context, index) {

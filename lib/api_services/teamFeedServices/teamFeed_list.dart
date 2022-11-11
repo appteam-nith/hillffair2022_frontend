@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 import '../../models/teamFeed/newTeamFeedModel.dart';
 import '../../utils/api_constants.dart';
+import '../../utils/global.dart';
 
 class TeamFeedList {
   static int istNull = 0;
@@ -16,13 +17,15 @@ class TeamFeedList {
 
       if (prevUrl == null && nxtUrl == null && istNull == 0) {
         istNull = 1;
-        url = Uri.parse(teamFeedUrl);
+        url = Uri.parse("${teamFeedUrl}/${Globals.presentUser.firebase}/");
       } else if (prevUrl == null && nxtUrl == null && istNull == 1) {
         return Success(
             code: 002,
             response: newTeamFeedModelFromJson(
                 "{'count': 2,'next': null,'previous': null,'results': []}"));
-      } else {
+      } else if(prevUrl == "prevUrl" && nxtUrl == "nxtUrl"){
+          url = Uri.parse("${teamFeedUrl}/${Globals.presentUser.firebase}/");
+      }else {
         url = Uri.parse(nxtUrl!);
       }
 

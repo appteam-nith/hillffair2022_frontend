@@ -132,15 +132,8 @@ class _UserFeedState extends State<UserFeed> {
 
   _userFeedView(UserFeedViewModel userFeedViewModel, Size size) {
     List<UserFeedModel> feedList = userFeedViewModel.prefFeedList;
-    List<bool> isLikedList = userFeedViewModel.prefIsLikedList;
-
-    print("main");
-    print(feedList.length);
-    print(isLikedList.length);
-
     if (!userFeedViewModel.loading) {
       feedList = userFeedViewModel.userFeedListModel;
-      isLikedList = userFeedViewModel.isAlreadyLikedList;
     }
 
     // if (feedList.isEmpty) {
@@ -171,6 +164,7 @@ class _UserFeedState extends State<UserFeed> {
           UserModel presentUser = userFeedViewModel.presentUser;
           //TODO : filter feedList for userfeed.....
           UserFeedModel userFeedModel = feedList[index];
+          bool isLikedByUser = userFeedModel.islikedbycurrentuser;
           return Padding(
             padding: EdgeInsets.all(20),
             child: Container(
@@ -286,19 +280,21 @@ class _UserFeedState extends State<UserFeed> {
                                     _postLike(context, userFeedModel.id,
                                         presentUser.firebase);
 
-                                    if (isLikedList[index]) {
+                                    if (isLikedByUser) {
                                       setState(() {
-                                        isLikedList[index] = false;
+                                        isLikedByUser =
+                                            false;
                                         userFeedModel.numberOfLikes--;
                                       });
                                     } else {
                                       setState(() {
-                                        isLikedList[index] = true;
+                                        isLikedByUser =
+                                            true;
                                         userFeedModel.numberOfLikes++;
                                       });
                                     }
                                   },
-                                  icon: isLikedList[index]
+                                  icon: isLikedByUser
                                       ? Icon(
                                           CupertinoIcons.heart_fill,
                                           color: Colors.red,
@@ -404,15 +400,12 @@ class _UserFeedState extends State<UserFeed> {
 }
 
 _postLike(BuildContext context, String postId, String fbId) async {
-  print("klsfd");
   PostLIkeViewModel provider =
       Provider.of<PostLIkeViewModel>(context, listen: false);
   await provider.postLike(postId, fbId);
   print("liked");
   UserFeedViewModel feedProvider =
       Provider.of<UserFeedViewModel>(context, listen: false);
-  // feedProvider.isAlreadyLikedList.insert(0, true);
-  print({feedProvider.isAlreadyLikedList.length});
   return provider.isLiked;
 }
 
