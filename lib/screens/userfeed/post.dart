@@ -317,11 +317,8 @@ class _PostState extends State<Post> {
 
   upadateFeedList(UserFeedModel addedFeed) async {
     var provider = Provider.of<UserFeedViewModel>(context, listen: false);
-    // await provider.getUserFeed();
     provider.userFeedListModel.insert(0, addedFeed);
-
     provider.setUserFeedListModel(provider.userFeedListModel);
-    provider.isAlreadyLikedList.insert(0, false);
     return "Updated";
   }
 }

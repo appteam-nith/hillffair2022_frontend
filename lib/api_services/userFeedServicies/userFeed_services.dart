@@ -7,6 +7,7 @@ import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/api_constants.dart';
+import '../../utils/global.dart';
 
 class UserFeedServices {
   static int istNull = 0;
@@ -16,14 +17,14 @@ class UserFeedServices {
 
       if (prevUrl == null && nxtUrl == null && istNull == 0) {
         istNull = 1;
-        url = Uri.parse(userFeedUrl);
+        url = Uri.parse("${userFeedUrl}/${Globals.presentUser.firebase}/");
       } else if (prevUrl == null && nxtUrl == null && istNull == 1) {
         return Success(
             code: 002,
             response: newUserFeedModelFromJson(
                 "{'count': 2,'next': null,'previous': null,'results': []}"));
       } else if(prevUrl == "prevUrl" && nxtUrl == "nxtUrl"){
-          url = Uri.parse(userFeedUrl);
+          url = Uri.parse("${userFeedUrl}/${Globals.presentUser.firebase}/");
       }else {
         url = Uri.parse(nxtUrl!);
       }

@@ -17,8 +17,8 @@ import '../userFeed_viewModels/getLikerViewModel.dart';
 
 class TeamFeedViewModel extends ChangeNotifier {
   TeamFeedViewModel() {
+    getPresentUser();
     getTeamFeed();
-    // getPresentUser();
   }
   String? nxtUrl = null;
   String? prevUrl = null;
@@ -44,15 +44,22 @@ class TeamFeedViewModel extends ChangeNotifier {
 
   List<TeamFeedModel> prefTeamFeedList = [];
   bool _loading = false;
+  bool _refreshLoading = false;
   List<TeamFeedModel> _teamFeedListModel = [];
   ErrorModel _teamFeedError = ErrorModel(000, " error not set");
 
   bool get loading => _loading;
+  bool get refreshLoading => _refreshLoading;
   List<TeamFeedModel> get teamFeedListModel => _teamFeedListModel;
   ErrorModel get teamFeedError => _teamFeedError;
 
   setLoading(bool loading) async {
     _loading = loading;
+    notifyListeners();
+  }
+
+  setRefreshLoading(_refreshLoading) async {
+    _refreshLoading = _refreshLoading;
     notifyListeners();
   }
 
@@ -66,21 +73,14 @@ class TeamFeedViewModel extends ChangeNotifier {
   }
 
   getTeamFeed() async {
-    getPresentUser();
     prefTeamFeedList = await getFeedPref();
     setLoading(true);
-    //
-
-    // prefTeamFeedList = await getFeedPref();
-    // prefIsLikedList = await getIsLikedPref();
-    //
     var response = await TeamFeedList.getTeamFeed(nxtUrl, prevUrl);
     if (response is Success) {
       NewTeamFeedModel teamFeed = response.response as NewTeamFeedModel;
       nxtUrl = teamFeed.next;
-      setTeamFeedListModel(teamFeedListModel+teamFeed.results);
+      setTeamFeedListModel(teamFeedListModel + teamFeed.results);
       adddFeedToSahredPref(teamFeed.results);
-      log(response.response.toString());
     }
     if (response is Failure) {
       ErrorModel teamFeedError = ErrorModel(
@@ -89,10 +89,7 @@ class TeamFeedViewModel extends ChangeNotifier {
       );
       setTeamFeedError(teamFeedError);
     }
-    Utils.showSnackBar("new TeamFeed Fetched");
-    print("new Data fetched");
     setLoading(false);
-    
   }
 
   adddFeedToSahredPref(List<TeamFeedModel> teamFeedList) async {
@@ -101,8 +98,7 @@ class TeamFeedViewModel extends ChangeNotifier {
     if (isFeedStored) {
       await feedPrefs.remove("teamFeedList");
     }
-  feedPrefs.setString("teamFeedList", teamFeedModelToJson(teamFeedList));
-
+    feedPrefs.setString("teamFeedList", teamFeedModelToJson(teamFeedList));
   }
 
   // List<String> boolListTOStringList(List<bool> listBool) {
@@ -148,6 +144,31 @@ class TeamFeedViewModel extends ChangeNotifier {
     if (prseentUserJson!.isNotEmpty) {
       UserModel presentUser = userModelFromJson(prseentUserJson);
       setPrensentUser(presentUser);
+    }
+  }
+
+  refesh() async {
+    setRefreshLoading(true);
+    var response = await UserFeedServices.getUserFeed("nxtUrl", "prevUrl");
+    if (response is Success) {
+      NewTeamFeedModel feed = response.response as NewTeamFeedModel;
+      int diffIndex = 0;
+      for (var i = 0; i < feed.results.length; i++) {
+        if (feed.results[i].id == teamFeedListModel[0].id) {
+          diffIndex = i;
+          break;
+        }
+      }
+      var newList = feed.results.getRange(0, diffIndex).toList();
+      setTeamFeedListModel(newList + teamFeedListModel);
+      setRefreshLoading(false);
+    }
+    if (response is Failure) {
+      ErrorModel userFeedError = ErrorModel(
+        response.code,
+        response.errorMessage,
+      );
+      setTeamFeedError(userFeedError);
     }
   }
 }
