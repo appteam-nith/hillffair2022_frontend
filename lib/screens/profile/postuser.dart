@@ -216,7 +216,6 @@ class _PostUserState extends State<PostUser> {
                           padding:
                               EdgeInsets.symmetric(vertical: size.height * .01),
                           child: TextFormField(
-                            readOnly: true,
                             controller: instaId,
                             keyboardType: TextInputType.phone,
                             cursorHeight: 25,
