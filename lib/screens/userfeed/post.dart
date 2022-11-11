@@ -236,7 +236,7 @@ class _PostState extends State<Post> {
                                   ? imageFromDevice == null
                                       ? Icon(
                                           Icons.add,
-                                          size: 80,
+                                          size: 120,
                                           color: appBarColor,
                                         )
                                       : Image.file(

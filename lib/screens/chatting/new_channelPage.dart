@@ -8,25 +8,38 @@ class ChannelPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: bgColor,
-        actions: [
-          IconButton(
-              onPressed: () async {
-                await ch.delete();
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-              icon: Icon(Icons.cancel))
-        ],
-      ),
-      body: Column(children: const [
-        Expanded(
-          child: StreamMessageListView(),
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Sanat"),
+          backgroundColor: bgColor,
+          actions: [
+            IconButton(
+                splashRadius: 1,
+                onPressed: () async {
+                  await ch.delete();
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.cancel)),
+            IconButton(
+                splashRadius: 1,
+                onPressed: () async {},
+                icon: Icon(Icons.report)),
+          ],
         ),
-        StreamMessageInput(),
-      ]),
+        body: Column(children: const [
+          Expanded(
+            child: StreamMessageListView(),
+          ),
+          StreamMessageInput(
+            disableAttachments: true,
+          ),
+        ]),
+      ),
     );
   }
 }
