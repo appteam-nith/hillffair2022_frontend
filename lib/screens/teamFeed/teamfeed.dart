@@ -262,21 +262,43 @@ class _TeamFeedState extends State<TeamFeed> {
                                 )),
                     ),
                   ),
-                  // Padding(
-                  //   padding: EdgeInsets.symmetric(horizontal: size.width * .02),
-                  //   child: Row(
-                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //       children: [
-                  //         Row(
-                  //           children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: size.width * .02),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Row(
+                            children: [
+                              // IconButton(
+                              //     onPressed: () {
+                              // _postLike(context, userFeedModel.id,
+                              //     presentUser.firebase);
 
-                  //             SizedBox(
-                  //               width: size.width * .03,
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ]),
-                  // ),
+                              // if (isLikedList[index]) {
+                              //   setState(() {
+                              //     isLikedList[index] = false;
+                              //     userFeedModel.numberOfLikes--;
+                              //   });
+                              // } else {
+                              //   setState(() {
+                              //     isLikedList[index] = true;
+                              //     userFeedModel.numberOfLikes++;
+                              //   });
+                              // }
+                              // },
+                              // icon: isLikedList[index]
+                              //     ? Icon(
+                              //         CupertinoIcons.heart_fill,
+                              //         color: Colors.red,
+                              //       )
+                              //     : Icon(
+                              //         CupertinoIcons.heart,
+                              //       )),
+                              
+                            ],
+                          ),
+                        ]),
+                  ),
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: size.width * .06,

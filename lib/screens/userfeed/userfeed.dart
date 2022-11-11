@@ -326,35 +326,44 @@ class _UserFeedState extends State<UserFeed> {
                                   )),
                             ],
                           ),
-                          Visibility(
-                            visible: userFeedModel.author.firebase ==
-                                presentUser.firebase,
-                            // userFeedModel.author.fbId == presentUserFbId,
-                            child: TextButton(
-                                style: ButtonStyle(
-                                    overlayColor: MaterialStatePropertyAll(
-                                        Colors.transparent)),
-                                onPressed: () async {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return WillPopScope(
-                                            child: LoadingData(),
-                                            onWillPop: () async {
-                                              return false;
-                                            });
-                                      });
-                                  await deletePost(userFeedModel.id);
-                                  Navigator.pop(context);
-                                },
-                                child: Text(
-                                  "Delete",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.red,
-                                  ),
-                                )),
-                          ),
+                          TextButton(
+                              style: ButtonStyle(
+                                  overlayColor: MaterialStatePropertyAll(
+                                      Colors.transparent)),
+                              onPressed: () async {
+                                userFeedModel.author.firebase ==
+                                        presentUser.firebase
+                                    ? {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return WillPopScope(
+                                                  child: LoadingData(),
+                                                  onWillPop: () async {
+                                                    return false;
+                                                  });
+                                            }),
+                                        await deletePost(userFeedModel.id),
+                                        Navigator.pop(context)
+                                      }
+                                    : {showDialogBox(context)};
+                              },
+                              child: userFeedModel.author.firebase ==
+                                      presentUser.firebase
+                                  ? Text(
+                                      "Delete",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red,
+                                      ),
+                                    )
+                                  : Text(
+                                      "Report",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red,
+                                      ),
+                                    )),
                         ]),
                   ),
                   Padding(
@@ -406,3 +415,19 @@ _postLike(BuildContext context, String postId, String fbId) async {
   print({feedProvider.isAlreadyLikedList.length});
   return provider.isLiked;
 }
+
+showDialogBox(context) => showCupertinoDialog<String>(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: const Text('Reported'),
+        content: const Text('Your request has been sent!!!'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context, 'Cancel');
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
