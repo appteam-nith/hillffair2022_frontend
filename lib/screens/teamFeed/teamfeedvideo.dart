@@ -36,7 +36,7 @@ class _TeamFeedVideoState extends State<TeamFeedVideo> {
     return FlickVideoPlayer(
       flickManager: flickManager,
       flickVideoWithControls:
-          FlickVideoWithControls(videoFit: BoxFit.fitHeight),
+          FlickVideoWithControls(videoFit: BoxFit.contain),
     );
   }
 }

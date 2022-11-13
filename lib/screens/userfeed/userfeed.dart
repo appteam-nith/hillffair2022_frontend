@@ -13,6 +13,7 @@ import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/postLike_v
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/userFeed_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import '../../api_services/auth_services.dart';
 import '../../utils/api_constants.dart';
 
 class UserFeed extends StatefulWidget {
@@ -164,7 +165,7 @@ class _UserFeedState extends State<UserFeed> {
           UserModel presentUser = userFeedViewModel.presentUser;
           //TODO : filter feedList for userfeed.....
           UserFeedModel userFeedModel = feedList[index];
-          bool isLikedByUser = userFeedModel.islikedbycurrentuser;
+          // bool isLikedByUser = userFeedModel.islikedbycurrentuser;
           return Padding(
             padding: EdgeInsets.all(20),
             child: Container(
@@ -280,21 +281,21 @@ class _UserFeedState extends State<UserFeed> {
                                     _postLike(context, userFeedModel.id,
                                         presentUser.firebase);
 
-                                    if (isLikedByUser) {
+                                    if (userFeedModel.islikedbycurrentuser) {
                                       setState(() {
-                                        isLikedByUser =
+                                        userFeedModel.islikedbycurrentuser =
                                             false;
                                         userFeedModel.numberOfLikes--;
                                       });
                                     } else {
                                       setState(() {
-                                        isLikedByUser =
+                                        userFeedModel.islikedbycurrentuser =
                                             true;
                                         userFeedModel.numberOfLikes++;
                                       });
                                     }
                                   },
-                                  icon: isLikedByUser
+                                  icon: userFeedModel.islikedbycurrentuser
                                       ? Icon(
                                           CupertinoIcons.heart_fill,
                                           color: Colors.red,
@@ -384,8 +385,9 @@ class _UserFeedState extends State<UserFeed> {
   }
 
   Future deletePost(String id) async {
+    Map<String, String> header =await AuthServices.getAuthHeader();
     var url = Uri.parse("$deletePostUrl$id/");
-    final http.Response response = await http.delete(url);
+    final http.Response response = await http.delete(url, headers: header);
     if (response.statusCode == 204) {
       //update feedList
       var provider = Provider.of<UserFeedViewModel>(context, listen: false);
@@ -404,8 +406,8 @@ _postLike(BuildContext context, String postId, String fbId) async {
       Provider.of<PostLIkeViewModel>(context, listen: false);
   await provider.postLike(postId, fbId);
   print("liked");
-  UserFeedViewModel feedProvider =
-      Provider.of<UserFeedViewModel>(context, listen: false);
+  // UserFeedViewModel feedProvider =
+  //     Provider.of<UserFeedViewModel>(context, listen: false);
   return provider.isLiked;
 }
 

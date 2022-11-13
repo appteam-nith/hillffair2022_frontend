@@ -17,6 +17,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'forgot_password_page.dart';
+import 'models/tokens/twoTokenModel.dart';
 import 'utils/api_constants.dart';
 import 'dart:convert';
 
@@ -398,14 +399,32 @@ signInAtBackend(String email, pass) async {
   var url = Uri.parse("$checkUserUrl$email");
   var response = await http.get(url);
   if (200 == response.statusCode) {
+    //auth token genration
+    // var tokenUrl = Uri.parse(refreshTokenUrl);
+    // Map<String, String> authbody = {'email': email, 'password': pass};
+    // var tokens = await http.post(tokenUrl, body: authbody);
+    // TokensModel authTokens = tokensModelFromJson(tokens.body);
+    //
     var body = json.decode(response.body);
     print(json.decode(response.body));
     if (body["user_present"] == false) {
       SharedPreferences userPrefs = await SharedPreferences.getInstance();
+      // userPrefs.setString("refreshToken", authTokens.refresh);
+      // print("refresh-Token");
+      // print(userPrefs.containsKey("refreshToken"));
       userPrefs.setBool("isuserdatapresent", false);
       Globals.isuserhavedata = false;
     } else {
+      //
+      var tokenUrl = Uri.parse(refreshTokenUrl);
+      Map<String, String> authbody = {'email': email, 'password': pass};
+      var tokens = await http.post(tokenUrl, body: authbody);
+      TokensModel authTokens = tokensModelFromJson(tokens.body);
+      //
       SharedPreferences userPrefs = await SharedPreferences.getInstance();
+      userPrefs.setString("refreshToken", authTokens.refresh);
+      print("refresh-Token");
+      print(userPrefs.containsKey("refreshToken"));
       if (userPrefs.containsKey("presentUser")) {
         userPrefs.remove("presentUser");
       }

@@ -45,26 +45,33 @@ class _EventsState extends State<Events> {
   }
 
   _eventsListView(EventsViewModel eventsViewModel, Size size) {
+    print(eventsViewModel.eventError.code);
+    print(eventsViewModel.eventError.errorMessage);
+    print(eventsViewModel.eventsListModel.isEmpty);
+    print(eventsViewModel.eventsListModel.length);
+
     if (eventsViewModel.loading) {
       return const LoadingData();
     }
 
-    if (eventsViewModel.eventsListModel.isEmpty) {
-      return Center(
-        child: Text(
-          "No Data Present",
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: size.height * .025,
-              fontWeight: FontWeight.bold),
-        ),
-      );
-    }
+    // if (eventsViewModel.eventsListModel.isEmpty) {
+    //   return Center(
+    //     child: Text(
+    //       "No Data Present",
+    //       style: TextStyle(
+    //           color: Colors.white,
+    //           fontSize: size.height * .025,
+    //           fontWeight: FontWeight.bold),
+    //     ),
+    //   );
+    // }
 
     return ListView.builder(
       itemBuilder: (context, index) {
         final DateFormat dayformatter = DateFormat('yMMMMd');
-        final DateFormat dateformatter = DateFormat('jms');
+        final DateFormat dateformatter = DateFormat('jm');
+        print("event-list");
+        print(eventsViewModel.eventsListModel);
         EventModel eventModel = eventsViewModel.eventsListModel[index];
         return Container(
           constraints: BoxConstraints(

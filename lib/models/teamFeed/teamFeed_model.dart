@@ -16,6 +16,7 @@ class TeamFeedModel {
         required this.text,
         required this.postedOn,
         required this.isVid,
+        required this.islikedbycurrentuser,
         required this.numberOfLikes,
         required this.numberOfComments,
     });
@@ -26,6 +27,7 @@ class TeamFeedModel {
     String text;
     DateTime postedOn;
     bool isVid;
+    bool islikedbycurrentuser;
     int numberOfLikes;
     int numberOfComments;
 
@@ -36,6 +38,7 @@ class TeamFeedModel {
         text: json["text"],
         postedOn: DateTime.parse(json["posted_on"]),
         isVid: json["isVid"],
+        islikedbycurrentuser: json["islikedbycurrentuser"],
         numberOfLikes: json["number_of_likes"],
         numberOfComments: json["number_of_comments"],
     );
@@ -47,6 +50,7 @@ class TeamFeedModel {
         "text": text,
         "posted_on": postedOn.toIso8601String(),
         "isVid": isVid,
+        "islikedbycurrentuser": islikedbycurrentuser,
         "number_of_likes": numberOfLikes,
         "number_of_comments": numberOfComments,
     };
@@ -55,13 +59,13 @@ class TeamFeedModel {
 class Author {
     Author({
         required this.firebase,
-        required this.profileImage,
+        this.profileImage,
         required this.name,
         required this.email,
     });
 
     String firebase;
-    String profileImage;
+    dynamic profileImage;
     String name;
     String email;
 

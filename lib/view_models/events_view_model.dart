@@ -37,6 +37,7 @@ class EventsViewModel extends ChangeNotifier {
     setLoading(true);
     var response = await EventServices.getEvents();
     if (response is Success) {
+      print(response);
       NewEventsModel events = response.response as NewEventsModel;
       setEventListModel(events.results);
       log(response.response.toString());

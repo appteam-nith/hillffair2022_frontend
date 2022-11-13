@@ -36,6 +36,4 @@ class ChattingViewModel extends ChangeNotifier {
     }
     setIsBack(true);
   }
-
-  
 }

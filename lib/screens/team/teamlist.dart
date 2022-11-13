@@ -25,7 +25,7 @@ class TeamList extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: Text("Team List", style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text("Teams", style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: _teamsGridView(size, teamViewModel),
     );
@@ -63,7 +63,7 @@ class TeamList extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => TeamMembers(teamModel.id)));
+                        builder: (context) => TeamMembers(teamModel)));
               }),
               child: Card(
                 shape: RoundedRectangleBorder(

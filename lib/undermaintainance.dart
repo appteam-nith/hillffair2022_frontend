@@ -20,7 +20,7 @@ class _UnderMaintainanceState extends State<UnderMaintainance> {
         body: Container(
           child: Center(
               child: Text(
-            "App is Under Maintainance!!!",
+            "App is Under Maintenance!!!",
             style: TextStyle(color: Colors.white, fontSize: 20),
           )),
         ),

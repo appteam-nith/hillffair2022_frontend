@@ -1,6 +1,7 @@
 import '../models/user_profile/user_model.dart';
 
 class Globals {
+  static late String refreshToken;
   static late String? email;
   static late String? password;
   static bool? isuserhavedata = false;

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hillfair2022_frontend/api_services/auth_services.dart';
 import 'package:hillfair2022_frontend/main.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
@@ -16,8 +17,10 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../components/loading_data.dart';
+import '../../models/tokens/accTokenModel.dart';
 import '../../models/user_profile/user_model.dart';
 import '../../utils/api_constants.dart';
+import '../../utils/global.dart';
 import '../../utils/snackbar.dart';
 
 class EditProfile extends StatefulWidget {
@@ -434,13 +437,19 @@ class _EditProfileState extends State<EditProfile> {
 
 Future<bool> editUserInfo(String editInfo, String fbId) async {
   try {
+    // Map<String, String> header =await AuthServices.getAuthHeader();
+          var acTokenUrl = Uri.parse(accessTokenUrl);
+      Map<String, String> accessBody = {"refresh": Globals.authToken};
+      var accessTokenRes = await http.post(acTokenUrl, body: accessBody);
+      AccessTokenModel accessToken = accessTokenModelFromJson(accessTokenRes.body);
+
+      //Authorization header
+      Map<String, String> header = {'Authorization': "Bearer ${accessToken.access}",'Content-Type': 'application/json; charset=UTF-8'};
     var url = Uri.parse("$postUserUrl$fbId/");
     var response = await http.patch(
       url,
       body: editInfo,
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: header,
     );
     if (response.statusCode == 200) {
       final SharedPreferences sharedPreferences =
