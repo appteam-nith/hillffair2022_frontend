@@ -11,6 +11,7 @@ import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_vi
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/getComments_viewModels.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import '../../api_services/auth_services.dart';
 import '../../models/user_profile/user_model.dart';
 import '../../utils/snackbar.dart';
 
@@ -85,7 +86,7 @@ class _CommentsState extends State<Comments> {
                                 Icon(Icons.error),
                           ),
                         )),
-                    title: Text(widget.presentUser.name,
+                    title: Text(widget.post.author.name,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -232,31 +233,31 @@ class _CommentsState extends State<Comments> {
                                       fontWeight: FontWeight.bold,
                                       color: appBarColor,
                                     )),
-                                Visibility(
-                                  visible:
-                                      comment.author == widget.presentUser.name,
-                                  child: TextButton(
-                                      onPressed: () async {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return WillPopScope(
-                                                  child: LoadingData(),
-                                                  onWillPop: () async {
-                                                    return false;
-                                                  });
-                                            });
+                                // Visibility(
+                                //   visible:
+                                //       comment.author == widget.presentUser.name,
+                                //   child: TextButton(
+                                //       onPressed: () async {
+                                //         showDialog(
+                                //             context: context,
+                                //             builder: (context) {
+                                //               return WillPopScope(
+                                //                   child: LoadingData(),
+                                //                   onWillPop: () async {
+                                //                     return false;
+                                //                   });
+                                //             });
 
-                                        await deleteComment(comment.id);
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text(
-                                        "Delete",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.red),
-                                      )),
-                                )
+                                //         await deleteComment(comment.id);
+                                //         Navigator.pop(context);
+                                //       },
+                                //       child: Text(
+                                //         "Delete",
+                                //         style: TextStyle(
+                                //             fontWeight: FontWeight.bold,
+                                //             color: Colors.red),
+                                //       )),
+                                // )
                               ],
                             ),
                           ],
@@ -272,7 +273,8 @@ class _CommentsState extends State<Comments> {
   deleteComment(int cId) async {
     var url =
         Uri.parse("https://appteam.mhsalmaan.me/imagefeed/comment/${cId}/");
-    final http.Response response = await http.delete(url);
+        Map<String, String> header =await AuthServices.getAuthHeader();
+    final http.Response response = await http.delete(url, headers: header);
     if (response.statusCode == 204) {
       setState(() {});
       Utils.showSnackBar("Comment Deleted!....");

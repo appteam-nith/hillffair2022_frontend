@@ -3,11 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 // ignore_for_file: prefer_const_constructors
 
 import 'package:cloudinary_public/cloudinary_public.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
+import 'package:hillfair2022_frontend/models/tokens/twoTokenModel.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/global.dart';
 import 'package:image_picker/image_picker.dart';
@@ -217,7 +217,7 @@ class _PostUserState extends State<PostUser> {
                               EdgeInsets.symmetric(vertical: size.height * .01),
                           child: TextFormField(
                             controller: instaId,
-                            keyboardType: TextInputType.phone,
+                            keyboardType: TextInputType.text,
                             cursorHeight: 25,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -474,12 +474,20 @@ Future<bool> postUser(PostUserModel newUser) async {
         },
         body: postUserModelToJson(newUser));
     if (response.statusCode == 201) {
+      //auth token genration
+      var tokenUrl = Uri.parse(refreshTokenUrl);
+      Map<String, String> body = {
+        'email': newUser.email,
+        'password': newUser.password
+      };
+      var tokens = await http.post(tokenUrl, body: body);
+      TokensModel authTokens = tokensModelFromJson(tokens.body);
       final SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       sharedPreferences.setString('presentUser', response.body);
       sharedPreferences.setBool("isuserdatapresent", true);
+      sharedPreferences.setString("refreshToken", authTokens.refresh);
       Globals.isuserhavedata = true;
-      // Utils.showSnackBar("User_created !..");
       return true;
     } else {
       // TODO: error handling

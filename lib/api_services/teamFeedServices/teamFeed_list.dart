@@ -6,6 +6,7 @@ import 'package:hillfair2022_frontend/models/teamFeed/teamFeed_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../../models/teamFeed/newTeamFeedModel.dart';
+import '../../models/tokens/accTokenModel.dart';
 import '../../utils/api_constants.dart';
 import '../../utils/global.dart';
 
@@ -29,8 +30,16 @@ class TeamFeedList {
         url = Uri.parse(nxtUrl!);
       }
 
+      var acTokenUrl = Uri.parse(accessTokenUrl);
+      Map<String, String> accessBody = {"refresh": Globals.authToken};
+      var accessTokenRes = await http.post(acTokenUrl, body: accessBody);
+      AccessTokenModel accessToken = accessTokenModelFromJson(accessTokenRes.body);
+
+      //Authorization header
+      Map<String, String> header = {'Authorization': "Bearer ${accessToken.access}",'content-type': 'application/json'};
+
       // var url = Uri.parse(teamFeedUrl);
-      var response = await http.get(url);
+      var response = await http.get(url, headers: header);
       if (200 == response.statusCode) {
         print(response.statusCode);
         print("Team feed data fetched");

@@ -145,19 +145,19 @@ class _MainPageState extends State<MainPage> {
   @override
   dispose() {
     super.dispose();
-    internetconnection!.cancel();
+    // internetconnection!.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
-    // return FutureBuilder(
-    //   future: getdata(),
-    //   builder: ((context, snapshot) {
-    //     if (snapshot.hasData) {
-    //       var data = snapshot.data;
-    //       print(data);
+    return FutureBuilder(
+      future: getdata(),
+      builder: ((context, snapshot) {
+        if (snapshot.hasData) {
+          var data = snapshot.data;
+          print(data);
 
-    //       if (data == false) {
+          if (data == false) {
             return Scaffold(
               backgroundColor: bgColor,
               body: StreamBuilder<User?>(
@@ -185,19 +185,18 @@ class _MainPageState extends State<MainPage> {
                 },
               ),
             );
-    // } else {
-    //   return UnderMaintainance();
-    // }
+          } else {
+            return UnderMaintainance();
+          }
+        }
+        return Scaffold(
+          backgroundColor: bgColor,
+          body: LoadingData(),
+        );
+      }),
+    );
   }
-  // return Scaffold(
-  //   backgroundColor: bgColor,
-  //   body: LoadingData(),
-  // );
 }
-// ),
-// );
-// }
-// }
 
 class RestartWidget extends StatefulWidget {
   RestartWidget({required this.child});

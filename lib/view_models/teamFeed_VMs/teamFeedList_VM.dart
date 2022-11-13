@@ -13,6 +13,7 @@ import '../../api_services/teamFeedServices/teamFeed_list.dart';
 import '../../api_services/userFeedServicies/userFeed_services.dart';
 import '../../models/userFeed/user_feed_model.dart';
 import '../../models/user_profile/user_model.dart';
+import '../../utils/global.dart';
 import '../userFeed_viewModels/getLikerViewModel.dart';
 
 class TeamFeedViewModel extends ChangeNotifier {
@@ -20,6 +21,7 @@ class TeamFeedViewModel extends ChangeNotifier {
     getPresentUser();
     getTeamFeed();
   }
+  bool isFirst = true;
   String? nxtUrl = null;
   String? prevUrl = null;
   UserModel _presentUser = UserModel(
@@ -73,7 +75,13 @@ class TeamFeedViewModel extends ChangeNotifier {
   }
 
   getTeamFeed() async {
-    prefTeamFeedList = await getFeedPref();
+    if (isFirst) {
+      prefTeamFeedList = await getFeedPref();
+      isFirst = false;
+    } else {
+      prefTeamFeedList = teamFeedListModel;
+    }
+    // prefTeamFeedList = await getFeedPref();
     setLoading(true);
     var response = await TeamFeedList.getTeamFeed(nxtUrl, prevUrl);
     if (response is Success) {
@@ -139,17 +147,17 @@ class TeamFeedViewModel extends ChangeNotifier {
   }
 
   void getPresentUser() async {
-    SharedPreferences userPrefs = await SharedPreferences.getInstance();
-    String? prseentUserJson = userPrefs.getString("presentUser");
-    if (prseentUserJson!.isNotEmpty) {
-      UserModel presentUser = userModelFromJson(prseentUserJson);
-      setPrensentUser(presentUser);
-    }
+    // SharedPreferences userPrefs = await SharedPreferences.getInstance();
+    // String? prseentUserJson = userPrefs.getString("presentUser");
+    // if (prseentUserJson!.isNotEmpty) {
+    //   UserModel presentUser = userModelFromJson(prseentUserJson);
+      setPrensentUser(Globals.presentUser);
+    // }
   }
 
   refesh() async {
     setRefreshLoading(true);
-    var response = await UserFeedServices.getUserFeed("nxtUrl", "prevUrl");
+    var response = await TeamFeedList.getTeamFeed("nxtUrl", "prevUrl");
     if (response is Success) {
       NewTeamFeedModel feed = response.response as NewTeamFeedModel;
       int diffIndex = 0;

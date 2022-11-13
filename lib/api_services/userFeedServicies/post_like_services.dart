@@ -5,20 +5,17 @@ import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/api_constants.dart';
+import '../auth_services.dart';
 
 class PostLikeService {
   static Future<Object> postLike(String postId, String fbId) async {
     http.Response? response;
     try {
-      print("sfl");
+      Map<String, String> header =await AuthServices.getAuthHeader();
       var url = Uri.parse("$postLikeUrl/$postId/$fbId");
-      response = await http.post(url);
-      //
+      response = await http.post(url, headers: header);
       print(response.statusCode);
-      //
       if (response.statusCode == postSuccessCode) {
-        print("nkssvj");
-        Utils.showSnackBar(response.body);
         return Success(code: postSuccessCode, response: response.body);
       }
       return Failure(code: invalidResponse, errorMessage: 'Invalid Response');

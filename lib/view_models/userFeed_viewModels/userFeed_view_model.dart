@@ -17,7 +17,7 @@ class UserFeedViewModel extends ChangeNotifier {
     getPresentUser();
     getUserFeed();
   }
-
+  bool isFirst = true;
   String? nxtUrl = null;
   String? prevUrl = null;
   UserModel _presentUser = UserModel(
@@ -72,7 +72,12 @@ class UserFeedViewModel extends ChangeNotifier {
   }
 
   getUserFeed() async {
-    prefFeedList = await getFeedPref();
+    if (isFirst) {
+      prefFeedList = await getFeedPref();
+      isFirst = false;
+    } else {
+      prefFeedList = userFeedListModel;
+    }
     setLoading(true);
     var response = await UserFeedServices.getUserFeed(nxtUrl, prevUrl);
     if (response is Success) {
@@ -140,12 +145,17 @@ class UserFeedViewModel extends ChangeNotifier {
 
   void getPresentUser() async {
     SharedPreferences userPrefs = await SharedPreferences.getInstance();
+    print("refreshToken");
+    print(userPrefs.containsKey("refreshToken"));
     String? prseentUserJson = userPrefs.getString("presentUser");
     if (prseentUserJson!.isNotEmpty) {
       UserModel presentUser = userModelFromJson(prseentUserJson);
       setPrensentUser(presentUser);
       Globals.presentUser = presentUser;
     }
+    String refreshToken = userPrefs.getString("refreshToken")!;
+    print(refreshToken);
+    Globals.authToken = refreshToken;
   }
 
   refesh() async {
