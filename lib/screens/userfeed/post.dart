@@ -2,11 +2,13 @@
 
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
+import 'package:hillfair2022_frontend/main.dart';
 import 'package:hillfair2022_frontend/models/user_profile/user_model.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
@@ -40,6 +42,7 @@ class _PostState extends State<Post> {
   bool isselectedImage = true;
   late TextEditingController captionTxtController;
   final _formkey = GlobalKey<FormState>();
+  bool showed = false;
 
   @override
   void initState() {
@@ -69,10 +72,9 @@ class _PostState extends State<Post> {
           setState(() {
             imageFromDevice = img;
           });
+        } else {
+          isselectedImage = true;
         }
-        else{
-        isselectedImage = true;
-      }
       } on PlatformException catch (e) {
         print(e);
       }
@@ -95,8 +97,16 @@ class _PostState extends State<Post> {
     Future<File> compressImage({
       required File imagepath,
     }) async {
+      var a;
+      if (imagepath.lengthSync() ~/ 1024 <= 5000) {
+        a = 5;
+      } else if (imagepath.lengthSync() ~/ 1024 <= 7000) {
+        a = 15;
+      } else if (imagepath.lengthSync() ~/ 1024 <= 12000) {
+        a = 25;
+      }
       var path = await FlutterNativeImage.compressImage(imagepath.absolute.path,
-          quality: 100, percentage: 35);
+          quality: 100, percentage: a);
       return path;
     }
 
@@ -127,32 +137,56 @@ class _PostState extends State<Post> {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             if (_formkey.currentState!.validate()) {
-              showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (context) {
-                    return WillPopScope(
-                        onWillPop: () async {
-                          if (res == "Updated") {
-                            return true;
-                          }
-                          return false;
-                        },
-                        child: LoadingData());
-                  });
-              var addedList = await _post(imageFromDevice);
-              if (addedList == "Select Image") {
+              ppost() async {
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) {
+                      return WillPopScope(
+                          onWillPop: () async {
+                            if (res == "Updated") {
+                              return true;
+                            }
+                            return false;
+                          },
+                          child: LoadingData());
+                    });
+                var addedList = await _post(imageFromDevice);
+                if (addedList == "Select Image") {
+                  Navigator.pop(context);
+                  return;
+                }
+                res = await upadateFeedList(addedList);
                 Navigator.pop(context);
-                return;
+                Navigator.pop(context);
               }
-              res = await upadateFeedList(addedList);
-              Navigator.pop(context);
-              Navigator.pop(context);
 
-              // if (res == "Updated") {
-              //   Utils.showSnackBar("Successfully Posted!!!");
-              // }
+              postAlert(context, showed) {
+                showCupertinoDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => WillPopScope(
+                    onWillPop: () async {
+                      return false;
+                    },
+                    child: CupertinoAlertDialog(
+                      title: const Text('Be aware'),
+                      content: const Text(
+                          'Anyhting posted sensitive will cause disciplinary actions'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () async {
+                            Navigator.pop(context, 'Cancel');
+                            ppost();
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
 
+              postAlert(context, showed);
             }
           },
           backgroundColor: Colors.white,
@@ -227,7 +261,8 @@ class _PostState extends State<Post> {
                               onTap: () async {
                                 await _pickimage(ImageSource.gallery);
                                 print(imageFromDevice);
-                                if (imageFromDevice == null && isselectedImage == true) {
+                                if (imageFromDevice == null &&
+                                    isselectedImage == true) {
                                   Utils.showSnackBar(
                                       "Image size should less than 15 MB!!!");
                                 }
@@ -317,11 +352,33 @@ class _PostState extends State<Post> {
 
   upadateFeedList(UserFeedModel addedFeed) async {
     var provider = Provider.of<UserFeedViewModel>(context, listen: false);
-    // await provider.getUserFeed();
     provider.userFeedListModel.insert(0, addedFeed);
-
     provider.setUserFeedListModel(provider.userFeedListModel);
-    provider.isAlreadyLikedList.insert(0, false);
     return "Updated";
   }
+}
+
+postAlert(context, showed) {
+  showCupertinoDialog<String>(
+    context: context,
+    builder: (BuildContext context) => WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: CupertinoAlertDialog(
+        title: const Text('Be aware'),
+        content: const Text(
+            'Anyhting posted sensitive will cause disciplinary actions'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () async {
+              showed = true;
+              Navigator.pop(context, 'Cancel');
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    ),
+  );
 }

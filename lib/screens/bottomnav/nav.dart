@@ -115,7 +115,7 @@ class _BottomNavState extends State<BottomNav> {
                   ),
                   GButton(
                     icon: CupertinoIcons.chat_bubble_2,
-                    text: "Chatting",
+                    text: "Hangout",
                   ),
                   GButton(
                     icon: CupertinoIcons.home,

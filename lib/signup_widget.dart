@@ -172,7 +172,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                                 }
                                               } else if (e[0] == "2") {
                                                 if (!RegExp(
-                                                        r'[2]+[01]+[bd]+[cemap]+[ecsrha]+[01]+[0-9]+[0-9]')
+                                                        r'[2]+[012]+[bd]+[cemap]+[ecsrha]+[01]+[0-9]+[0-9]')
                                                     .hasMatch(
                                                         e.toLowerCase())) {
                                                   return "Use College Roll No";
@@ -426,7 +426,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         password: passwordController.text.trim(),
       );
       String userId = FirebaseAuth.instance.currentUser!.uid;
-      streamChatFlutter.User user = streamChatFlutter.User(id: userId);
+      streamChatFlutter.User user = streamChatFlutter.User(id: userId, role: "admin");
       String email = emailController.text.toLowerCase() + emaildomain;
       Globals.email = email;
       Globals.password = passwordController.text;

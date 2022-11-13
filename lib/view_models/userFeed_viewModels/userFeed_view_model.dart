@@ -17,7 +17,7 @@ class UserFeedViewModel extends ChangeNotifier {
     getPresentUser();
     getUserFeed();
   }
-
+  bool isFirst = true;
   String? nxtUrl = null;
   String? prevUrl = null;
   UserModel _presentUser = UserModel(
@@ -41,16 +41,14 @@ class UserFeedViewModel extends ChangeNotifier {
   }
 
   List<UserFeedModel> prefFeedList = [];
-  List<bool> prefIsLikedList = [];
   bool _loading = false;
-  bool _redfesrhLoading = false;
+  bool _refreshLoading = false;
   List<UserFeedModel> _userFeedListModel = [];
-  List<UserFeedModel> redfeshFeedList = [];
-  List<bool> isAlreadyLikedList = [];
+  // List<UserFeedModel> redfeshFeedList = [];
   ErrorModel _userFeedError = ErrorModel(000, " error not set");
 
   bool get loading => _loading;
-  bool get refreshLoading => _redfesrhLoading;
+  bool get refreshLoading => _refreshLoading;
   List<UserFeedModel> get userFeedListModel => _userFeedListModel;
   ErrorModel get userFeedError => _userFeedError;
 
@@ -59,8 +57,8 @@ class UserFeedViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  setRefreshLoading(redfesrhLoading) async {
-    _redfesrhLoading = redfesrhLoading;
+  setRefreshLoading(_refreshLoading) async {
+    _refreshLoading = _refreshLoading;
     notifyListeners();
   }
 
@@ -73,34 +71,20 @@ class UserFeedViewModel extends ChangeNotifier {
     _userFeedError = userFeedError;
   }
 
-  static bool is1stLoad = true;
-
   getUserFeed() async {
-    // getPresentUser();
-    if (is1stLoad) {
+    if (isFirst) {
       prefFeedList = await getFeedPref();
-      prefIsLikedList = await getIsLikedPref();
-      is1stLoad = false;
+      isFirst = false;
+    } else {
+      prefFeedList = userFeedListModel;
     }
     setLoading(true);
-    // prefFeedList = await getFeedPref();
-    // prefIsLikedList = await getIsLikedPref();
     var response = await UserFeedServices.getUserFeed(nxtUrl, prevUrl);
     if (response is Success) {
       NewUserFeedModel feed = response.response as NewUserFeedModel;
       nxtUrl = feed.next;
       setUserFeedListModel(userFeedListModel + feed.results);
-      log(response.response.toString());
-      int n = feed.results.length;
-      for (var i = 0; i < n; i++) {
-        print("OUTER_LOOP_ONDEX${i}");
-        bool isAlreadyLiked = await GetLikerViewModel()
-            .getLiker(presentUser.firebase, userFeedListModel[i]);
-        print("OUTER_LOOP_ONDEX${i} ==> ${isAlreadyLiked}");
-        isAlreadyLikedList.add(isAlreadyLiked);
-      }
-      print("feed ==>${userFeedListModel.length}");
-      print("like ==>${isAlreadyLikedList.length}");
+      adddFeedToSahredPref(feed.results);
     }
     if (response is Failure) {
       ErrorModel userFeedError = ErrorModel(
@@ -109,64 +93,45 @@ class UserFeedViewModel extends ChangeNotifier {
       );
       setuserFeedError(userFeedError);
     }
-    // Utils.showSnackBar("new Data Fetched");
-    print("new Data fetched");
     setLoading(false);
-    adddFeedToSahredPref(userFeedListModel, isAlreadyLikedList);
   }
 
-  adddFeedToSahredPref(
-      List<UserFeedModel> feedList, List<bool> isAlreadyLikedList) async {
+  adddFeedToSahredPref(List<UserFeedModel> feedList) async {
     SharedPreferences feedPrefs = await SharedPreferences.getInstance();
     bool isFeedStored = feedPrefs.containsKey('feedList');
-    bool isLikedStored = feedPrefs.containsKey('isAlreadyLikedList');
     if (isFeedStored) {
       await feedPrefs.remove("feedList");
     }
-    if (isLikedStored) {
-      await feedPrefs.remove("isAlreadyLikedList");
-    }
-    if (feedList.length <= 20) {
-      feedPrefs.setString("feedList", userFeedModelToJson(feedList));
-      feedPrefs.setStringList(
-          "isAlreadyLikedList", boolListTOStringList(isAlreadyLikedList));
-    } else {
-      var newFeedList = feedList.getRange(0, 20);
-      var newLikeList = isAlreadyLikedList.getRange(0, 20);
-      feedPrefs.setString(
-          "feedList", userFeedModelToJson(newFeedList.toList()));
-      feedPrefs.setStringList(
-          "isAlreadyLikedList", boolListTOStringList(newLikeList.toList()));
-    }
+    feedPrefs.setString("feedList", userFeedModelToJson(feedList));
   }
 
-  List<String> boolListTOStringList(List<bool> listBool) {
-    List<String> listString = [];
-    listBool.forEach((item) {
-      item == true ? listString.add("true") : listString.add("false");
-    });
-    return listString;
-  }
+  // List<String> boolListTOStringList(List<bool> listBool) {
+  //   List<String> listString = [];
+  //   listBool.forEach((item) {
+  //     item == true ? listString.add("true") : listString.add("false");
+  //   });
+  //   return listString;
+  // }
 
-  Future<List<bool>> getIsLikedPref() async {
-    SharedPreferences likedpref = await SharedPreferences.getInstance();
-    List<String>? likedlist = likedpref.getStringList("isAlreadyLikedList");
-    print("klsf");
-    print(likedlist);
-    if (likedlist != null) {
-      List<bool> isAlreadyLikedList = stringListToBoolList(likedlist);
-      return isAlreadyLikedList;
-    }
-    return [];
-  }
+  // Future<List<bool>> getIsLikedPref() async {
+  //   SharedPreferences likedpref = await SharedPreferences.getInstance();
+  //   List<String>? likedlist = likedpref.getStringList("isAlreadyLikedList");
+  //   print("klsf");
+  //   print(likedlist);
+  //   if (likedlist != null) {
+  //     List<bool> isAlreadyLikedList = stringListToBoolList(likedlist);
+  //     return isAlreadyLikedList;
+  //   }
+  //   return [];
+  // }
 
-  List<bool> stringListToBoolList(List<String> likedlist) {
-    List<bool> boolList = [];
-    for (var item in likedlist) {
-      item == "true" ? boolList.add(true) : boolList.add(false);
-    }
-    return boolList;
-  }
+  // List<bool> stringListToBoolList(List<String> likedlist) {
+  //   List<bool> boolList = [];
+  //   for (var item in likedlist) {
+  //     item == "true" ? boolList.add(true) : boolList.add(false);
+  //   }
+  //   return boolList;
+  // }
 
   Future<List<UserFeedModel>> getFeedPref() async {
     SharedPreferences feedPrefs = await SharedPreferences.getInstance();
@@ -180,31 +145,26 @@ class UserFeedViewModel extends ChangeNotifier {
 
   void getPresentUser() async {
     SharedPreferences userPrefs = await SharedPreferences.getInstance();
+    print("refreshToken");
+    print(userPrefs.containsKey("refreshToken"));
     String? prseentUserJson = userPrefs.getString("presentUser");
     if (prseentUserJson!.isNotEmpty) {
       UserModel presentUser = userModelFromJson(prseentUserJson);
       setPrensentUser(presentUser);
       Globals.presentUser = presentUser;
-      Globals.authToken = await FirebaseAuth.instance.currentUser!.getIdToken();
     }
+    String refreshToken = userPrefs.getString("refreshToken")!;
+    print(refreshToken);
+    Globals.authToken = refreshToken;
   }
 
   refesh() async {
-    // getPresentUser();
-    // prefFeedList = await getFeedPref();
-    // prefIsLikedList = await getIsLikedPref();
     setRefreshLoading(true);
-    // prefFeedList = await getFeedPref();
-    // prefIsLikedList = await getIsLikedPref();
     var response = await UserFeedServices.getUserFeed("nxtUrl", "prevUrl");
     if (response is Success) {
       NewUserFeedModel feed = response.response as NewUserFeedModel;
-      // nxtUrl = feed.next;
       int diffIndex = 0;
       for (var i = 0; i < feed.results.length; i++) {
-        // if (feed.results[i] == userFeedListModel[0]) {
-        print(feed.results[i]);
-        print(userFeedListModel[0]);
         if (feed.results[i].id == userFeedListModel[0].id) {
           diffIndex = i;
           break;
@@ -212,22 +172,7 @@ class UserFeedViewModel extends ChangeNotifier {
       }
       var newList = feed.results.getRange(0, diffIndex).toList();
       setUserFeedListModel(newList + userFeedListModel);
-      // setUserFeedListModel();
-      log(response.response.toString());
-      // int n = feed.results.length;
-      for (var i = 0; i < newList.length; i++) {
-        print("OUTER_LOOP_ONDEX${i}");
-        bool isAlreadyLiked = await GetLikerViewModel()
-            .getLiker(presentUser.firebase, userFeedListModel[i]);
-        print("OUTER_LOOP_ONDEX${i} ==> ${isAlreadyLiked}");
-        // if (i < newList.length) {
-        isAlreadyLikedList.insert(i, isAlreadyLiked);
-        print("added times ==> ${i + 1}");
-        // break;
-        // }
-      }
-      print("feed ==>${userFeedListModel.length}");
-      print("like ==>${isAlreadyLikedList.length}");
+      setRefreshLoading(false);
     }
     if (response is Failure) {
       ErrorModel userFeedError = ErrorModel(
@@ -236,9 +181,5 @@ class UserFeedViewModel extends ChangeNotifier {
       );
       setuserFeedError(userFeedError);
     }
-    // Utils.showSnackBar("new Data Fetched");
-    print("new Data fetched");
-    setRefreshLoading(false);
-    // adddFeedToSahredPref(userFeedListModel, isAlreadyLikedList);
   }
 }

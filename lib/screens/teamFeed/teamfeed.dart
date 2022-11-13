@@ -19,6 +19,7 @@ import 'package:hillfair2022_frontend/screens/teamFeed/teamfeedvideo.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/comments.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
+import 'package:hillfair2022_frontend/utils/global.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/postLike_viewModel.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/userFeed_view_model.dart';
@@ -27,6 +28,7 @@ import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 // import 'package:video_player/video_player.dart';
+import '../../api_services/auth_services.dart';
 import '../../utils/api_constants.dart';
 import '../../view_models/teamFeed_VMs/teamFeedList_VM.dart';
 import '../../view_models/userFeed_viewModels/getComments_viewModels.dart';
@@ -45,18 +47,18 @@ class _TeamFeedState extends State<TeamFeed> {
 
   Future refresh() {
     var provider = Provider.of<TeamFeedViewModel>(context, listen: false);
-    return provider.getTeamFeed();
+    return provider.refesh();
   }
 
   void _loadMore() async {
-    var provider = Provider.of<UserFeedViewModel>(context, listen: false);
+    var provider = Provider.of<TeamFeedViewModel>(context, listen: false);
     if (_controller.offset >= _controller.position.maxScrollExtent &&
         !_controller.position.outOfRange) {
       if (!provider.loading) {
         setState(() {
           _isLoadMoreRunning = true;
         });
-        await provider.getUserFeed();
+        await provider.getTeamFeed();
         setState(() {
           _isLoadMoreRunning = false;
         });
@@ -102,7 +104,7 @@ class _TeamFeedState extends State<TeamFeed> {
           Expanded(
             child: RefreshIndicator(
                 color: bgColor,
-                child: _userFeedView(teamFeedViewModel, size),
+                child: _teamfeedView(teamFeedViewModel, size),
                 onRefresh: refresh),
           ),
           if (_isLoadMoreRunning == true)
@@ -117,7 +119,7 @@ class _TeamFeedState extends State<TeamFeed> {
     );
   }
 
-  _userFeedView(TeamFeedViewModel teamFeedViewModel, Size size) {
+  _teamfeedView(TeamFeedViewModel teamFeedViewModel, Size size) {
     List<TeamFeedModel> teamFeedList = teamFeedViewModel.prefTeamFeedList;
     // List<bool> isLikedList = teamFeedViewModel.prefIsLikedList;
 
@@ -139,12 +141,13 @@ class _TeamFeedState extends State<TeamFeed> {
     }
 
     return ListView.builder(
+        controller: _controller,
+        physics: ClampingScrollPhysics(),
         shrinkWrap: true,
         itemCount: teamFeedList.length,
         itemBuilder: (context, index) {
-          UserModel presentUser = teamFeedViewModel.presentUser;
+          // UserModel presentUser = teamFeedViewModel.presentUser;
           TeamFeedModel teamFeedModel = teamFeedList[index];
-          print(teamFeedModel.photo);
           return Padding(
             padding: EdgeInsets.all(20),
             child: Container(
@@ -227,8 +230,7 @@ class _TeamFeedState extends State<TeamFeed> {
                       child: SizedBox(
                           height: size.height * .3,
                           child: teamFeedModel.isVid
-                              ?
-                                       TeamFeedVideo(
+                              ? TeamFeedVideo(
                                   videourl: teamFeedModel.photo,
                                   volume: 0.0,
                                 )
@@ -265,36 +267,43 @@ class _TeamFeedState extends State<TeamFeed> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: size.width * .02),
                     child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
                             children: [
-                              // IconButton(
-                              //     onPressed: () {
-                              // _postLike(context, userFeedModel.id,
-                              //     presentUser.firebase);
+                              IconButton(
+                                  onPressed: () {
+                                    _postLike(teamFeedModel.id,
+                                        Globals.presentUser.firebase);
 
-                              // if (isLikedList[index]) {
-                              //   setState(() {
-                              //     isLikedList[index] = false;
-                              //     userFeedModel.numberOfLikes--;
-                              //   });
-                              // } else {
-                              //   setState(() {
-                              //     isLikedList[index] = true;
-                              //     userFeedModel.numberOfLikes++;
-                              //   });
-                              // }
-                              // },
-                              // icon: isLikedList[index]
-                              //     ? Icon(
-                              //         CupertinoIcons.heart_fill,
-                              //         color: Colors.red,
-                              //       )
-                              //     : Icon(
-                              //         CupertinoIcons.heart,
-                              //       )),
-                              
+                                    if (teamFeedModel.islikedbycurrentuser) {
+                                      setState(() {
+                                        teamFeedModel.islikedbycurrentuser =
+                                            false;
+                                        teamFeedModel.numberOfLikes--;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        teamFeedModel.islikedbycurrentuser =
+                                            true;
+                                        teamFeedModel.numberOfLikes++;
+                                      });
+                                    }
+                                  },
+                                  icon: teamFeedModel.islikedbycurrentuser
+                                      ? Icon(
+                                          CupertinoIcons.heart_fill,
+                                          color: Colors.red,
+                                        )
+                                      : Icon(
+                                          CupertinoIcons.heart,
+                                        )),
+                              Text(
+                                  "${teamFeedModel.numberOfLikes.toString()} Likes",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: appBarColor,
+                                  )),
                             ],
                           ),
                         ]),
@@ -302,7 +311,7 @@ class _TeamFeedState extends State<TeamFeed> {
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: size.width * .06,
-                        vertical: size.height * .01),
+                        vertical: size.height * .02),
                     child: Container(
                       alignment: Alignment.centerLeft,
                       child: Text(teamFeedModel.text,
@@ -318,5 +327,12 @@ class _TeamFeedState extends State<TeamFeed> {
             ),
           );
         });
+  }
+
+  void _postLike(id, firebase) async {
+    Map<String, String> header = await AuthServices.getAuthHeader();
+    var url = Uri.parse("${teamFeedLikeUrl}/$id/$firebase");
+    var response = await http.post(url, headers: header);
+    print(response);
   }
 }

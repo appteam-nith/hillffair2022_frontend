@@ -13,13 +13,15 @@ import '../../api_services/teamFeedServices/teamFeed_list.dart';
 import '../../api_services/userFeedServicies/userFeed_services.dart';
 import '../../models/userFeed/user_feed_model.dart';
 import '../../models/user_profile/user_model.dart';
+import '../../utils/global.dart';
 import '../userFeed_viewModels/getLikerViewModel.dart';
 
 class TeamFeedViewModel extends ChangeNotifier {
   TeamFeedViewModel() {
+    getPresentUser();
     getTeamFeed();
-    // getPresentUser();
   }
+  bool isFirst = true;
   String? nxtUrl = null;
   String? prevUrl = null;
   UserModel _presentUser = UserModel(
@@ -44,15 +46,22 @@ class TeamFeedViewModel extends ChangeNotifier {
 
   List<TeamFeedModel> prefTeamFeedList = [];
   bool _loading = false;
+  bool _refreshLoading = false;
   List<TeamFeedModel> _teamFeedListModel = [];
   ErrorModel _teamFeedError = ErrorModel(000, " error not set");
 
   bool get loading => _loading;
+  bool get refreshLoading => _refreshLoading;
   List<TeamFeedModel> get teamFeedListModel => _teamFeedListModel;
   ErrorModel get teamFeedError => _teamFeedError;
 
   setLoading(bool loading) async {
     _loading = loading;
+    notifyListeners();
+  }
+
+  setRefreshLoading(_refreshLoading) async {
+    _refreshLoading = _refreshLoading;
     notifyListeners();
   }
 
@@ -66,21 +75,20 @@ class TeamFeedViewModel extends ChangeNotifier {
   }
 
   getTeamFeed() async {
-    getPresentUser();
-    prefTeamFeedList = await getFeedPref();
-    setLoading(true);
-    //
-
+    if (isFirst) {
+      prefTeamFeedList = await getFeedPref();
+      isFirst = false;
+    } else {
+      prefTeamFeedList = teamFeedListModel;
+    }
     // prefTeamFeedList = await getFeedPref();
-    // prefIsLikedList = await getIsLikedPref();
-    //
+    setLoading(true);
     var response = await TeamFeedList.getTeamFeed(nxtUrl, prevUrl);
     if (response is Success) {
       NewTeamFeedModel teamFeed = response.response as NewTeamFeedModel;
       nxtUrl = teamFeed.next;
-      setTeamFeedListModel(teamFeedListModel+teamFeed.results);
+      setTeamFeedListModel(teamFeedListModel + teamFeed.results);
       adddFeedToSahredPref(teamFeed.results);
-      log(response.response.toString());
     }
     if (response is Failure) {
       ErrorModel teamFeedError = ErrorModel(
@@ -89,10 +97,7 @@ class TeamFeedViewModel extends ChangeNotifier {
       );
       setTeamFeedError(teamFeedError);
     }
-    Utils.showSnackBar("new TeamFeed Fetched");
-    print("new Data fetched");
     setLoading(false);
-    
   }
 
   adddFeedToSahredPref(List<TeamFeedModel> teamFeedList) async {
@@ -101,8 +106,7 @@ class TeamFeedViewModel extends ChangeNotifier {
     if (isFeedStored) {
       await feedPrefs.remove("teamFeedList");
     }
-  feedPrefs.setString("teamFeedList", teamFeedModelToJson(teamFeedList));
-
+    feedPrefs.setString("teamFeedList", teamFeedModelToJson(teamFeedList));
   }
 
   // List<String> boolListTOStringList(List<bool> listBool) {
@@ -143,11 +147,36 @@ class TeamFeedViewModel extends ChangeNotifier {
   }
 
   void getPresentUser() async {
-    SharedPreferences userPrefs = await SharedPreferences.getInstance();
-    String? prseentUserJson = userPrefs.getString("presentUser");
-    if (prseentUserJson!.isNotEmpty) {
-      UserModel presentUser = userModelFromJson(prseentUserJson);
-      setPrensentUser(presentUser);
+    // SharedPreferences userPrefs = await SharedPreferences.getInstance();
+    // String? prseentUserJson = userPrefs.getString("presentUser");
+    // if (prseentUserJson!.isNotEmpty) {
+    //   UserModel presentUser = userModelFromJson(prseentUserJson);
+      setPrensentUser(Globals.presentUser);
+    // }
+  }
+
+  refesh() async {
+    setRefreshLoading(true);
+    var response = await TeamFeedList.getTeamFeed("nxtUrl", "prevUrl");
+    if (response is Success) {
+      NewTeamFeedModel feed = response.response as NewTeamFeedModel;
+      int diffIndex = 0;
+      for (var i = 0; i < feed.results.length; i++) {
+        if (feed.results[i].id == teamFeedListModel[0].id) {
+          diffIndex = i;
+          break;
+        }
+      }
+      var newList = feed.results.getRange(0, diffIndex).toList();
+      setTeamFeedListModel(newList + teamFeedListModel);
+      setRefreshLoading(false);
+    }
+    if (response is Failure) {
+      ErrorModel userFeedError = ErrorModel(
+        response.code,
+        response.errorMessage,
+      );
+      setTeamFeedError(userFeedError);
     }
   }
 }

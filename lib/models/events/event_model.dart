@@ -36,7 +36,7 @@ class EventModel {
   factory EventModel.fromJson(Map<String, dynamic> json) => EventModel(
         title: json["title"],
         description: json["description"],
-        startTime: json["endTime"] == null
+        startTime: json["startTime"] == null
             ? DateTime(0000, 00, 0)
             : DateTime.parse(json["startTime"]),
         endTime: json["endTime"] == null

@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
+import 'package:hillfair2022_frontend/models/teams/team_model.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/view_models/team_member_view_model.dart';
 import 'package:provider/provider.dart';
@@ -11,8 +12,8 @@ import 'package:provider/provider.dart';
 import '../../models/teams/team_member_model.dart';
 
 class TeamMembers extends StatefulWidget {
-  String selectedTeam;
-  TeamMembers(this.selectedTeam, {super.key});
+  final TeamModel selectedTeam;
+  TeamMembers(this.selectedTeam,{super.key});
 
   @override
   State<TeamMembers> createState() => _TeamMembersState();
@@ -34,7 +35,7 @@ class _TeamMembersState extends State<TeamMembers> {
         centerTitle: true,
         automaticallyImplyLeading: true,
         title:
-            Text("Team Members", style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(widget.selectedTeam.clubName, style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: _teamMemberListView(size, teamMemberViewModel),
     );
@@ -47,14 +48,15 @@ class _TeamMembersState extends State<TeamMembers> {
 
     return ListView.builder(
         shrinkWrap: true,
-        itemCount: teamMemberViewModel.teamMembersListModel.where((element) => element.teamName == widget.selectedTeam)
-              .toList().length,
+        itemCount: teamMemberViewModel.teamMembersListModel
+            .where((element) => element.teamName == widget.selectedTeam.id)
+            .toList()
+            .length,
         itemBuilder: (context, index) {
           TeamMemberModel teamMemberModel = teamMemberViewModel
               .teamMembersListModel
-              .where((element) => element.teamName == widget.selectedTeam)
-              .toList()[index]
-          ;
+              .where((element) => element.teamName == widget.selectedTeam.id)
+              .toList()[index];
 
           return Padding(
             padding: const EdgeInsets.all(13),
@@ -99,16 +101,14 @@ class _TeamMembersState extends State<TeamMembers> {
                         Text(
                           teamMemberModel.name,
                           style: TextStyle(
-                              color: appBarColor,
-                              fontSize: size.width * .05),
+                              color: appBarColor, fontSize: size.width * .05),
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
                           teamMemberModel.position,
                           style: TextStyle(
-                              color: appBarColor,
-                              fontSize: size.width * .037),
+                              color: appBarColor, fontSize: size.width * .037),
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                         )

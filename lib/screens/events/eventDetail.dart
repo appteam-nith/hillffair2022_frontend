@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
+import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../models/events/event_model.dart';
@@ -100,11 +101,9 @@ class EventDetailsPage extends StatelessWidget {
                       onPressed: () {
                         if (eventModel.regUrl.isNotEmpty) {
                           _launchUrl(Uri.parse(eventModel.regUrl));
+                        } else {
+                          Utils.showSnackBar("Link is inactive");
                         }
-                        // Future.delayed(const Duration(milliseconds: 3000),
-                        //     () {
-                        //   Navigator.pop(context);
-                        // });
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xff9E9EEE),
@@ -128,8 +127,8 @@ class EventDetailsPage extends StatelessWidget {
   Future<void> _launchUrl(url) async {
     if (!await launchUrl(
       url,
-      mode: LaunchMode.inAppWebView,
-      webViewConfiguration: const WebViewConfiguration(enableJavaScript: true),
+      mode: LaunchMode.externalApplication,
+      // webViewConfiguration: const WebViewConfiguration(enableJavaScript: true),
     )) {
       throw 'Could not launch $url';
     }
