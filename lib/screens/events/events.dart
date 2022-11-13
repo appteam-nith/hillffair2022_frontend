@@ -66,66 +66,101 @@ class _EventsState extends State<Events> {
     //   );
     // }
 
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        final DateFormat dayformatter = DateFormat('yMMMMd');
-        final DateFormat dateformatter = DateFormat('jm');
-        print("event-list");
-        print(eventsViewModel.eventsListModel);
-        EventModel eventModel = eventsViewModel.eventsListModel[index];
-        return Container(
-          constraints: BoxConstraints(
-            minHeight: size.height * .14,
-          ),
-          child: Center(
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
-              child: ListTile(
-                title: Text(
-                  eventModel.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                subtitle: Text(
-                    "${eventModel.clubName}\n${dayformatter.format(eventModel.startTime)}\n${dateformatter.format(eventModel.startTime)}"),
-                isThreeLine: true,
-                leading: CircleAvatar(
-                    backgroundColor: appBarColor,
-                    radius: 47,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: CachedNetworkImage(
-                        imageUrl: eventModel.image,
-                        imageBuilder: (context, imageProvider) => Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                            image: imageProvider,
-                            alignment: Alignment.center,
-                            fit: BoxFit.cover,
-                          )),
-                        ),
-                        placeholder: (context, url) => LoadingData(),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      ),
-                    )),
-                onTap: () {
-                  Navigator.push(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            final DateFormat dayformatter = DateFormat('yMMMMd');
+            final DateFormat dateformatter = DateFormat('jm');
+            print("event-list");
+            print(eventsViewModel.eventsListModel);
+            EventModel eventModel = eventsViewModel.eventsListModel[index];
+            return InkWell(
+              onTap: () {
+                Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => EventDetailsPage(index),
+                    ));
+              },
+              child: Container(
+                constraints: BoxConstraints(
+                  minHeight: size.height * .14,
+                ),
+                child: Center(
+                  child: Card(
+                    color: Colors.white70,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                  );
-                },
+                    margin: const EdgeInsets.only(left: 15, right: 15, top: 0),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: size.width * .02,
+                          vertical: size.width * .03),
+                      child: Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            alignment: Alignment.bottomLeft,
+                            // color: Colors.yellow,
+                            child: CircleAvatar(
+                                backgroundColor: appBarColor,
+                                radius: 35,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(47),
+                                  child: CachedNetworkImage(
+                                    imageUrl: eventModel.image,
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                        image: imageProvider,
+                                        alignment: Alignment.center,
+                                        fit: BoxFit.cover,
+                                      )),
+                                    ),
+                                    placeholder: (context, url) =>
+                                        LoadingData(),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                )),
+                          ),
+                          SizedBox(
+                            width: size.width * .09,
+                          ),
+                          Container(
+                            width: size.width * .52,
+                            // color: Colors.black,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  eventModel.title,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                    "${eventModel.clubName}\n${dayformatter.format(eventModel.startTime)}\n${dateformatter.format(eventModel.startTime)}"),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        );
-      },
-      itemCount: eventsViewModel.eventsListModel.length,
+            );
+          },
+          itemCount: eventsViewModel.eventsListModel.length,
+        ),
+      ),
     );
   }
 }
