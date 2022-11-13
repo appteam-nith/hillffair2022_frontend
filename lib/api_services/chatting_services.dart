@@ -11,21 +11,22 @@ import '../models/events/event_model.dart';
 import '../models/chatting/getChat_messages_mode.dart';
 import '../models/userFeed/post_img_model.dart';
 import '../utils/api_constants.dart';
+import 'auth_services.dart';
 
 class ChattingServices {
   static getChatRoom(String nickName, String fbId) async {
     http.Response? response;
     try {
+      Map<String, String> header = await AuthServices.getAuthHeader();
       var url = Uri.parse("$getChatRoomUrl/$fbId/");
       response = await http.post(
         url,
-        headers: {
-          HttpHeaders.contentTypeHeader: "application/json",
-        },
+        headers: header,
         body: jsonEncode(<String, String>{
           'nickname1': nickName,
         }),
       );
+      print("getChatRoom==> ${response.statusCode}");
       // if (postSuccessCode == response.statusCode) {
       //   return Success(
       //           code: postSuccessCode,
@@ -95,8 +96,9 @@ class ChattingServices {
   static Future<bool> check2ndChatter(String roomId) async {
     bool is2ndChatter = false;
     try {
+      Map<String, String> header = await AuthServices.getAuthHeader();
       var url = Uri.parse("$checkChater/$roomId");
-      var response = await http.get(url);
+      var response = await http.get(url, headers: header);
       if (getSuccessCode == response.statusCode) {
         Map<String, dynamic> map = jsonDecode(response.body);
         is2ndChatter = map['chatter2_present'];
