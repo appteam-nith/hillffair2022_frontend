@@ -113,7 +113,7 @@ class _SignInState extends State<SignIn> {
                                           }
                                         } else if (e[0] == "2") {
                                           if (!RegExp(
-                                                  r'[2]+[01]+[bd]+[cemap]+[ecsrha]+[01]+[0-9]+[0-9]')
+                                                  r'[2]+[012]+[bd]+[cemap]+[ecsrha]+[01]+[0-9]+[0-9]')
                                               .hasMatch(e.toLowerCase())) {
                                             return "Use College Roll No";
                                           } else if (e.length > 8) {
