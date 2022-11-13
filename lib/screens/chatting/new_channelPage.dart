@@ -20,7 +20,7 @@ class ChannelPage extends StatelessWidget {
             IconButton(
                 splashRadius: 1,
                 onPressed: () async {
-                  await ch.delete();
+                  // await ch.update({disabled:true});
                   Navigator.pop(context);
                   Navigator.pop(context);
                 },
