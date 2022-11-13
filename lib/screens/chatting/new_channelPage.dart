@@ -48,6 +48,17 @@ class ChannelPage extends StatelessWidget {
                 Icons.report,
               ),
             ),
+                splashRadius: 1,
+                onPressed: () async {
+                  // await ch.update({disabled:true});
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.cancel)),
+            IconButton(
+                splashRadius: 1,
+                onPressed: () async {},
+                icon: Icon(Icons.report)),
           ],
         ),
         // appBar: AppBar(
