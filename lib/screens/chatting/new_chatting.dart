@@ -8,10 +8,14 @@ class NewChatting extends StatelessWidget {
     super.key,
     required this.client,
     required this.channel,
+    required this.isCreatedByMe,
+    required this.members
   });
 
   final StreamChatClient client;
   final Channel channel;
+  final bool isCreatedByMe;
+  final List<String> members;
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +23,18 @@ class NewChatting extends StatelessWidget {
       primarySwatch: Colors.green,
     );
 
-    return MaterialApp(
-      title: 'Hillffair',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-      ),
-      builder: ((context, child) {
+    return Builder(
+      builder: ((context) {
         return StreamChat(
           client: client,
-          child: child,
+          child:  StreamChannel(
+        channel: channel,
+        child: ChannelPage(
+          members: members,
+          ch: channel,
+          removeMembers: isCreatedByMe,
+        ),
+      ),
           streamChatThemeData: StreamChatThemeData.fromTheme(theme).copyWith(
               ownMessageTheme: StreamMessageThemeData(
                 messageTextStyle: TextStyle(
@@ -44,14 +50,7 @@ class NewChatting extends StatelessWidget {
                       color: Colors.white),
                   messageBackgroundColor: Color.fromARGB(255, 0, 0, 0))),
         );
-        ;
       }),
-      home: StreamChannel(
-        channel: channel,
-        child: ChannelPage(
-          ch: channel,
-        ),
-      ),
     );
   }
 }

@@ -4,7 +4,14 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class ChannelPage extends StatelessWidget {
   final Channel ch;
-  const ChannelPage({Key? key, required this.ch}) : super(key: key);
+  final bool removeMembers;
+  final List<String> members;
+  const ChannelPage(
+      {Key? key,
+      required this.ch,
+      required this.removeMembers,
+      required this.members})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,27 +20,81 @@ class ChannelPage extends StatelessWidget {
         return false;
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("Sanat"),
+        appBar: StreamChannelHeader(
           backgroundColor: bgColor,
+          onBackPressed: () async {
+            if (true) {
+              RemoveMembersResponse remove = await ch.removeMembers(members);
+              print(remove.message);
+              EmptyResponse destroy = await ch.delete();
+              print(destroy.duration);
+            }
+            Navigator.pop(context);
+          },
+          title: Text(
+            'Anonymous',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+            ),
+          ),
           actions: [
             IconButton(
-                splashRadius: 1,
-                onPressed: () async {
-                  await ch.delete();
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-                icon: Icon(Icons.cancel)),
-            IconButton(
-                splashRadius: 1,
-                onPressed: () async {},
-                icon: Icon(Icons.report)),
+              splashRadius: 1,
+              onPressed: () async {
+                // TODO: report other user
+              },
+              icon: Icon(
+                Icons.report,
+              ),
+            ),
           ],
         ),
-        body: Column(children: const [
+        // appBar: AppBar(
+        //   title: Text("Anonymous"),
+        //   backgroundColor: bgColor,
+        //   actions: [
+        //     IconButton(
+        //         splashRadius: 1,
+        //         onPressed: () async {
+        //           if (removeMembers) {
+        //             var res = await ch.removeMembers(members);
+        //             print(res.message);
+        //           }
+        //           var result = await ch.delete();
+        //           print(result.toString());
+
+        //           print(result);
+        //           Navigator.pop(context);
+        //           // Navigator.pop(context);
+        //           // print("pop2");
+        //         },
+        //         icon: Icon(Icons.cancel)),
+        //     IconButton(
+        //         splashRadius: 1,
+        //         onPressed: () async {},
+        //         icon: Icon(Icons.report)),
+        //   ],
+        // ),
+        body: Column(children: [
           Expanded(
-            child: StreamMessageListView(),
+            child: StreamMessageListView(
+              messageBuilder:
+                  ((context, details, messageList, defaultMessageWidget) {
+                return defaultMessageWidget.copyWith(
+                  showUsername: false,
+                  showUserAvatar: DisplayWidget.gone,
+                  messageTheme: StreamMessageThemeData(
+                    messageBorderColor: Colors.transparent,
+                    messageBackgroundColor: msgColor,
+                    messageTextStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                );
+              }),
+            ),
           ),
           StreamMessageInput(
             disableAttachments: true,

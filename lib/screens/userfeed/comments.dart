@@ -273,7 +273,8 @@ class _CommentsState extends State<Comments> {
   deleteComment(int cId) async {
     var url =
         Uri.parse("https://appteam.mhsalmaan.me/imagefeed/comment/${cId}/");
-        Map<String, String> header =await AuthServices.getAuthHeader();
+    Map<String, String> header = await AuthServices.getAuthHeader();
+    print(header);
     final http.Response response = await http.delete(url, headers: header);
     if (response.statusCode == 204) {
       setState(() {});
