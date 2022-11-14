@@ -171,7 +171,7 @@ class _PostState extends State<Post> {
                     child: CupertinoAlertDialog(
                       title: const Text('Be aware'),
                       content: const Text(
-                          'Anyhting posted sensitive will cause disciplinary actions'),
+                          'Anything posted sensitive will cause disciplinary actions'),
                       actions: <Widget>[
                         TextButton(
                           onPressed: () async {
