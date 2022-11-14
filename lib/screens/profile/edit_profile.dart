@@ -8,7 +8,9 @@ import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/api_services/auth_services.dart';
 import 'package:hillfair2022_frontend/main.dart';
+import 'package:hillfair2022_frontend/models/user_profile/postUser_model.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
+import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
@@ -395,6 +397,20 @@ class _EditProfileState extends State<EditProfile> {
                             "instagramId": instaId.text,
                             "profileImage": photourl
                           });
+                          // PostUserModel editInfo = PostUserModel(
+                          //     password: Globals.password!,
+                          //     firstName: Globals.presentUser.firstName,
+                          //     lastName: Globals.presentUser.lastName,
+                          //     firebase: Globals.presentUser.firebase,
+                          //     name: name.text,
+                          //     gender: Globals.presentUser.gender,
+                          //     phone: phoneNo.text,
+                          //     chatAllowed: Globals.presentUser.chatAllowed,
+                          //     chatReports: Globals.presentUser.chatReports,
+                          //     email: Globals.presentUser.email,
+                          //     score: Globals.presentUser.score,
+                          //     instagramId: instaId.text,
+                          //     profileImage: photourl);
 
                           bool isUpdated = await editUserInfo(
                               editInfo, widget.presentUser.firebase);
@@ -438,13 +454,17 @@ class _EditProfileState extends State<EditProfile> {
 Future<bool> editUserInfo(String editInfo, String fbId) async {
   try {
     // Map<String, String> header =await AuthServices.getAuthHeader();
-          var acTokenUrl = Uri.parse(accessTokenUrl);
-      Map<String, String> accessBody = {"refresh": Globals.authToken};
-      var accessTokenRes = await http.post(acTokenUrl, body: accessBody);
-      AccessTokenModel accessToken = accessTokenModelFromJson(accessTokenRes.body);
+    var acTokenUrl = Uri.parse(accessTokenUrl);
+    Map<String, String> accessBody = {"refresh": Globals.authToken};
+    var accessTokenRes = await http.post(acTokenUrl, body: accessBody);
+    AccessTokenModel accessToken =
+        accessTokenModelFromJson(accessTokenRes.body);
 
-      //Authorization header
-      Map<String, String> header = {'Authorization': "Bearer ${accessToken.access}",'Content-Type': 'application/json; charset=UTF-8'};
+    //Authorization header
+    Map<String, String> header = {
+      'Authorization': "Bearer ${accessToken.access}",
+      'Content-Type': 'application/json; charset=UTF-8'
+    };
     var url = Uri.parse("$postUserUrl$fbId/");
     var response = await http.patch(
       url,

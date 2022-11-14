@@ -193,7 +193,8 @@ class _MainPageState extends State<MainPage> {
           backgroundColor: bgColor,
           body: LoadingData(),
         );
-      }),
+      }
+      ),
     );
   }
 }

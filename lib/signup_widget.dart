@@ -155,7 +155,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                             ),
                                             autovalidateMode: AutovalidateMode
                                                 .onUserInteraction,
-                                            validator: (e) {
+                                            validator: (e) {   
                                               if (e!.isEmpty) {
                                                 return "Use College Roll No";
                                               }
@@ -435,7 +435,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       Globals.isuserhavedata = false;
       userPrefs.setString(
           "useremail", emailController.text.toLowerCase() + emaildomain);
-      userPrefs.setString("userpass", passwordController.text);
+      userPrefs.setString("password", passwordController.text);
       // data.setString('password', passwordController.text);
       navigatorKey.currentState!.pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => VerifyEmailPage()),

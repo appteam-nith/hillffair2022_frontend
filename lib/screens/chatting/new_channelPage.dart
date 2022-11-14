@@ -15,79 +15,84 @@ class ChannelPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        return false;
-      },
-      child: Scaffold(
-        appBar: StreamChannelHeader(
-          backgroundColor: bgColor,
-          onBackPressed: () async {
-            if (true) {
-              RemoveMembersResponse remove = await ch.removeMembers(members);
-              print(remove.message);
-              EmptyResponse destroy = await ch.delete();
-              print(destroy.duration);
-            }
-            Navigator.pop(context);
-          },
-          title: Text(
-            'Anonymous',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
+    return
+        //  WillPopScope(
+        //   onWillPop: () async {
+        //     return false;
+        //   },
+        //   child:
+        Scaffold(
+      appBar: StreamChannelHeader(
+        backgroundColor: bgColor,
+        onBackPressed: () async {
+          if (true) {
+            RemoveMembersResponse remove = await ch.removeMembers(members);
+            print(remove.message);
+            EmptyResponse destroy = await ch.delete();
+            print(destroy.duration);
+          }
+          Navigator.pop(context);
+        },
+        title: Text(
+          'Anonymous',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+          ),
+        ),
+        actions: [
+          IconButton(
+            splashRadius: 1,
+            onPressed: () async {
+              // TODO: report other user
+            },
+            icon: Icon(
+              Icons.report,
             ),
           ),
-          actions: [
-            IconButton(
-              splashRadius: 1,
-              onPressed: () async {
-                // TODO: report other user
-              },
-              icon: Icon(
-                Icons.report,
-              ),
-            ),
-                splashRadius: 1,
-                onPressed: () async {
-                  // await ch.update({disabled:true});
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-                icon: Icon(Icons.cancel)),
-            IconButton(
-                splashRadius: 1,
-                onPressed: () async {},
-                icon: Icon(Icons.report)),
-          ],
-        ),
-        // appBar: AppBar(
-        //   title: Text("Anonymous"),
-        //   backgroundColor: bgColor,
-        //   actions: [
-        //     IconButton(
-        //         splashRadius: 1,
-        //         onPressed: () async {
-        //           if (removeMembers) {
-        //             var res = await ch.removeMembers(members);
-        //             print(res.message);
-        //           }
-        //           var result = await ch.delete();
-        //           print(result.toString());
+        ],
+      ),
+      // splashRadius: 1,
+      // onPressed: () async {
+      //   // await ch.update({disabled:true});
+      //   Navigator.pop(context);
+      //   Navigator.pop(context);
+      // },
+      //       icon: Icon(Icons.cancel)),
+      //   IconButton(
+      //       splashRadius: 1,
+      //       onPressed: () async {},
+      //       icon: Icon(Icons.report)),
+      // ],
 
-        //           print(result);
-        //           Navigator.pop(context);
-        //           // Navigator.pop(context);
-        //           // print("pop2");
-        //         },
-        //         icon: Icon(Icons.cancel)),
-        //     IconButton(
-        //         splashRadius: 1,
-        //         onPressed: () async {},
-        //         icon: Icon(Icons.report)),
-        //   ],
-        // ),
-        body: Column(children: [
+      // appBar: AppBar(
+      //   title: Text("Anonymous"),
+      //   backgroundColor: bgColor,
+      //   actions: [
+      //     IconButton(
+      //         splashRadius: 1,
+      //         onPressed: () async {
+      //           if (removeMembers) {
+      //             var res = await ch.removeMembers(members);
+      //             print(res.message);
+      //           }
+      //           var result = await ch.delete();
+      //           print(result.toString());
+
+      //           print(result);
+      //           Navigator.pop(context);
+      //           // Navigator.pop(context);
+      //           // print("pop2");
+      //         },
+      //         icon: Icon(Icons.cancel)),
+      //     IconButton(
+      //         splashRadius: 1,
+      //         onPressed: () async {},
+      //         icon: Icon(Icons.report)),
+      //   ],
+      // ),
+      body: Column(
+        children: [
           Expanded(
             child: StreamMessageListView(
               messageBuilder:
@@ -110,7 +115,7 @@ class ChannelPage extends StatelessWidget {
           StreamMessageInput(
             disableAttachments: true,
           ),
-        ]),
+        ],
       ),
     );
   }

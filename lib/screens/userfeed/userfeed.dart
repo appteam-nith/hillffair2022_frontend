@@ -369,7 +369,7 @@ class _UserFeedState extends State<UserFeed> {
                         vertical: size.height * .02),
                     child: Container(
                       alignment: Alignment.centerLeft,
-                      child: Text(userFeedModel.text,
+                      child:Text(userFeedModel.text,
                           // textAlign: TextAlign.left,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -397,7 +397,7 @@ class _UserFeedState extends State<UserFeed> {
       // Utils.showSnackBar("Deleted Succesfully!...");
     } else {
       // Utils.showSnackBar(response.body);
-    }
+    } 
   }
 }
 
