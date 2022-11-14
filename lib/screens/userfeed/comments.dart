@@ -71,7 +71,7 @@ class _CommentsState extends State<Comments> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(30.0),
                           child: CachedNetworkImage(
-                            imageUrl: widget.presentUser.profileImage,
+                            imageUrl: widget.post.author.profileImage,
                             imageBuilder: (context, imageProvider) => Container(
                               decoration: BoxDecoration(
                                   image: DecorationImage(

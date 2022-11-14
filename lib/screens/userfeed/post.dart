@@ -97,16 +97,23 @@ class _PostState extends State<Post> {
     Future<File> compressImage({
       required File imagepath,
     }) async {
-      var a;
+      var a = 100;
+      print("klsjf");
+      print(imagepath.lengthSync() ~/ 1024);
       if (imagepath.lengthSync() ~/ 1024 <= 5000) {
-        a = 5;
-      } else if (imagepath.lengthSync() ~/ 1024 <= 7000) {
-        a = 15;
-      } else if (imagepath.lengthSync() ~/ 1024 <= 12000) {
-        a = 25;
+        a = 40;
       }
+      else if (imagepath.lengthSync() ~/ 1024 <= 7000) {
+        a = 25;
+      } else if (imagepath.lengthSync() ~/ 1024 <= 12000) {
+        a = 45;
+      }
+      print(a);
+      print("helo");
       var path = await FlutterNativeImage.compressImage(imagepath.absolute.path,
           quality: 100, percentage: a);
+      print("heil1");
+      print(a);
       return path;
     }
 

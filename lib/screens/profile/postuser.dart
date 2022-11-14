@@ -487,6 +487,7 @@ Future<bool> postUser(PostUserModel newUser) async {
       sharedPreferences.setString('presentUser', response.body);
       sharedPreferences.setBool("isuserdatapresent", true);
       sharedPreferences.setString("refreshToken", authTokens.refresh);
+      sharedPreferences.setString("password", newUser.password);
       Globals.isuserhavedata = true;
       return true;
     } else {

@@ -145,8 +145,6 @@ class UserFeedViewModel extends ChangeNotifier {
 
   void getPresentUser() async {
     SharedPreferences userPrefs = await SharedPreferences.getInstance();
-    print("refreshToken");
-    print(userPrefs.containsKey("refreshToken"));
     String? prseentUserJson = userPrefs.getString("presentUser");
     if (prseentUserJson!.isNotEmpty) {
       UserModel presentUser = userModelFromJson(prseentUserJson);
@@ -154,8 +152,11 @@ class UserFeedViewModel extends ChangeNotifier {
       Globals.presentUser = presentUser;
     }
     String refreshToken = userPrefs.getString("refreshToken")!;
-    print(refreshToken);
     Globals.authToken = refreshToken;
+    // print(userPrefs.containsKey("password"));
+    // print("object");
+    String password = userPrefs.getString("password")!;
+    Globals.password = password;
   }
 
   refesh() async {

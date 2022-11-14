@@ -399,12 +399,12 @@ signInAtBackend(String email, pass) async {
   var url = Uri.parse("$checkUserUrl$email");
   var response = await http.get(url);
   if (200 == response.statusCode) {
+    print("jkjhjkhjjk");
     //auth token genration
     // var tokenUrl = Uri.parse(refreshTokenUrl);
     // Map<String, String> authbody = {'email': email, 'password': pass};
     // var tokens = await http.post(tokenUrl, body: authbody);
     // TokensModel authTokens = tokensModelFromJson(tokens.body);
-    //
     var body = json.decode(response.body);
     print(json.decode(response.body));
     if (body["user_present"] == false) {
@@ -419,21 +419,35 @@ signInAtBackend(String email, pass) async {
       var tokenUrl = Uri.parse(refreshTokenUrl);
       Map<String, String> authbody = {'email': email, 'password': pass};
       var tokens = await http.post(tokenUrl, body: authbody);
-      TokensModel authTokens = tokensModelFromJson(tokens.body);
-      //
-      SharedPreferences userPrefs = await SharedPreferences.getInstance();
-      userPrefs.setString("refreshToken", authTokens.refresh);
-      print("refresh-Token");
-      print(userPrefs.containsKey("refreshToken"));
-      if (userPrefs.containsKey("presentUser")) {
-        userPrefs.remove("presentUser");
+      if (tokens.statusCode == 200) {
+        TokensModel authTokens = tokensModelFromJson(tokens.body);
+
+        SharedPreferences userPrefs = await SharedPreferences.getInstance();
+        userPrefs.setString("refreshToken", authTokens.refresh);
+        // print("refresh-Token");
+        // print(userPrefs.containsKey("refreshToken"));
+        if (userPrefs.containsKey("presentUser")) {
+          userPrefs.remove("presentUser");
+        }
+        userPrefs.setBool("isuserdatapresent", true);
+        Globals.isuserhavedata = true;
+        print("helo");
+        print(response.body);
+        userPrefs.setString("presentUser", response.body);
+        userPrefs.setString("password", pass);
+      }else{
+        var data = json.decode(tokens.body);
+        print(data);
+        if (data["detail"] ==
+            "No active account found with the given credentials") {
+          Utils.showSnackBar(
+              "No active account found with the given credentials");
+          return;
+        }
       }
-      userPrefs.setBool("isuserdatapresent", true);
-      Globals.isuserhavedata = true;
-      print(response.body);
-      userPrefs.setString("presentUser", response.body);
     }
   } else {
+    print("kjk");
     Utils.showSnackBar(response.body);
   }
 }

@@ -41,7 +41,7 @@ class UserFeedServices {
       var response = await http.get(url, headers: header);
 
       if (200 == response.statusCode) {
-        print(response.statusCode);
+        print(response.body);
         print("feed data fetched");
         return Success(
             code: getSuccessCode,

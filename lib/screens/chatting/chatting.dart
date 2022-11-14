@@ -47,7 +47,7 @@ class _Chatting extends State<Chatting> {
                       child: Container(
                         padding: EdgeInsets.all(20),
                         child: const Text(
-                          'Guidlines',
+                          'Guidelines',
                           style: TextStyle(
                             color: Colors.deepPurple,
                             fontSize: 30,
@@ -118,9 +118,11 @@ class _Chatting extends State<Chatting> {
                                   Navigator.pop(context);
                                 }
                                 // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => Upcoming()));
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => Upcoming(),
+                                //   ),
+                                // );
                               }),
                         ),
                       ))
@@ -142,7 +144,7 @@ class _Chatting extends State<Chatting> {
       //check cahtter
       var count = 1;
       for (var i = 0; i < 10; i++) {
-        // Timer(Duration(seconds: 2), () async {
+        Timer(Duration(seconds: 2), () async {
         print("timer 2sec ${i}");
         bool chatter2 =
             await ChattingServices.check2ndChatter(getChatRoomModel.roomId);
@@ -174,7 +176,7 @@ class _Chatting extends State<Chatting> {
           isGetRoomLoading = false;
         }
 
-        // });
+        });
         count++;
         print(count);
       }

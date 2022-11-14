@@ -10,9 +10,11 @@ import 'package:http/http.dart' as http;
 class GetComentsServices {
   static Future<Object> getComments(String postId) async {
     try {
-      Map<String, String> header =await AuthServices.getAuthHeader();
+      Map<String, String> header = await AuthServices.getAuthHeader();
       var url = Uri.parse("$getCommentUrl/$postId/");
       var response = await http.get(url, headers: header);
+      print("===> grt comment===>");
+      print(response.body);
       if (getSuccessCode == response.statusCode) {
         print("commmemt fetched.$postId");
         return Success(
