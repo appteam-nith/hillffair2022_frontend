@@ -156,7 +156,7 @@ class _Chatting extends State<Chatting> {
           // Get channel
           final channel =
               client.channel("messaging", id: getChatRoomModel.roomId);
-          await channel.watch();
+          // await channel.watch();
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -170,7 +170,7 @@ class _Chatting extends State<Chatting> {
             isGetRoomLoading = false;
           });
         }
-        if (count == 10) {
+        if (count == 9) {
           Utils.showSnackBar(
               "no other chatter is available now, try after some time");
           isGetRoomLoading = false;
@@ -183,7 +183,7 @@ class _Chatting extends State<Chatting> {
     }
     //2nd chatter already present
     if (getChatRoomModel.chater2 != null) {
-      final client = StreamChatClient(apiKey, logLevel: Level.INFO);
+      final client = StreamChatClient(apiKey);
       // Current users
       String userId1 = getChatRoomModel.chater1;
       String userId2 = getChatRoomModel.chater2!;
@@ -191,7 +191,7 @@ class _Chatting extends State<Chatting> {
           User(id: userId2), client.devToken(userId2).rawValue);
       // Get channel
       final channel = client.channel("messaging", id: getChatRoomModel.roomId);
-      await channel.create();
+      // await channel.create();
       AddMembersResponse result = await channel.addMembers([userId2, userId1]);
       print("AddMembersResponse ${result.members}");
       Navigator.push(

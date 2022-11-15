@@ -4,13 +4,12 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'new_channelPage.dart';
 
 class NewChatting extends StatelessWidget {
-  const NewChatting({
-    super.key,
-    required this.client,
-    required this.channel,
-    required this.isCreatedByMe,
-    required this.members
-  });
+  const NewChatting(
+      {super.key,
+      required this.client,
+      required this.channel,
+      required this.isCreatedByMe,
+      required this.members});
 
   final StreamChatClient client;
   final Channel channel;
@@ -22,19 +21,19 @@ class NewChatting extends StatelessWidget {
     final theme = ThemeData(
       primarySwatch: Colors.green,
     );
-
+    channel.watch();
     return Builder(
       builder: ((context) {
         return StreamChat(
           client: client,
-          child:  StreamChannel(
-        channel: channel,
-        child: ChannelPage(
-          members: members,
-          ch: channel,
-          removeMembers: isCreatedByMe,
-        ),
-      ),
+          child: StreamChannel(
+            channel: channel,
+            child: ChannelPage(
+              members: members,
+              ch: channel,
+              removeMembers: isCreatedByMe,
+            ),
+          ),
           streamChatThemeData: StreamChatThemeData.fromTheme(theme).copyWith(
               ownMessageTheme: StreamMessageThemeData(
                 messageTextStyle: TextStyle(
