@@ -128,7 +128,6 @@ class EventDetailsPage extends StatelessWidget {
     if (!await launchUrl(
       url,
       mode: LaunchMode.externalApplication,
-      // webViewConfiguration: const WebViewConfiguration(enableJavaScript: true),
     )) {
       throw 'Could not launch $url';
     }

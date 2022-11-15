@@ -11,6 +11,7 @@ class _UpcomingState extends State<Upcoming> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Stack(
         children: <Widget>[
           Container(
