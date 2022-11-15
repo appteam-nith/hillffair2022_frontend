@@ -68,7 +68,7 @@ class _PostState extends State<Post> {
 
         print(img.lengthSync() ~/ 1024);
 
-        if (img.lengthSync() ~/ 1024 <= 15000) {
+        if (img.lengthSync() ~/ 1024 <= 12000) {
           setState(() {
             imageFromDevice = img;
           });
@@ -101,12 +101,11 @@ class _PostState extends State<Post> {
       print("klsjf");
       print(imagepath.lengthSync() ~/ 1024);
       if (imagepath.lengthSync() ~/ 1024 <= 5000) {
-        a = 40;
-      }
-      else if (imagepath.lengthSync() ~/ 1024 <= 7000) {
-        a = 25;
+        a = 70;
+      } else if (imagepath.lengthSync() ~/ 1024 <= 7000) {
+        a = 65;
       } else if (imagepath.lengthSync() ~/ 1024 <= 12000) {
-        a = 45;
+        a = 55;
       }
       print(a);
       print("helo");
@@ -124,6 +123,7 @@ class _PostState extends State<Post> {
         return "Select Image";
       }
 
+      print("here it is");
       print(imageFromDevice.lengthSync() / 1024);
       File compressedFile = await compressImage(imagepath: imageFromDevice);
       print(compressedFile.lengthSync() / 1024);
@@ -271,7 +271,7 @@ class _PostState extends State<Post> {
                                 if (imageFromDevice == null &&
                                     isselectedImage == true) {
                                   Utils.showSnackBar(
-                                      "Image size should less than 15 MB!!!");
+                                      "Image size should less than 12 MB!!!");
                                 }
                               },
                               child: widget.photourl == null
