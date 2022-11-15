@@ -98,31 +98,32 @@ class _Chatting extends State<Chatting> {
                                         BorderRadius.all(Radius.circular(15)),
                                   ))),
                               onPressed: () async {
-                                showDialog(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    builder: (context) {
-                                      return WillPopScope(
-                                          onWillPop: () async {
-                                            if (isGetRoomLoading) {
-                                              return true;
-                                            }
-                                            return false;
-                                          },
-                                          child: LoadingData());
-                                    });
-                                var res = await getchatRoom(
-                                    Globals.presentUser.firebase);
+                                
+                                // showDialog(
+                                //     context: context,
+                                //     barrierDismissible: false,
+                                //     builder: (context) {
+                                //       return WillPopScope(
+                                //           onWillPop: () async {
+                                //             if (isGetRoomLoading) {
+                                //               return true;
+                                //             }
+                                //             return false;
+                                //           },
+                                //           child: LoadingData());
+                                //     });
+                                // var res = await getchatRoom(
+                                //     Globals.presentUser.firebase);
 
-                                if (!res) {
-                                  Navigator.pop(context);
-                                }
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => Upcoming(),
-                                //   ),
-                                // );
+                                // if (!res) {
+                                //   Navigator.pop(context);
+                                // }
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Upcoming(),
+                                  ),
+                                );
                               }),
                         ),
                       ))

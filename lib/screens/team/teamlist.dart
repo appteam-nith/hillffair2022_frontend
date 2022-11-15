@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/models/teams/team_model.dart';
+import 'package:hillfair2022_frontend/screens/team/contributors.dart';
 import 'package:hillfair2022_frontend/screens/team/teamMembers.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/view_models/team_view_model.dart';
@@ -25,7 +26,48 @@ class TeamList extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: Text("Teams", style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text("Teams", style: TextStyle(fontWeight: FontWeight.w600)),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Contributors()));
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xff9E9EEE),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              child: const Text(
+                "Developers",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          // SizedBox(
+          //   height: size.height * .01,
+          //   child: TextButton(
+          //       style: ButtonStyle(
+          //           shape: MaterialStateProperty.all(StadiumBorder()),
+          //           side: MaterialStateProperty.all(
+          //               BorderSide(color: Colors.white))),
+          //       onPressed: () {},
+          //       child: Text(
+          //         "Developers",
+          //         style: TextStyle(color: Colors.white),
+          //       )),
+          // )
+          // IconButton(
+          //     splashRadius: 1,
+          //     onPressed: () {
+          //       Navigator.push(context,
+          //           MaterialPageRoute(builder: ((context) => Contributors())));
+          //     },
+          //     icon: Icon(Icons.person))
+        ],
       ),
       body: _teamsGridView(size, teamViewModel),
     );
@@ -35,7 +77,6 @@ class TeamList extends StatelessWidget {
     if (teamViewModel.loading) {
       return const LoadingData();
     }
-
 
     if (teamViewModel.teamsListModel.isEmpty) {
       return Center(
@@ -86,16 +127,14 @@ class TeamList extends StatelessWidget {
                                 fit: BoxFit.cover,
                               )),
                             ),
-                            placeholder: (context, url) =>
-                                LoadingData(),
+                            placeholder: (context, url) => LoadingData(),
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
                           ),
                         )),
                     Text(
                       teamModel.clubName,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
                     )
