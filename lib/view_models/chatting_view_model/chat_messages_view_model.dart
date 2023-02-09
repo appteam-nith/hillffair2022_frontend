@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:hillfair2022_frontend/api_services/chattingServices/chatting_services.dart';
 import 'package:hillfair2022_frontend/models/chatting/getChat_messages_mode.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
-import '../api_services/api_status.dart';
+import '../../api_services/api_status.dart';
 
 class ChatMessagesVM extends ChangeNotifier {
   ChatMessagesVM() {

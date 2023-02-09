@@ -1,34 +1,27 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'dart:async';
-// import 'verify_email_page.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
-
-import 'package:hillfair2022_frontend/sign_in.dart';
-import 'package:hillfair2022_frontend/undermaintainance.dart';
+import 'package:hillfair2022_frontend/screens/register/sign_in.dart';
+import 'package:hillfair2022_frontend/screens/welcome/under_maintainance.dart';
 import 'package:hillfair2022_frontend/utils/global.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
-import 'package:hillfair2022_frontend/verify_email_page.dart';
-import 'package:hillfair2022_frontend/view_models/teamFeed_VMs/teamFeedList_VM.dart';
-
+import 'package:hillfair2022_frontend/view_models/teamFeed_view_model/teamFeedList_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_view_model.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'screens/forgot_password/verify_email_page.dart';
 import 'utils/colors.dart';
-import 'view_models/userFeed_viewModels/getComments_viewModels.dart';
-import 'view_models/userFeed_viewModels/postLike_viewModel.dart';
-import 'package:hillfair2022_frontend/view_models/events_view_model.dart';
+import 'view_models/userFeed_viewModels/get_comments_view_model.dart';
+import 'view_models/userFeed_viewModels/post_like_view_model.dart';
+import 'package:hillfair2022_frontend/view_models/event_view_model/events_view_model.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/post_img_view_model.dart';
-import 'package:hillfair2022_frontend/view_models/team_member_view_model.dart';
-import 'package:hillfair2022_frontend/view_models/team_view_model.dart';
-import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/userFeed_view_model.dart';
+import 'package:hillfair2022_frontend/view_models/team_view_model/team_member_view_model.dart';
+import 'package:hillfair2022_frontend/view_models/team_view_model/team_view_model.dart';
+import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/user_feed_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:easy_splash_screen/easy_splash_screen.dart';

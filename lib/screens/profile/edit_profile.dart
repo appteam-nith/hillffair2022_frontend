@@ -1,23 +1,16 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:hillfair2022_frontend/api_services/auth_services.dart';
 import 'package:hillfair2022_frontend/main.dart';
-import 'package:hillfair2022_frontend/models/user_profile/postUser_model.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
-import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../components/loading_data.dart';
 import '../../models/tokens/accTokenModel.dart';
 import '../../models/user_profile/user_model.dart';
@@ -62,8 +55,6 @@ class _EditProfileState extends State<EditProfile> {
       print(e);
     }
   }
-
-  //TODO: compress before
   Future<String> getImgUrl(var image) async {
     try {
       CloudinaryResponse response = await cloudinary.uploadFile(

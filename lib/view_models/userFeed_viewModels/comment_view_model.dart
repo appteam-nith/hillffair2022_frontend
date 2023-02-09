@@ -1,12 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hillfair2022_frontend/api_services/userFeedServicies/comment_services.dart';
-import 'package:hillfair2022_frontend/api_services/userFeedServicies/post_userFeed_servicies.dart';
-import 'package:hillfair2022_frontend/models/userFeed/getComment_model.dart';
-
-import '../../api_services/api_status.dart';
-import '../../models/error_model.dart';
-import '../../models/userFeed/post_img_model.dart';
-import 'package:http/http.dart' as http;
 
 class PostCommentViewModel extends ChangeNotifier {
   bool loading = false;

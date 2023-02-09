@@ -1,22 +1,14 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/main.dart';
 import 'package:hillfair2022_frontend/models/user_profile/user_model.dart';
 import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
-import 'package:hillfair2022_frontend/sign_in.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/global.dart';
-import 'package:hillfair2022_frontend/welcome_page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
 import 'dart:io';
-//import 'package:hillfair2022_frontend/profile/postuser.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
@@ -82,7 +74,6 @@ class _ProfileState extends State<Profile> {
 
   @override
   void initState() {
-    // TODO: implement initState
     getValidationData();
     super.initState();
   }

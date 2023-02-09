@@ -1,20 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:hillfair2022_frontend/api_services/teamServices/team_member_services.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
 import 'package:hillfair2022_frontend/models/teamFeed/newTeamFeedModel.dart';
 import 'package:hillfair2022_frontend/models/teamFeed/teamFeed_model.dart';
-import 'package:hillfair2022_frontend/utils/snackbar.dart';
-import 'package:hillfair2022_frontend/view_models/teamFeed_VMs/teamFeed_liker_VM.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../api_services/api_status.dart';
 import '../../api_services/teamFeedServices/teamFeed_list.dart';
-import '../../api_services/userFeedServicies/userFeed_services.dart';
-import '../../models/userFeed/user_feed_model.dart';
 import '../../models/user_profile/user_model.dart';
 import '../../utils/global.dart';
-import '../userFeed_viewModels/getLikerViewModel.dart';
 
 class TeamFeedViewModel extends ChangeNotifier {
   TeamFeedViewModel() {

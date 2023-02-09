@@ -1,11 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
 import 'package:hillfair2022_frontend/models/teams/newTeam_members_model.dart';
-import '../api_services/api_status.dart';
-import '../api_services/teamServices/team_member_services.dart';
-import '../models/teams/team_member_model.dart';
+import '../../api_services/api_status.dart';
+import '../../api_services/teamServices/team_member_services.dart';
+import '../../models/teams/team_member_model.dart';
 
 class TeamMemberViewModel extends ChangeNotifier {
   TeamMemberViewModel() {

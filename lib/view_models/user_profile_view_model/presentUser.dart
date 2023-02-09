@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/user_profile/user_model.dart';
+import '../../models/user_profile/user_model.dart';
 
 class PresentUser extends ChangeNotifier {
-  static late UserModel _presentUser;
 
   PresentUser() {
     initializeUser();
@@ -17,7 +16,6 @@ class PresentUser extends ChangeNotifier {
   }
 
   setPresentUser(UserModel presentUse) {
-    _presentUser = presentUse;
     notifyListeners();
   }
 

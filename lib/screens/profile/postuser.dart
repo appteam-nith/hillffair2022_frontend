@@ -1,16 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-
-// ignore_for_file: prefer_const_constructors
-
-import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_image/flutter_native_image.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/models/tokens/twoTokenModel.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/global.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -375,7 +368,7 @@ class _PostUserState extends State<PostUser> {
                                         });
                                   });
                               PostUserModel newUser = PostUserModel(
-                                  password: pass.text, //TODO: PASSWORD ....?>>>
+                                  password: pass.text,
                                   firstName: firstName.text,
                                   lastName: lastName.text,
                                   firebase: fbId,
@@ -400,7 +393,6 @@ class _PostUserState extends State<PostUser> {
                                     (route) => false);
                                 RestartWidget.restartApp(context);
                               } else {
-                                //TODO: same page again
                                 Navigator.pop(context);
                               }
                             }
@@ -491,7 +483,6 @@ Future<bool> postUser(PostUserModel newUser) async {
       Globals.isuserhavedata = true;
       return true;
     } else {
-      // TODO: error handling
       var data = json.decode(response.body);
 
       if (data["Errors:"]["name"][0] ==

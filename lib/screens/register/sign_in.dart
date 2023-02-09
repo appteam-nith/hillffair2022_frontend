@@ -1,21 +1,18 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
-import 'package:hillfair2022_frontend/signup_widget.dart';
+import 'package:hillfair2022_frontend/screens/register/sign_up.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/global.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'main.dart';
+import '../../main.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'forgot_password_page.dart';
-import 'models/tokens/twoTokenModel.dart';
-import 'utils/api_constants.dart';
+import '../forgot_password/forgot_password_page.dart';
+import '../../models/tokens/twoTokenModel.dart';
+import '../../utils/api_constants.dart';
 import 'dart:convert';
 
 class SignIn extends StatefulWidget {
@@ -303,7 +300,6 @@ class _SignInState extends State<SignIn> {
                                           text: 'Don’t have an account? ',
                                           children: [
                                         TextSpan(
-                                            // TODO : TO FUNCTION SIGN UP
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
                                                 Navigator.push(
@@ -372,10 +368,6 @@ class _SignInState extends State<SignIn> {
       Globals.password = passwordController.text;
       // Globals.email = emailController.text;
       // Globals.password = passwordController.text;
-      Map data = {
-        'email': emailController.text.toString().toLowerCase() + emaildomain,
-        'password': passwordController.text.toString(),
-      };
       navigatorKey.currentState!.pushAndRemoveUntil(
           MaterialPageRoute(builder: ((context) => BottomNav())),
           (route) => false);

@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors
 import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,8 +8,8 @@ import 'package:hillfair2022_frontend/models/user_profile/user_model.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/comments.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
-import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/postLike_viewModel.dart';
-import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/userFeed_view_model.dart';
+import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/post_like_view_model.dart';
+import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/user_feed_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import '../../api_services/auth_services.dart';
@@ -81,7 +80,7 @@ class _UserFeedState extends State<UserFeed> {
             },
             icon: const Icon(
               Icons.add,
-              color: Colors.white, // TODO : TO GIVE THE RIGHT COLOR
+              color: Colors.white,
               size: 35,
             )),
         // InkWell(
@@ -107,7 +106,7 @@ class _UserFeedState extends State<UserFeed> {
       //     icon: const Icon(
       //       Icons.add_to_photos_rounded,
       //       color: Color.fromARGB(
-      //           255, 199, 150, 24), // TODO : TO GIVE THE RIGHT COLOR
+      //           255, 199, 150, 24),
       //       size: 40,
       //     )),
       // body: _userFeedView(userFeedViewModel, size),
@@ -163,7 +162,6 @@ class _UserFeedState extends State<UserFeed> {
         itemCount: feedList.length,
         itemBuilder: (context, index) {
           UserModel presentUser = userFeedViewModel.presentUser;
-          //TODO : filter feedList for userfeed.....
           UserFeedModel userFeedModel = feedList[index];
           // bool isLikedByUser = userFeedModel.islikedbycurrentuser;
           return Padding(
