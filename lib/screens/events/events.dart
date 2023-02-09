@@ -1,12 +1,9 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/models/events/event_model.dart';
 import 'package:hillfair2022_frontend/screens/events/eventDetail.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
-import 'package:hillfair2022_frontend/view_models/events_view_model.dart';
+import 'package:hillfair2022_frontend/view_models/event_view_model/events_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../../components/loading_data.dart';

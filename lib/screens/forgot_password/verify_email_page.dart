@@ -1,16 +1,9 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
-import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
-import 'package:hillfair2022_frontend/signUp_widget.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/global.dart';
-
-import 'package:hillfair2022_frontend/utils/snackbar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:hillfair2022_frontend/utils.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   const VerifyEmailPage({super.key});

@@ -1,14 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-// ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/models/userFeed/getComment_model.dart';
 import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
-import 'package:hillfair2022_frontend/view_models/presentUser.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/comment_view_model.dart';
-import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/getComments_viewModels.dart';
+import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/get_comments_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import '../../api_services/auth_services.dart';

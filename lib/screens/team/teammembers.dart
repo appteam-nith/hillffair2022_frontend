@@ -1,15 +1,11 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/models/teams/team_model.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
-import 'package:hillfair2022_frontend/view_models/team_member_view_model.dart';
 import 'package:provider/provider.dart';
-
 import '../../models/teams/team_member_model.dart';
+import '../../view_models/team_view_model/team_member_view_model.dart';
 
 class TeamMembers extends StatefulWidget {
   final TeamModel selectedTeam;

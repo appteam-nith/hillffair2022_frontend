@@ -1,31 +1,13 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'dart:async';
-import 'dart:io';
-
-import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:hillfair2022_frontend/api_services/user_services.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
-import 'package:hillfair2022_frontend/screens/bottomnav/nav.dart';
-import 'package:hillfair2022_frontend/screens/profile/edit_profile.dart';
-import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
 import 'package:hillfair2022_frontend/utils/global.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
-import 'package:hillfair2022_frontend/verify_email_page.dart';
-
-import 'package:stream_chat_flutter/stream_chat_flutter.dart' as streamChatFlutter;
-// import 'package:hillfair2022_frontend/verify_email_page.dart';
-import 'api_services/api_status.dart';
-import 'main.dart';
+import '../../main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
-import 'package:http/http.dart' as http;
-
-import 'utils/api_constants.dart';
-import 'utils/colors.dart';
+import '../../utils/colors.dart';
+import '../forgot_password/verify_email_page.dart';
 
 class SignUpWidget extends StatefulWidget {
   const SignUpWidget({
@@ -425,8 +407,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         email: emailController.text.trim().toLowerCase() + emaildomain,
         password: passwordController.text.trim(),
       );
-      String userId = FirebaseAuth.instance.currentUser!.uid;
-      streamChatFlutter.User user = streamChatFlutter.User(id: userId, role: "admin");
       String email = emailController.text.toLowerCase() + emaildomain;
       Globals.email = email;
       Globals.password = passwordController.text;

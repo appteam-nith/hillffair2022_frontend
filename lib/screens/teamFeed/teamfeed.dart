@@ -1,39 +1,17 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/models/teamFeed/teamFeed_model.dart';
-import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
-import 'package:hillfair2022_frontend/models/user_profile/user_model.dart';
 import 'package:hillfair2022_frontend/screens/teamFeed/teamfeedvideo.dart';
-import 'package:hillfair2022_frontend/screens/userfeed/comments.dart';
-import 'package:hillfair2022_frontend/screens/userfeed/post.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/global.dart';
-import 'package:hillfair2022_frontend/utils/snackbar.dart';
-import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/postLike_viewModel.dart';
-import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/userFeed_view_model.dart';
 import 'package:provider/provider.dart';
-import 'package:hillfair2022_frontend/components/loading_data.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-// import 'package:video_player/video_player.dart';
 import '../../api_services/auth_services.dart';
 import '../../utils/api_constants.dart';
-import '../../view_models/teamFeed_VMs/teamFeedList_VM.dart';
-import '../../view_models/userFeed_viewModels/getComments_viewModels.dart';
-// import 'package:vimeo_video_player/vimeo_video_player.dart';
-// import 'package:videos_player/videos_player.dart';
+import '../../view_models/teamFeed_view_model/teamFeedList_view_model.dart';
 
 class TeamFeed extends StatefulWidget {
   const TeamFeed({Key? key}) : super(key: key);
@@ -96,7 +74,7 @@ class _TeamFeedState extends State<TeamFeed> {
       //     icon: const Icon(
       //       Icons.add_to_photos_rounded,
       //       color: Color.fromARGB(
-      //           255, 199, 150, 24), // TODO : TO GIVE THE RIGHT COLOR
+      //           255, 199, 150, 24),
       //       size: 40,
       //     )),
       body: Column(

@@ -44,7 +44,6 @@ class ChannelPage extends StatelessWidget {
           IconButton(
             splashRadius: 1,
             onPressed: () async {
-              // TODO: report other user
             },
             icon: Icon(
               Icons.report,

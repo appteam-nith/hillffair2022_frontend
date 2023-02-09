@@ -1,10 +1,7 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
-import 'signup_widget.dart';
-import 'sign_in.dart';
+import '../register/sign_up.dart';
+import '../register/sign_in.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});

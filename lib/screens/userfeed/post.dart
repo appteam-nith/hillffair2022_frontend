@@ -1,16 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hillfair2022_frontend/components/loading_data.dart';
-import 'package:hillfair2022_frontend/main.dart';
 import 'package:hillfair2022_frontend/models/user_profile/user_model.dart';
-import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:hillfair2022_frontend/view_models/userFeed_viewModels/post_img_view_model.dart';
@@ -19,7 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import '../../models/userFeed/post_img_model.dart';
 import '../../models/userFeed/user_feed_model.dart';
-import '../../view_models/userFeed_viewModels/userFeed_view_model.dart';
+import '../../view_models/userFeed_viewModels/user_feed_view_model.dart';
 
 class Post extends StatefulWidget {
   var photourl;
@@ -46,7 +41,6 @@ class _PostState extends State<Post> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     captionTxtController = TextEditingController(text: widget.comment);
   }

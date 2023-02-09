@@ -1,11 +1,10 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
 import 'package:hillfair2022_frontend/models/events/newEvent_model.dart';
-import '../api_services/api_status.dart';
-import '../api_services/event_services.dart';
-import '../models/events/event_model.dart';
+import '../../api_services/api_status.dart';
+import '../../api_services/eventServices/event_services.dart';
+import '../../models/events/event_model.dart';
 
 class EventsViewModel extends ChangeNotifier {
   EventsViewModel() {

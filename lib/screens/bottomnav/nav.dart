@@ -1,6 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -10,40 +7,8 @@ import 'package:hillfair2022_frontend/screens/profile/postuser.dart';
 import 'package:hillfair2022_frontend/screens/profile/profile.dart';
 import 'package:hillfair2022_frontend/screens/team/teamlist.dart';
 import 'package:hillfair2022_frontend/screens/userfeed/tabslider.dart';
-import 'package:hillfair2022_frontend/screens/userfeed/userfeed.dart';
-import 'package:hillfair2022_frontend/sign_in.dart';
-import 'package:hillfair2022_frontend/utils/colors.dart';
-import 'package:hillfair2022_frontend/screens/chatting/chatting.dart';
-import 'package:hillfair2022_frontend/utils/global.dart';
-import 'package:hillfair2022_frontend/view_models/presentUser.dart';
-import 'package:hillfair2022_frontend/view_models/team_view_model.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../view_models/events_view_model.dart';
-
-import 'package:firebase_auth/firebase_auth.dart';
-
-// ignore_for_file: prefer_const_constructors
-
-import 'package:cloudinary_public/cloudinary_public.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_native_image/flutter_native_image.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:hillfair2022_frontend/components/loading_data.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/global.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
-import 'dart:io';
-import 'package:http/http.dart' as http;
-import '../../main.dart';
-import '../../models/user_profile/postUser_model.dart';
-import '../../utils/api_constants.dart';
-import '../../utils/snackbar.dart';
-import '../bottomnav/nav.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -71,7 +36,6 @@ class _BottomNavState extends State<BottomNav> {
 
   @override
   void initState() {
-    // TODO: implement initState
     // SharedPreferences preferences = await SharedPreferences.getInstance();
     // ispresentdata = preferences.getBool("isuserdatapresent") as bool;
     // email = preferences.getString("useremail");

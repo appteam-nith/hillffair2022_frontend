@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hillfair2022_frontend/api_services/api_status.dart';
 import 'package:hillfair2022_frontend/api_services/teamFeedServices/teamFeed_likeServices.dart';
-import 'package:hillfair2022_frontend/api_services/userFeedServicies/getLIker_services.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
 import 'package:hillfair2022_frontend/models/teamFeed/teamFeed_model.dart';
-import 'package:hillfair2022_frontend/models/userFeed/get_liker_model.dart';
-import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
 
 import '../../models/teamFeed/teamFeed_like_model.dart';
 

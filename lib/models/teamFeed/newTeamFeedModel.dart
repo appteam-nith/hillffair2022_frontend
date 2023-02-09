@@ -1,12 +1,6 @@
-// To parse this JSON data, do
-//
-//     final newTeamFeedModel = newTeamFeedModelFromJson(jsonString);
-
 import 'dart:convert';
-
 import 'package:hillfair2022_frontend/models/teamFeed/teamFeed_model.dart';
 
-import '../userFeed/get_liker_model.dart';
 
 NewTeamFeedModel newTeamFeedModelFromJson(String str) =>
     NewTeamFeedModel.fromJson(json.decode(str));

@@ -1,13 +1,10 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:hillfair2022_frontend/api_services/api_status.dart';
 import 'package:hillfair2022_frontend/models/teams/newTeam_members_model.dart';
 import 'package:http/http.dart' as http;
-import '../models/teams/team_member_model.dart';
-import '../models/tokens/accTokenModel.dart';
-import '../utils/api_constants.dart';
-import '../utils/global.dart';
+import '../../models/tokens/accTokenModel.dart';
+import '../../utils/api_constants.dart';
+import '../../utils/global.dart';
 
 class TeamMemberService {
   static Future<Object> getTeamMembers() async {
