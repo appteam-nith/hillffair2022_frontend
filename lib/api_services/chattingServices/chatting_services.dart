@@ -1,17 +1,11 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:hillfair2022_frontend/api_services/api_status.dart';
-import 'package:hillfair2022_frontend/models/chatting/getChat_Room_model.dart';
 import 'package:hillfair2022_frontend/utils/snackbar.dart';
 import 'package:http/http.dart' as http;
-
-import '../models/events/event_model.dart';
-import '../models/chatting/getChat_messages_mode.dart';
-import '../models/userFeed/post_img_model.dart';
-import '../utils/api_constants.dart';
-import 'auth_services.dart';
+import '../../models/chatting/getChat_messages_mode.dart';
+import '../../utils/api_constants.dart';
+import '../auth_services.dart';
 
 class ChattingServices {
   static getChatRoom(String nickName, String fbId) async {

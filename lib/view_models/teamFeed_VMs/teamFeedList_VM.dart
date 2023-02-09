@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:hillfair2022_frontend/api_services/team_member_services.dart';
+import 'package:hillfair2022_frontend/api_services/teamServices/team_member_services.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
 import 'package:hillfair2022_frontend/models/teamFeed/newTeamFeedModel.dart';
 import 'package:hillfair2022_frontend/models/teamFeed/teamFeed_model.dart';

@@ -1,16 +1,9 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:hillfair2022_frontend/api_services/api_status.dart';
 import 'package:hillfair2022_frontend/models/events/newEvent_model.dart';
-import 'package:hillfair2022_frontend/models/tokens/accTokenModel.dart';
-import 'package:hillfair2022_frontend/utils/global.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../models/events/event_model.dart';
-import '../utils/api_constants.dart';
-import 'auth_services.dart';
+import '../../utils/api_constants.dart';
+import '../auth_services.dart';
 
 class EventServices {
   static Future<Object> getEvents() async {

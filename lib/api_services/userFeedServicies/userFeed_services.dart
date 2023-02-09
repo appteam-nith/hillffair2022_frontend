@@ -1,11 +1,7 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:hillfair2022_frontend/api_services/api_status.dart';
 import 'package:hillfair2022_frontend/models/userFeed/newFeedModel.dart';
-import 'package:hillfair2022_frontend/models/userFeed/user_feed_model.dart';
 import 'package:http/http.dart' as http;
-
 import '../../models/tokens/accTokenModel.dart';
 import '../../utils/api_constants.dart';
 import '../../utils/global.dart';

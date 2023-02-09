@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hillfair2022_frontend/models/error_model.dart';
 import 'package:hillfair2022_frontend/models/teams/new_team_model.dart';
 import '../api_services/api_status.dart';
-import '../api_services/team_services.dart';
+import '../api_services/teamServices/team_services.dart';
 import '../models/teams/team_model.dart';
 
 class TeamViewModel extends ChangeNotifier {

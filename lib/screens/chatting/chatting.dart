@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:hillfair2022_frontend/api_services/chatting_services.dart';
+import 'package:hillfair2022_frontend/api_services/chattingServices/chatting_services.dart';
 import 'package:hillfair2022_frontend/screens/chatting/upcoming.dart';
 import 'package:hillfair2022_frontend/utils/colors.dart';
 import 'package:hillfair2022_frontend/utils/global.dart';
